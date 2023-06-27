@@ -1,0 +1,98 @@
+import type { ImplementWidget, WidgetSchema } from '@antv/li-sdk';
+import classNames from 'classnames';
+import { forOwn, omit } from 'lodash-es';
+import React, { useCallback, useMemo } from 'react';
+import { useEditorDatasets, useEditorService, useEditorState } from '../../../hooks';
+import { useWidgets } from './useWidgets';
+import WidgetForm from './WidgetForm';
+
+type WidgetAttributeProps = {
+  className?: string;
+  widgetSchema: WidgetSchema;
+  implementWidget: ImplementWidget;
+};
+
+const WidgetAttribute: React.FC<WidgetAttributeProps> = (props) => {
+  const { className, widgetSchema, implementWidget } = props;
+  const { state, updateState } = useEditorState();
+  const { appService } = useEditorService();
+
+  // 判断依赖组件配置是否发改变，避免 WidgetSchemaField schema 重复生成渲染
+  const widgets = useWidgets(state.widgets, widgetSchema.id);
+
+  const initialValues = useMemo(() => {
+    const slotMap = appService.getContainerWidgetSlotMap(widgets, widgetSchema.id);
+    const values = { ...widgetSchema.properties, slots: { ...slotMap } };
+    return values;
+  }, [appService, widgetSchema.id, widgetSchema.properties, widgets]);
+
+  const registerForm = implementWidget.registerForm;
+
+  // 原子组件
+  const atomWidgets = useMemo(() => appService.getAtomWidgets(widgets, widgetSchema.id), [
+    appService,
+    widgetSchema.id,
+    widgets,
+  ]);
+
+  // 数据集列表
+  const datasets = useEditorDatasets();
+
+  // 服务资产列表
+  const services = useMemo(() => appService.getImplementServices(), [appService]);
+
+  const registerFormProps = useMemo(() => {
+    return { atomWidgets, datasets, layers: state.layers, widgetId: widgetSchema.id, services };
+  }, [atomWidgets, datasets, state.layers, widgetSchema.id, services]);
+
+  const handleValuesChange = useCallback((values: Record<string, any>) => {
+    // 如果有插槽设置
+    if (values.slots) {
+      const slots = values.slots as Record<string, string[]>;
+      // 更新插槽组件
+      updateState((draft) => {
+        draft.widgets.forEach((widget) => {
+          // 如果已经挂载
+          if (widget.container?.id === widgetSchema.id) {
+            const slotIdList = slots[widget.container.slot];
+            if (slotIdList && slotIdList.find((id) => id === widget.id)) {
+              // slotIdList 有，没有变更情况
+            } else {
+              // slotIdList 没有，删除情况
+              delete widget.container;
+            }
+          } else {
+            // 没有挂载，新增情况
+            forOwn(slots, (value, key) => {
+              if (value.find((id) => id === widget.id)) {
+                widget.container = { id: widgetSchema.id, slot: key };
+              }
+            });
+          }
+        });
+      });
+    }
+
+    // 更新属性
+    updateState((draft) => {
+      const index = draft.widgets.findIndex((item) => item.id === widgetSchema.id);
+      if (index !== -1) {
+        // isEqual
+        draft.widgets[index].properties = omit(values, 'slots');
+      }
+    });
+  }, []);
+
+  return (
+    <div className={classNames(className)}>
+      <WidgetForm
+        initialValues={initialValues}
+        registerForm={registerForm}
+        registerFormProps={registerFormProps}
+        onChange={handleValuesChange}
+      />
+    </div>
+  );
+};
+
+export default WidgetAttribute;

@@ -1,0 +1,55 @@
+@import '../../../theme/index.less';
+
+.@{prefix}-nav-menu {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+
+  &__item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+    color: @text-primary-color;
+    text-align: center;
+    cursor: pointer;
+
+    &::before {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: -3px;
+      display: block;
+      width: 3px;
+      background: @primary-color-1;
+      border-radius: 0 100px 100px 0;
+      visibility: hidden;
+      transition: left 0.4s ease-in;
+      content: '';
+    }
+
+    &_active {
+      color: @primary-color-1;
+
+      &::before {
+        left: 0;
+        visibility: visible;
+      }
+    }
+  }
+
+  &__item-icon {
+    padding: 4px 0;
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  &__item-title {
+    padding: 2px 0;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "private": true,
+  "author": "yunji <yunji.me@outlook.com>",
+  "scripts": {
+    "dev": "umi dev",
+    "build": "umi build",
+    "build:analyze": "ANALYZE=1 umi build",
+    "postinstall": "umi setup",
+    "setup": "umi setup",
+    "start": "npm run dev"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.0.1",
+    "@antv/l7": "^2.15.0",
+    "@antv/larkmap": "^1.4.0",
+    "@antv/li-analysis-assets": "link:../../packages/li-analysis-assets",
+    "@antv/li-core-assets": "link:../../packages/li-core-assets",
+    "@antv/li-editor": "link:../../packages/li-editor",
+    "@antv/li-sdk": "link:../../packages/li-sdk",
+    "antd": "^5.5.0",
+    "download.js": "^1.0.0",
+    "lodash-es": "^4.17.21",
+    "umi": "^4.0.64"
+  },
+  "devDependencies": {
+    "@types/geojson": "^7946.0.10",
+    "@types/lodash-es": "^4.17.6",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "prettier": "^2",
+    "prettier-plugin-organize-imports": "^2",
+    "prettier-plugin-packagejson": "^2",
+    "typescript": "^5.0.0"
+  }
+}

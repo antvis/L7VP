@@ -1,0 +1,47 @@
+@cls-prefix: li-filter-item;
+
+.@{cls-prefix} {
+  position: relative;
+  margin: 10px;
+  margin-bottom: 10px;
+  padding: 10px 15px 20px;
+  text-align: left;
+  border: 1px solid;
+  border-radius: 4px;
+
+  &__filter-field {
+    display: flex;
+    justify-content: space-between;
+    height: 25px;
+    color: #c0c0c0;
+    font-size: 12px;
+  }
+
+  &__del-filter {
+    width: 20px;
+    margin-left: 30px;
+    color: #c0c0c0;
+    opacity: 0.6;
+  }
+
+  &__field-operator {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  &__select-field {
+    flex: 1;
+    border-radius: 4px;
+  }
+
+  &__select-operator {
+    width: 120px;
+  }
+
+  &__filter-content-title {
+    height: 25px;
+    color: #c0c0c0;
+    font-size: 12px;
+  }
+}
