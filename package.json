@@ -2,8 +2,7 @@
   "name": "location-insight",
   "private": true,
   "workspaces": [
-    "packages/*",
-    "examples/builder"
+    "packages/*"
   ],
   "scripts": {
     "prepare": "husky install",
