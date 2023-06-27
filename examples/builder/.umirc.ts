@@ -6,5 +6,4 @@ export default defineConfig({
     { path: '/builder/:id', component: 'Builder' },
     { path: '/app/:id', component: 'App' },
   ],
-  npmClient: 'npm',
 });
