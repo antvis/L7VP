@@ -3,4 +3,4 @@
 
 npx lint-staged
 
-npx lerna run doctor --stream
+npx lerna run ci --stream
