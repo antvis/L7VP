@@ -14,13 +14,20 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
+
+    - name: Build examples builder site
+      run: |
+        yarn install
+        cd examples/builder
+        yarn install
+        yarn build
+
     - uses: afc163/surge-preview@v1
       with:
         surge_token: ${{ secrets.SURGE_TOKEN }}
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        dist: dist
-        build: |
-          yarn install
-          cd examples/builder
-          yarn install
-          yarn build
+        dist: examples/builder/dist
+        build: echo
+
+    - name: Get the preview_url
+      run: echo "url => ${{ steps.preview_step.outputs.preview_url }}"
