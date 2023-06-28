@@ -119,16 +119,19 @@ export default function ProjectPage() {
 
   return (
     <Layout style={{ height: '100vh' }}>
-      <Layout.Header>
+      <Layout.Header style={{ display: 'flex', alignItems: 'center' }}>
         <div
           style={{
-            float: 'left',
-            width: '120px',
-            height: '31px',
-            margin: '16px 24px 16px 0',
             background: 'rgba(255, 255, 255, 0.3)',
+            padding: '0 10px',
+            fontSize: '18px',
+            color: '#fff',
+            fontWeight: 500,
+            height: '40px',
+            lineHeight: '40px',
+            borderRadius: '4px',
           }}
-        />
+        >L7VP Builder Example</div>
       </Layout.Header>
       <Layout.Content
         style={{ padding: 50, backgroundColor: 'rgba(255, 255, 255, 0.2)' }}

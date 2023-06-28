@@ -5,8 +5,8 @@ import { cloneDeep } from 'lodash-es';
 const DEFAULT_ANALYSIS_APP: Application = {
   version: 'v0.1',
   metadata: {
-    name: 'Earthquake 可视分析案例',
-    description: 'Earthquake 等级与震深分布情况',
+    name: '地震等级与震深可视化',
+    description: '可视化 5.12 汶川地震等级分布与震深情况，数据来源于中国地震网。',
     creatTime: '2022-09-19 16:29:09',
   },
   datasets: [
@@ -443,7 +443,7 @@ const DEFAULT_ANALYSIS_APP: Application = {
         center: [104.215504, 31.663526],
         pitch: 0,
         bearing: 0,
-        style: 'light',
+        style: 'grey',
         WebGLParams: {
           preserveDrawingBuffer: true,
         },
@@ -471,12 +471,9 @@ const DEFAULT_ANALYSIS_APP: Application = {
             value: [13, 36],
           },
           fillColor: {
-            field: 'title',
-            value: ['#66c2a5', '#fc8d62', '#8da0cb', '#e78ac3', '#a6d854'],
-            scale: {
-              type: 'cat',
-              unknown: '#c0c0c0',
-            },
+            field: 'mag',
+            value: ['#eff3ff', '#bdd7e7', '#6baed6', '#3182bd', '#08519c'],
+            scale: { type: 'quantize' },
           },
           opacity: 0.8,
           strokeColor: 'rgb(146, 112, 202)',
@@ -515,13 +512,27 @@ const DEFAULT_ANALYSIS_APP: Application = {
         },
       },
       {
+        id: 'AdministrativeSelectControl',
+        type: 'AdministrativeSelectControl',
+        metadata: {
+          name: '行政区域选择器',
+        },
+        properties: {
+          position: 'lefttop',
+        },
+        container: {
+          id: 'AnalysisLayout',
+          slot: 'controls',
+        },
+      },
+      {
         id: 'LocationSearchControl1',
         type: 'LocationSearchControl',
         metadata: {
           name: '位置查询',
         },
         properties: {
-          position: 'topleft',
+          position: 'lefttop',
         },
         container: {
           id: 'AnalysisLayout',
@@ -592,20 +603,6 @@ const DEFAULT_ANALYSIS_APP: Application = {
         },
       },
       {
-        id: 'RightClickMenu',
-        type: 'RightClickMenu',
-        metadata: {
-          name: '右键菜单',
-        },
-        properties: {
-          showRightMenu: true,
-        },
-        container: {
-          id: 'AnalysisLayout',
-          slot: 'controls',
-        },
-      },
-      {
         id: 'FullscreenControl1',
         type: 'FullscreenControl',
         metadata: {
@@ -662,10 +659,10 @@ const DEFAULT_ANALYSIS_APP: Application = {
         },
       },
       {
-        id: 'ScaleControl3',
-        type: 'ScaleControl',
+        id: 'MouseLocationControl4',
+        type: 'MouseLocationControl',
         metadata: {
-          name: '比例尺',
+          name: '光标经纬度',
         },
         properties: {
           position: 'bottomleft',
@@ -676,10 +673,10 @@ const DEFAULT_ANALYSIS_APP: Application = {
         },
       },
       {
-        id: 'MouseLocationControl4',
-        type: 'MouseLocationControl',
+        id: 'ScaleControl3',
+        type: 'ScaleControl',
         metadata: {
-          name: '光标经纬度',
+          name: '比例尺',
         },
         properties: {
           position: 'bottomleft',
@@ -776,13 +773,27 @@ const EMPTY__ANALYSIS_APP: Application = {
         },
       },
       {
+        id: 'AdministrativeSelectControl',
+        type: 'AdministrativeSelectControl',
+        metadata: {
+          name: '行政区域选择器',
+        },
+        properties: {
+          position: 'lefttop',
+        },
+        container: {
+          id: 'AnalysisLayout',
+          slot: 'controls',
+        },
+      },
+      {
         id: 'LocationSearchControl1',
         type: 'LocationSearchControl',
         metadata: {
           name: '位置查询',
         },
         properties: {
-          position: 'topleft',
+          position: 'lefttop',
         },
         container: {
           id: 'AnalysisLayout',
@@ -952,8 +963,8 @@ const EMPTY__ANALYSIS_APP: Application = {
 
 export const DEFAULT_PROJECTS: Project[] = [
   {
-    projectName: 'Earthquake 可视分析案例',
-    description: 'Earthquake 等级与震深分布情况',
+    projectName: '地震等级与震深可视化',
+    description: '可视化 5.12 汶川地震等级分布与震深情况，数据来源于中国地震网。',
     projectId: '0001',
     creatTime: '2022-09-19 16:29:09',
     applicationConfig: cloneDeep(DEFAULT_ANALYSIS_APP),
