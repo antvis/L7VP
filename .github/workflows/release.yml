@@ -12,7 +12,9 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 16
-      - run: yarn install
+      - run: |
+          yarn install
+          yarn build:package
 
   publish-site:
     needs: build

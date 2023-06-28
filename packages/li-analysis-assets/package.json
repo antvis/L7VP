@@ -73,7 +73,8 @@
   },
   "nx": {
     "implicitDependencies": [
-      "@antv/li-sdk"
+      "@antv/li-sdk",
+      "@antv/li-p2"
     ]
   }
 }

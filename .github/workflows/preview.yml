@@ -15,9 +15,13 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Build examples builder site
+    - name: Build package
       run: |
         yarn install
+        yarn build:package
+
+    - name: Build examples builder
+      run: |
         cd examples/builder
         yarn install
         yarn build
