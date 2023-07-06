@@ -15,6 +15,10 @@
   <a href="https://locationinsight.antv.antgroup.com/#/case">Case</a>
 </p>
 
+<div align="center">
+  <img src="https://github.com/antvis/L7VP/assets/26923747/aff69461-d1c3-47de-9dcf-cdf609c11707.png" width="800">
+</div>
+
 </div>
 
 L7VP means AntV L7 Visualization Platform，L in L7 stands for Location, and 7 stands for the seven continents of the world, implying the ability to provide visual analysis for global location data.

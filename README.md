@@ -15,6 +15,10 @@
   <a href="https://locationinsight.antv.antgroup.com/#/case">案例</a>
 </p>
 
+<div align="center">
+  <img src="https://github.com/antvis/L7VP/assets/26923747/aff69461-d1c3-47de-9dcf-cdf609c11707.png" width="800">
+</div>
+
 </div>
 
 L7VP 取名意为 AntV L7 Visualization Platform，L7 中的 L 代表 Location，7 代表世界七大洲，寓意能为全球位置数据提供可视分析的能力。
