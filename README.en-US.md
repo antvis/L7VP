@@ -4,7 +4,7 @@
 
 <div align="center">
 
-🌍 L7VP （<a href="https://github.com/antvis/L7">L7</a> Visualization Platform）is an geospatial intelligent visual analysis and development platform。
+🌍 L7VP （<a href="https://github.com/antvis/L7">L7</a> Visualization Platform）is an geospatial intelligent visual analysis application and development platform.
 
 [![SDK Version](https://badgen.net/npm/v/@antv/li-sdk)](https://npmjs.com/@antv/li-sdk) ![Status](https://badgen.net/github/status/antvis/L7VP) [![Release Status](https://github.com/antvis/L7VP/workflows/release/badge.svg?branch=master)](https://github.com/antvis/L7VP/actions?query=workflow:release) [![Percentage of issues still open](http://isitmaintained.com/badge/open/antvis/l7vp.svg)](http://isitmaintained.com/project/antvis/l7vp 'Percentage of issues still open') [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/antvis/l7vp.svg)](http://isitmaintained.com/project/antvis/l7vp 'Average time to resolve an issue')
 
@@ -17,9 +17,13 @@
 
 </div>
 
+L7VP means AntV L7 Visualization Platform，L in L7 stands for Location, and 7 stands for the seven continents of the world, implying the ability to provide visual analysis for global location data.
+
 ## ✨ Features
 
--
+- 🚀 Fast: Possess insight into spatio-temporal data, and quickly produce visualization results.
+- 🛠 Expansion: With scalability, the business can be customized.
+- 🏗 Embedding: Provide open components, business systems can be easily embedded.
 
 ## 💻 Local Case
 
