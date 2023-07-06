@@ -1,0 +1,8 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@antv/li-p2/": ["packages/li-p2/"]
+    }
+  }
+}

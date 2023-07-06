@@ -1,0 +1,75 @@
+{
+  "name": "@antv/li-core-assets",
+  "version": "0.37.4",
+  "description": "core assets for location insight",
+  "keywords": [
+    "core assets",
+    "li"
+  ],
+  "homepage": "https://locationinsight.antv.antgroup.com",
+  "license": "Apache-2.0",
+  "author": "yunji",
+  "sideEffects": [
+    "**/*.less"
+  ],
+  "main": "dist/cjs/index.js",
+  "jsdelivr": "dist/umd/li-core-assets.min.js",
+  "unpkg": "dist/umd/li-core-assets.min.js",
+  "module": "dist/esm/index.js",
+  "typings": "dist/esm/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "npm run clean && father build",
+    "clean": "rimraf dist",
+    "dev": "father dev",
+    "docs:build": "dumi build",
+    "docs:build-analyze": "ANALYZE=1 dumi build",
+    "doctor": "father doctor",
+    "ci": "npm run doctor",
+    "prettier": "prettier --write \"src/*.{tsx,ts,less,md,json}\"",
+    "start": "dumi dev"
+  },
+  "dependencies": {
+    "@antv/li-p2": "^0.1.5",
+    "@antv/li-sdk": "^0.37.4",
+    "@emotion/css": "^11.10.6",
+    "classnames": "^2.3.1",
+    "gcoord": "^0.3.2",
+    "h3-js": "^4.0.1",
+    "lodash-es": "^4.17.21"
+  },
+  "devDependencies": {
+    "@ant-design/icons": "^5.0.1",
+    "@antv/l7": "^2.17.2",
+    "@antv/larkmap": "^1.4.1",
+    "@antv/li-editor": "^0.6.5",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "antd": "^5.5.0",
+    "dumi": "^1.1.46",
+    "father": "^4.0.7",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.7.4"
+  },
+  "peerDependencies": {
+    "@ant-design/icons": "^5.0.1",
+    "@antv/l7": "^2.17.2",
+    "@antv/larkmap": "^1.4.1",
+    "antd": "^5.5.0",
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "nx": {
+    "implicitDependencies": [
+      "@antv/li-sdk",
+      "@antv/li-p2"
+    ]
+  }
+}

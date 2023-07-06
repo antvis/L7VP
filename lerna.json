@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json",
+  "version": "independent",
+  "npmClient": "yarn",
+  "useWorkspaces": true,
+  "command": {
+    "version": {
+      "message": "chore: publish %s",
+      "private": false,
+      "changelog": false,
+      "exact": false
+    }
+  },
+  "ignoreChanges": ["*.md"]
+}

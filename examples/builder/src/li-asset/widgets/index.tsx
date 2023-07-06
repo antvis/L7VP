@@ -1,0 +1,1 @@
+export { DataseInfor } from './DataseInfor';

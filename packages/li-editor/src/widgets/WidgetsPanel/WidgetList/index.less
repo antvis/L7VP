@@ -1,0 +1,39 @@
+@import '../../../theme/index.less';
+
+.@{prefix}-widget-list {
+  &__widget-group {
+    &-title {
+      margin-bottom: 0;
+      padding-bottom: 10px;
+      color: @text-secondary-color;
+      font-weight: 400;
+      font-size: 14px;
+    }
+
+    & + & {
+      margin-top: 20px;
+    }
+  }
+
+  &__panel {
+    .ant-collapse-header {
+      padding: 6px 13px !important;
+      background-color: @bg-color-primary !important;
+      border: 1px solid @border-secondary-color !important;
+      border-radius: @border-radius !important;
+      overflow: hidden;
+
+      .ant-collapse-extra {
+        cursor: pointer !important;
+      }
+    }
+  }
+
+  .ant-collapse .ant-collapse-item {
+    margin-bottom: 10px;
+  }
+
+  .ant-collapse-content > .ant-collapse-content-box {
+    padding: 10px 0;
+  }
+}

@@ -1,0 +1,34 @@
+name: Surge PR Preview
+
+on: pull_request
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Build package
+      run: |
+        yarn install
+        yarn build:package
+
+    - name: Build examples builder
+      run: |
+        cd examples/builder
+        yarn install
+        yarn build
+
+    - uses: afc163/surge-preview@v1
+      with:
+        surge_token: ${{ secrets.SURGE_TOKEN }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        dist: examples/builder/dist
+        build: echo
