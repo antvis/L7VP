@@ -3,7 +3,7 @@ import type { SelectProps } from 'antd';
 import { Select } from 'antd';
 import cls from 'classnames';
 import React, { useState } from 'react';
-import type { IconSelectOptionType } from '../../IconList';
+import type { IconSelectOptionType } from '../../IconList/type';
 import useStyle from './style';
 
 export type IconSelectProps = SelectProps<string, IconSelectOptionType>;

@@ -8,6 +8,7 @@ type ChinaAdminLayerStyleAttributeValue = ChoroplethLayerStyleAttributeValue & {
   showAdminLabel: boolean;
   adminLabelColor: string;
   adminLabelFontSize: number;
+  showNationalBorders: boolean;
 };
 
 /**
@@ -16,13 +17,14 @@ type ChinaAdminLayerStyleAttributeValue = ChoroplethLayerStyleAttributeValue & {
 const toValues = (config: LayerRegisterFormResultType<ChinaAdminLayerStyleAttributeValue>) => {
   const { sourceConfig, visConfig } = config;
   const { countryAdConfig } = sourceConfig;
-  const { showAdminLabel, adminLabelColor, adminLabelFontSize } = visConfig;
+  const { showAdminLabel, adminLabelColor, adminLabelFontSize, showNationalBorders } = visConfig;
 
   return {
     ...countryAdConfig,
     showAdminLabel,
     adminLabelColor,
     adminLabelFontSize,
+    showNationalBorders,
     ...choroplethLayerStyleConfigToFlat(visConfig),
   };
 };
@@ -41,6 +43,7 @@ const fromValues = (values: Record<string, any>): LayerRegisterFormResultType<Ch
   };
   const visConfig = choroplethLayerStyleFlatToConfig(values);
   const adminLabelStyle = pick(values, ['showAdminLabel', 'adminLabelColor', 'adminLabelFontSize']);
+  const showNationalStyle = pick(values, ['showNationalBorders']);
 
   // TODO: 没有值时置灰
   if (typeof visConfig.fillColor === 'object' && visConfig.fillColor.scale) {
@@ -52,6 +55,7 @@ const fromValues = (values: Record<string, any>): LayerRegisterFormResultType<Ch
     visConfig: {
       ...visConfig,
       ...adminLabelStyle,
+      ...showNationalStyle,
       state: {
         active: { strokeColor: 'yellow', fillColor: false },
         select: { fillColor: false, strokeColor: 'red' },

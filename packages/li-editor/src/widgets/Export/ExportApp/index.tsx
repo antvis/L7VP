@@ -25,7 +25,7 @@ const ExportApp: React.FC<ExportAppProps> = (props) => {
     <Modal
       className="li-export-app"
       width={960}
-      title="导出应用"
+      title="导出配置"
       open={visible}
       onCancel={handleCancel}
       destroyOnClose
@@ -39,7 +39,7 @@ const ExportApp: React.FC<ExportAppProps> = (props) => {
               target="_blank"
               rel="noreferrer"
             >
-              下载应用
+              导出
             </a>
           </Button>
         </>

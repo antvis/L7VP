@@ -177,7 +177,7 @@ export const loadAssetPackages = async (
 
   const assets = assetPackagesSpec
     .map((assetPackage) => {
-      const { global } = assetPackage;
+      const { global, name } = assetPackage;
       // 启用沙箱情况，从沙箱中获取，如果沙箱中没有，尝试从 window 中获取
       const _assets =
         (iframeContentWindow && accessAssetPackage(global, iframeContentWindow)) || parseAssetPackage(global);
@@ -185,6 +185,8 @@ export const loadAssetPackages = async (
         _assets.version = `v${assetPackage.version}`;
         _assets.metadata = assetPackage;
         return _assets;
+      } else {
+        console.error(`LI SDK access global name "${global}" is not found by parse asset package "${name}"`);
       }
     })
     .filter<AssetPackage>((asset): asset is AssetPackage => asset !== undefined);

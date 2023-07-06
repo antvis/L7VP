@@ -1,4 +1,4 @@
-import type { WidgetCategory, WidgetType } from '@antv/li-sdk';
+import type { WidgetCategory, WidgetSchema, WidgetType } from '@antv/li-sdk';
 
 export const Widget_Category_Map = new Map<WidgetCategory, string>([
   ['Layout', '布局组件'],
@@ -15,3 +15,7 @@ export const WidgetTypeMap: Record<WidgetType, string> = {
   Atom: 'Atom',
   Auto: 'Auto',
 };
+
+export const AtomWidgets = ['Atom', 'Container'];
+
+export const AtomWidgetEmptyContainer: WidgetSchema['container'] = { id: '', slot: '' };

@@ -60,10 +60,8 @@ export default (options: AttributeSchemaOptions & { iconList?: IconSelectOptionT
                 enum: [...iconList],
                 'x-reactions': [
                   {
-                    target: 'iconImg',
-                    effects: ['onFieldValueChange'],
                     fulfill: {
-                      run: "$form.setFieldState('iconImg',state=>{state.dataSource = $self.value})",
+                      run: "$form.setFieldState('iconImg',state=>{state.dataSource = $self.value })",
                     },
                   },
                 ],

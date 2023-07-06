@@ -43,7 +43,7 @@ const FilterCard = ({ id, datasetOptions, selectedDatasets, onDel }: FilterCardP
   const datasetsOption: DefaultOptionType[] = datasetOptions.map((item) => ({
     label: (
       <span>
-        <DatabaseOutlined style={{ marginRight: 10, color: '#39f' }} />
+        <DatabaseOutlined style={{ marginRight: 10, color: token.colorPrimary }} />
         {item.name}
       </span>
     ),

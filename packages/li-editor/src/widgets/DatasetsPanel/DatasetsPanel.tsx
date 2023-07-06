@@ -31,6 +31,7 @@ const DatasetsPanel: React.FC<DatasetsPanelProps> = (props: DatasetsPanelProps) 
           onClick={() => {
             setAddDatasetVisible(true);
           }}
+          id="LITourAddDataset"
         >
           新增数据集
         </Button>

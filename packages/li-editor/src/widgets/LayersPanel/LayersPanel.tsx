@@ -70,6 +70,7 @@ const LayersPanel: React.FC<LayersPanelProps> = (props) => {
               onClick={() => {
                 setAddLayerPanelOpen(true);
               }}
+              id="LITourAddVisualLayer"
             >
               新增图层
             </Button>

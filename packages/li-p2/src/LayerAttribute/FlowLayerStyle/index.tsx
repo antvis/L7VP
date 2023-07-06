@@ -5,7 +5,7 @@ import { createSchemaField } from '@formily/react';
 import classNames from 'classnames';
 import { debounce } from 'lodash-es';
 import React, { memo, useMemo } from 'react';
-import { ColorPicker, FieldSelect, FormCollapse, Slider, SliderRange } from '../components';
+import { ColorPicker, FieldSelect, FormCollapse, Slider, SliderRange, ColorRangeSelector } from '../components';
 import { CLS_PREFIX } from './constant';
 import { flowLayerStyleConfigToFlat, flowLayerStyleFlatToConfig } from './helper';
 import schema from './schema';
@@ -24,13 +24,17 @@ export const FlowLayerStyleAttributeSchemaField: React.FC<Pick<FlowLayerStyleAtt
           Switch,
           Slider,
           ColorPicker,
+          ColorRangeSelector,
           SliderRange,
           FieldSelect,
         },
       }),
     [],
   );
-  const _schema = useMemo(() => schema({ fieldList: props.fieldList }), [props.fieldList]);
+  const _schema = useMemo(() => schema({ fieldList: props.fieldList, colorRanges: props.colorRanges }), [
+    props.colorRanges,
+    props.fieldList,
+  ]);
 
   return <SchemaField schema={_schema} />;
 };

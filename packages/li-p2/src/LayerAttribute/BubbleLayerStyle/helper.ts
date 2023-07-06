@@ -43,7 +43,6 @@ export const bubbleLayerStyleFlatToConfig = (style: Record<string, any>) => {
     //   rings: style.animateRings,
     // },
   };
-
   return styleConfig;
 };
 
@@ -96,6 +95,5 @@ export const bubbleLayerStyleConfigToFlat = (styleConfig: BubbleLayerStyleAttrib
     // animateSpeed: typeof animate === 'object' ? animate?.speed : undefined,
     // animateRings: typeof animate === 'object' ? animate?.rings : undefined,
   };
-
   return config;
 };

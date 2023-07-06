@@ -11,6 +11,7 @@ export interface ChinaAdminLayerProps extends ChoroplethLayerProps, ImplementLay
   showAdminLabel: boolean;
   adminLabelColor: string;
   adminLabelFontSize: number;
+  showNationalBorders: boolean;
 }
 
 const ChinaAdminLayer: React.FC<ChinaAdminLayerProps> = (props) => {
@@ -24,6 +25,7 @@ const ChinaAdminLayer: React.FC<ChinaAdminLayerProps> = (props) => {
     showAdminLabel,
     adminLabelColor,
     adminLabelFontSize,
+    showNationalBorders,
   } = props;
   const [labelData, setLabelData] = useState<Record<string, any>[]>([]);
   const [source, setSource] = useState<ChoroplethLayerProps['source']>();
@@ -52,8 +54,9 @@ const ChinaAdminLayer: React.FC<ChinaAdminLayerProps> = (props) => {
     style: {
       fontSize: adminLabelFontSize,
       fill: adminLabelColor,
-      stroke: '#c0c0c0',
-      strokeWidth: 2,
+      // stroke: '#fff',
+      // strokeWidth: 1,
+      // strokeOpacity: 1.0,
     },
     source: {
       data: labelData,
@@ -63,7 +66,7 @@ const ChinaAdminLayer: React.FC<ChinaAdminLayerProps> = (props) => {
 
   return (
     <>
-      <ChinaCountryBoundary visible={visible} />
+      {showNationalBorders && <ChinaCountryBoundary visible={visible} />}
       {source && (
         <ChoroplethLayer
           {...props}

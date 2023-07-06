@@ -1,6 +1,6 @@
 @import '../../theme/index.less';
 
-@cls-prefix: li-mapsetting;
+@cls-prefix: li-map-setting;
 
 .@{cls-prefix} {
   display: flex;
@@ -25,6 +25,15 @@
   &__map-content {
     display: flex;
     align-items: center;
+  }
+
+  &__select-map-center {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    &-text {
+      color: @primary-color-1;
+    }
   }
 
   &__map-type {

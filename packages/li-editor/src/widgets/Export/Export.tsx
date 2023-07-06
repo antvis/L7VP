@@ -27,7 +27,7 @@ const Export: React.FC<ExportProps> = (props) => {
         导出数据
       </Button>
       <Button type="text" size="middle" icon={<CodeOutlined size={18} />} onClick={onExportApp}>
-        导出应用
+        导出配置
       </Button>
     </div>
   );

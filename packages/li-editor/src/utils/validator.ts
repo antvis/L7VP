@@ -1,6 +1,7 @@
 import type { Application, DatasetSchema, LayerSchema, LocalDatasetSchema, WidgetSchema } from '@antv/li-sdk';
 import { getDatasetColumns, isLocalDatasetSchema } from '@antv/li-sdk';
 import { isEmpty, isUndefined, omit } from 'lodash-es';
+import { AtomWidgetEmptyContainer } from '../constants';
 
 export const validateMetadata = (metadata: Application['metadata']) => {
   const _metadata = { ...metadata };
@@ -59,9 +60,21 @@ export const validateLayers = (layers: LayerSchema[]) => {
   return _layers;
 };
 
+export const validWidget = (widget: WidgetSchema) => {
+  const isIllegalAtomWidget =
+    widget.container &&
+    widget.container.id === AtomWidgetEmptyContainer?.id &&
+    widget.container.slot === AtomWidgetEmptyContainer.slot;
+  if (isIllegalAtomWidget) {
+    return false;
+  }
+
+  return true;
+};
+
 export const validWidgets = (widgets: WidgetSchema[]) => {
   // TODO: 去除没有在资产中实现的组件
-  const _widgets = widgets;
+  const _widgets = widgets.filter((item) => validWidget(item));
 
   return _widgets;
 };

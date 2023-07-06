@@ -1,6 +1,6 @@
 import type { ILegend } from '@antv/l7';
 import type { Layer } from '@antv/larkmap/es/types';
-import type { LegendCategoriesData, LegendRampData } from './types';
+import type { LegendCategoriesData, LegendIconData, LegendRampData } from './types';
 
 const getFormatLabel = (value: string | number) => {
   if (typeof value === 'number') {
@@ -30,6 +30,24 @@ export const parserLegendData = (layer: Layer) => {
       name,
       visible: true,
     };
+    return data;
+  }
+
+  // 如果是图标图层
+  if (layer.options?.icon?.field && layer.options?.iconAtlas) {
+    const iconAtlas = layer.options.iconAtlas;
+
+    const data: LegendIconData = {
+      type: 'LegendIcon',
+      name,
+      layer,
+      visible: true,
+      data: {
+        labels: layer.options.icon.value,
+        icons: Object.values(iconAtlas),
+      },
+    };
+
     return data;
   }
 

@@ -5,9 +5,23 @@ import type { WritableDraft } from 'immer/dist/internal';
 import { debounce } from 'lodash-es';
 import type { CSSProperties } from 'react';
 import React from 'react';
+import type { FallbackProps } from 'react-error-boundary';
+import { ErrorBoundary } from 'react-error-boundary';
 import { useEditorService, useEditorState } from '../../hooks';
 import { useImmer } from '../../hooks/internal';
 import { validateDatasets, validateLayers, validWidgets } from '../../utils';
+
+function FallbackRender({ error, resetErrorBoundary }: FallbackProps) {
+  // Call resetErrorBoundary() to reset the error boundary and retry the render.
+
+  return (
+    <div style={{ padding: 20 }}>
+      <p>渲染出错了，请检查配置资产是否有误：</p>
+      <pre style={{ color: 'red' }}>{error.message}</pre>
+      {/* <button onClick={resetErrorBoundary}>重新渲染</button> */}
+    </div>
+  );
+}
 
 export type RuntimeAppProps = {
   /** 默认的应用配置 */
@@ -75,7 +89,11 @@ const RuntimeApp: React.FC<RuntimeAppProps> = (props) => {
     publishSdkUpdateEvent();
   }, [state.widgets]);
 
-  return <LIApp className={classNames(className)} config={sdkConfigState} style={style} />;
+  return (
+    <ErrorBoundary fallbackRender={FallbackRender}>
+      <LIApp className={classNames(className)} config={sdkConfigState} style={style} />
+    </ErrorBoundary>
+  );
 };
 
 export default RuntimeApp;

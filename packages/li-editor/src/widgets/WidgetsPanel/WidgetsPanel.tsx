@@ -34,6 +34,7 @@ const WidgetsPanel: React.FC<WidgetsPanelProps> = (props) => {
           <Button
             size="small"
             type="link"
+            id="LITourAddAnalysisWidget"
             icon={<AppstoreAddOutlined style={{ color: token.colorPrimary }} className="li-widgets-panel__add-icon" />}
             onClick={openAddWidgetsPanel}
           />

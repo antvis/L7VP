@@ -5,11 +5,13 @@ const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
 
-  const { colorText, colorTextDescription, colorBgElevated } = token;
+  const { colorText, colorTextDescription, colorBgElevated, zIndexBase, zIndexPopupBase } = token;
 
   return {
     layerPopup: css`
       width: 280px !important;
+      // 图层信息框显示层级位于属性面板（zIndexPopupBase + 80）之上
+      z-index: ${zIndexPopupBase + 100};
 
       .l7-popup-tip {
         border-top-color: ${colorBgElevated};
@@ -37,6 +39,12 @@ const useStyle = () => {
       height: 40px;
       color: ${colorTextDescription};
       line-height: 40px;
+    `,
+
+    imagePreview: css`
+      .ant-image-preview-wrap {
+        z-index: ${zIndexPopupBase + 101};
+      }
     `,
 
     rowItem: css`

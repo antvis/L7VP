@@ -13,6 +13,7 @@
     "**/*.less"
   ],
   "main": "dist/cjs/index.js",
+  "jsdelivr": "dist/umd/li-p2.min.js",
   "unpkg": "dist/umd/li-p2.min.js",
   "module": "dist/esm/index.js",
   "typings": "dist/esm/index.d.ts",
@@ -46,8 +47,8 @@
   },
   "devDependencies": {
     "@ant-design/icons": "^5.0.1",
-    "@antv/l7": "^2.11.0",
-    "@antv/larkmap": "^1.4.0",
+    "@antv/l7": "^2.17.2",
+    "@antv/larkmap": "^1.4.1",
     "@types/lodash-es": "^4.17.6",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",

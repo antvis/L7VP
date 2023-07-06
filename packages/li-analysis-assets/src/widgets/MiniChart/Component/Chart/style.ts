@@ -5,7 +5,7 @@ const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
 
-  const { colorText, colorBgContainer } = token;
+  const { colorText, colorBgContainer, colorBgElevated } = token;
 
   return {
     miniChart: css`
@@ -21,6 +21,17 @@ const useStyle = () => {
       overflow: hidden;
       background-color: ${colorBgContainer};
       border-radius: 4px;
+
+      .g2-tooltip {
+        background: ${colorBgElevated} !important;
+        
+        .g2-tooltip-title,
+          .g2-tooltip-list-item-name,
+          .g2-tooltip-list-item-value {
+            color: ${colorText} !important;
+          }
+        }
+      }
     `,
 
     miniChartTitle: css`

@@ -35,13 +35,16 @@ const fromValues = (values: Record<string, any>): LayerRegisterFormResultType<Ic
     visConfig: {
       ...visConfig,
       state: {
-        active: {
-          color: '#FFF684',
-        },
-        select: {
-          color: '#FFF684',
-          radius: undefined,
-        },
+        active: false,
+        select: false,
+
+        // active: {
+        //   color: '#FFF684',
+        // },
+        // select: {
+        //   color: '#FFF684',
+        //   radius: undefined,
+        // },
       },
     },
   };

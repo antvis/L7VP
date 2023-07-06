@@ -44,7 +44,12 @@ const LILayerPopup: React.FC<LILayerPopupProps> = (props) => {
                       <div className={cls(`${CLS_PREFIX}__row_image`, styles.popupRowImage)} key={index}>
                         <div className={cls(`${CLS_PREFIX}__row_key`, styles.rowItem, styles.rowKey)}>{field}</div>
                         <div className={cls(`${CLS_PREFIX}__row_value`, styles.rowItem, styles.rowValue)}>
-                          <Image referrerPolicy="no-referrer" height={40} src={value} />
+                          <Image
+                            rootClassName={styles.imagePreview}
+                            referrerPolicy="no-referrer"
+                            height={40}
+                            src={value}
+                          />
                         </div>
                       </div>
                     );

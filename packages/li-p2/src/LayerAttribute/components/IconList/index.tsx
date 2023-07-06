@@ -4,14 +4,15 @@ import type { ReactFC } from '@formily/react';
 import { connect } from '@formily/react';
 import { Button, Form, Input, message, Popconfirm, Popover } from 'antd';
 import cls from 'classnames';
+import { isEmpty } from 'lodash-es';
 import React, { useEffect, useRef, useState } from 'react';
 import { BuiltInImageList as DEFULT_ICON_LIST } from '../../IconImageLayerStyle/constant';
 import useStyle from './style';
-
-export type IconSelectOptionType = { id: string; image: string };
+import type { IconSelectOptionType } from './type';
 
 export type IconListProps = {
   onChange?: (iconList: IconSelectOptionType[]) => void;
+  value?: IconSelectOptionType[];
 };
 
 // 选择图标的自定义组件
@@ -19,7 +20,9 @@ const Internal: React.FC<IconListProps> = (props) => {
   const { onChange } = props;
   const prefixCls = usePrefixCls('formily-icon-list');
   const [wrapSSR, hashId] = useStyle(prefixCls);
-  const [iconList, setIconList] = useState<IconSelectOptionType[]>(DEFULT_ICON_LIST);
+  const [iconList, setIconList] = useState<IconSelectOptionType[]>(
+    isEmpty(props.value) ? DEFULT_ICON_LIST : props.value,
+  );
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
   const formRef = useRef(null);
@@ -75,10 +78,6 @@ const Internal: React.FC<IconListProps> = (props) => {
               {
                 required: true,
                 message: '请输入图标名称',
-              },
-              {
-                pattern: '^[a-zA-Z0-9_]*$',
-                message: '只允许输入字母、数字',
               },
             ]}
           >

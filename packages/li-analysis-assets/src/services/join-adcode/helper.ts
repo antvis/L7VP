@@ -4,7 +4,7 @@ import { isString, isUndefined } from 'lodash-es';
 
 const Chache = new Map<string, FeatureCollection>();
 
-const BASE_URL = 'https://fastly.jsdelivr.net/npm/static-geo-atlas';
+const BASE_URL = 'https://npm.elemecdn.com/static-geo-atlas';
 
 const getAdministrativeCentroidList = () => {
   return fetch(`${BASE_URL}@0.0.2/geo-data/administrative-data/area-list.json`).then<Record<string, any>[]>((data) =>

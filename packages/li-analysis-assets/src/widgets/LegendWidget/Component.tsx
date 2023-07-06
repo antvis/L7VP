@@ -1,5 +1,5 @@
 import Icon from '@ant-design/icons';
-import { CustomControl, LegendCategories, LegendRamp } from '@antv/larkmap';
+import { CustomControl, LegendCategories, LegendIcon, LegendRamp } from '@antv/larkmap';
 import type { ImplementWidgetProps } from '@antv/li-sdk';
 import { useLayerList } from '@antv/li-sdk';
 import { useUpdate } from 'ahooks';
@@ -17,10 +17,10 @@ import {
 } from './constants';
 import { parserLegendData } from './helper';
 import type { Properties } from './registerForm';
-import type { LegendCategoriesData, LegendRampData } from './types';
+import type { LegendCategoriesData, LegendIconData, LegendRampData } from './types';
 
 export interface LegendType extends ImplementWidgetProps, Properties {}
-type LegendDataListType = LegendRampData | LegendCategoriesData;
+type LegendDataListType = LegendRampData | LegendCategoriesData | LegendIconData;
 
 const LegendControl: React.FC<LegendType> = (props) => {
   const { position, open } = props;
@@ -36,7 +36,9 @@ const LegendControl: React.FC<LegendType> = (props) => {
   useEffect(() => {
     const updateLegendData = () => {
       const legendDatas = layerList.map(parserLegendData);
-      const legendData = legendDatas.filter((item) => item.data.labels.length && !isEmpty(item.data.colors));
+      const legendData = legendDatas.filter(
+        (item) => item.data.labels.length && (!isEmpty(item.data.colors) || !isEmpty(item.data.icons)),
+      );
       setLegendDataList(legendData);
     };
 
@@ -85,6 +87,7 @@ const LegendControl: React.FC<LegendType> = (props) => {
                 {item.type && <div className={styles.itemField}>{item.field}</div>}
                 {item.type === 'LegendCategories' && <LegendCategories {...item.data} />}
                 {item.type === 'LegendRamp' && <LegendRamp {...item.data} />}
+                {item.type === 'LegendIcon' && <LegendIcon {...item.data} />}
               </>
             )}
           </div>

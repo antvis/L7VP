@@ -1,5 +1,6 @@
 import type { LIRuntimeApp, WidgetSchema } from '@antv/li-sdk';
 import { isEmpty } from 'lodash-es';
+import { AtomWidgetEmptyContainer, AtomWidgets } from '../constants';
 
 class AppService {
   /** 运行时应用 */
@@ -81,16 +82,25 @@ class AppService {
   }
 
   /**
+   * 判断是否是原子组件资产
+   */
+  public isAtomWidget(widget: WidgetSchema) {
+    const implementWidget = this.getImplementWidget(widget.type);
+    if (!implementWidget) return false;
+    const isAtom = AtomWidgets.includes(implementWidget?.metadata.type);
+    return isAtom;
+  }
+
+  /**
    * 获取容器组件可插槽的原子组件资产
    */
   public getAtomWidgets(widgets: WidgetSchema[], containerId: string) {
     const atomWidgets = widgets.filter((widget) => {
       // 过滤原子组件已经被其它容器组件选择的情况
-      const hasSelected = widget.container && widget.container.id !== containerId;
+      const hasSelected =
+        widget.container && widget.container.id !== AtomWidgetEmptyContainer?.id && widget.container.id !== containerId;
       if (hasSelected) return false;
-      const implementWidget = this.getImplementWidget(widget.type);
-      if (!implementWidget) return false;
-      const isAtom = ['Atom', 'Container'].includes(implementWidget?.metadata.type);
+      const isAtom = this.isAtomWidget(widget);
       return isAtom;
     });
 

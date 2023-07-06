@@ -135,7 +135,7 @@ export const TimeLineChart = (props: TimeLineChartProps) => {
     chartRef.current?.render().then(() => onRendered());
   }, [data, xField, yField]);
 
-  // 同步更新高丽亮滑块
+  // 同步更新高亮滑块
   useEffect(() => {
     // TODO: _rendering 状态可能有问题
     //@ts-ignore

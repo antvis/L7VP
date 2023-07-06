@@ -1,6 +1,7 @@
 import type { SchemaProperties } from '@formily/react';
 import { merge } from 'lodash-es';
 import type { FlowLayerStyleAttributeValue, ISize } from './types';
+const DEFAULT_LAYER_COLOR = { colors: ['#0570b0', '#74a9cf', '#bdc9e1', '#f1eef6'], isReversed: true };
 /**
  * 平铺数据转图层样式数据
  * 将表单的平铺数据转为图层样式的数据结构
@@ -17,18 +18,21 @@ export const flowLayerStyleFlatToConfig = (style: Record<string, any>) => {
     circleStrokeWidth: style.circleStrokeWidth,
     fadeOpacityEnabled: style.fadeOpacityEnabled,
     fadeOpacityAmount: style.fadeOpacityAmount,
+    lineStroke: style.lineStroke,
+    lineStrokeWidth: style.lineStrokeWidth,
+    lineStrokeOpacity: style.lineStrokeOpacity,
     lineOpacity: style.lineOpacity,
     circleColor: style?.fillColorFieldPoint
       ? {
           field: 'weight',
-          value: [style?.pointColorStart, style?.pointColorEnd],
+          value: style?.pointColorRange?.colors,
         }
       : style?.circleColor,
     circleRadius: style?.sizeFieldPoint ? { field: 'weight', value: style.sizeRangePoint } : style?.pointSize,
     lineColor: style?.fillColorField
       ? {
           field: 'weight',
-          value: [style?.lineColorStart, style?.lineColorEnd],
+          value: style?.lineColorRange?.colors,
         }
       : style?.lineColor,
     lineWidth: style?.sizeFieldLine
@@ -40,8 +44,9 @@ export const flowLayerStyleFlatToConfig = (style: Record<string, any>) => {
     minZoom: style.zoom?.[0],
     maxZoom: style.zoom?.[1],
     blend: style.blend,
+    linColorIsReversed: style?.lineColorRange?.isReversed,
+    pointColorIsReversed: style?.pontColorRange?.isReversed,
   };
-
   return styleConfig;
 };
 
@@ -50,7 +55,7 @@ export const flowLayerStyleFlatToConfig = (style: Record<string, any>) => {
  * 将图层样式的数据结构转为表单的平铺数据
  * */
 export const flowLayerStyleConfigToFlat = (styleCfg: FlowLayerStyleAttributeValue) => {
-  const { circleRadius, lineColor, lineWidth, circleColor } = styleCfg;
+  const { circleRadius, lineColor, lineWidth, circleColor, linColorIsReversed, pointColorIsReversed } = styleCfg;
   const config = {
     clusterZoomStep: styleCfg.clusterZoomStep,
     clusterNodeSize: styleCfg.clusterNodeSize,
@@ -65,28 +70,30 @@ export const flowLayerStyleConfigToFlat = (styleCfg: FlowLayerStyleAttributeValu
     lineOpacity: styleCfg.lineOpacity,
     zoom: [styleCfg.minZoom, styleCfg.maxZoom],
     blend: styleCfg.blend,
-    ...(typeof circleColor === 'object'
+    lineStroke: styleCfg.lineStroke,
+    lineStrokeWidth: styleCfg.lineStrokeWidth,
+    lineStrokeOpacity: styleCfg.lineStrokeOpacity,
+    pointColorRange: circleColor
       ? {
-          fillColorFieldPoint: true,
-          pointColorStart: (circleColor?.value as string[])?.[0],
-          pointColorEnd: (circleColor?.value as string[])?.[1],
+          ...(typeof circleColor === 'object'
+            ? {
+                colors: circleColor.value,
+                isReversed: pointColorIsReversed,
+              }
+            : { pointSize: circleRadius }),
         }
-      : { circleColor: circleColor }),
+      : DEFAULT_LAYER_COLOR,
 
-    ...(typeof circleRadius === 'object'
+    lineColorRange: lineColor
       ? {
-          sizeFieldPoint: true,
-          sizeRangePoint: (circleRadius as ISize)?.value,
+          ...(typeof lineColor === 'object'
+            ? {
+                colors: lineColor.value,
+                isReversed: linColorIsReversed,
+              }
+            : { lineColor: lineColor }),
         }
-      : { pointSize: circleRadius }),
-
-    ...(typeof lineColor === 'object'
-      ? {
-          fillColorField: true,
-          lineColorStart: (lineColor?.value as string[])?.[0],
-          lineColorEnd: (lineColor?.value as string[])?.[1],
-        }
-      : { lineColor: lineColor }),
+      : DEFAULT_LAYER_COLOR,
 
     ...(typeof lineWidth === 'object'
       ? {
@@ -95,7 +102,6 @@ export const flowLayerStyleConfigToFlat = (styleCfg: FlowLayerStyleAttributeValu
         }
       : { lineWidth: lineWidth }),
   };
-
   return config;
 };
 

@@ -2,6 +2,7 @@ import type { ImplementWidget, WidgetSchema } from '@antv/li-sdk';
 import classNames from 'classnames';
 import { forOwn, omit } from 'lodash-es';
 import React, { useCallback, useMemo } from 'react';
+import { AtomWidgetEmptyContainer } from '../../../constants';
 import { useEditorDatasets, useEditorService, useEditorState } from '../../../hooks';
 import { useWidgets } from './useWidgets';
 import WidgetForm from './WidgetForm';
@@ -58,8 +59,8 @@ const WidgetAttribute: React.FC<WidgetAttributeProps> = (props) => {
             if (slotIdList && slotIdList.find((id) => id === widget.id)) {
               // slotIdList 有，没有变更情况
             } else {
-              // slotIdList 没有，删除情况
-              delete widget.container;
+              // slotIdList 没有，删除更新为占位的容器
+              widget.container = AtomWidgetEmptyContainer;
             }
           } else {
             // 没有挂载，新增情况

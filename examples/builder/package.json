@@ -1,6 +1,6 @@
 {
   "private": true,
-  "author": "yunji <yunji.me@outlook.com>",
+  "author": "yunji",
   "scripts": {
     "dev": "umi dev",
     "build": "umi build",
@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.0.1",
-    "@antv/l7": "^2.15.0",
-    "@antv/larkmap": "^1.4.0",
+    "@antv/l7": "^2.17.2",
+    "@antv/larkmap": "^1.4.1",
     "@antv/li-analysis-assets": "link:../../packages/li-analysis-assets",
     "@antv/li-core-assets": "link:../../packages/li-core-assets",
     "@antv/li-editor": "link:../../packages/li-editor",

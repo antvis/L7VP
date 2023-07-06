@@ -3,11 +3,10 @@ import type { TooltipPlacement } from 'antd/es/tooltip';
 export const CLS_PREFIX = 'li-administrative-select';
 
 // 城市列表
-export const CityUrl =
-  'https://fastly.jsdelivr.net/npm/static-geo-atlas@latest/geo-data/administrative-data/area-tree.json';
+export const CityUrl = 'https://npm.elemecdn.com/static-geo-atlas@latest/geo-data/administrative-data/area-tree.json';
 
 // 边界数据
-export const BoundsUrl = 'https://fastly.jsdelivr.net/npm/static-geo-atlas@latest/geo-data/choropleth-data/';
+export const BoundsUrl = 'https://npm.elemecdn.com/static-geo-atlas@latest/geo-data/choropleth-data/';
 
 export const POPOVER_PLACEMENT_LEGEND = new Map<string | undefined, TooltipPlacement>([
   ['topleft', 'bottomLeft'],

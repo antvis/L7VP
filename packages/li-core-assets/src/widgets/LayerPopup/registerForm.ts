@@ -64,7 +64,7 @@ const getLayerFieldsFormSchemas = (props: WidgetRegisterFormProps) => {
   const { layers, datasets } = props;
 
   const layerSchemaList = layers
-    .filter((item) => !['GridLayer', 'HexbinLayer'].includes(item.type))
+    .filter((item) => !['GridLayer', 'HexbinLayer', 'HeatmapLayer'].includes(item.type))
     .map((item) => {
       const dataset = datasets.find((items) => items.id === item.sourceConfig?.datasetId);
       const columns =

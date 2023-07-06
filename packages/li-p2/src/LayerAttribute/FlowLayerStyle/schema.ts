@@ -10,6 +10,7 @@ import {
 } from './helper';
 
 export default (options: AttributeSchemaOptions = {}) => {
+  const { colorRanges = [] } = options;
   return {
     type: 'object',
     properties: {
@@ -38,16 +39,21 @@ export default (options: AttributeSchemaOptions = {}) => {
                 default: 'orange',
                 ...xReactions(['fillColorField'], false),
               }),
-
-              ...getWidgetColorFormSchema('lineColorStart', '颜色1', {
-                default: '#2a5674',
+              lineColorRange: {
+                type: 'object',
+                title: '颜色',
+                default: {
+                  colors: ['#0570b0', '#74a9cf', '#bdc9e1', '#f1eef6'],
+                  isReversed: true,
+                },
+                'x-decorator': 'FormItem',
+                'x-component': 'ColorRangeSelector',
+                'x-component-props': {
+                  options: [...colorRanges],
+                },
+                'x-decorator-props': {},
                 ...xReactions(['fillColorField']),
-              }),
-
-              ...getWidgetColorFormSchema('lineColorEnd', '颜色2', {
-                default: '#d1eeea',
-                ...xReactions(['fillColorField']),
-              }),
+              },
 
               ...getWidgetSwitchFormSchema('sizeFieldLine', '宽度权重映射', {
                 default: true,
@@ -64,6 +70,18 @@ export default (options: AttributeSchemaOptions = {}) => {
               }),
 
               ...getWidgetSliderFormSchema('lineOpacity', '透明度', {
+                'x-component-props': { max: 1, min: 0, step: 0.1 },
+                default: 1,
+              }),
+
+              ...getWidgetColorFormSchema('lineStroke', '线边框颜色', {
+                default: '#000000',
+              }),
+
+              ...getWidgetSliderFormSchema('lineStrokeWidth', '线边框宽度', {
+                default: 1,
+              }),
+              ...getWidgetSliderFormSchema('lineStrokeOpacity', '线边框透明度', {
                 'x-component-props': { max: 1, min: 0, step: 0.1 },
                 default: 1,
               }),
@@ -97,15 +115,21 @@ export default (options: AttributeSchemaOptions = {}) => {
                 ...xReactions(['fillColorFieldPoint'], false),
               }),
 
-              ...getWidgetColorFormSchema('pointColorStart', '颜色1', {
-                default: '#2a5674',
-                ...xReactions(['fillColorFieldPoint'], true),
-              }),
-
-              ...getWidgetColorFormSchema('pointColorEnd', '颜色2', {
-                default: '#d1eeea',
-                ...xReactions(['fillColorFieldPoint'], true),
-              }),
+              pointColorRange: {
+                type: 'object',
+                title: '颜色',
+                default: {
+                  colors: ['#0570b0', '#74a9cf', '#bdc9e1', '#f1eef6'],
+                  isReversed: true,
+                },
+                'x-decorator': 'FormItem',
+                'x-component': 'ColorRangeSelector',
+                'x-component-props': {
+                  options: [...colorRanges],
+                },
+                'x-decorator-props': {},
+                ...xReactions(['fillColorFieldPoint']),
+              },
 
               ...getWidgetSwitchFormSchema('sizeFieldPoint', '尺寸权重映射', {
                 default: true,

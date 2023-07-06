@@ -55,6 +55,7 @@ type ChinaCountryBoundaryProps = {
 const ChinaCountryBoundary: React.FC<ChinaCountryBoundaryProps> = (props) => {
   const { visible, minZoom, maxZoom, zIndex = 0, chinaBorder } = props;
 
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState<{
     chinaBoundary: FeatureCollection;
     hkmBoundary: FeatureCollection;
@@ -67,7 +68,10 @@ const ChinaCountryBoundary: React.FC<ChinaCountryBoundaryProps> = (props) => {
   );
 
   useEffect(() => {
-    geChinaAdminBoundaryData().then((boundarys) => setData(boundarys));
+    geChinaAdminBoundaryData().then((boundarys) => {
+      setData(boundarys);
+      setLoading(false);
+    });
   }, []);
 
   if (!data) return null;
@@ -92,7 +96,8 @@ const ChinaCountryBoundary: React.FC<ChinaCountryBoundaryProps> = (props) => {
       value: ({ type }) => borderStyle[type as ChinaBoundaryStyleKeys].width,
     },
     style: {
-      opacity: ['type', (type) => borderStyle[type as ChinaBoundaryStyleKeys].opacity],
+      opacity: 0.8,
+      // opacity: ['type', (type) => borderStyle[type as ChinaBoundaryStyleKeys].opacity],
     },
   };
 
@@ -133,6 +138,8 @@ const ChinaCountryBoundary: React.FC<ChinaCountryBoundaryProps> = (props) => {
       dashArray: borderStyle.dispute.dashArray as [number, number],
     },
   };
+
+  if (loading) return null;
 
   return (
     <>

@@ -1,7 +1,7 @@
 import React from 'react';
 
 /** 组件名称, 前缀 */
-export const CLS_PREFIX = 'li-mapsetting';
+export const CLS_PREFIX = 'li-map-setting';
 
 export const BaseMapSvg = () => (
   <svg

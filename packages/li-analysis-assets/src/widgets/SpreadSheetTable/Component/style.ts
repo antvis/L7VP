@@ -2,7 +2,7 @@ import { css } from '@emotion/css';
 import { useAntdToken } from '../../../hooks';
 
 const useStyle = () => {
-  const { antCls, colorBgElevated, colorText, controlItemBgHover } = useAntdToken();
+  const { antCls, colorBgElevated, colorText, controlItemBgHover, colorBgContainer } = useAntdToken();
 
   return {
     spreadSheet: css`
@@ -16,7 +16,7 @@ const useStyle = () => {
       max-height: 300px;
       padding: 14px 10px;
       overflow: hidden;
-      background-color: ${colorBgElevated};
+      background-color: ${colorBgContainer};
       border-radius: 4px;
     `,
 

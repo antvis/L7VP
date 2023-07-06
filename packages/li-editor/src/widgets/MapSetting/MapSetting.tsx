@@ -1,9 +1,7 @@
-import Icon, { EnvironmentOutlined } from '@ant-design/icons';
-import type { FeatureData } from '@antv/larkmap/es/components/Draw/types';
-import { point } from '@turf/turf';
+import Icon, { DownOutlined } from '@ant-design/icons';
 import type { RadioChangeEvent } from 'antd';
-import { Button, ConfigProvider, Form, InputNumber, message, Modal, Radio, theme, Tooltip } from 'antd';
-import React, { useMemo, useState } from 'react';
+import { Button, ConfigProvider, Dropdown, Form, InputNumber, message, Modal, Radio, Space, Tooltip } from 'antd';
+import React, { useState } from 'react';
 import { useEditorService, useEditorState } from '../../hooks';
 import type { ImplementEditorWidgetProps } from '../../types';
 import {
@@ -14,15 +12,13 @@ import {
   MapboxStyleConfig,
   MAPBOX_TOKEN as MAPBOX__TOKEN,
 } from './constant';
-import { DrawModal } from './DrawModal';
+import { MapCenterModal } from './MapCenterModal';
 import './MapSetting.less';
 
 type MapSettingProps = ImplementEditorWidgetProps & {
   AMAP_KEY?: string;
   MAPBOX_TOKEN?: string;
 };
-
-const { useToken } = theme;
 
 const MapSetting: React.FC<MapSettingProps> = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -54,16 +50,15 @@ function MapSettingModal(props: { AMAP_KEY?: string; MAPBOX_TOKEN?: string; open
   const { AMAP_KEY = AMAP__KEY, MAPBOX_TOKEN = MAPBOX__TOKEN, open, onClose } = props;
   const context = useEditorState();
   const appService = useEditorService().appService;
-  const [drawModalOpen, setDrawModalOpen] = useState(false);
+  const [mapCenterModalOpen, setMapCenterModalOpen] = useState(false);
   const [zoomValue, setZoomValue] = useState(context.state.map.config.zoom);
-  const [drawValue, setDrawValue] = useState(context.state.map.config.center);
+  const [mapCenterValue, setMapCenterValue] = useState(context.state.map.config.center);
   const [mapStyle, setMapStyle] = useState(context.state.map.config.style);
   const [mapType, setMapType] = useState(context.state.map.basemap);
   const [viewMode, setViewMode] = useState(context.state.map.config.viewMode || '2D');
   const [pitchValue, setPitchValue] = useState(context.state.map.config.pitch || 50);
   const [rotationValue, setRotationValue] = useState(context.state.map.config.rotation || 20);
   const [messageApi, messageContextHolder] = message.useMessage();
-  const { token } = useToken();
 
   const setSyncMapViewState = () => {
     const viewState = appService.getMapViewState();
@@ -71,7 +66,8 @@ function MapSettingModal(props: { AMAP_KEY?: string; MAPBOX_TOKEN?: string; open
 
     const { zoom, center } = viewState;
     setZoomValue(zoom);
-    setDrawValue([center.lng, center.lat]);
+    setMapCenterValue([center.lng, center.lat]);
+    messageApi.success('拾取成功');
   };
 
   const handleOk = () => {
@@ -90,7 +86,7 @@ function MapSettingModal(props: { AMAP_KEY?: string; MAPBOX_TOKEN?: string; open
         ...draft.map.config,
         token,
         zoom: zoomValue,
-        center: drawValue,
+        center: mapCenterValue,
         style: mapType === 'Map' ? undefined : mapStyle,
         pitch: viewMode === '2D' ? 0 : pitchValue,
         rotation: rotation,
@@ -103,32 +99,25 @@ function MapSettingModal(props: { AMAP_KEY?: string; MAPBOX_TOKEN?: string; open
     onClose();
   };
 
-  const initialData = useMemo(() => {
-    if (drawValue) {
-      const points = point(drawValue);
-      return points;
-    }
-  }, [drawValue]);
-
   const handleCancel = () => {
     onClose();
   };
 
-  const drawModalOk = (featureData?: FeatureData) => {
-    if (featureData) {
-      setDrawModalOpen(false);
-      setDrawValue(featureData.geometry.coordinates as [number, number]);
-    } else {
-      messageApi.info('请添加中心点');
+  const mapCenterModalOk = (mapCenter?: [number, number]) => {
+    if (mapCenter) {
+      setMapCenterModalOpen(false);
+      setMapCenterValue(mapCenter);
     }
   };
 
-  const drawModalCance = () => {
-    setDrawModalOpen(false);
+  const drawModalCancel = () => {
+    setMapCenterModalOpen(false);
   };
 
-  const onZoomChange = (e: any) => {
-    setZoomValue(e);
+  const onZoomChange = (zoom: number | null) => {
+    if (zoom) {
+      setZoomValue(zoom);
+    }
   };
 
   const onMapStyleClick = (e: { text: string; img?: string; type?: string }) => {
@@ -152,43 +141,52 @@ function MapSettingModal(props: { AMAP_KEY?: string; MAPBOX_TOKEN?: string; open
     setRotationValue(e ? e : 0);
   };
 
+  const dropDownItems = [
+    {
+      key: 'fromMap',
+      label: '拾取当前地图',
+      onClick: setSyncMapViewState,
+    },
+    {
+      key: 'fromModal',
+      label: '通过弹框拾取',
+      onClick: () => {
+        setMapCenterModalOpen(true);
+      },
+    },
+  ];
+
   return (
     <>
-      <Modal
-        okText="保存"
-        cancelText="取消"
-        destroyOnClose
-        title="地图设置"
-        open={open}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
+      <Modal okText="保存" cancelText="取消" title="地图设置" open={open} onOk={handleOk} onCancel={handleCancel}>
         <ConfigProvider componentSize="small">
           <p className={`${CLS_PREFIX}__desc`}>设置地图初始化的中心点、缩放等级、底图样式</p>
 
           <Form layout="vertical" className={`${CLS_PREFIX}`}>
             <Form.Item label="地图中心点">
               <div className={`${CLS_PREFIX}__map-content`}>
-                <div className={`${CLS_PREFIX}__map-content-text`}>{drawValue?.toString()}</div>
-                <Button
-                  type="link"
-                  style={{ color: token.colorPrimary }}
-                  icon={<EnvironmentOutlined size={15} />}
-                  onClick={() => {
-                    setDrawModalOpen(true);
-                  }}
-                >
-                  选择
-                </Button>
+                <div className={`${CLS_PREFIX}__map-content-text`}>{mapCenterValue?.toString()}</div>
               </div>
             </Form.Item>
             <Form.Item label="缩放等级">
-              <InputNumber value={zoomValue} onChange={onZoomChange} min={1} max={17} />
+              <InputNumber value={zoomValue} onChange={onZoomChange} precision={0} min={1} max={17} />
             </Form.Item>
           </Form>
-          <Button onClick={setSyncMapViewState} className={`${CLS_PREFIX}__btn`}>
-            使用当前窗口中心点、缩放等级
-          </Button>
+          <div className={`${CLS_PREFIX}__select-map-center`}>
+            <Dropdown
+              placement="bottomRight"
+              menu={{
+                items: dropDownItems,
+              }}
+            >
+              <Button type="link">
+                <Space className={`${CLS_PREFIX}__select-map-center-text`}>
+                  拾取
+                  <DownOutlined />
+                </Space>
+              </Button>
+            </Dropdown>
+          </div>
 
           <div className={`${CLS_PREFIX}__view-mode`}>
             <div>视图模式</div>
@@ -290,14 +288,15 @@ function MapSettingModal(props: { AMAP_KEY?: string; MAPBOX_TOKEN?: string; open
         </ConfigProvider>
       </Modal>
       {messageContextHolder}
-      <DrawModal
-        destroyOnClose
+      <MapCenterModal
         title="选择中心点"
-        open={drawModalOpen}
-        initialData={initialData}
-        type={'point'}
-        onCancel={drawModalCance}
-        onSubmit={drawModalOk}
+        open={mapCenterModalOpen}
+        onCancel={drawModalCancel}
+        onSubmit={mapCenterModalOk}
+        currentMapCenter={mapCenterValue as [number, number]}
+        zoomValue={zoomValue as number}
+        setZoomValue={setZoomValue}
+        mapCenterModalOpen={mapCenterModalOpen}
       />
     </>
   );
