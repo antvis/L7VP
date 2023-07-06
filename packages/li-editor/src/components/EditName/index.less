@@ -1,0 +1,19 @@
+@import '../../theme/index.less';
+
+.@{prefix}-title-name {
+  display: flex;
+
+  &__text {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    justify-content: space-between;
+    max-width: 180px;
+  }
+
+  &__title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}

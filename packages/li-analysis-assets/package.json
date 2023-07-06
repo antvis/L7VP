@@ -1,0 +1,81 @@
+{
+  "name": "@antv/li-analysis-assets",
+  "version": "1.0.0",
+  "description": "analysis assets for location insight",
+  "keywords": [
+    "analysis assets",
+    "li"
+  ],
+  "homepage": "https://locationinsight.antv.antgroup.com",
+  "license": "Apache-2.0",
+  "author": "yunji",
+  "sideEffects": [
+    "**/*.less"
+  ],
+  "main": "dist/cjs/index.js",
+  "jsdelivr": "dist/umd/li-analysis-assets.min.js",
+  "unpkg": "dist/umd/li-analysis-assets.min.js",
+  "module": "dist/esm/index.js",
+  "typings": "dist/esm/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "npm run clean && father build",
+    "clean": "rimraf dist",
+    "dev": "father dev",
+    "docs:build": "dumi build",
+    "docs:build-analyze": "ANALYZE=1 dumi build",
+    "doctor": "father doctor",
+    "ci": "npm run doctor",
+    "prettier": "prettier --write \"src/*.{tsx,ts,less,md,json}\"",
+    "start": "dumi dev"
+  },
+  "dependencies": {
+    "@antv/g2": "^5.0.14",
+    "@antv/l7-draw": "^3.0.20",
+    "@antv/li-p2": "^1.0.0",
+    "@antv/li-sdk": "^1.0.0",
+    "@antv/s2": "^1.47.1",
+    "@antv/s2-react": "^1.40.0",
+    "@emotion/css": "^11.10.6",
+    "@turf/turf": "^6.5.0",
+    "ahooks": "^3.7.0",
+    "classnames": "^2.3.1",
+    "dayjs": "^1.11.7",
+    "lodash-es": "^4.17.21"
+  },
+  "devDependencies": {
+    "@ant-design/icons": "^5.0.1",
+    "@antv/l7": "^2.17.2",
+    "@antv/larkmap": "^1.4.1",
+    "@antv/li-core-assets": "^1.0.0",
+    "@antv/li-editor": "^1.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "antd": "^5.5.0",
+    "dumi": "^1.1.46",
+    "father": "^4.0.7",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.7.4"
+  },
+  "peerDependencies": {
+    "@ant-design/icons": "^5.0.1",
+    "@antv/l7": "^2.17.2",
+    "@antv/larkmap": "^1.4.1",
+    "antd": "^5.5.0",
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "nx": {
+    "implicitDependencies": [
+      "@antv/li-sdk",
+      "@antv/li-p2"
+    ]
+  }
+}

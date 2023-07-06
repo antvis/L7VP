@@ -1,0 +1,56 @@
+{
+  "name": "location-insight",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "prepare": "husky install",
+    "start:sdk": "lerna run start --stream --scope=@antv/li-sdk",
+    "start:editor": "lerna run start --stream --scope=@antv/li-editor",
+    "start:core-assets": "lerna run start --stream --scope=@antv/li-core-assets",
+    "start:analysis-assets": "lerna run start --stream --scope=@antv/li-analysis-assets",
+    "lint": "npm run lint:ts && npm run lint:style",
+    "lint:ts": "eslint packages --ext .ts,.tsx",
+    "lint:style": "stylelint \"packages/**/*.less\"",
+    "lint-fix": "eslint packages --fix --ext .ts,.tsx --format=pretty && stylelint --fix \"packages/**/*.less\"",
+    "prettier": "lerna run prettier",
+    "clean": "scripts/clean-deps.sh",
+    "build:sdk": "lerna run build --scope=@antv/li-sdk",
+    "build:editor": "lerna run build --scope=@antv/li-editor",
+    "build:core-assets": "lerna run build --scope=@antv/li-core-assets",
+    "build:analysis-assets": "lerna run build --scope=@antv/li-analysis-assets",
+    "build:package": "lerna run build --skip-nx-cache",
+    "package-version": "lerna version --conventional-commits",
+    "package-preversion": "lerna version --conventional-prerelease",
+    "prepublishOnly": "lerna run doctor && npm run build:package",
+    "package-publish": "lerna publish from-package",
+    "package-betapublish": "lerna publish from-package --dist-tag beta",
+    "postpublish": "scripts/intranet-sync.sh"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.0.3",
+    "@commitlint/config-conventional": "^17.0.3",
+    "@umijs/fabric": "^3.0.0",
+    "cross-env": "^7.0.3",
+    "eslint-plugin-import": "^2.26.0",
+    "gh-pages": "^4.0.0",
+    "husky": "^8.0.1",
+    "lerna": "^6.6.1",
+    "lint-staged": "^13.0.3",
+    "typescript": "^4.7.4",
+    "webpack-bundle-analyzer": "^4.6.1",
+    "worker-loader": "^3.0.8"
+  },
+  "lint-staged": {
+    "*.less": "stylelint --fix",
+    "*.{ts,tsx}": "eslint --fix",
+    "*.{less,md,json}": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
+    ]
+  },
+  "repository": "git@github.com:antvis/L7VP.git"
+}

@@ -1,0 +1,11 @@
+**/*.svg
+**/*.ejs
+**/*.html
+.umi
+.umi-production
+.umi-test
+
+node_modules
+
+package.json
+yarn.lock

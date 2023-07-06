@@ -1,0 +1,71 @@
+{
+  "name": "@antv/li-p2",
+  "version": "1.0.0",
+  "description": "property panel for location insight editor",
+  "keywords": [
+    "li",
+    "property panel"
+  ],
+  "homepage": "https://locationinsight.antv.antgroup.com",
+  "license": "Apache-2.0",
+  "author": "yunji",
+  "sideEffects": [
+    "**/*.less"
+  ],
+  "main": "dist/cjs/index.js",
+  "jsdelivr": "dist/umd/li-p2.min.js",
+  "unpkg": "dist/umd/li-p2.min.js",
+  "module": "dist/esm/index.js",
+  "typings": "dist/esm/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "npm run clean && father build",
+    "clean": "rimraf dist",
+    "dev": "father dev",
+    "docs:build": "dumi build",
+    "docs:build-analyze": "ANALYZE=1 dumi build",
+    "doctor": "father doctor",
+    "ci": "npm run doctor",
+    "prettier": "prettier --write \"src/*.{tsx,ts,less,md,json}\"",
+    "start": "dumi dev"
+  },
+  "dependencies": {
+    "@formily/antd-v5": "^1.1.0-beta.3",
+    "@formily/core": "^2.2.24",
+    "@formily/react": "^2.2.24",
+    "@formily/reactive": "^2.2.24",
+    "@formily/shared": "^2.2.24",
+    "ahooks": "^3.7.0",
+    "classnames": "^2.3.1",
+    "colorbrewer": "^1.5.3",
+    "lodash-es": "^4.17.21",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1"
+  },
+  "devDependencies": {
+    "@ant-design/icons": "^5.0.1",
+    "@antv/l7": "^2.17.2",
+    "@antv/larkmap": "^1.4.1",
+    "@types/lodash-es": "^4.17.6",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "antd": "^5.5.0",
+    "dumi": "^1.1.46",
+    "father": "^4.0.7",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.7.4"
+  },
+  "peerDependencies": {
+    "@ant-design/icons": "^5.0.1",
+    "antd": "^5.5.0",
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  }
+}

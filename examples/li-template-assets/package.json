@@ -1,0 +1,87 @@
+{
+  "name": "@antv/li-template-assets",
+  "version": "0.0.1",
+  "description": "Standard Tooling for location insight assets",
+  "keywords": [
+    "assets",
+    "li"
+  ],
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "typings": "lib/index.d.ts",
+  "jsdelivr": "dist/li-template-assets.min.js",
+  "unpkg": "dist/li-template-assets.min.js",
+  "files": [
+    "dist",
+    "lib",
+    "es",
+    "README.md"
+  ],
+  "scripts": {
+    "prepare": "husky install",
+    "start": "dumi dev",
+    "clean": "rimraf lib es dist",
+    "lint": "npm run lint:ts && npm run lint:style",
+    "lint:ts": "eslint src --ext .ts,.tsx",
+    "lint:style": "stylelint --fix src/**/*.less",
+    "prettier": "prettier --write 'src/*.{tsx,ts,md,json}'",
+    "lint-fix": "eslint src --fix --ext .ts,.tsx --format=pretty && npm run lint:style",
+    "dev": "npm run clean && father dev",
+    "build": "npm run clean && father build",
+    "doctor": "father doctor",
+    "docs:build": "dumi build",
+    "docs:build-analyze": "ANALYZE=1 dumi build",
+    "ci": "run-s lint doctor build",
+    "prepublishOnly": "npm run doctor && npm run build"
+  },
+  "dependencies": {
+    "@antv/li-sdk": "^1.0.0",
+    "@emotion/css": "^11.10.6",
+    "classnames": "^2.3.1",
+    "lodash-es": "^4.17.21"
+  },
+  "devDependencies": {
+    "@antv/li-core-assets": "^1.0.0",
+    "@antv/li-editor": "^1.0.0",
+    "@ant-design/icons": "^5.0.1",
+    "@antv/l7": "^2.17.2",
+    "@antv/larkmap": "^1.4.1",
+    "@commitlint/cli": "^17.0.3",
+    "@commitlint/config-conventional": "^17.0.3",
+    "@types/lodash-es": "^4.17.6",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@umijs/fabric": "^3.0.0",
+    "antd": "^5.4.6",
+    "dumi": "^1.1.46",
+    "eslint": "^7.11.0",
+    "eslint-plugin-import": "^2.26.0",
+    "father": "^4.0.7",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.3.2",
+    "rimraf": "^3.0.2",
+    "stylelint": "^13.0.0",
+    "typescript": "^4.7.4",
+    "webpack-bundle-analyzer": "^4.6.1"
+  },
+  "peerDependencies": {
+    "@ant-design/icons": "^5.0.1",
+    "@antv/l7": "^2.17.2",
+    "@antv/larkmap": "^1.4.1",
+    "antd": "^5.4.6",
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
+  },
+  "lint-staged": {
+    "*.less": "stylelint --fix",
+    "*.{ts,tsx}": "eslint --fix",
+    "*.{less,md,json}": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
+    ]
+  }
+}
