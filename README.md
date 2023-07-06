@@ -21,7 +21,7 @@
 
 </div>
 
-L7VP 取名意为 AntV L7 Visualization Platform，L7 中的 L 代表 Location，7 代表世界七大洲，寓意能为全球位置数据提供可视分析的能力。
+<p>L7VP 取名意为 AntV L7 Visualization Platform，L7 中的 L 代表 Location，7 代表世界七大洲，寓意能为全球位置数据提供可视分析的能力。</p>
 
 ## ✨ 特性
 

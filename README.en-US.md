@@ -21,7 +21,7 @@
 
 </div>
 
-L7VP means AntV L7 Visualization Platform，L in L7 stands for Location, and 7 stands for the seven continents of the world, implying the ability to provide visual analysis for global location data.
+<p>L7VP means AntV L7 Visualization Platform，L in L7 stands for Location, and 7 stands for the seven continents of the world, implying the ability to provide visual analysis for global location data.</p>
 
 ## ✨ Features
 
