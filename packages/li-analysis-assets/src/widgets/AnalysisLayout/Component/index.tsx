@@ -40,7 +40,7 @@ const AnalysisLayout: React.FC<AnalysisLayoutProps> = (props) => {
     <div className={classNames(styles.analysisLayout, CLS_PREFIX)}>
       <div
         className={styles.layoutContainer}
-        style={showBottomPanel ? { height: `calc(100% - ${size?.height}px)` } : {}}
+        style={showBottomPanel && size?.height ? { height: `calc(100% - ${size.height}px)` } : {}}
       >
         <MapContainer
           className={classNames(styles.mapContainer, `${CLS_PREFIX}__map-conatiner`, {
