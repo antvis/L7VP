@@ -1,8 +1,7 @@
 import type { ImplementWidgetProps } from '@antv/li-sdk';
 import { MapContainer } from '@antv/li-sdk';
-import { useSize } from 'ahooks';
 import classNames from 'classnames';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import FloatPanel from '../FloatPanel';
 import type { Properties } from '../registerForm';
 import { CLS_PREFIX } from './constant';
@@ -18,9 +17,6 @@ const AnalysisLayout: React.FC<AnalysisLayoutProps> = (props) => {
   const { showSidePanel, showBottomPanel, showFloatPanel, collapsedFloatPanel = true, slotsElements, children } = props;
 
   const styles = useStyle();
-
-  const mapContainerRef = useRef<HTMLDivElement>(null);
-  const size = useSize(mapContainerRef);
 
   const [collapsed, setCollapsed] = useState(collapsedFloatPanel);
   const mapContainerSlots = useMemo(() => ({ content: slotsElements.content, controls: slotsElements.controls }), [
@@ -38,7 +34,7 @@ const AnalysisLayout: React.FC<AnalysisLayoutProps> = (props) => {
 
   return (
     <div className={classNames(styles.analysisLayout, CLS_PREFIX)}>
-      <div className={styles.layoutContainer} ref={mapContainerRef}>
+      <div className={styles.layoutContainer} style={showBottomPanel ? { height: 'calc(100% - 300px)' } : {}}>
         <MapContainer
           className={classNames(styles.mapContainer, `${CLS_PREFIX}__map-conatiner`, {
             [styles.showFloatPanel]: showFloatPanel && !collapsed,
@@ -57,7 +53,7 @@ const AnalysisLayout: React.FC<AnalysisLayoutProps> = (props) => {
           {children}
         </MapContainer>
         {showSidePanel && (
-          <div className={classNames(styles.sidePanel, `${CLS_PREFIX}__side-panel`)} style={{ height: size?.height }}>
+          <div className={classNames(styles.sidePanel, `${CLS_PREFIX}__side-panel`)}>
             {slotsElements.sidePanel ? slotsElements.sidePanel({}) : null}
           </div>
         )}
