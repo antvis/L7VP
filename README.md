@@ -16,7 +16,7 @@
 </p>
 
 <div align="center">
-  <img src="https://github.com/antvis/L7VP/assets/26923747/aff69461-d1c3-47de-9dcf-cdf609c11707.png" width="800">
+  <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*EAcUQb_UzAEAAAAAAAAAAAAADmJ7AQ/original.png" width="800">
 </div>
 
 </div>
@@ -31,18 +31,24 @@ L7VP 取名意为 AntV L7 Visualization Platform，L7 中的 L 代表 Location�
 - 🛠 扩展：拥有可扩展能力，业务可自定义定制。
 - 🏗 嵌入：提供开放的组件，业务系统可轻松嵌入。
 
-## 💻 查看示例
+## 🖥 查看示例
+
+### 🔨 构建依赖
+
+```bash
+yarn install && yarn build:package
+```
 
 ### 📦 安装依赖
 
 ```bash
-cd examples/builder && npm i
+cd examples/builder && yarn install
 ```
 
-### 🔨 启动示例
+### 💻 启动示例
 
 ```bash
-npm run dev
+yarn run dev
 ```
 
 ## 🤝 如何贡献
