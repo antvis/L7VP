@@ -25,7 +25,6 @@ const useStyle = () => {
       display: flex;
       flex: auto;
       width: 100%;
-      height: 100%;
     `,
 
     bottomPanel: css`
