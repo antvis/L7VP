@@ -16,7 +16,7 @@
 </p>
 
 <div align="center">
-  <img src="https://github.com/antvis/L7VP/assets/26923747/aff69461-d1c3-47de-9dcf-cdf609c11707.png" width="800">
+  <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*EAcUQb_UzAEAAAAAAAAAAAAADmJ7AQ/original" width="800">
 </div>
 
 </div>
@@ -31,18 +31,24 @@ L7VP means AntV L7 Visualization Platform，L in L7 stands for Location, and 7 s
 - 🛠 Expansion: With scalability, the business can be customized.
 - 🏗 Embedding: Provide open components, business systems can be easily embedded.
 
-## 💻 Local Case
+## 🖥 Local Case
+
+### 🔨 PreBuild
+
+```bash
+yarn install && yarn build:package
+```
 
 ### 📦 Installation
 
 ```bash
-cd examples/builder && npm i
+cd examples/builder && yarn install
 ```
 
-### 🔨 Start Up
+### 💻 Start Up
 
 ```bash
-npm run dev
+yarn run dev
 ```
 
 ## 🤝 How to Contribute
