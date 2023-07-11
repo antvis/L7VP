@@ -85,6 +85,7 @@ export default function UploadDataset(props: UploadDatasetProps) {
             {messageContextHolder}
             <Upload.Dragger
               name="data"
+              multiple={true}
               accept=".csv,.json,.xls,.xlsx,.geojson,.zip"
               customRequest={customRequest}
               showUploadList={false}
