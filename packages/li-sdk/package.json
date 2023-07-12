@@ -7,8 +7,12 @@
     "li"
   ],
   "homepage": "https://locationinsight.antv.antgroup.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/antvis/L7VP.git"
+  },
   "license": "Apache-2.0",
-  "author": "yunji",
+  "author": "https://github.com/orgs/antvis/people",
   "main": "dist/cjs/index.js",
   "jsdelivr": "dist/umd/li-sdk.min.js",
   "unpkg": "dist/umd/li-sdk.min.js",
