@@ -35,7 +35,7 @@ const useStyle = () => {
       overflow: auto;
 
       .antv-s2-tooltip-container {
-        min-width: 100px !important;
+        min-width: 120px !important;
         background-color: ${colorBgElevated};
       }
 

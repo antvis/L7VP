@@ -22,7 +22,11 @@ export interface MiniChartProps extends ImplementWidgetProps, Properties {}
 const SpreadSheetTable: React.FC<MiniChartProps> = ({
   'data-widget-name': dataWidgetName,
   datasetId = '',
+  rowHeader = [],
   colHeader = [],
+  numberValue = [],
+  valueInCols = 'col',
+  sheetType = 'table',
   theme = 'dark',
   showSeriesNumber = false,
   layoutWidthType = 'colAdaptive',
@@ -40,9 +44,7 @@ const SpreadSheetTable: React.FC<MiniChartProps> = ({
   const { data: tableData = [], columns: tableColumns = [] } = dataset || {};
   const size = useSize(containerRef);
 
-  const columns = tableColumns
-    .filter((item) => colHeader.includes(item.name))
-    .map((item) => ({ ...item, field: item.name }));
+  const columns = tableColumns.map((item) => ({ ...item, field: item.name }));
 
   const data = tableData.map((item: Record<any, string>) => {
     return mapValues(item, (value) => {
@@ -54,10 +56,22 @@ const SpreadSheetTable: React.FC<MiniChartProps> = ({
   });
 
   const dataConfig = useMemo(() => {
-    return {
-      fields: {
+    let fields = {};
+    if (sheetType === 'table') {
+      fields = {
+        columns: [...rowHeader, ...colHeader, ...numberValue],
+      };
+    } else {
+      fields = {
+        rows: rowHeader,
         columns: colHeader,
-      },
+        values: numberValue,
+        valueInCols: valueInCols && valueInCols === 'col',
+      };
+    }
+
+    return {
+      fields,
       meta: columns,
       data,
     };
@@ -110,12 +124,11 @@ const SpreadSheetTable: React.FC<MiniChartProps> = ({
       <div ref={containerRef} className={classNames(styles.spreadSheetContent)}>
         <SheetComponent
           ref={tableRef}
-          sheetType="table"
+          sheetType={sheetType === 'table' ? 'table' : undefined}
           options={s2Options as SheetComponentOptions}
           dataCfg={dataConfig}
           themeCfg={{
             theme: getThemeCfg(theme),
-            name: 'default',
           }}
           adaptive={false}
           showPagination={showPagination}

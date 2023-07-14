@@ -16,7 +16,6 @@ export const BaseTheme: ThemeCfg['theme'] = {
       },
     },
   },
-
   cornerCell: {
     cell: {
       padding: {
@@ -29,13 +28,12 @@ export const BaseTheme: ThemeCfg['theme'] = {
     bolderText: {
       fontFamily:
         'Helvetica Neue, Helvetica, Arial, PingFang SC, Hiragino Sans GB, Heiti SC, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif',
-      opacity: 0.4,
+      opacity: 0.6,
     },
   },
   splitLine: {
     horizontalBorderColorOpacity: 1,
     horizontalBorderWidth: 1,
-
     verticalBorderColorOpacity: 1,
     verticalBorderWidth: 1,
     shadowWidth: 10,
@@ -48,13 +46,12 @@ export const BaseTheme: ThemeCfg['theme'] = {
       fontSize: 15,
       textBaseline: 'middle',
     },
-
     icon: undefined,
     seriesNumberWidth: 35,
     text: {
       fontFamily:
         'Helvetica Neue, Helvetica, Arial, PingFang SC, Hiragino Sans GB, Heiti SC, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif',
-      opacity: 0.4,
+      opacity: 0.6,
       fontSize: 15,
       textBaseline: 'middle',
     },
@@ -70,7 +67,6 @@ export const BaseTheme: ThemeCfg['theme'] = {
           backgroundOpacity: 1,
         },
       },
-
       verticalBorderWidth: 1,
       horizontalBorderWidth: 1,
     },
@@ -92,7 +88,6 @@ export const BaseTheme: ThemeCfg['theme'] = {
         bottom: 12,
         left: 12,
       },
-
       interactionState: {
         hover: {
           backgroundOpacity: 1,
@@ -100,7 +95,7 @@ export const BaseTheme: ThemeCfg['theme'] = {
       },
     },
     bolderText: {
-      opacity: 0.4,
+      opacity: 0.8,
       fontFamily:
         'Helvetica Neue, Helvetica, Arial, PingFang SC, Hiragino Sans GB, Heiti SC, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif',
     },
@@ -135,7 +130,6 @@ export const BaseTheme: ThemeCfg['theme'] = {
         },
         prepareSelect: {},
       },
-
       verticalBorderWidth: 1,
       horizontalBorderWidth: 1,
       padding: {
@@ -159,15 +153,19 @@ export const DarkTheme = merge({}, BaseTheme, {
     thumbColor: 'rgba(240, 241, 245,0.2)',
   },
   cornerCell: {
+    bolderText: {
+      fill: '#fff',
+    },
+    text: {
+      fill: '#fff',
+    },
+    icon: {
+      fill: '#fff',
+    },
     cell: {
       horizontalBorderColor: BORDER_COLOR,
       verticalBorderColor: BORDER_COLOR,
-
       backgroundColor: HEADER_BACK_COLOR,
-    },
-
-    bolderText: {
-      opacity: 0.4,
     },
   },
   splitLine: {
@@ -184,12 +182,16 @@ export const DarkTheme = merge({}, BaseTheme, {
     },
     text: {
       fill: '#fff',
-      opacity: 0.7,
       fontSize: 12,
+    },
+    bolderText: {
+      fill: '#fff',
+    },
+    measureText: {
+      fill: '#fff',
     },
     cell: {
       backgroundColor: HEADER_BACK_COLOR,
-
       interactionState: {
         hover: {
           backgroundColor: DARK_HOVER_BACKGROUND_COLOR,
@@ -205,10 +207,20 @@ export const DarkTheme = merge({}, BaseTheme, {
     },
   },
   colCell: {
+    text: {
+      fill: '#fff',
+    },
+    bolderText: {
+      fill: '#fff',
+    },
+
+    measureText: {
+      fill: '#fff',
+    },
+
     cell: {
       horizontalBorderColor: BORDER_COLOR,
       verticalBorderColor: BORDER_COLOR,
-
       backgroundColor: HEADER_BACK_COLOR,
       interactionState: {
         hover: {
@@ -220,15 +232,12 @@ export const DarkTheme = merge({}, BaseTheme, {
         },
       },
     },
-    text: {
-      fill: '#fff',
-    },
-    bolderText: {
-      fill: '#fff',
-      opacity: 0.8,
-    },
   },
   dataCell: {
+    text: {
+      fill: '#fff',
+      textAlign: 'left',
+    },
     cell: {
       interactionState: {
         hover: {
@@ -256,10 +265,6 @@ export const DarkTheme = merge({}, BaseTheme, {
       verticalBorderColor: BORDER_COLOR,
       backgroundColor: BACK_COLOR,
       crossBackgroundColor: BACK_COLOR,
-    },
-    text: {
-      fill: '#fff',
-      textAlign: 'left',
     },
   },
 });
@@ -340,7 +345,6 @@ export const LightTheme = merge({}, BaseTheme, {
     cell: {
       backgroundColor: '#fff',
       backgroundColorOpacity: 1,
-
       padding: {
         top: 0,
         right: 12,
@@ -376,6 +380,10 @@ export const LightTheme = merge({}, BaseTheme, {
       fontSize: 12,
       fontWeight: 'bold',
     },
+
+    measureText: {
+      fill: '#000',
+    },
   },
   dataCell: {
     icon: {
@@ -405,7 +413,6 @@ export const LightTheme = merge({}, BaseTheme, {
     cell: {
       backgroundColor: '#fff',
       crossBackgroundColor: '#fff',
-
       interactionState: {
         selected: {
           backgroundColor: '#4876ff',

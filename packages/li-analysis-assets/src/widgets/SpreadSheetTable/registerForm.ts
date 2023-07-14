@@ -6,7 +6,11 @@ import { getDatasetSelectFormSchema } from '@antv/li-sdk';
  */
 export type Properties = {
   datasetId?: string;
+  rowHeader: string[];
   colHeader: string[];
+  numberValue: string[];
+  valueInCols: 'row' | 'col';
+  sheetType: 'table' | 'undefined';
   theme: 'dark' | 'light';
   showSeriesNumber: boolean;
   layoutWidthType: 'compact' | 'colAdaptive';
@@ -37,6 +41,27 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
             tab: '基本配置',
           },
           properties: {
+            rowHeader: {
+              title: '行头',
+              type: 'string',
+              required: true,
+              'x-component-props': {
+                allowClear: true,
+                mode: 'multiple',
+                placeholder: '请选择字段',
+              },
+              'x-decorator': 'FormItem',
+              'x-component': 'FieldSelect',
+              'x-reactions': [
+                {
+                  dependencies: ['datasetId', 'colHeader', 'numberValue'],
+                  fulfill: {
+                    run:
+                      "$form.setFieldState('rowHeader',state=>{ state.dataSource = $form.getFieldState( 'datasetId' ,state => { return state.dataSource.find( item=> item.value === $deps[0] )?.columns?.filter(item=> !$form.getFieldState('numberValue',state=> { return state.value||[] } )?.includes(item.value) && !$form.getFieldState('colHeader',state=> { return state.value||[] } )?.includes(item.value) ) } ) ;  })",
+                  },
+                },
+              ],
+            },
             colHeader: {
               title: '列头',
               type: 'string',
@@ -50,10 +75,64 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
               'x-component': 'FieldSelect',
               'x-reactions': [
                 {
-                  dependencies: ['datasetId'],
+                  dependencies: ['datasetId', 'rowHeader', 'numberValue'],
                   fulfill: {
                     run:
-                      "$form.setFieldState('colHeader',state=>{ state.dataSource = $form.getFieldState( 'datasetId' ,state => { return state.dataSource.find( item=> item.value === $deps[0] )?.columns } ) ; state.value = undefined;  })",
+                      "$form.setFieldState('colHeader',state=>{ state.dataSource = $form.getFieldState( 'datasetId' ,state => { return state.dataSource.find( item=> item.value === $deps[0] )?.columns?.filter(item=> !$form.getFieldState('numberValue',state=> { return state.value||[] } )?.includes(item.value) && !$form.getFieldState('rowHeader',state=> { return state.value||[] } )?.includes(item.value) ) } ) ;  })",
+                  },
+                },
+              ],
+            },
+            numberValue: {
+              title: '数值',
+              type: 'string',
+              required: true,
+              'x-component-props': {
+                allowClear: true,
+                mode: 'multiple',
+                placeholder: '请选择字段',
+              },
+              'x-decorator': 'FormItem',
+              'x-component': 'FieldSelect',
+              'x-reactions': [
+                {
+                  dependencies: ['datasetId', 'rowHeader', 'colHeader'],
+                  fulfill: {
+                    run:
+                      "$form.setFieldState('numberValue',state=>{ state.dataSource = $form.getFieldState( 'datasetId' ,state => { return state.dataSource.find( item=> item.value === $deps[0] )?.columns?.filter(item=> !$form.getFieldState('colHeader',state=> { return state.value||[] } )?.includes(item.value) && !$form.getFieldState('rowHeader',state=> { return state.value||[] } )?.includes(item.value) ) } ) ;  })",
+                  },
+                },
+              ],
+            },
+
+            sheetType: {
+              title: '视图',
+              type: 'string',
+              default: 'table',
+              'x-decorator': 'FormItem',
+              'x-component': 'Radio.Group',
+              enum: [
+                { label: '明细', value: 'table' },
+                { label: '透视', value: 'undefined' },
+              ],
+            },
+            valueInCols: {
+              title: '数值置于',
+              type: 'string',
+              default: 'col',
+              'x-decorator': 'FormItem',
+              'x-component': 'Radio.Group',
+              enum: [
+                { label: '列头', value: 'col' },
+                { label: '行头', value: 'row' },
+              ],
+              'x-reactions': [
+                {
+                  dependencies: ['sheetType'],
+                  fulfill: {
+                    state: {
+                      visible: '{{ $deps[0] !== "table" }}',
+                    },
                   },
                 },
               ],
