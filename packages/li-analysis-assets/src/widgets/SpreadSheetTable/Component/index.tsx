@@ -28,6 +28,7 @@ const SpreadSheetTable: React.FC<MiniChartProps> = ({
   valueInCols = 'col',
   sheetType = 'table',
   theme = 'dark',
+  hierarchyType = 'grid',
   showSeriesNumber = false,
   layoutWidthType = 'colAdaptive',
   tableWidth = DefaultSize.width,
@@ -88,6 +89,7 @@ const SpreadSheetTable: React.FC<MiniChartProps> = ({
         pageSize: 10,
         current: 1,
       },
+      hierarchyType,
 
       tooltip: {
         showTooltip: true,
@@ -102,7 +104,7 @@ const SpreadSheetTable: React.FC<MiniChartProps> = ({
     };
 
     return _config;
-  }, [showSeriesNumber, layoutWidthType, showPagination]);
+  }, [showSeriesNumber, layoutWidthType, showPagination, hierarchyType]);
 
   useEffect(() => {
     if (tableRef.current && size) {

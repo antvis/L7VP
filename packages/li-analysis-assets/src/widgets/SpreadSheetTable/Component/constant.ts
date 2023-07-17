@@ -163,6 +163,12 @@ export const DarkTheme = merge({}, BaseTheme, {
       fill: '#fff',
     },
     cell: {
+      padding: {
+        top: 0,
+        right: 8,
+        bottom: 0,
+        left: 8,
+      },
       horizontalBorderColor: BORDER_COLOR,
       verticalBorderColor: BORDER_COLOR,
       backgroundColor: HEADER_BACK_COLOR,
@@ -191,6 +197,12 @@ export const DarkTheme = merge({}, BaseTheme, {
       fill: '#fff',
     },
     cell: {
+      padding: {
+        top: 0,
+        right: 8,
+        bottom: 0,
+        left: 8,
+      },
       backgroundColor: HEADER_BACK_COLOR,
       interactionState: {
         hover: {
@@ -236,7 +248,7 @@ export const DarkTheme = merge({}, BaseTheme, {
   dataCell: {
     text: {
       fill: '#fff',
-      textAlign: 'left',
+      textAlign: 'center',
     },
     cell: {
       interactionState: {
@@ -322,9 +334,9 @@ export const LightTheme = merge({}, BaseTheme, {
       backgroundColorOpacity: 1,
       padding: {
         top: 0,
-        right: 0,
+        right: 8,
         bottom: 0,
-        left: 0,
+        left: 8,
       },
       interactionState: {
         hover: {
@@ -407,7 +419,7 @@ export const LightTheme = merge({}, BaseTheme, {
       fontFamily:
         'Helvetica Neue, Helvetica, Arial, PingFang SC, Hiragino Sans GB, Heiti SC, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif',
       fontSize: 12,
-      textAlign: 'left',
+      textAlign: 'center',
       fontWeight: 'normal',
     },
     cell: {

@@ -10,7 +10,8 @@ export type Properties = {
   colHeader: string[];
   numberValue: string[];
   valueInCols: 'row' | 'col';
-  sheetType: 'table' | 'undefined';
+  sheetType: 'table' | 'detailedList';
+  hierarchyType: 'grid' | 'tree';
   theme: 'dark' | 'light';
   showSeriesNumber: boolean;
   layoutWidthType: 'compact' | 'colAdaptive';
@@ -108,12 +109,12 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
             sheetType: {
               title: '视图',
               type: 'string',
-              default: 'table',
+              default: 'detailedList',
               'x-decorator': 'FormItem',
               'x-component': 'Radio.Group',
               enum: [
+                { label: '透视', value: 'detailedList' },
                 { label: '明细', value: 'table' },
-                { label: '透视', value: 'undefined' },
               ],
             },
             valueInCols: {
@@ -146,6 +147,27 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
             tab: '表格样式',
           },
           properties: {
+            hierarchyType: {
+              title: '类型',
+              type: 'string',
+              default: 'grid',
+              'x-decorator': 'FormItem',
+              'x-component': 'Radio.Group',
+              enum: [
+                { label: '平铺', value: 'grid' },
+                { label: '树状', value: 'tree' },
+              ],
+              'x-reactions': [
+                {
+                  dependencies: ['sheetType'],
+                  fulfill: {
+                    state: {
+                      visible: '{{ $deps[0] !== "table" }}',
+                    },
+                  },
+                },
+              ],
+            },
             theme: {
               title: '主题色',
               type: 'string',
