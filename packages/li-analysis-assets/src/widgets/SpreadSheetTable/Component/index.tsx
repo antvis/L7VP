@@ -6,7 +6,7 @@ import { SheetComponent } from '@antv/s2-react';
 import { useSize } from 'ahooks';
 import classNames from 'classnames';
 import { mapValues } from 'lodash-es';
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { CLS_PREFIX } from '../constant';
 import type { Properties } from '../registerForm';
 import { getThemeCfg } from './helper';
@@ -36,6 +36,10 @@ const SpreadSheetTable: React.FC<MiniChartProps> = ({
   adaptive = true,
   frozenCol = false,
   showPagination = false,
+  showRowGrandTotals = false,
+  showRowSubTotals = false,
+  showColGrandTotals = false,
+  showColSubTotals = false,
 }) => {
   // 获取数据源
   const [dataset] = useDataset<LocalOrRemoteDataset>(datasetId);
@@ -44,6 +48,7 @@ const SpreadSheetTable: React.FC<MiniChartProps> = ({
   const tableRef = useRef<PivotSheet>();
   const { data: tableData = [], columns: tableColumns = [] } = dataset || {};
   const size = useSize(containerRef);
+  const [s2Options, setS2Options] = useState({});
 
   const columns = tableColumns.map((item) => ({ ...item, field: item.name }));
 
@@ -78,7 +83,7 @@ const SpreadSheetTable: React.FC<MiniChartProps> = ({
     };
   }, [tableData, colHeader, data]);
 
-  const s2Options = useMemo(() => {
+  useEffect(() => {
     const _config = {
       showSeriesNumber,
       frozenColCount: !frozenCol ? 0 : showSeriesNumber ? 2 : 1, // 冻结首列
@@ -101,10 +106,48 @@ const SpreadSheetTable: React.FC<MiniChartProps> = ({
         },
         getContainer: () => containerRef.current,
       },
+
+      totals: {
+        row: {
+          showGrandTotals: showRowGrandTotals,
+          showSubTotals: showRowSubTotals,
+          reverseLayout: true,
+          reverseSubLayout: true,
+          subTotalsDimensions: [rowHeader[0]],
+          calcSubTotals: {
+            aggregation: 'SUM',
+          },
+          calcTotals: {
+            aggregation: 'SUM',
+          },
+        },
+        col: {
+          showGrandTotals: showColGrandTotals,
+          showSubTotals: showColSubTotals,
+          reverseLayout: true,
+          reverseSubLayout: true,
+          subTotalsDimensions: [colHeader[0]],
+          calcSubTotals: {
+            aggregation: 'SUM',
+          },
+          calcTotals: {
+            aggregation: 'SUM',
+          },
+        },
+      },
     };
 
-    return _config;
-  }, [showSeriesNumber, layoutWidthType, showPagination, hierarchyType]);
+    setS2Options(_config);
+  }, [
+    showSeriesNumber,
+    layoutWidthType,
+    showPagination,
+    hierarchyType,
+    showRowGrandTotals,
+    showRowSubTotals,
+    showColGrandTotals,
+    showColSubTotals,
+  ]);
 
   useEffect(() => {
     if (tableRef.current && size) {

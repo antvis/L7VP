@@ -20,6 +20,10 @@ export type Properties = {
   adaptive: boolean;
   frozenCol: boolean;
   showPagination: boolean;
+  showRowGrandTotals: boolean;
+  showRowSubTotals: boolean;
+  showColGrandTotals: boolean;
+  showColSubTotals: boolean;
 };
 
 const ThemOption = [
@@ -268,6 +272,78 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
               default: false,
               'x-decorator': 'FormItem',
               'x-component': 'Switch',
+            },
+
+            showRowSubTotals: {
+              title: '行小计',
+              type: 'boolean',
+              default: false,
+              'x-decorator': 'FormItem',
+              'x-component': 'Switch',
+              'x-reactions': [
+                {
+                  dependencies: ['sheetType'],
+                  fulfill: {
+                    state: {
+                      visible: '{{ $deps[0] !== "table" }}',
+                    },
+                  },
+                },
+              ],
+            },
+
+            showRowGrandTotals: {
+              title: '行总计',
+              type: 'boolean',
+              default: false,
+              'x-decorator': 'FormItem',
+              'x-component': 'Switch',
+              'x-reactions': [
+                {
+                  dependencies: ['sheetType'],
+                  fulfill: {
+                    state: {
+                      visible: '{{ $deps[0] !== "table" }}',
+                    },
+                  },
+                },
+              ],
+            },
+
+            showColSubTotals: {
+              title: '列小计',
+              type: 'boolean',
+              default: false,
+              'x-decorator': 'FormItem',
+              'x-component': 'Switch',
+              'x-reactions': [
+                {
+                  dependencies: ['sheetType'],
+                  fulfill: {
+                    state: {
+                      visible: '{{ $deps[0] !== "table" }}',
+                    },
+                  },
+                },
+              ],
+            },
+
+            showColGrandTotals: {
+              title: '列总计',
+              type: 'boolean',
+              default: false,
+              'x-decorator': 'FormItem',
+              'x-component': 'Switch',
+              'x-reactions': [
+                {
+                  dependencies: ['sheetType'],
+                  fulfill: {
+                    state: {
+                      visible: '{{ $deps[0] !== "table" }}',
+                    },
+                  },
+                },
+              ],
             },
           },
         },

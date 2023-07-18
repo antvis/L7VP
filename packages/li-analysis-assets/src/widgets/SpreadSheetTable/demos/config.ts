@@ -295,7 +295,11 @@ const config: Application = {
           numberValue: ['number'],
           theme: 'light',
           valueInCols: 'col',
-          sheetType: 'unefined',
+          sheetType: 'detailedList',
+          showRowSubTotals: false,
+          showRowGrandTotals: true,
+          showColSubTotals: false,
+          showColGrandTotals: false,
         },
         container: {
           id: 'AnalysisLayout',

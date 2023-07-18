@@ -249,6 +249,7 @@ export const DarkTheme = merge({}, BaseTheme, {
     text: {
       fill: '#fff',
       textAlign: 'center',
+      opacity: 0.7,
     },
     cell: {
       interactionState: {
@@ -277,6 +278,12 @@ export const DarkTheme = merge({}, BaseTheme, {
       verticalBorderColor: BORDER_COLOR,
       backgroundColor: BACK_COLOR,
       crossBackgroundColor: BACK_COLOR,
+    },
+    bolderText: {
+      fill: '#fff',
+      fontSize: 12,
+      fontWeight: 'normal',
+      textAlign: 'center',
     },
   },
 });
@@ -406,12 +413,12 @@ export const LightTheme = merge({}, BaseTheme, {
       },
     },
     bolderText: {
-      opacity: 0.65,
       fill: '#000',
       fontFamily:
         'Helvetica Neue, Helvetica, Arial, PingFang SC, Hiragino Sans GB, Heiti SC, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif',
       fontSize: 12,
       fontWeight: 'normal',
+      textAlign: 'center',
     },
     text: {
       opacity: 0.65,
