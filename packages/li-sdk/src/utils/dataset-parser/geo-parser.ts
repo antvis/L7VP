@@ -40,6 +40,7 @@ export const ponitCoordinates2Geometry = (data: string | GeoJSON.Position): GeoJ
  * @return boolean
  */
 export const isWkt = (data: string) => {
+  // Detecting WKT in text
   const wktGeo = ['POINT(', 'LINESTRING(', 'POLYGON(', 'MULTIPOINT(', 'MULTILINESTRING(', 'MULTIPOLYGON('];
   let iswktField = false;
   if (typeof data === 'string') {

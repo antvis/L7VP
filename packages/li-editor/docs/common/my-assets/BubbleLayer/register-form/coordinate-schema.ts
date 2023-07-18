@@ -1,4 +1,4 @@
-import type { FieldSelectOptionType } from '../../types';
+import type { FieldSelectOptionType } from '@antv/li-p2';
 
 export default (fieldList: FieldSelectOptionType[]) => {
   return {
