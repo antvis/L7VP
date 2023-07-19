@@ -9,7 +9,6 @@ export default defineConfig({
     { path: '/builder/:id', component: 'Builder' },
     { path: '/app/:id', component: 'App' },
   ],
-  codeSplitting: { jsStrategy: 'granularChunks' },
   externals: {
     lodash: '_',
     'lodash-es': '_',
@@ -28,7 +27,7 @@ export default defineConfig({
 
     'https://unpkg.com/dayjs@1.x/dayjs.min.js',
     'https://unpkg.com/antd@5.x/dist/antd.min.js',
-    'https://unpkg.com/@ant-design/icons@5.x/dist/index.umd.js',
+    'https://unpkg.com/@ant-design/icons@5.x/dist/index.umd.min.js',
 
     'https://unpkg.com/turf@3.0.14/turf.min.js',
     'https://unpkg.com/mapbox-gl@1.13.3/dist/mapbox-gl.js',

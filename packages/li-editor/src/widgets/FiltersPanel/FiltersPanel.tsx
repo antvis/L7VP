@@ -1,4 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons/lib/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import type { LocalDatasetSchema, RemoteDatasetSchema } from '@antv/li-sdk';
 import { isLocalOrRemoteDatasetSchema } from '@antv/li-sdk';
 import { Button, Empty, Popover, Select } from 'antd';

@@ -1,6 +1,6 @@
 import React from 'react';
-import type { Updater } from 'use-immer';
 import type { EditorContextState } from '../types';
+import type { Updater } from './internal/use-immer';
 
 export type EditorContextStateValue = {
   state: EditorContextState;
