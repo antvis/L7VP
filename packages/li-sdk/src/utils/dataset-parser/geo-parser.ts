@@ -9,7 +9,9 @@ import * as wkt from 'wkt';
  * @return boolean
  */
 export const isPonitCoordinatesString = (data: string) => {
-  const isPonitCoordinates = /^\[[0-9\.]{1,},[0-9\.]{1,}\]$/.test(data);
+  // accepts: string start with [ and end with ]
+  const isStringArray = /^\[([\s\S]*)\]$/.test(data);
+  const isPonitCoordinates = isStringArray && /^\[[0-9\.]{1,},[0-9\.]{1,}\]$/.test(data);
   return isPonitCoordinates;
 };
 
@@ -40,15 +42,12 @@ export const ponitCoordinates2Geometry = (data: string | GeoJSON.Position): GeoJ
  * @return boolean
  */
 export const isWkt = (data: string) => {
-  // Detecting WKT in text
-  const wktGeo = ['POINT(', 'LINESTRING(', 'POLYGON(', 'MULTIPOINT(', 'MULTILINESTRING(', 'MULTIPOLYGON('];
+  // Detecting WKT in text reference: https://en.wikipedia.org/wiki/Well-known_text
+  // string start with POINT|LINESTRING|POLYGON|MULTIPOINT|MULTILINESTRING|MULTIPOLYGON [Z] ( and end with )
+  const regExp = /^(POINT|LINESTRING|POLYGON|MULTIPOINT|MULTILINESTRING|MULTIPOLYGON)(\sz)?\s?\(.*\)$/i;
   let iswktField = false;
-  if (typeof data === 'string') {
-    wktGeo.forEach((item) => {
-      if (data.startsWith(item) && data.endsWith(')')) {
-        iswktField = true;
-      }
-    });
+  if (typeof data === 'string' && regExp.test(data)) {
+    iswktField = true;
   }
 
   return iswktField;
@@ -79,7 +78,9 @@ export const wkt2Geometry = (data: string) => {
  * @return boolean
  */
 export const isGeometryString = (data: string) => {
-  const isgeometryField = /type/.test(data) && /coordinates/.test(data);
+  // string start with { and end with }
+  const isStringObject = /^{([\s\S]*)}$/.test(data);
+  const isgeometryField = isStringObject && /type/.test(data) && /coordinates/.test(data);
   return isgeometryField;
 };
 

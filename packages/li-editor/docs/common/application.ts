@@ -51,17 +51,6 @@ const config: Application = {
           state: {
             active: { strokeColor: 'red', lineWidth: 2, lineOpacity: 0.4 },
           },
-          label: {
-            field: 'temperature',
-            visible: true,
-            style: {
-              fill: '#454d64',
-              fontSize: 18,
-              stroke: '#fff',
-              strokeWidth: 2,
-              textOffset: [0, -20] as [number, number],
-            },
-          },
         },
       },
     ],
