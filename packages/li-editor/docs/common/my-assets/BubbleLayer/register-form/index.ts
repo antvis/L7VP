@@ -11,7 +11,7 @@ const toValues = (config: LayerRegisterFormResultType<BubbleLayerStyleAttributeV
   const { sourceConfig, visConfig } = config;
   const { parser } = sourceConfig;
   const coordinateType = sourceConfig.parser?.geometry ? 'geometry' : 'table';
-  const pointCoordinate = parser.geometry
+  const pointCoordinate = parser?.geometry
     ? { geometry: parser.geometry }
     : { longitude: parser?.x, latitude: parser?.y };
 

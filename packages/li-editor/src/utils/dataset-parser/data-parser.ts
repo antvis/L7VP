@@ -1,7 +1,7 @@
 import type { DatasetSchema } from '@antv/li-sdk';
 import { getDatasetColumns, getUniqueId, parserDataWithGeo } from '@antv/li-sdk';
 import papaparse from 'papaparse';
-import * as XLSX from 'xlsx';
+import { read as XLSX_read, utils as XLSX_utils } from 'xlsx';
 import { checkIsGeoJson } from './meta-data';
 
 /* 解析 geojson 文件数据至数据集格式
@@ -91,7 +91,7 @@ export const parserExcelToSource = (content: ArrayBuffer, name: string, id?: str
   let data: Record<string, any>[];
 
   try {
-    const workbook = XLSX.read(content, { type: 'array', cellDates: true });
+    const workbook = XLSX_read(content, { type: 'array', cellDates: true });
     const sheet = workbook.Sheets[workbook.SheetNames[0]];
 
     // 日期格式直接处理为字符串
@@ -103,7 +103,7 @@ export const parserExcelToSource = (content: ArrayBuffer, name: string, id?: str
     });
 
     // 默认只解析第一个工作簿
-    data = XLSX.utils.sheet_to_json<Record<string, any>>(sheet);
+    data = XLSX_utils.sheet_to_json<Record<string, any>>(sheet);
   } catch (e) {
     throw e;
   }

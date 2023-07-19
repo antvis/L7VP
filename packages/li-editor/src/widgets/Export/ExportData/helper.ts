@@ -2,7 +2,8 @@ import type { DatasetField, LocalDatasetSchema } from '@antv/li-sdk';
 import type { GeometryTypes } from '@turf/turf';
 import { omit } from 'lodash-es';
 import papaparse from 'papaparse';
-import * as XLSX from 'xlsx';
+import type { WritingOptions } from 'xlsx';
+import { utils as XLSX_utils, write as XLSX_write } from 'xlsx';
 
 // 数据转文本格式处理
 const getTextFormatData = (list: Record<string, any>[]) => {
@@ -43,7 +44,7 @@ export const json2xlsx = (jsondata: LocalDatasetSchema) => {
       return buf;
     }
   };
-  const wopts: XLSX.WritingOptions = {
+  const wopts: WritingOptions = {
     bookType: 'xlsx',
     bookSST: false,
     type: 'binary',
@@ -55,10 +56,10 @@ export const json2xlsx = (jsondata: LocalDatasetSchema) => {
   };
 
   //@ts-ignore
-  workBook.Sheets.Sheet1 = XLSX.utils.json_to_sheet(getTextFormatData(jsondata.data));
+  workBook.Sheets.Sheet1 = XLSX_utils.json_to_sheet(getTextFormatData(jsondata.data));
 
   try {
-    const blob = new Blob([changeData(XLSX.write(workBook, wopts)) as BlobPart], {
+    const blob = new Blob([changeData(XLSX_write(workBook, wopts)) as BlobPart], {
       type: 'application/octet-stream',
     });
 

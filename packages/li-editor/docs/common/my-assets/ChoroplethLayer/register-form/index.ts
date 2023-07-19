@@ -12,7 +12,7 @@ const toValues = (config: LayerRegisterFormResultType<ChoroplethLayerStyleAttrib
   const { parser } = sourceConfig;
 
   return {
-    geometry: parser.geometry,
+    geometry: parser?.geometry,
 
     fillColor: visConfig.fillColor,
   };

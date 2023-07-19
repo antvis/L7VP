@@ -1,4 +1,4 @@
-import type { FieldSelectOptionType } from '@antv/insight-component';
+import type { FieldSelectOptionType } from '@antv/li-p2';
 import getCoordinateSchema from './coordinate-schema';
 
 export default (fieldList: FieldSelectOptionType[]) => {
