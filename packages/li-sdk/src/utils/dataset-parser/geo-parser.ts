@@ -1,7 +1,7 @@
 import type GeoJSON from 'geojson';
 import { isArray } from 'lodash-es';
-//@ts-ignore
-import * as wkt from 'wkt';
+// @ts-ignore
+import { parse as wktParse } from 'wkt';
 
 /**
  * 是否是点坐标字符串
@@ -62,7 +62,7 @@ export const wkt2Geometry = (data: string) => {
   let geometry;
   if (typeof data == 'string') {
     try {
-      geometry = wkt.parse(data);
+      geometry = wktParse(data);
     } catch (e) {
       // 解析失败
       // 默认忽略掉，设置为空数据
