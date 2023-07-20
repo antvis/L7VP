@@ -9,7 +9,8 @@
     }
   },
   "namedInputs": {
-    "default": ["{projectRoot}/src/**/*"]
+    "default": ["{projectRoot}/src/**/*"],
+    "production": ["default"]
   },
   "targetDefaults": {
     "start": {

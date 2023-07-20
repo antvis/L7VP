@@ -2,6 +2,8 @@
 
 采用多包管理方式，对应的包如下：
 
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*QxdxQYWrqRgAAAAAAAAAAAAADmJ7AQ/original" width="600">
+
 | 文件路径                    | 包名                       | 简介             |
 | --------------------------- | -------------------------- | ---------------- |
 | packages/li-sdk             | `@antv/li-sdk`             | SDK              |
