@@ -1,5 +1,5 @@
 import { CaretRightOutlined } from '@ant-design/icons';
-import { usePrefixCls } from '@formily/antd-v5/lib/__builtins__';
+import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import type { Schema, SchemaKey } from '@formily/json-schema';
 import type { ReactFC } from '@formily/react';
 import { observer, RecursionField, useField, useFieldSchema } from '@formily/react';
