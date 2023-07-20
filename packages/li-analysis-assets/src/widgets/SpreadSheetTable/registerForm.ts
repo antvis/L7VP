@@ -49,7 +49,9 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
             rowHeader: {
               title: '行头',
               type: 'string',
-              required: true,
+              'x-decorator-props': {
+                tooltip: '请根据大到小范围选择行头字段',
+              },
               'x-component-props': {
                 allowClear: true,
                 mode: 'multiple',
@@ -62,7 +64,7 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
                   dependencies: ['datasetId', 'colHeader', 'numberValue'],
                   fulfill: {
                     run:
-                      "$form.setFieldState('rowHeader',state=>{ state.dataSource = $form.getFieldState( 'datasetId' ,state => { return state.dataSource.find( item=> item.value === $deps[0] )?.columns?.filter(item=> !$form.getFieldState('numberValue',state=> { return state.value||[] } )?.includes(item.value) && !$form.getFieldState('colHeader',state=> { return state.value||[] } )?.includes(item.value) ) } ) ;  })",
+                      "$form.setFieldState('rowHeader',state=>{ state.dataSource = $form.getFieldState( 'datasetId' ,state => { return state.dataSource.find( item=> item.value === $deps[0] )?.columns?.filter(item=> item.type !== 'number' && !$form.getFieldState('numberValue',state=> { return state.value||[] } )?.includes(item.value) && !$form.getFieldState('colHeader',state=> { return state.value||[] } )?.includes(item.value) ) } ) ;  })",
                   },
                 },
               ],
@@ -70,11 +72,13 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
             colHeader: {
               title: '列头',
               type: 'string',
-              required: true,
               'x-component-props': {
                 allowClear: true,
                 mode: 'multiple',
                 placeholder: '请选择字段',
+              },
+              'x-decorator-props': {
+                tooltip: '请根据大到小范围选择列头字段',
               },
               'x-decorator': 'FormItem',
               'x-component': 'FieldSelect',
@@ -83,7 +87,7 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
                   dependencies: ['datasetId', 'rowHeader', 'numberValue'],
                   fulfill: {
                     run:
-                      "$form.setFieldState('colHeader',state=>{ state.dataSource = $form.getFieldState( 'datasetId' ,state => { return state.dataSource.find( item=> item.value === $deps[0] )?.columns?.filter(item=> !$form.getFieldState('numberValue',state=> { return state.value||[] } )?.includes(item.value) && !$form.getFieldState('rowHeader',state=> { return state.value||[] } )?.includes(item.value) ) } ) ;  })",
+                      "$form.setFieldState('colHeader',state=>{ state.dataSource = $form.getFieldState( 'datasetId' ,state => { return state.dataSource.find( item=> item.value === $deps[0] )?.columns?.filter(item=> item.type !== 'number' &&  !$form.getFieldState('numberValue',state=> { return state.value||[] } )?.includes(item.value) && !$form.getFieldState('rowHeader',state=> { return state.value||[] } )?.includes(item.value) ) } ) ;  })",
                   },
                 },
               ],
@@ -91,7 +95,9 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
             numberValue: {
               title: '数值',
               type: 'string',
-              required: true,
+              'x-decorator-props': {
+                tooltip: '请选择数值统计字段',
+              },
               'x-component-props': {
                 allowClear: true,
                 mode: 'multiple',
@@ -104,7 +110,7 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
                   dependencies: ['datasetId', 'rowHeader', 'colHeader'],
                   fulfill: {
                     run:
-                      "$form.setFieldState('numberValue',state=>{ state.dataSource = $form.getFieldState( 'datasetId' ,state => { return state.dataSource.find( item=> item.value === $deps[0] )?.columns?.filter(item=> !$form.getFieldState('colHeader',state=> { return state.value||[] } )?.includes(item.value) && !$form.getFieldState('rowHeader',state=> { return state.value||[] } )?.includes(item.value) ) } ) ;  })",
+                      "$form.setFieldState('numberValue',state=>{ state.dataSource = $form.getFieldState( 'datasetId' ,state => { return state.dataSource.find( item=> item.value === $deps[0] )?.columns?.filter(item=> item.type ==='number' &&  !$form.getFieldState('colHeader',state=> { return state.value||[] } )?.includes(item.value) && !$form.getFieldState('rowHeader',state=> { return state.value||[] } )?.includes(item.value) ) } ) ;  })",
                   },
                 },
               ],
