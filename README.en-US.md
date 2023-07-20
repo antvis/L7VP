@@ -6,7 +6,7 @@
 
 🌍 L7VP （<a href="https://github.com/antvis/L7">L7</a> Visualization Platform）is an geospatial intelligent visual analysis application and development platform.
 
-[![SDK Version](https://badgen.net/npm/v/@antv/li-sdk)](https://npmjs.com/@antv/li-sdk) ![Status](https://badgen.net/github/status/antvis/L7VP) [![Release Status](https://github.com/antvis/L7VP/workflows/release/badge.svg?branch=master)](https://github.com/antvis/L7VP/actions?query=workflow:release) [![Percentage of issues still open](http://isitmaintained.com/badge/open/antvis/l7vp.svg)](http://isitmaintained.com/project/antvis/l7vp 'Percentage of issues still open') [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/antvis/l7vp.svg)](http://isitmaintained.com/project/antvis/l7vp 'Average time to resolve an issue')
+[![SDK Version](https://badgen.net/npm/v/@antv/li-sdk)](https://npmjs.com/@antv/li-sdk) [![Release Status](https://github.com/antvis/L7VP/workflows/release/badge.svg)](https://github.com/antvis/L7VP/actions?query=workflow:release) [![Percentage of issues still open](http://isitmaintained.com/badge/open/antvis/l7vp.svg)](http://isitmaintained.com/project/antvis/l7vp 'Percentage of issues still open') [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/antvis/l7vp.svg)](http://isitmaintained.com/project/antvis/l7vp 'Average time to resolve an issue') ![License](https://flat-badgen.vercel.app/github/license/antvis/L7VP)
 
 <p align="center">
   <a href="https://locationinsight.antv.antgroup.com">Website</a> •
