@@ -15,11 +15,11 @@
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "paths": {
-      "@antv/li-sdk": ["packages/li-sdk/src"],
-      "@antv/li-p2": ["packages/li-p2/src"],
-      "@antv/li-editor": ["packages/li-editor/src"],
+      "@antv/li-analysis-assets": ["packages/li-analysis-assets/src"],
       "@antv/li-core-assets": ["packages/li-core-assets/src"],
-      "@antv/li-analysis-assets": ["packages/li-analysis-assets/src"]
+      "@antv/li-editor": ["packages/li-editor/src"],
+      "@antv/li-p2": ["packages/li-p2/src"],
+      "@antv/li-sdk": ["packages/li-sdk/src"]
     }
   },
   "exclude": ["node_modules", "lib", "es", "dist"]

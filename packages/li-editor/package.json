@@ -24,6 +24,7 @@
   ],
   "scripts": {
     "build": "npm run clean && father build",
+    "bundle": "cross-env BUNDLE_ENV=bundle npm run build",
     "clean": "rimraf dist",
     "dev": "father dev",
     "docs:build": "dumi build",
@@ -81,11 +82,5 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
-  },
-  "nx": {
-    "implicitDependencies": [
-      "@antv/li-sdk",
-      "@antv/li-p2"
-    ]
   }
 }

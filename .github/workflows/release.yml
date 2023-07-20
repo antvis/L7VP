@@ -5,30 +5,27 @@ on:
     types: [created, edited]
 
 jobs:
-  build:
+  publish-site:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: 16
-      - run: |
+
+      - name: Build package
+        run: |
           yarn install
           yarn build:package
 
-  publish-site:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 16
-      - run: |
+      - name: Build examples builder
+        run: |
           cd examples/builder
           yarn install
           yarn build
-      - run: |
+
+      - name: Push gh-pages
+        run: |
           cd dist
           git init
           git config --local user.name antv
@@ -41,4 +38,3 @@ jobs:
           directory: dist
           branch: gh-pages
           force: true
-
