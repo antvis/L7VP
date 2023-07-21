@@ -1,6 +1,6 @@
 import type { ImplementWidgetProps, LocalOrRemoteDataset } from '@antv/li-sdk';
 import { useDataset } from '@antv/li-sdk';
-import type { PivotSheet } from '@antv/s2';
+import type { SpreadSheet } from '@antv/s2';
 import type { SheetComponentOptions } from '@antv/s2-react';
 import { SheetComponent } from '@antv/s2-react';
 import { useSize } from 'ahooks';
@@ -45,7 +45,7 @@ const SpreadSheetTable: React.FC<MiniChartProps> = ({
   const [dataset] = useDataset<LocalOrRemoteDataset>(datasetId);
   const styles = useStyle();
   const containerRef = useRef<HTMLDivElement>(null);
-  const tableRef = useRef<PivotSheet>();
+  const tableRef = useRef<SpreadSheet>(null);
   const { data: tableData = [], columns: tableColumns = [] } = dataset || {};
   const size = useSize(containerRef);
   const [s2Options, setS2Options] = useState({});
