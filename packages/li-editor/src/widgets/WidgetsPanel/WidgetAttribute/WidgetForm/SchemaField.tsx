@@ -1,6 +1,6 @@
 import { ControlPositionSelect, FieldSelect, FormCollapse, TimeGranularitySelect } from '@antv/li-p2';
 import {
-  // ArrayItems,
+  ArrayItems,
   Checkbox,
   FormGrid,
   FormItem,
@@ -28,7 +28,7 @@ const SchemaField = createSchemaField({
     Radio,
     Checkbox,
     NumberPicker,
-    // ArrayItems,
+    ArrayItems,
     Space,
     FormGrid,
     ControlPositionSelect,
