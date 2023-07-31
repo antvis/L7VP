@@ -14,7 +14,7 @@ export type Properties = {
   chartType: ChartType;
   showLegend: boolean;
   adaptive: boolean;
-  theme: 'classic' | 'classicDark';
+  theme: 'dark' | 'light';
   chartWidth?: number;
   chartHeight?: number;
   xField?: string;
@@ -27,8 +27,8 @@ export type Properties = {
 };
 
 const ThemOption = [
-  { label: '暗色', value: 'classicDark' },
-  { label: '亮色', value: 'classic' },
+  { label: '暗色', value: 'dark' },
+  { label: '亮色', value: 'light' },
 ];
 
 export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> => {
@@ -127,7 +127,7 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
             theme: {
               title: '主题色',
               type: 'string',
-              default: 'classicDark',
+              default: 'dark',
               enum: ThemOption,
               'x-decorator': 'FormItem',
               'x-component': 'Select',

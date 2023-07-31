@@ -80,7 +80,6 @@ const IntervalLine = ({
         container: containerRef.current!,
         theme: theme,
         autoFit: true,
-        style: { viewFill: 'transparent' },
         padding: 'auto',
         paddingTop: 20,
         paddingBottom: 30,

@@ -51,7 +51,7 @@ const Pie = ({ className, theme, height, width, data = [], angleField, colorFiel
         container: containerRef.current!,
         theme: theme,
         autoFit: true,
-        style: { viewFill: 'transparent', lineWidth: 2 },
+        style: { lineWidth: 2 },
         padding: 30,
       });
 
