@@ -14,6 +14,7 @@ export type Properties = {
   chartType: ChartType;
   showLegend: boolean;
   adaptive: boolean;
+  theme: 'classic' | 'classicDark';
   chartWidth?: number;
   chartHeight?: number;
   xField?: string;
@@ -24,6 +25,11 @@ export type Properties = {
   angleField?: string;
   colorField?: string;
 };
+
+const ThemOption = [
+  { label: '暗色', value: 'classicDark' },
+  { label: '亮色', value: 'classic' },
+];
 
 export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> => {
   const schema = {
@@ -118,6 +124,17 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
             tab: '图表样式',
           },
           properties: {
+            theme: {
+              title: '主题色',
+              type: 'string',
+              default: 'classicDark',
+              enum: ThemOption,
+              'x-decorator': 'FormItem',
+              'x-component': 'Select',
+              'x-component-props': {
+                placeholder: '请选择类型',
+              },
+            },
             showLegend: {
               title: '图例',
               type: 'boolean',
@@ -135,7 +152,6 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
                 },
               ],
             },
-
             adaptive: {
               title: '宽高自适应',
               type: 'boolean',
@@ -165,7 +181,6 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
                 },
               ],
             },
-
             chartHeight: {
               type: 'number',
               title: '图表高度',
