@@ -78,7 +78,7 @@ const Pie = ({ className, theme, height, width, data = [], angleField, colorFiel
       children: [{ ...commConfig }],
     });
     plotRef.current?.render();
-  }, [data, angleField, colorField, showLegend, isCount, theme]);
+  }, [data, angleField, colorField, showLegend, isCount]);
 
   useEffect(() => {
     if (height && width && plotRef.current) {
