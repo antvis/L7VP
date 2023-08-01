@@ -75,6 +75,8 @@ const IntervalLine = ({
       legend: showLegend,
     };
 
+    const themeCfg = getChartTheme(theme) as Record<string, any>;
+
     if (!plotRef.current) {
       const chart = new Chart({
         container: containerRef.current!,
@@ -84,7 +86,6 @@ const IntervalLine = ({
         paddingBottom: 30,
       });
 
-      const themeCfg = getChartTheme(theme) as Record<string, any>;
       chart.theme(themeCfg);
 
       chart.options({
@@ -109,17 +110,9 @@ const IntervalLine = ({
       type: 'view',
       children: [{ ...commConfig }],
     });
+    plotRef.current?.theme(themeCfg);
     plotRef.current?.render();
-  }, [data, xField, yField, showLegend, type, isCount]);
-
-  useEffect(() => {
-    if (theme && plotRef.current) {
-      const themeCfg = getChartTheme(theme) as Record<string, any>;
-      plotRef.current.theme(themeCfg);
-
-      plotRef.current.render();
-    }
-  }, [theme]);
+  }, [data, xField, yField, showLegend, type, isCount, theme]);
 
   useEffect(() => {
     if (height && width && plotRef.current) {

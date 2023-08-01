@@ -46,6 +46,8 @@ const Pie = ({ className, theme, height, width, data = [], angleField, colorFiel
       ],
     };
 
+    const themeCfg = getChartTheme(theme) as Record<string, any>;
+
     if (!plotRef.current) {
       const chart = new Chart({
         container: containerRef.current!,
@@ -54,7 +56,6 @@ const Pie = ({ className, theme, height, width, data = [], angleField, colorFiel
         padding: 30,
       });
 
-      const themeCfg = getChartTheme(theme) as Record<string, any>;
       chart.theme(themeCfg);
 
       chart.options({
@@ -79,23 +80,16 @@ const Pie = ({ className, theme, height, width, data = [], angleField, colorFiel
       type: 'view',
       children: [{ ...commConfig }],
     });
+
+    plotRef.current?.theme(themeCfg);
     plotRef.current?.render();
-  }, [data, angleField, colorField, showLegend, isCount]);
+  }, [data, angleField, colorField, showLegend, isCount, theme]);
 
   useEffect(() => {
     if (height && width && plotRef.current) {
       plotRef.current.forceFit();
     }
   }, [height, width]);
-
-  useEffect(() => {
-    if (theme && plotRef.current) {
-      const themeCfg = getChartTheme(theme) as Record<string, any>;
-      plotRef.current.theme(themeCfg);
-
-      plotRef.current.render();
-    }
-  }, [theme]);
 
   useEffect(() => {
     // 组件销毁时销毁图表
