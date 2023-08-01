@@ -92,6 +92,7 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
                 ...pieSchema(),
               },
             },
+
             aggregationMethod: {
               title: '聚合方式',
               type: 'string',
@@ -117,6 +118,7 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
             },
           },
         },
+
         styleConfig: {
           type: 'void',
           'x-component': 'FormTab.TabPane',
@@ -135,6 +137,7 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
                 placeholder: '请选择类型',
               },
             },
+
             showLegend: {
               title: '图例',
               type: 'boolean',
@@ -152,6 +155,7 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
                 },
               ],
             },
+
             adaptive: {
               title: '宽高自适应',
               type: 'boolean',
@@ -159,6 +163,7 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
               'x-decorator': 'FormItem',
               'x-component': 'Switch',
             },
+
             chartWidth: {
               type: 'number',
               title: '图表宽度',
@@ -181,6 +186,7 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
                 },
               ],
             },
+
             chartHeight: {
               type: 'number',
               title: '图表高度',
