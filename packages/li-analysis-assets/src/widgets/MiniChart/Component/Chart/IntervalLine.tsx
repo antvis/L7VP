@@ -78,12 +78,14 @@ const IntervalLine = ({
     if (!plotRef.current) {
       const chart = new Chart({
         container: containerRef.current!,
-        theme: theme,
         autoFit: true,
         padding: 'auto',
         paddingTop: 20,
         paddingBottom: 30,
       });
+
+      const themeCfg = getChartTheme(theme) as Record<string, any>;
+      chart.theme(themeCfg);
 
       chart.options({
         type: 'view',

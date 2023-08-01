@@ -49,11 +49,13 @@ const Pie = ({ className, theme, height, width, data = [], angleField, colorFiel
     if (!plotRef.current) {
       const chart = new Chart({
         container: containerRef.current!,
-        theme: theme,
         autoFit: true,
         style: { lineWidth: 2 },
         padding: 30,
       });
+
+      const themeCfg = getChartTheme(theme) as Record<string, any>;
+      chart.theme(themeCfg);
 
       chart.options({
         type: 'view',
