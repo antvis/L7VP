@@ -64,11 +64,11 @@ export const formatNumber = (
   }
 };
 
-export const getChartTheme = (theme: 'classic' | 'classicDark') => {
+export const getChartTheme = (theme: 'dark' | 'light') => {
   const BACKGROUND_COLOR = 'transparent';
 
   const defaultOptions =
-    theme === 'classicDark'
+    theme === 'dark'
       ? Object.assign(ClassicDark(), {
           viewFill: BACKGROUND_COLOR,
         })

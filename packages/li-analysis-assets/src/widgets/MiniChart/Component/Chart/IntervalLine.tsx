@@ -3,12 +3,13 @@ import classNames from 'classnames';
 import { isEmpty } from 'lodash-es';
 import React, { useEffect, useRef } from 'react';
 import { formatNumber, getChartTheme, numberFormatThousandsSeparator } from './helper';
+import type { ChartTheme } from './type';
 
 type Props = {
   className?: string;
   width: number;
   height: number;
-  theme: 'classic' | 'classicDark';
+  theme: ChartTheme;
   data: Record<string, any>[];
   xField: string;
   yField: string;
@@ -22,7 +23,7 @@ const IntervalLine = ({
   height,
   width,
   data = [],
-  theme = 'classicDark',
+  theme = 'dark',
   xField,
   yField,
   showLegend = false,

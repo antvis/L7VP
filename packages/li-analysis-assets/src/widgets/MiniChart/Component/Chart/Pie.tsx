@@ -2,6 +2,7 @@ import { Chart } from '@antv/g2';
 import classNames from 'classnames';
 import React, { useEffect, useRef } from 'react';
 import { formatNumber, getChartTheme } from './helper';
+import type { ChartTheme } from './type';
 
 type PieProps = {
   className?: string;
@@ -12,7 +13,7 @@ type PieProps = {
   colorField: string;
   showLegend: boolean;
   isCount: boolean;
-  theme: 'classic' | 'classicDark';
+  theme: ChartTheme;
 };
 
 const Pie = ({ className, theme, height, width, data = [], angleField, colorField, showLegend, isCount }: PieProps) => {

@@ -13,11 +13,6 @@ const DefaultSize = {
   height: 260,
 };
 
-const Theme: Record<'dark' | 'light', 'classic' | 'classicDark'> = {
-  dark: 'classicDark',
-  light: 'classic',
-};
-
 const MiniChart: React.FC<MiniChartProps> = ({
   'data-widget-name': dataWidgetName,
   datasetId = '',
@@ -104,7 +99,7 @@ const MiniChart: React.FC<MiniChartProps> = ({
       width={chartWidth}
       height={chartHeight}
       adaptive={adaptive}
-      theme={Theme[theme]}
+      theme={theme}
     />
   );
 };

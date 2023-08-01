@@ -4,14 +4,14 @@ import { CLS_PREFIX } from '../../constant';
 import IntervalLine from './IntervalLine';
 import Pie from './Pie';
 import useStyle from './style';
-import type { ChartType } from './type';
+import type { ChartTheme, ChartType } from './type';
 
 type ChartProps = {
   className?: string;
   width: number;
   height: number;
   adaptive: boolean;
-  theme: 'classic' | 'classicDark';
+  theme: ChartTheme;
   name: string;
   data: Record<string, any>[];
   type: ChartType;
