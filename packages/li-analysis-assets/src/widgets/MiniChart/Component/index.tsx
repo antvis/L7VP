@@ -26,6 +26,7 @@ const MiniChart: React.FC<MiniChartProps> = ({
   angleField,
   colorField,
   adaptive = true,
+  theme = 'dark',
   chartWidth = DefaultSize.width,
   chartHeight = DefaultSize.height,
 }) => {
@@ -98,6 +99,7 @@ const MiniChart: React.FC<MiniChartProps> = ({
       width={chartWidth}
       height={chartHeight}
       adaptive={adaptive}
+      theme={theme}
     />
   );
 };

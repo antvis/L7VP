@@ -4,13 +4,14 @@ import { CLS_PREFIX } from '../../constant';
 import IntervalLine from './IntervalLine';
 import Pie from './Pie';
 import useStyle from './style';
-import type { ChartType } from './type';
+import type { ChartTheme, ChartType } from './type';
 
 type ChartProps = {
   className?: string;
   width: number;
   height: number;
   adaptive: boolean;
+  theme: ChartTheme;
   name: string;
   data: Record<string, any>[];
   type: ChartType;
@@ -27,6 +28,7 @@ const Chart = ({
   height,
   width,
   adaptive,
+  theme,
   name,
   data = [],
   type,
@@ -61,6 +63,7 @@ const Chart = ({
                 data={data}
                 xField={xField}
                 yField={yField}
+                theme={theme}
                 showLegend={showLegend}
                 isCount={isCount}
                 type={type === 'column' ? 'interval' : type}
@@ -80,6 +83,7 @@ const Chart = ({
               <Pie
                 className={classNames(`${CLS_PREFIX}__plot`, styles.miniChartPlot)}
                 data={data}
+                theme={theme}
                 angleField={angleField}
                 colorField={colorField}
                 showLegend={showLegend}

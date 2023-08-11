@@ -14,6 +14,7 @@ export type Properties = {
   chartType: ChartType;
   showLegend: boolean;
   adaptive: boolean;
+  theme: 'dark' | 'light';
   chartWidth?: number;
   chartHeight?: number;
   xField?: string;
@@ -24,6 +25,11 @@ export type Properties = {
   angleField?: string;
   colorField?: string;
 };
+
+const ThemOption = [
+  { label: '暗色', value: 'dark' },
+  { label: '亮色', value: 'light' },
+];
 
 export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> => {
   const schema = {
@@ -86,6 +92,7 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
                 ...pieSchema(),
               },
             },
+
             aggregationMethod: {
               title: '聚合方式',
               type: 'string',
@@ -111,6 +118,7 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
             },
           },
         },
+
         styleConfig: {
           type: 'void',
           'x-component': 'FormTab.TabPane',
@@ -118,6 +126,18 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
             tab: '图表样式',
           },
           properties: {
+            theme: {
+              title: '主题色',
+              type: 'string',
+              default: 'dark',
+              enum: ThemOption,
+              'x-decorator': 'FormItem',
+              'x-component': 'Select',
+              'x-component-props': {
+                placeholder: '请选择类型',
+              },
+            },
+
             showLegend: {
               title: '图例',
               type: 'boolean',
@@ -143,6 +163,7 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
               'x-decorator': 'FormItem',
               'x-component': 'Switch',
             },
+
             chartWidth: {
               type: 'number',
               title: '图表宽度',

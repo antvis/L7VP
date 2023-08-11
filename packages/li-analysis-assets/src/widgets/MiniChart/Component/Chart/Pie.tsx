@@ -1,7 +1,8 @@
 import { Chart } from '@antv/g2';
 import classNames from 'classnames';
 import React, { useEffect, useRef } from 'react';
-import { formatNumber } from './helper';
+import { formatNumber, getChartTheme } from './helper';
+import type { ChartTheme } from './type';
 
 type PieProps = {
   className?: string;
@@ -12,9 +13,10 @@ type PieProps = {
   colorField: string;
   showLegend: boolean;
   isCount: boolean;
+  theme: ChartTheme;
 };
 
-const Pie = ({ className, height, width, data = [], angleField, colorField, showLegend, isCount }: PieProps) => {
+const Pie = ({ className, theme, height, width, data = [], angleField, colorField, showLegend, isCount }: PieProps) => {
   const plotRef = useRef<Chart>();
   const containerRef = useRef<HTMLDivElement | any>();
 
@@ -44,16 +46,17 @@ const Pie = ({ className, height, width, data = [], angleField, colorField, show
         },
       ],
     };
+    const themeCfg = getChartTheme(theme);
 
     if (!plotRef.current) {
       const chart = new Chart({
         container: containerRef.current!,
-        theme: 'classicDark',
         autoFit: true,
-        style: { viewFill: 'transparent', lineWidth: 2 },
+        style: { lineWidth: 2 },
         padding: 30,
       });
 
+      chart.theme(themeCfg);
       chart.options({
         type: 'view',
         children: [
@@ -76,8 +79,10 @@ const Pie = ({ className, height, width, data = [], angleField, colorField, show
       type: 'view',
       children: [{ ...commConfig }],
     });
+
+    plotRef.current?.theme(themeCfg);
     plotRef.current?.render();
-  }, [data, angleField, colorField, showLegend, isCount]);
+  }, [data, angleField, colorField, showLegend, isCount, theme]);
 
   useEffect(() => {
     if (height && width && plotRef.current) {
