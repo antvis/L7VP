@@ -36,7 +36,6 @@ const IntervalLine = ({
   useEffect(() => {
     const isNumberXField = !isEmpty(data) && typeof data[0][xField] === 'number';
     const isInterval = type === 'interval';
-
     const commConfig = {
       type,
       data: data,
@@ -75,8 +74,7 @@ const IntervalLine = ({
       },
       legend: showLegend,
     };
-
-    const themeCfg = getChartTheme(theme) as Record<string, any>;
+    const themeCfg = getChartTheme(theme);
 
     if (!plotRef.current) {
       const chart = new Chart({
@@ -88,7 +86,6 @@ const IntervalLine = ({
       });
 
       chart.theme(themeCfg);
-
       chart.options({
         type: 'view',
         children: [

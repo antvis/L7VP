@@ -46,8 +46,7 @@ const Pie = ({ className, theme, height, width, data = [], angleField, colorFiel
         },
       ],
     };
-
-    const themeCfg = getChartTheme(theme) as Record<string, any>;
+    const themeCfg = getChartTheme(theme);
 
     if (!plotRef.current) {
       const chart = new Chart({
@@ -58,7 +57,6 @@ const Pie = ({ className, theme, height, width, data = [], angleField, colorFiel
       });
 
       chart.theme(themeCfg);
-
       chart.options({
         type: 'view',
         children: [
