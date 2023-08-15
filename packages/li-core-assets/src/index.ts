@@ -8,6 +8,7 @@ import {
   HexbinLayer,
   IconLayer,
   LineLayer,
+  MVTLayer,
   TileLayer,
 } from './layers';
 import * as Services from './services';
@@ -24,6 +25,7 @@ const layers = [
   IconLayer,
   H3HexagonLayer,
   TileLayer,
+  MVTLayer,
 ];
 const widgets = Object.values(Widgets);
 const services = Object.values(Services);
