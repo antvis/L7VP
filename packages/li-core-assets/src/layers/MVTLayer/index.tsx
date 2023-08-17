@@ -3,7 +3,7 @@ import React from 'react';
 import component from './Component';
 import registerForm from './register-form';
 
-const TMSICON = () => (
+const ICON = () => (
   <svg viewBox="0 0 64 64" width="62px" height="62px" style={{ fill: 'currentcolor' }}>
     <g>
       <polygon
@@ -32,20 +32,6 @@ const TMSICON = () => (
   </svg>
 );
 
-const ICON = () => (
-  <svg viewBox="0 0 56 56" width="56px" height="56px" style={{ fill: 'currentcolor' }}>
-    <path d="m27.55,22.84L1.87,37.3l26.58,14.97,25.68-14.46-26.58-14.97Z" style={{ opacity: 0.6 }} />
-    <path d="m27.55,14.32L1.87,28.78l26.58,14.97,25.68-14.46-26.58-14.97Z" style={{ opacity: 0.6 }} />
-    <path d="m27.55,3.73L1.87,18.19l26.58,14.97,25.68-14.46L27.55,3.73Z" style={{ opacity: 0.6 }} />
-    <path
-      d="m9.93,20.28h3.17l1.65,2.86,1.6-2.86h3.14l-2.9,4.51,3.17,4.8h-3.23l-1.84-2.99-1.84,2.99h-3.21l3.21-4.85-2.92-4.46Z"
-      fill="#c0c0c0"
-    />
-    <path d="m21.1,20.28h3.19l1.88,3.14,1.88-3.14h3.18l-3.62,5.41v3.9h-2.88v-3.9l-3.62-5.41Z" fill="#c0c0c0" />
-    <path d="m33.28,20.28h8.14v1.86l-5.22,5.45h5.41v2h-8.83v-1.93l5.17-5.39h-4.67v-1.99Z" fill="#c0c0c0" />
-  </svg>
-);
-
 export default implementLayer({
   version: 'v0.1',
   metadata: {
@@ -53,15 +39,18 @@ export default implementLayer({
     displayName: '矢量瓦片',
     description: '用于矢量瓦片服务展示',
     type: 'Layer',
-    icon: TMSICON,
+    icon: ICON,
     color: '#5558db',
   },
   defaultVisConfig: {
     visible: true,
     zIndex: 0,
-    style: {
-      opacity: 1,
-    },
+    radius: 6,
+    fillColor: 'rgb(90, 216, 166)',
+    opacity: 0.6,
+    strokeColor: 'rgb(146, 112, 202)',
+    lineWidth: 0.5,
+    lineOpacity: 0.75,
     minZoom: 0,
     maxZoom: 24,
     blend: 'normal',

@@ -6,5 +6,5 @@ import config from './config';
 const assets = [CoreAssets];
 
 export default () => {
-  return <LocationInsightApp style={{ height: '70vh' }} config={config} assets={assets} />;
+  return <LocationInsightApp style={{ height: '100vh' }} config={config} assets={assets} />;
 };

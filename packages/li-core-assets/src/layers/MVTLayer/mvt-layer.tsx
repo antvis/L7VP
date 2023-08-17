@@ -1,17 +1,26 @@
 import type { ITileParserCFG } from '@antv/l7';
 import { Source } from '@antv/l7';
+import type { CompositeLayerOptions } from '@antv/l7-composite-layers/dist/esm/core/composite-layer';
 import type { PointLayerProps } from '@antv/larkmap';
 import { LineLayer, PointLayer, PolygonLayer } from '@antv/larkmap';
-import React, { useEffect, useRef, useState } from 'react';
+import { pick } from 'lodash-es';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import type { MVTMetadata } from './type';
 
-export interface MVTLayerProps extends Omit<PointLayerProps, 'source'> {
+export interface MVTLayerProps extends CompositeLayerOptions {
   source: { data: string; parser: Partial<Omit<ITileParserCFG, 'type'>> };
   metadataUrl: string;
+  fillColor?: PointLayerProps['color'];
+  opacity?: number;
+  strokeColor?: string;
+  lineWidth?: number;
+  lineOpacity?: number;
+  radius?: PointLayerProps['size'];
 }
 
 const MVTLayer: React.FC<MVTLayerProps> = (props) => {
-  const { source, metadataUrl } = props;
+  const { source, metadataUrl, fillColor, opacity, strokeColor, lineWidth, lineOpacity, radius } = props;
+  const commonAttr = pick(props, ['name', 'id', 'zIndex', 'visible', 'minZoom', 'maxZoom', 'blend']);
   const [metadata, setMetadata] = useState<MVTMetadata>();
   const vectorSourceRef = useRef<Source>();
 
@@ -53,14 +62,56 @@ const MVTLayer: React.FC<MVTLayerProps> = (props) => {
   return vectorLayers.map((vectorLayer) => {
     if (vectorLayer.geometry === 'Point') {
       return (
-        <PointLayer key={vectorLayer.id} source={vectorSource} sourceLayer={vectorLayer.id} shape="circle" size={5} />
+        <PointLayer
+          key={vectorLayer.id}
+          source={vectorSource}
+          sourceLayer={vectorLayer.id}
+          shape="circle"
+          size={radius}
+          color={fillColor}
+          style={{ opacity: opacity, stroke: strokeColor, strokeWidth: lineWidth, strokeOpacity: lineOpacity }}
+          {...commonAttr}
+        />
       );
     } else if (vectorLayer.geometry === 'LineString') {
       return (
-        <LineLayer key={vectorLayer.id} source={vectorSource} sourceLayer={vectorLayer.id} shape="line" size={1} />
+        <LineLayer
+          key={vectorLayer.id}
+          source={vectorSource}
+          sourceLayer={vectorLayer.id}
+          shape="line"
+          size={lineWidth || 0.5}
+          color={strokeColor}
+          style={{ opacity: lineOpacity }}
+          {...commonAttr}
+        />
       );
     } else if (vectorLayer.geometry === 'Polygon') {
-      return <PolygonLayer key={vectorLayer.id} source={vectorSource} sourceLayer={vectorLayer.id} shape="fill" />;
+      return (
+        <Fragment key={vectorLayer.id}>
+          <PolygonLayer
+            key={vectorLayer.id}
+            source={vectorSource}
+            sourceLayer={vectorLayer.id}
+            shape="fill"
+            color={fillColor}
+            style={{ opacity: opacity }}
+            {...commonAttr}
+          />
+          {lineWidth && (
+            <LineLayer
+              key={vectorLayer.id + 'line'}
+              source={vectorSource}
+              sourceLayer={vectorLayer.id}
+              shape="line"
+              size={lineWidth}
+              color={strokeColor}
+              style={{ opacity: lineOpacity }}
+              {...commonAttr}
+            />
+          )}
+        </Fragment>
+      );
     }
 
     return null;

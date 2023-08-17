@@ -10,15 +10,15 @@ const config: Application = {
       id: 'f751aab1-e333-4521-aa41-94a0db675aed',
       type: 'vector-tile',
       metadata: {
-        name: 'ne_10m_railroads',
+        name: '330106',
         description: 'MVT Tile',
         serviceType: 'MVT Tile',
       },
       properties: {
-        url: 'http://127.0.0.1:8080/ne_10m_railroads/{z}/{x}/{y}.pbf',
+        url: 'http://127.0.0.1:8080/330106/{z}/{x}/{y}.pbf',
         parser: {
           type: 'mvt',
-          metadataUrl: 'http://127.0.0.1:8080/ne_10m_railroads/metadata.json',
+          metadataUrl: 'http://localhost:8080/330106/metadata.json',
         },
       },
     },
@@ -40,7 +40,7 @@ const config: Application = {
         id: '5d148cba-5775-435c-b34c-9882dbc584e8',
         type: 'MVTLayer',
         metadata: {
-          name: 'ne_10m_railroads',
+          name: '330106',
         },
         sourceConfig: {
           datasetId: 'f751aab1-e333-4521-aa41-94a0db675aed',
@@ -50,6 +50,12 @@ const config: Application = {
         },
         visConfig: {
           visible: true,
+          radius: 10,
+          fillColor: 'rgb(90, 216, 166)',
+          opacity: 0.3,
+          strokeColor: 'rgb(146, 112, 202)',
+          lineWidth: 0.5,
+          lineOpacity: 0.75,
         },
       },
     ],
