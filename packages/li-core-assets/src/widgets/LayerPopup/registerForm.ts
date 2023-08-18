@@ -1,5 +1,6 @@
 import type { ILayerField } from '@antv/larkmap/es/components/LayerPopup/types';
 import type { DatasetField, WidgetRegisterForm, WidgetRegisterFormProps } from '@antv/li-sdk';
+import { isLocalOrRemoteDataset } from '@antv/li-sdk';
 
 /**
  * 属性面板生产的数据类型定义
@@ -67,8 +68,10 @@ const getLayerFieldsFormSchemas = (props: WidgetRegisterFormProps) => {
     .filter((item) => !['GridLayer', 'HexbinLayer', 'HeatmapLayer'].includes(item.type))
     .map((item) => {
       const dataset = datasets.find((items) => items.id === item.sourceConfig?.datasetId);
+      if (dataset === undefined || !isLocalOrRemoteDataset(dataset)) return undefined;
+
       const columns =
-        dataset?.columns.map((v: DatasetField) => {
+        dataset.columns.map((v: DatasetField) => {
           return { label: v.name, value: v.name };
         }) || [];
       return {
@@ -147,7 +150,8 @@ const getLayerFieldsFormSchemas = (props: WidgetRegisterFormProps) => {
           },
         },
       };
-    });
+    })
+    .filter((item) => item !== undefined);
 
   const layerSchemaMap = layerSchemaList.reduce((map, next) => Object.assign(map, next), {} as Record<string, any>);
 
