@@ -48,11 +48,11 @@ const MVTTile = (props: MVTTileProps) => {
       metadata: {
         name,
         description: 'MVT Tile',
-        serviceType: 'MVT Tile',
       },
       properties: {
+        type: 'mvt-tile' as const,
         url,
-        parser: { type: 'mvt', metadataUrl },
+        metadataUrl,
       },
     };
     const layer = {

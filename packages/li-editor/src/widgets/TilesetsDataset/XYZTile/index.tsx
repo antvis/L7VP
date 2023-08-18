@@ -34,11 +34,12 @@ const XYZTile = (props: XYZTileProps) => {
       metadata: {
         name,
         description: 'XYZ Tile',
-        serviceType: 'XYZ Tile',
       },
       properties: {
+        type: 'xyz-tile' as const,
         url,
-        parser: { type: 'rasterTile', tileSize: 256, minZoom: zoom.minZoom, maxZoom: zoom.maxZoom },
+        minZoom: zoom.minZoom,
+        maxZoom: zoom.maxZoom,
       },
     };
     const layer = {

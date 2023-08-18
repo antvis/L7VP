@@ -1,8 +1,30 @@
-import { merge, omit } from 'lodash-es';
+import { omit } from 'lodash-es';
 import { useMemo } from 'react';
 import { useDataset } from '../../../../hooks/useDataset';
-import type { LayerSchema } from '../../../../specs';
+import type { LayerSchema, LayerSourceConfig } from '../../../../specs';
+import type { Dataset } from '../../../../types';
 import { isLocalOrRemoteDataset } from '../../../../utils';
+
+const getLayerSource = (dataset: Dataset, sourceConfig: LayerSourceConfig) => {
+  if (isLocalOrRemoteDataset(dataset)) {
+    const restSourceConfig = omit(sourceConfig, ['datasetId', 'parser']);
+    return {
+      data: dataset.data,
+      parser: { type: 'json', ...sourceConfig?.parser },
+      ...restSourceConfig,
+    };
+  }
+
+  const tileProperties = dataset.properties;
+  const restTileProperties = omit(tileProperties, ['type', 'url']);
+  const restLayerSourceConfig = omit(sourceConfig, ['datasetId', 'parser']);
+  return {
+    data: dataset.properties.url,
+    // TODO: 数据冗余属性不注入进去
+    parser: { ...restTileProperties, ...sourceConfig.parser },
+    ...restLayerSourceConfig,
+  };
+};
 
 export const useLayerProps = (visConfig: LayerSchema['visConfig'], sourceConfig: LayerSchema['sourceConfig']) => {
   const datasetId = sourceConfig?.datasetId || '';
@@ -10,10 +32,7 @@ export const useLayerProps = (visConfig: LayerSchema['visConfig'], sourceConfig:
 
   const layerProps = useMemo(() => {
     if (sourceConfig?.datasetId && dataset) {
-      const restSourceConfig = omit(sourceConfig, ['datasetId']);
-      const source = isLocalOrRemoteDataset(dataset)
-        ? { data: dataset.data, ...restSourceConfig }
-        : { data: dataset.properties.url, ...merge({}, omit(dataset.properties, ['url']), restSourceConfig) };
+      const source = getLayerSource(dataset, sourceConfig);
       return {
         ...visConfig,
         source,

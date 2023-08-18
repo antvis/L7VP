@@ -12,14 +12,11 @@ const config: Application = {
       metadata: {
         name: '330106',
         description: 'MVT Tile',
-        serviceType: 'MVT Tile',
       },
       properties: {
-        url: 'http://127.0.0.1:8080/330106/{z}/{x}/{y}.pbf',
-        parser: {
-          type: 'mvt',
-          metadataUrl: 'http://localhost:8080/330106/metadata.json',
-        },
+        type: 'mvt-tile',
+        url: 'https://tiles.lvisei.icu/xihuqu_330106/{z}/{x}/{y}.pbf',
+        metadataUrl: 'https://tiles.lvisei.icu/xihuqu_330106/metadata.json',
       },
     },
   ],

@@ -1,12 +1,8 @@
+import type { LayerSourceConfig } from '@antv//li-sdk';
+
 export type MVTLayerSource = {
   data: string;
-  parser: {
-    type: 'mvt';
-    metadataUrl: string;
-    minZoom?: number;
-    maxZoom?: number;
-  };
-};
+} & Omit<LayerSourceConfig, 'datasetId'>;
 
 export type Tilestats = {
   layerCount: number;

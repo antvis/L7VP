@@ -107,7 +107,7 @@ const DatasetItem = (props: DatasetItemProps) => {
               共<span className="li-dataset-list__info-count">{dataset.data.length}</span>行数据
             </>
           ) : (
-            dataset.metadata.description || dataset.type
+            dataset.metadata.description || dataset.properties.type
           )}
         </div>
       </div>
