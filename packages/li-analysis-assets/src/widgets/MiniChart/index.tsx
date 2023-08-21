@@ -16,6 +16,7 @@ export default implementWidget({
     showLegend: false,
     adaptive: true,
     aggregationMethod: 'count',
+    theme: 'dark',
   },
   component,
   registerForm,

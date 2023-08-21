@@ -40,4 +40,13 @@ export default defineConfig({
     /** mapbox */
     // 'https://api.tiles.mapbox.com/mapbox-gl-js/v1.13.2/mapbox-gl.js',
   ],
+  chainWebpack: (memo) => {
+    // for @monaco-editor/react
+    memo.module
+      .rule('mjs$')
+      .test(/\.mjs$/)
+      .include.add(/node_modules/)
+      .end()
+      .type('javascript/auto');
+  },
 });

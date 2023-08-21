@@ -4,7 +4,7 @@ import { getDatasetColumns, getUniqueId } from '@antv/li-sdk';
 import { Modal, Segmented } from 'antd';
 import type { WritableDraft } from 'immer/dist/internal';
 import React, { useState } from 'react';
-import { useEditorState } from '../../../hooks';
+import { useEditorService, useEditorState } from '../../../hooks';
 import { useEditorContext } from '../../../hooks/internal';
 import type { AddDataset as AddDatasetType } from '../../../types';
 
@@ -14,6 +14,7 @@ type AddDatasetProps = {
 };
 
 const AddDataset = ({ visible, onClose }: AddDatasetProps) => {
+  const { appService } = useEditorService();
   const { containerSlotMap } = useEditorContext();
   const addWidgets = containerSlotMap.Datasets?.addDataset || [];
   const defaultSegmentedValue = addWidgets[0].metadata.name;
@@ -62,7 +63,9 @@ const AddDataset = ({ visible, onClose }: AddDatasetProps) => {
     layers.forEach((layer) => {
       updateState((draft) => {
         if (!draft.layers.find((item) => item.id === layer.id)) {
-          draft.layers.push({ ...layer });
+          const implementLayer = appService.getImplementLayer(layer.type);
+          const visConfig = implementLayer?.defaultVisConfig || layer.visConfig;
+          draft.layers.push({ ...layer, visConfig });
         }
       });
     });

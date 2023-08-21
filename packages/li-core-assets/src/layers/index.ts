@@ -12,3 +12,4 @@ export { default as IconLayer } from './IconLayer';
 export { default as LineLayer } from './LineLayer';
 
 export { default as TileLayer } from './TileLayer';
+export { default as MVTLayer } from './MVTLayer';

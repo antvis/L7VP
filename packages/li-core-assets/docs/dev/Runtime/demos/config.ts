@@ -113,7 +113,7 @@ const config: Application = {
         type: 'BaseLayout',
         metadata: { name: '基础布局' },
         properties: {
-          showSidePanel: true,
+          showSidePanel: false,
         },
       },
       {

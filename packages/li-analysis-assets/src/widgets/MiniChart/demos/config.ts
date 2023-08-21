@@ -58,6 +58,7 @@ const config: Application = {
           chartType: 'line',
           yField: 'temperature',
           xField: 'name',
+          theme: 'light',
         },
         container: {
           id: 'AnalysisLayout',

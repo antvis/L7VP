@@ -2,12 +2,14 @@ import { Chart } from '@antv/g2';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash-es';
 import React, { useEffect, useRef } from 'react';
-import { formatNumber, numberFormatThousandsSeparator } from './helper';
+import { formatNumber, getChartTheme, numberFormatThousandsSeparator } from './helper';
+import type { ChartTheme } from './type';
 
 type Props = {
   className?: string;
   width: number;
   height: number;
+  theme: ChartTheme;
   data: Record<string, any>[];
   xField: string;
   yField: string;
@@ -21,6 +23,7 @@ const IntervalLine = ({
   height,
   width,
   data = [],
+  theme = 'dark',
   xField,
   yField,
   showLegend = false,
@@ -33,7 +36,6 @@ const IntervalLine = ({
   useEffect(() => {
     const isNumberXField = !isEmpty(data) && typeof data[0][xField] === 'number';
     const isInterval = type === 'interval';
-
     const commConfig = {
       type,
       data: data,
@@ -72,18 +74,18 @@ const IntervalLine = ({
       },
       legend: showLegend,
     };
+    const themeCfg = getChartTheme(theme);
 
     if (!plotRef.current) {
       const chart = new Chart({
         container: containerRef.current!,
-        theme: 'classicDark',
         autoFit: true,
-        style: { viewFill: 'transparent' },
         padding: 'auto',
         paddingTop: 20,
         paddingBottom: 30,
       });
 
+      chart.theme(themeCfg);
       chart.options({
         type: 'view',
         children: [
@@ -106,8 +108,9 @@ const IntervalLine = ({
       type: 'view',
       children: [{ ...commConfig }],
     });
+    plotRef.current?.theme(themeCfg);
     plotRef.current?.render();
-  }, [data, xField, yField, showLegend, type, isCount]);
+  }, [data, xField, yField, showLegend, type, isCount, theme]);
 
   useEffect(() => {
     if (height && width && plotRef.current) {

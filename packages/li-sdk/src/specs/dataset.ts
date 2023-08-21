@@ -121,17 +121,18 @@ export type LocalDatasetSchema<T extends Record<string, any> = Record<string, an
 };
 
 /**
- * 矢量瓦片数据源类型
+ * XYZ 栅格瓦片服务配置项
  */
-export type VectorTileDatasetSchema = BaseDataset & {
-  type: 'vector-tile';
-  // 瓦片服务配置
-  properties: {
-    // 瓦片服务地址
-    url: string;
-    // 瓦片服务解析配置
-    parser: Record<string, any>;
-  };
+export type XYZRasterTileProperties = {
+  // 栅格瓦片服务类型
+  type: 'xyz-tile';
+  // 瓦片服务地址
+  url: string;
+  minZoom?: number;
+  maxZoom?: number;
+  tileSize?: number;
+  zoomOffset?: number;
+  extent?: [number, number, number, number];
 };
 
 /**
@@ -140,12 +141,33 @@ export type VectorTileDatasetSchema = BaseDataset & {
 export type RasterTileDatasetSchema = BaseDataset & {
   type: 'raster-tile';
   // 瓦片服务配置
-  properties: {
-    // 瓦片服务地址
-    url: string;
-    // 瓦片服务解析配置
-    parser: Record<string, any>;
-  };
+  properties: XYZRasterTileProperties;
+};
+
+/**
+ * MVT 矢量瓦片服务配置项
+ */
+export type MVTVectorTileProperties = {
+  // 矢量瓦片服务类型
+  type: 'mvt-tile';
+  // 瓦片服务地址
+  url: string;
+  // 矢量瓦片元数据地址
+  metadataUrl: string;
+  minZoom?: number;
+  maxZoom?: number;
+  tileSize?: number;
+  zoomOffset?: number;
+  extent?: [number, number, number, number];
+};
+
+/**
+ * 矢量瓦片数据源类型
+ */
+export type VectorTileDatasetSchema = BaseDataset & {
+  type: 'vector-tile';
+  // 瓦片服务配置
+  properties: MVTVectorTileProperties;
 };
 
 /**
