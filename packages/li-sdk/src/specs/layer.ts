@@ -25,7 +25,7 @@ export type LayerSourceConfig = {
   datasetId: string;
   /** 数据解析配置项，对应 L7 的 source.parser */
   parser: {
-    type: string;
+    type?: string;
     x?: string;
     y?: string;
     x1?: string;
@@ -46,6 +46,7 @@ export type LayerSchema = {
   type: string;
   /** 图层信息，用于存储图层元数据信息 */
   metadata: Metadata;
+  // TODO: type is required
   /** 数据集配置，用于关联数据集 */
   sourceConfig?: LayerSourceConfig;
   /** 图层可视化配置项，对应 LarkMap 图层组件的 Props 属性 */

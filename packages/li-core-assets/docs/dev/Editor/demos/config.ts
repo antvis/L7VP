@@ -113,7 +113,7 @@ const config: Application = {
         type: 'BaseLayout',
         metadata: { name: '基础布局' },
         properties: {
-          showSidePanel: true,
+          showSidePanel: false,
         },
       },
       {
@@ -144,7 +144,11 @@ const config: Application = {
         id: 'LayerPopup',
         type: 'LayerPopup',
         metadata: { name: '图层信息框' },
-        properties: {},
+        properties: {
+          isOpen: true,
+          trigger: 'hover',
+          items: [],
+        },
         container: {
           id: 'BaseLayout',
           slot: 'controls',

@@ -1,6 +1,6 @@
 import { CaretRightOutlined, MoreOutlined } from '@ant-design/icons';
 import type { ImplementWidget, WidgetSchema } from '@antv/li-sdk';
-import type { MenuProps } from 'antd';
+import type { CollapseProps, MenuProps } from 'antd';
 import { Collapse, Dropdown } from 'antd';
 import classNames from 'classnames';
 import { isEmpty, isUndefined } from 'lodash-es';
@@ -40,54 +40,57 @@ const WidgetGroup: React.FC<WidgetGroupProps> = ({ className, item }) => {
     return null;
   }
 
-  const Panels = widgets.map((widget) => {
-    const implementWidget = appService.getImplementWidget(widget.type);
-    if (isUndefined(implementWidget)) return null;
+  const panels: CollapseProps['items'] = widgets
+    .filter((widget) => {
+      const implementWidget = appService.getImplementWidget(widget.type);
+      return !isUndefined(implementWidget);
+    })
+    .map((widget) => {
+      const implementWidget = appService.getImplementWidget(widget.type)!;
 
-    const onChangeName = (newName: string) => {
-      updateState((draft) => {
-        const findIndex = draft.widgets.findIndex((_items) => _items.id === widget.id);
-        draft.widgets[findIndex].metadata.name = newName;
-        setIsEditName(false);
-        setFocusWidgetId('');
-      });
-    };
+      const onChangeName = (newName: string) => {
+        updateState((draft) => {
+          const findIndex = draft.widgets.findIndex((_items) => _items.id === widget.id);
+          draft.widgets[findIndex].metadata.name = newName;
+          setIsEditName(false);
+          setFocusWidgetId('');
+        });
+      };
 
-    const dropDownItems: MenuProps['items'] = [
-      {
-        key: 'editWidget',
-        label: '修改名称',
-        onClick() {
-          setIsEditName(true);
+      const dropDownItems: MenuProps['items'] = [
+        {
+          key: 'editWidget',
+          label: '修改名称',
+          onClick() {
+            setIsEditName(true);
+          },
         },
-      },
-    ];
+      ];
 
-    // 布局组件，禁用删除
-    const isLayout = item.category === WidgetTypeMap.Layout;
-    if (!isLayout) {
-      dropDownItems.push({
-        key: 'deleteWidget',
-        label: '删除组件',
-        onClick() {
-          deleteWidget(widget);
-        },
-      });
-    }
+      // 布局组件，禁用删除
+      const isLayout = item.category === WidgetTypeMap.Layout;
+      if (!isLayout) {
+        dropDownItems.push({
+          key: 'deleteWidget',
+          label: '删除组件',
+          onClick() {
+            deleteWidget(widget);
+          },
+        });
+      }
 
-    return (
-      <Collapse.Panel
-        key={widget.id}
-        className="li-widget-list__panel"
-        header={
+      return {
+        key: widget.id,
+        className: 'li-widget-list__panel',
+        label: (
           <WidgetName
             name={widget?.metadata?.name}
             isEdit={focusWigetId === widget.id && isEditName}
             onChange={(newName) => onChangeName(newName)}
             onCancel={() => setIsEditName(false)}
           />
-        }
-        extra={
+        ),
+        extra: (
           <div
             onClick={(event) => {
               event.stopPropagation();
@@ -100,12 +103,10 @@ const WidgetGroup: React.FC<WidgetGroupProps> = ({ className, item }) => {
               <MoreOutlined />
             </Dropdown>
           </div>
-        }
-      >
-        <WidgetAttribute key={widget.id} widgetSchema={widget} implementWidget={implementWidget} />
-      </Collapse.Panel>
-    );
-  });
+        ),
+        children: <WidgetAttribute key={widget.id} widgetSchema={widget} implementWidget={implementWidget} />,
+      };
+    });
 
   return (
     <div className={classNames(className, 'li-widget-list__widget-group')}>
@@ -114,9 +115,8 @@ const WidgetGroup: React.FC<WidgetGroupProps> = ({ className, item }) => {
         defaultActiveKey={[]}
         ghost={true}
         expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
-      >
-        {Panels}
-      </Collapse>
+        items={panels}
+      />
     </div>
   );
 };
