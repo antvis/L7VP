@@ -1,6 +1,8 @@
 name: pyl7vp-test
 
-on: [push]
+on:
+  release:
+    types: [created, edited]
 
 jobs:
   pyl7vp-test:

@@ -1,0 +1,3 @@
+include pyl7vp/templates/*
+include README.md
+include README.zh-CN.md
