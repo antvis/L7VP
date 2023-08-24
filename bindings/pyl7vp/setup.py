@@ -22,7 +22,7 @@ __url__ = "https://github.com/antvis/L7VP/bindings/pyl7vp"
 __author_email__ = "yunji.me@outlook.com"
 __license__ = "MIT"
 
-__requires__ = ["jinja2~=2.11.3", "simplejson"]
+__requires__ = ["jinja2>=3.0.0", "simplejson"]
 __extra_requires__ = {}
 
 __keywords__ = ["AntV", "L7VP", "PyL7VP",

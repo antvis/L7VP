@@ -17,7 +17,7 @@
       // 高德或 Mapbox 的 token，默认使用内置的 token，生产环境务必自行注册 Token 确保服务稳定!
       const MAP_TOKEN = undefined // 您申请的 token;
       // 如果是高德，在2021年12月02日申请以后的key需要配合您的安全密钥一起使用
-      // window._AMapSecurityConfig = { securityJsCode:'「您申请的安全密钥」' }
+      // window._AMapSecurityConfig = { securityJsCode:"「您申请的安全密钥」" }
     </script>
   </head>
   <body>
@@ -29,7 +29,7 @@
       }
       /* 地图版权遮挡控件问题 */
       .amap-copyright {
-        left: 100px;
+        left: 350px;
       }
     </style>
 
@@ -42,7 +42,7 @@
 
     <!-- LI ApplicationConfig -->
     <script>
-    const LI_Config = {{ l7vp.js_config }}
+    const LI_Config = {{ l7vp.js_app_config }}
     LI_Config.datasets = LI_Datasets
     if (MAP_TOKEN) LI_Config.spec.map.config.token = MAP_TOKEN
     </script>
@@ -75,14 +75,14 @@
       const appTheme = {
         algorithm: theme.darkAlgorithm,
         token: {
-          colorPrimary: '#8274FF',
-          colorBgLayout: '#0F0F13',
-          colorBgContainer: '#282932',
-          colorBgElevated: '#3D3E4A',
-          colorText: 'rgba(255,255,255,0.85)',
-          colorTextSecondary: 'rgba(255,255,255,0.45)',
-          colorBorder: '#434343',
-          colorSplit: '#303030',
+          colorPrimary: "#8274FF",
+          colorBgLayout: "#0F0F13",
+          colorBgContainer: "#282932",
+          colorBgElevated: "#3D3E4A",
+          colorText: "rgba(255,255,255,0.85)",
+          colorTextSecondary: "rgba(255,255,255,0.45)",
+          colorBorder: "#434343",
+          colorSplit: "#303030",
           borderRadius: 4,
         },
       }
@@ -110,14 +110,14 @@
       const appTheme = {
         algorithm: theme.darkAlgorithm,
         token: {
-          colorPrimary: '#8274FF',
-          colorBgLayout: '#0F0F13',
-          colorBgContainer: '#282932',
-          colorBgElevated: '#3D3E4A',
-          colorText: 'rgba(255,255,255,0.85)',
-          colorTextSecondary: 'rgba(255,255,255,0.45)',
-          colorBorder: '#434343',
-          colorSplit: '#303030',
+          colorPrimary: "#8274FF",
+          colorBgLayout: "#0F0F13",
+          colorBgContainer: "#282932",
+          colorBgElevated: "#3D3E4A",
+          colorText: "rgba(255,255,255,0.85)",
+          colorTextSecondary: "rgba(255,255,255,0.45)",
+          colorBorder: "#434343",
+          colorSplit: "#303030",
           borderRadius: 4,
         },
       }
