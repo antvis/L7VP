@@ -16,11 +16,11 @@ def read(*names, **kwargs):
 
 
 __title__ = "pyl7vp"
-__description__ = "Python3 binding for @AntV/L7VP geospatial intelligent visual analysis."
+__description__ = "Python3 binding for @AntV/L7VP geospatial visual analysis tool."
 __long_description__ = read('README.md')
 __url__ = "https://github.com/antvis/L7VP/bindings/pyl7vp"
 __author_email__ = "yunji.me@outlook.com"
-__license__ = "MIT"
+__license__ = "Apache-2.0"
 
 __requires__ = ["jinja2>=3.0.0", "simplejson"]
 __extra_requires__ = {}
@@ -62,7 +62,7 @@ class UploadCommand(Command):
             pass
 
         self.status("Building Source and Wheel distribution…")
-        os.system("{0} setup.py bdist_wheel".format(sys.executable))
+        os.system("{0} setup.py bdist_wheel sdist".format(sys.executable))
 
         self.status("Uploading the package to PyPI via Twine…")
         os.system("python -m twine upload dist/*")
@@ -88,7 +88,7 @@ setup(
     classifiers=[
         "Environment :: Console",
         "Intended Audience :: Developers",
-        "License :: OSI Approved :: MIT License",
+        "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",

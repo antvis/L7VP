@@ -42,9 +42,7 @@ def _validate_datasets(datasets: list):
     for dataset in datasets:
         _validate_dataset(dataset)
 
-    _datasets = list(filter(lambda x: x["id"] != dataset["id"], datasets))
-
-    return _datasets
+    return datasets
 
 
 def _validate_config(config: dict):
@@ -170,11 +168,10 @@ class L7VP():
         self,
         read_only: bool = False,
         env: Optional[Environment] = None,
-        html_template: str = "notebook.html",
         **kwargs
     ) -> HTML:
         # get html string
-        html = self._get_html_str(read_only, env, html_template, **kwargs)
+        html = self._get_html_str(read_only, env, "notebook.html", **kwargs)
         return HTML(html)
 
     '''

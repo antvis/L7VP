@@ -59,6 +59,4 @@ To become a contributor, please follow our [contributing guide](https://github.c
 
 ## License
 
-## 许可证
-
 [Apache-2.0](./LICENSE)
