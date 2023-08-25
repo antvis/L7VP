@@ -86,7 +86,7 @@
           borderRadius: 4,
         },
       }
-      const App = React.createElement(ConfigProvider, { theme: appTheme }, React.createElement(LIAppElement, null));
+      const App = React.createElement(ConfigProvider, { theme: {} }, React.createElement(LIAppElement, null));
 
       ReactDOM.render(App, document.getElementById("{{ l7vp.instance_id }}"));
     </script>
@@ -121,7 +121,7 @@
           borderRadius: 4,
         },
       }
-      const App = React.createElement(ConfigProvider, { theme: appTheme }, React.createElement(LIEditorElement, null));
+      const App = React.createElement(ConfigProvider, { theme: {} }, React.createElement(LIEditorElement, null));
 
       ReactDOM.render(App, document.getElementById("{{ l7vp.instance_id }}"));
     </script>
