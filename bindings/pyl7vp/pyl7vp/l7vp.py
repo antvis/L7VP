@@ -78,7 +78,7 @@ class L7VP():
         self.page_title = "PyL7VP"
 
         print('User Guide: {}'.format(
-            'https://github.com/antvis/L7VP/bindings/pyl7vp/README.md#User Guide'))
+            'https://github.com/antvis/L7VP/bindings/pyl7vp/README.md##user-guide'))
 
     '''
     add dataset to l7vp datasets, documents [here](https://www.yuque.com/antv/htpfbw/yt98k1sgofg9wgqa#PlyNq)

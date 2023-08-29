@@ -16,7 +16,9 @@
 $ pip install pyl7vp
 ```
 
-## Jupyter Notebook and JupyterLab
+### Usage
+
+### Jupyter Notebook and JupyterLab
 
 ```py
 from pyl7vp import L7VP
@@ -50,7 +52,7 @@ l7vp_map.set_config({
 l7vp_map.show()
 ```
 
-## Save to HTML File
+### Save to HTML File
 
 ```py
 from pyl7vp import L7VP
