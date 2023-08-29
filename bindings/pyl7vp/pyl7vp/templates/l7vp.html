@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="shortcut icon" href="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*WCVLT5Dp5oYAAAAAAAAAAAAADmJ7AQ/original">
+    <title>{{ l7vp.page_title }}</title>
+    <!-- CSS Dependencies -->
+    {% for asset in l7vp.dependencies.cssAssets %}
+    <link rel="stylesheet" href="{{ asset }}"></link>
+    {% endfor %}
+    <!-- JS Dependencies -->
+    {% for asset in l7vp.dependencies.jsAssets %}
+    <script type="text/javascript" crossorigin src="{{ asset }}"></script>
+    {% endfor %}
+    <script>
+      // 高德或 Mapbox 的 token，默认使用内置的 token，生产环境务必自行注册 Token 确保服务稳定!
+      const MAP_TOKEN = undefined // 您申请的 token;
+      // 如果是高德，在2021年12月02日申请以后的key需要配合您的安全密钥一起使用
+      // window._AMapSecurityConfig = { securityJsCode:"「您申请的安全密钥」" }
+    </script>
+  </head>
+  <body>
+    <style>
+      div.pyl7vp-container {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      /* 地图版权遮挡控件问题 */
+      .amap-copyright {
+        left: 350px;
+      }
+    </style>
+
+    <div id="{{ l7vp.instance_id }}" class="pyl7vp-container"></div>
+
+    <!-- LI Assets -->
+    <script>
+      const { parseAssetPackage, parserDataWithGeo, isLocalDataset } = window.LISDK;
+      const assets = ["LICoreAssets", "LIAnalysisAssets"]
+        .map((global) => parseAssetPackage(global))
+        .filter((asset) => asset !== undefined);
+    </script>
+
+    <!-- LI Datasets -->
+    <script>
+      const LI_Datasets = {{ l7vp.js_datasets }}
+    </script>
+
+    <!-- LI ApplicationConfig -->
+    <script>
+    const LI_Config = {{ l7vp.js_app_config }}
+    LI_Config.datasets = LI_Datasets.map(dataset => {
+      if (isLocalDataset(dataset)) {
+        return {...dataset, data: parserDataWithGeo(dataset.data)}
+      }
+
+      return dataset
+    })
+    if (MAP_TOKEN) LI_Config.spec.map.config.token = MAP_TOKEN
+    </script>
+
+    {% if l7vp.read_only %}
+    <!-- Render LI App -->
+    <script>
+      const { ConfigProvider, theme } = window.antd;
+      const { LocationInsightApp } = window.LISDK;
+
+      function LIAppElement() {
+        const { token } = theme.useToken();
+        const inheritedStyle = { color: token.colorText, fontSize: token.fontSize, fontFamily: token.fontFamily, lineHeight: token.lineHeight, background: token.colorBgLayout, }
+
+        return React.createElement(LocationInsightApp, {
+          assets,
+          config: LI_Config,
+          style: { position: "relative", width: "100%", height: "100%", ...inheritedStyle, },
+        });
+      };
+
+      const appTheme = {
+        algorithm: theme.darkAlgorithm,
+        token: {
+          colorPrimary: "#8274FF",
+          colorBgLayout: "#0F0F13",
+          colorBgContainer: "#282932",
+          colorBgElevated: "#3D3E4A",
+          colorText: "rgba(255,255,255,0.85)",
+          colorTextSecondary: "rgba(255,255,255,0.45)",
+          colorBorder: "#434343",
+          colorSplit: "#303030",
+          borderRadius: 4,
+        },
+      }
+      const App = React.createElement(ConfigProvider, { theme: {} }, React.createElement(LIAppElement, null));
+
+      ReactDOM.render(App, document.getElementById("{{ l7vp.instance_id }}"));
+    </script>
+    {% else %}
+    <!-- Render LI Editor -->
+    <script>
+      const { ConfigProvider, theme } = window.antd;
+      const { LocationInsightEditor } = window.LIEditor;
+
+      function LIEditorElement() {
+        const { token } = theme.useToken();
+        const inheritedStyle = { color: token.colorText, fontSize: token.fontSize, fontFamily: token.fontFamily, lineHeight: token.lineHeight, background: token.colorBgLayout, }
+
+        return React.createElement(LocationInsightEditor, {
+          assets,
+          defaultApplication: LI_Config,
+          style: { position: "relative", width: "100%", height: "100%", ...inheritedStyle, },
+        });
+      };
+
+      const appTheme = {
+        algorithm: theme.darkAlgorithm,
+        token: {
+          colorPrimary: "#8274FF",
+          colorBgLayout: "#0F0F13",
+          colorBgContainer: "#282932",
+          colorBgElevated: "#3D3E4A",
+          colorText: "rgba(255,255,255,0.85)",
+          colorTextSecondary: "rgba(255,255,255,0.45)",
+          colorBorder: "#434343",
+          colorSplit: "#303030",
+          borderRadius: 4,
+        },
+      }
+      const App = React.createElement(ConfigProvider, { theme: {} }, React.createElement(LIEditorElement, null));
+
+      ReactDOM.render(App, document.getElementById("{{ l7vp.instance_id }}"));
+    </script>
+    {% endif %}
+
+  </body>
+</html>

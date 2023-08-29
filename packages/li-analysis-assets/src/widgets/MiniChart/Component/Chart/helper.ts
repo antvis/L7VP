@@ -1,4 +1,3 @@
-import { Classic, ClassicDark } from '@antv/g2/esm/theme';
 import { isInteger } from 'lodash-es';
 
 export const numberFormatThousandsSeparator = (value: number) => {
@@ -69,10 +68,11 @@ export const getChartTheme = (theme: 'dark' | 'light') => {
 
   const defaultOptions =
     theme === 'dark'
-      ? Object.assign(ClassicDark(), {
+      ? {
+          type: 'classicDark',
           viewFill: BACKGROUND_COLOR,
-        })
-      : Classic();
+        }
+      : { type: 'classic' };
 
   return defaultOptions;
 };
