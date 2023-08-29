@@ -66,8 +66,8 @@ l7vp_map.save_to_html("map.html")
 ## User Guide
 
 - [Quick Start](https://www.yuque.com/antv/htpfbw/usrw68bir8tt0yxy#C7cMY)
-- [API Development](https://www.yuque.com/antv/htpfbw/usrw68bir8tt0yxy#YdNaX)
 - [Data Format](https://www.yuque.com/antv/htpfbw/usrw68bir8tt0yxy#ZaJB8)
+- [API Document](https://www.yuque.com/antv/htpfbw/usrw68bir8tt0yxy#YdNaX)
 - Online in [Google Colab](https://colab.research.google.com/drive/1KCTfPRv-NksUF3sVGLjSrYo7RgHmfeHH?usp=sharing)
 
 ## Local Development
