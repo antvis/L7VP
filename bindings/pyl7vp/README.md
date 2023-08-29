@@ -16,77 +16,57 @@
 $ pip install pyl7vp
 ```
 
-## Usage
-
-### Jupyter Notebook and JupyterLab
+## Jupyter Notebook and JupyterLab
 
 ```py
 from pyl7vp import L7VP
 
 l7vp_map = L7VP(height = 600)
 
-# Add dataset to map
-l7vp_map.add_dataset({"id": "my_dataset", "type": 'local', "data": []})
+# data
+data = [
+  { "longitude": 105.005, "latitude": 32.349, "mag": 5.2 },
+  { "longitude": 104.602, "latitude": 32.067, "mag": 3 },
+  { "longitude": 103.665, "latitude": 31.29, "mag": 6 },
+  { "longitude": 105.275, "latitude": 32.416, "mag": 2 }
+]
+
+# add dataset to map
+l7vp_map.add_dataset({"id": "my_dataset", "type": 'local', "data": data})
 
 # Set config
 l7vp_map.set_config({
   "map": {
     "type": "Gaode",
     "config": {
-            "zoom": 3,
-            "center": [120.153576, 30.287459],
+            "zoom": 7,
+            "center": [104.615357, 32.068745],
             "style": 'dark',
         },
   },
 })
 
-# print datasets and config
-l7vp_map.datasets
-l7vp_map.config
-
-# Display map
+# display map
 l7vp_map.show()
 ```
 
-### Save to HTML File
+## Save to HTML File
 
 ```py
 from pyl7vp import L7VP
 
 l7vp_map = L7VP(height = 600)
 
-l7vp_map.set_config({
-  "map": {
-    "type": "Gaode",
-    "config": {
-            "zoom": 3,
-            "center": [120.153576, 30.287459],
-            "style": 'dark',
-        },
-  },
-})
-
 # save to html file
 l7vp_map.save_to_html("map.html")
 ```
 
-## Examples
+## User Guide
 
-- Online in [Google Colab](https://colab.research.google.com/drive/1KCTfPRv-NksUF3sVGLjSrYo7RgHmfeHH?usp=sharing).
-
-## API
-
-#### L7VP
-
-_L7VP(height: int = 600, datasets: list = [], config: dict = {})_: return an instance.
-
-- _add_dataset(dataset: dict)_: add an dataset to map.
-
-- _set_config(config: dict)_: set the config into instance.
-
-- _show(read_only: bool = False)_: show map on Jupyter Notebook or JupyterLab preview.
-
-- _save_to_html(file_name: str = "map.html", read_only: bool = False,)_: save to html file.
+- [Quick Start](https://www.yuque.com/antv/htpfbw/usrw68bir8tt0yxy#C7cMY)
+- [API Development](https://www.yuque.com/antv/htpfbw/usrw68bir8tt0yxy#YdNaX)
+- [Data Format](https://www.yuque.com/antv/htpfbw/usrw68bir8tt0yxy#ZaJB8)
+- Online in [Google Colab](https://colab.research.google.com/drive/1KCTfPRv-NksUF3sVGLjSrYo7RgHmfeHH?usp=sharing)
 
 ## Local Development
 

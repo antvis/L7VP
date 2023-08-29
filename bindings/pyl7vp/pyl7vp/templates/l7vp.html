@@ -35,6 +35,14 @@
 
     <div id="{{ l7vp.instance_id }}" class="pyl7vp-container"></div>
 
+    <!-- LI Assets -->
+    <script>
+      const { parseAssetPackage, parserDataWithGeo, isLocalDataset } = window.LISDK;
+      const assets = ["LICoreAssets", "LIAnalysisAssets"]
+        .map((global) => parseAssetPackage(global))
+        .filter((asset) => asset !== undefined);
+    </script>
+
     <!-- LI Datasets -->
     <script>
       const LI_Datasets = {{ l7vp.js_datasets }}
@@ -43,16 +51,14 @@
     <!-- LI ApplicationConfig -->
     <script>
     const LI_Config = {{ l7vp.js_app_config }}
-    LI_Config.datasets = LI_Datasets
-    if (MAP_TOKEN) LI_Config.spec.map.config.token = MAP_TOKEN
-    </script>
+    LI_Config.datasets = LI_Datasets.map(dataset => {
+      if (isLocalDataset(dataset)) {
+        return {...dataset, data: parserDataWithGeo(dataset.data)}
+      }
 
-    <!-- LI Assets -->
-    <script>
-      const { parseAssetPackage } = window.LISDK;
-      const assets = ["LICoreAssets", "LIAnalysisAssets"]
-        .map((global) => parseAssetPackage(global))
-        .filter((asset) => asset !== undefined);
+      return dataset
+    })
+    if (MAP_TOKEN) LI_Config.spec.map.config.token = MAP_TOKEN
     </script>
 
     {% if l7vp.read_only %}

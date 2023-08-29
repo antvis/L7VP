@@ -66,7 +66,7 @@ class L7VP():
     instance l7vp
     '''
 
-    def __init__(self, height=600, datasets: list = [], config: dict = DEFAULT_ANALYSIS_SPEC):
+    def __init__(self, height=600, datasets: list = [], config: dict = {}):
         self.height = height
         self.instance_id = uuid.uuid4().hex
         self.datasets = _validate_datasets(datasets)
@@ -78,10 +78,10 @@ class L7VP():
         self.page_title = "PyL7VP"
 
         print('User Guide: {}'.format(
-            'https://github.com/antvis/L7VP/bindings/pyl7vp/README.md'))
+            'https://github.com/antvis/L7VP/bindings/pyl7vp/README.md#User Guide'))
 
     '''
-    add dataset to l7vp datasets, documents [here](https://github.com/antvis/L7VP/bindings/pyl7vp/README.md)
+    add dataset to l7vp datasets, documents [here](https://www.yuque.com/antv/htpfbw/yt98k1sgofg9wgqa#PlyNq)
     '''
 
     def add_dataset(self, dataset: dict):
@@ -93,7 +93,7 @@ class L7VP():
 
 
     '''
-    set the l7vp config, documents [here](https://github.com/antvis/L7VP/bindings/pyl7vp/README.md)
+    set the l7vp config, documents [here](https://www.yuque.com/antv/htpfbw/yt98k1sgofg9wgqa#fy1wU)
     '''
 
     def set_config(self, config: dict):
