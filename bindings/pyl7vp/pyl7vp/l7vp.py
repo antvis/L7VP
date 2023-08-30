@@ -189,4 +189,5 @@ class L7VP():
         html = self._get_html_str(read_only, env, **kwargs)
         # write output into file
         write_utf8_file(file_name, html)
-        return file_name
+
+        print("Saved to {}!".format(file_name))
