@@ -1,6 +1,9 @@
 name: pyl7vp-test
 
-on: push
+on:
+  push:
+    paths:
+      - 'bindings/pyl7vp/**'
 
 jobs:
   pyl7vp-test:
@@ -20,7 +23,6 @@ jobs:
         run: |
           cd bindings/pyl7vp
           python -m pip install --upgrade pip
-          pwd
           pip install -e .
           pip install flake8 pytest
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
