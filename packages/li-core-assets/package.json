@@ -44,7 +44,8 @@
     "classnames": "^2.3.1",
     "gcoord": "^0.3.2",
     "h3-js": "^4.0.1",
-    "lodash-es": "^4.17.21"
+    "lodash-es": "^4.17.21",
+    "pmtiles": "^2.10.0"
   },
   "devDependencies": {
     "@ant-design/icons": "^5.0.1",
