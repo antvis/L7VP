@@ -1,15 +1,16 @@
 name: pyl7vp-test
 
 on:
-  release:
-    types: [created, edited]
+  push:
+    paths:
+      - 'bindings/pyl7vp/**'
 
 jobs:
   pyl7vp-test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.6, 3.7, 3.8, 3.9]
+        python-version: [3.7, 3.8, 3.9]
 
     steps:
       - uses: actions/checkout@v2
@@ -18,12 +19,11 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: change pyl7vp directory
-        run: cd bindings/pyl7vp
-
       - name: Install dependencies
         run: |
+          cd bindings/pyl7vp
           python -m pip install --upgrade pip
+          pip install -e .
           pip install flake8 pytest
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 

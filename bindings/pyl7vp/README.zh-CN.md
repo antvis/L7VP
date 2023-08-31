@@ -7,7 +7,7 @@
 [![Latest Stable Version](https://img.shields.io/pypi/v/pyl7vp.svg)](https://pypi.python.org/pypi/pyl7vp) [![Test Status](https://github.com/antvis/L7VP/workflows/pyl7vp-test/badge.svg)](https://github.com/antvis/L7VP/actions?query=workflow:pyl7vp-test) [![Pypi Download](https://img.shields.io/pypi/dm/pyl7vp)](https://pypi.python.org/pypi/pyl7vp)
 
 <div align="center">
-  <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*EAcUQb_UzAEAAAAAAAAAAAAADmJ7AQ/original.png" width="800">
+  <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*BxIZT4x7pQ4AAAAAAAAAAAAADmJ7AQ/original" width="800">
 </div>
 
 ## 安装
