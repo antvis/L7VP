@@ -132,14 +132,13 @@
       ReactDOM.render(App, document.getElementById("{{ l7vp.instance_id }}"));
     </script>
     {% endif %}
-
     <!-- Google Analytics，用于调研分析 L7VP 使用情况，可以删掉 -->
-    <script src="https://www.googletagmanager.com/gtag/js?id=G-N97Y9S4GLG" crossorigin></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-N97Y9S4GLG" crossorigin></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-N97Y9S4GLG', { app_type: 'pyl7vp-app' });
+      gtag("js", new Date());
+      gtag("config", "G-N97Y9S4GLG", { app_type: "pyl7vp-app" });
     </script>
     <!-- Baidu tongji，用于调研分析 L7VP 使用情况，可以删掉 -->
     <script>
