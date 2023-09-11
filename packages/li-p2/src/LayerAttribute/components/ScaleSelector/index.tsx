@@ -13,22 +13,25 @@ export type ScaleSelectorProps = SelectProps<string, ColorScaleSelectOptionType>
 
 const Internal = (props: ScaleSelectorProps) => {
   const selectOptions = useMemo(() => {
-    const options = props.options ?? DEHAULT_OPTIONS;
+    const options = props.options ?? (DEHAULT_OPTIONS as ColorScaleSelectOptionType[]);
     const type = ['string', 'number'].includes(props.type) ? props.type : 'string';
-    return options.filter((item) => item.type === type);
+    return options.filter((item: ColorScaleSelectOptionType) => item.type === type);
   }, [props.type, props.options]);
 
   useEffect(() => {
     if (!props.value || selectOptions.findIndex((item) => item.value === props.value) === -1) {
-      props?.onChange(selectOptions[0]?.value, selectOptions);
+      if (props.onChange) {
+        const val = selectOptions[0].value as string;
+        props.onChange(val, selectOptions);
+      }
     }
   }, [selectOptions]);
 
   return (
     <Select {...props}>
-      {selectOptions?.map((item, index) => {
+      {selectOptions?.map((item: ColorScaleSelectOptionType, index: number) => {
         return (
-          <Select.Option value={item.value} key={index}>
+          <Select.Option value={item.value} key={index.toString()}>
             {item.label}
           </Select.Option>
         );

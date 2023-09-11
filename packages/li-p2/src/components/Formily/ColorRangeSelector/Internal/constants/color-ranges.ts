@@ -1,9 +1,11 @@
+// @ts-ignore
 import colorbrewer from 'colorbrewer';
 import type { ColorRange } from '../types';
 
 // Add colorbrewer color schemes (Data Science requirement)
 // See http://colorbrewer2.org/
 const colorBrewerMap = Object.entries(colorbrewer.schemeGroups).reduce(
+  // @ts-ignore
   (accu: Record<string, string>, [type, palettes]: [string, string[]]) => ({
     ...accu,
     ...palettes.reduce(
@@ -19,9 +21,11 @@ const colorBrewerMap = Object.entries(colorbrewer.schemeGroups).reduce(
 
 export const COLOR_RANGES: ColorRange[] = Object.entries(colorbrewer)
   .filter(([keyName]) => keyName !== 'schemeGroups')
+  // @ts-ignore
   .map(([keyName, colorScheme]: [string, Record<string, string[]>]) => {
     return Object.entries(colorScheme).map(([lenKey, colors]) => ({
       name: `ColorBrewer ${keyName}-${lenKey}`,
+      // @ts-ignore
       type: colorBrewerMap[keyName],
       category: 'ColorBrewer',
       colors: colors,

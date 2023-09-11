@@ -1,4 +1,5 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
+import type { CSSInterpolation } from '@ant-design/cssinjs';
 
 export default genStyleHook('icon-selector', (token) => {
   const { componentCls, antCls, colorBgBase } = token;
@@ -45,5 +46,5 @@ export default genStyleHook('icon-selector', (token) => {
         height: '100%',
       },
     },
-  };
+  } as CSSInterpolation;
 });

@@ -60,6 +60,7 @@ const RangeItem = ({ index, id, color: defaultValue, onDelete, onChange, onChang
   };
 
   return wrapSSR(
+    // @ts-ignore
     <div className={classnames(`${prefixCls}`, hashId)} ref={drag(drop(ref))}>
       <div className={`${prefixCls}__drag-icon`}>
         <HolderOutlined />

@@ -4,7 +4,6 @@ import type { ReactFC } from '@formily/react';
 import { connect } from '@formily/react';
 import { Button, Form, Input, message, Popconfirm, Popover } from 'antd';
 import cls from 'classnames';
-import { isEmpty } from 'lodash-es';
 import React, { useEffect, useRef, useState } from 'react';
 import { BuiltInImageList as DEFULT_ICON_LIST } from '../../IconImageLayerStyle/constant';
 import useStyle from './style';
@@ -20,9 +19,7 @@ const Internal: React.FC<IconListProps> = (props) => {
   const { onChange } = props;
   const prefixCls = usePrefixCls('formily-icon-list');
   const [wrapSSR, hashId] = useStyle(prefixCls);
-  const [iconList, setIconList] = useState<IconSelectOptionType[]>(
-    isEmpty(props.value) ? DEFULT_ICON_LIST : props.value,
-  );
+  const [iconList, setIconList] = useState<IconSelectOptionType[]>(props.value ? props.value : DEFULT_ICON_LIST);
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
   const formRef = useRef(null);
@@ -91,6 +88,7 @@ const Internal: React.FC<IconListProps> = (props) => {
                 message: '请输入图标的路径地址',
               },
               {
+                // @ts-ignore
                 pattern: '^https?://.+/',
                 message: '请输入正确地址链接',
               },

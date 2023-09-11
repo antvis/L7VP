@@ -1,4 +1,5 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
+import type { CSSInterpolation } from '@ant-design/cssinjs';
 
 export default genStyleHook('color-range-selector', (token) => {
   const { componentCls, antCls } = token;
@@ -28,5 +29,5 @@ export default genStyleHook('color-range-selector', (token) => {
       maxHeight: '400px',
       overflowY: 'auto !important',
     },
-  };
+  } as CSSInterpolation;
 });

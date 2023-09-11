@@ -11,7 +11,7 @@ const FieldList = [
   { type: 'string', label: '终纬度', value: 't_lat', typeColor: 'red', typeName: '文本' },
 ];
 
-const DefaultFlowLayerStyle = {
+const DefaultFlowLayerStyle: FlowLayerStyleAttributeValue = {
   // 客流点聚合类型
   clusterType: 'HCA',
   // zoom 计算步长
@@ -24,9 +24,8 @@ const DefaultFlowLayerStyle = {
   clusterExtent: 512,
   // 最大展示的客流线条数
   maxTopFlowNum: 5000,
-  color: '#fff',
-  zoom: 12,
-  radius: {
+  circleColor: '#fff',
+  circleRadius: {
     field: 'weight',
     value: [1, 16],
   },
@@ -34,7 +33,7 @@ const DefaultFlowLayerStyle = {
     field: 'weight',
     value: ['orange', 'red'],
   },
-  lineSize: {
+  lineWidth: {
     field: 'weight',
     value: [1, 16],
   },
@@ -43,7 +42,7 @@ const DefaultFlowLayerStyle = {
   // 半透明的权重
   fadeOpacityAmount: 0,
   state: {
-    select: { strokeColor: 'pink', lineWidth: 1.5, lineOpacity: 0.8 },
+    select: { circleStrokeColor: 'pink' },
   },
 };
 
