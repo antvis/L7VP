@@ -13,7 +13,7 @@ export type ScaleSelectorProps = SelectProps<string, ColorScaleSelectOptionType>
 
 const Internal = (props: ScaleSelectorProps) => {
   const selectOptions = useMemo(() => {
-    const options = props.options ?? (DEHAULT_OPTIONS as ColorScaleSelectOptionType[]);
+    const options = props.options ?? DEHAULT_OPTIONS;
     const type = ['string', 'number'].includes(props.type) ? props.type : 'string';
     return options.filter((item: ColorScaleSelectOptionType) => item.type === type);
   }, [props.type, props.options]);

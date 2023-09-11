@@ -1,4 +1,6 @@
-export const DEHAULT_OPTIONS = [
+import type { ColorScaleSelectOptionType } from './index';
+
+export const DEHAULT_OPTIONS: ColorScaleSelectOptionType[] = [
   {
     label: '等间距',
     value: 'quantize',
