@@ -5,6 +5,7 @@ import { getDatasetFields, isLocalOrRemoteDataset } from '@antv/li-sdk';
 import { Button, Card, Popconfirm, Select, theme } from 'antd';
 import type { DefaultOptionType } from 'antd/lib/select';
 import React, { useMemo } from 'react';
+import type { FilterLogicalOperators } from '@antv/li-p2/dist/esm/components/Filter/types';
 import { useEditorDatasets, useEditorState } from '../../../hooks';
 import './index.less';
 
@@ -35,7 +36,7 @@ const FilterCard = ({ id: datasetId, datasetOptions, selectedDatasets, onDataset
 
   const { updateState } = useEditorState();
 
-  const addFilterNode = (filterNode: FilterNode, filterLogicalOperator?: DatasetFilter['relation']) => {
+  const addFilterNode = (filterNode: FilterNode, filterLogicalOperator?: FilterLogicalOperators) => {
     updateState((draft) => {
       const index = draft.datasets.findIndex((item) => item.id === datasetId);
       if (index !== -1) {
