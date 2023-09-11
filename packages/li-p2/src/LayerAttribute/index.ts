@@ -41,4 +41,5 @@ export { iconImageLayerStyleConfigToFlat, iconImageLayerStyleFlatToConfig } from
 export type { IconImageLayerStyleAttributeValue } from './IconImageLayerStyle/types';
 
 export { flowLayerStyleConfigToFlat, flowLayerStyleFlatToConfig } from './FlowLayerStyle/helper';
+export { FlowLayerStyleAttribute } from './FlowLayerStyle';
 export type { FlowLayerStyleAttributeValue } from './FlowLayerStyle/types';
