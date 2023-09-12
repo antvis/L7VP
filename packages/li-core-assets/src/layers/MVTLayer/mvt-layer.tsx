@@ -59,7 +59,7 @@ const MVTLayer: React.FC<MVTLayerProps> = (props) => {
     geometry: tilestats.layers.find((l) => l.layer === layer.id)?.geometry,
   }));
 
-  return vectorLayers.map((vectorLayer) => {
+  const layers = vectorLayers.map((vectorLayer) => {
     if (vectorLayer.geometry === 'Point') {
       return (
         <PointLayer
@@ -116,6 +116,8 @@ const MVTLayer: React.FC<MVTLayerProps> = (props) => {
 
     return null;
   });
+
+  return <>{layers}</>;
 };
 
 export default MVTLayer;
