@@ -108,6 +108,7 @@ const FilterCard = ({ id, datasetOptions, selectedDatasets, onDel }: FilterCardP
           filterNodes={filterNodes}
           data={_data}
           columns={columns}
+          // @ts-ignore
           addFilterNode={addFilterNode}
           updateFilterNode={updateFilterNode}
           removeFilterNode={removeFilterNode}

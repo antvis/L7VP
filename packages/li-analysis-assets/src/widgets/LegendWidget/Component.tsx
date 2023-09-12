@@ -4,6 +4,7 @@ import type { ImplementWidgetProps } from '@antv/li-sdk';
 import { useLayerList } from '@antv/li-sdk';
 import { useUpdate } from 'ahooks';
 import { Empty, Popover, Tooltip } from 'antd';
+import type { Layer } from '@antv/larkmap/es/types';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash-es';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -37,7 +38,9 @@ const LegendControl: React.FC<LegendType> = (props) => {
     const updateLegendData = () => {
       const legendDatas = layerList.map(parserLegendData);
       const legendData = legendDatas.filter(
-        (item) => item.data.labels.length && (!isEmpty(item.data.colors) || !isEmpty(item.data.icons)),
+        // @ts-ignore
+        (item: LegendDataListType) =>
+          item.data.labels.length && (!isEmpty(item.data.colors) || !isEmpty(item.data.icons)),
       );
       setLegendDataList(legendData);
     };
@@ -46,11 +49,11 @@ const LegendControl: React.FC<LegendType> = (props) => {
       updateLegendData();
     }, 1000);
 
-    layerList.forEach((layer) => {
+    layerList.forEach((layer: Layer) => {
       layer.on('legend:color', updateLegendData);
     });
     return () => {
-      layerList.forEach((layer) => {
+      layerList.forEach((layer: Layer) => {
         layer.off('legend:color', updateLegendData);
       });
     };
