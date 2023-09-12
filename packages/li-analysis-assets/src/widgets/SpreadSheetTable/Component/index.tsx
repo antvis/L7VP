@@ -17,9 +17,7 @@ const DefaultSize = {
   height: 260,
 };
 
-export interface MiniChartProps extends ImplementWidgetProps, Properties {
-  'data-widget-name': string;
-}
+export interface MiniChartProps extends ImplementWidgetProps, Properties {}
 
 const SpreadSheetTable: React.FC<MiniChartProps> = ({
   'data-widget-name': dataWidgetName,
