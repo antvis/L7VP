@@ -38,8 +38,7 @@ const LegendControl: React.FC<LegendType> = (props) => {
     const updateLegendData = () => {
       const legendDatas = layerList.map(parserLegendData);
       const legendData = legendDatas.filter(
-        (item: LegendDataListType) =>
-          // @ts-ignore
+        (item: LegendDataListType | Record<string, any>) =>
           item.data.labels.length && (!isEmpty(item.data.colors) || !isEmpty(item.data.icons)),
       );
       setLegendDataList(legendData);
