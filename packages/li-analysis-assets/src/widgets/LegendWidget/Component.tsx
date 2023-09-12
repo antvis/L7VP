@@ -37,10 +37,12 @@ const LegendControl: React.FC<LegendType> = (props) => {
   useEffect(() => {
     const updateLegendData = () => {
       const legendDatas = layerList.map(parserLegendData);
-      const legendData = legendDatas.filter(
-        (item: LegendDataListType | Record<string, any>) =>
-          item.data.labels.length && (!isEmpty(item.data.colors) || !isEmpty(item.data.icons)),
-      );
+      const legendData = legendDatas.filter((item: LegendDataListType) => {
+        const isIconsData = item.type === 'LegendIcon' && !isEmpty(item.data.icons);
+        const isColorData = item.type !== 'LegendIcon' && !isEmpty(item.data.colors);
+        const isValidData = item.data.labels.length && (isIconsData || isColorData);
+        return isValidData;
+      });
       setLegendDataList(legendData);
     };
 
