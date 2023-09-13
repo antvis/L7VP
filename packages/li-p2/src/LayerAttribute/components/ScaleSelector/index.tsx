@@ -20,7 +20,10 @@ const Internal = (props: ScaleSelectorProps) => {
 
   useEffect(() => {
     if (!props.value || selectOptions.findIndex((item) => item.value === props.value) === -1) {
-      props?.onChange(selectOptions[0]?.value, selectOptions);
+      if (props.onChange) {
+        const val = selectOptions[0].value as string;
+        props.onChange(val, selectOptions);
+      }
     }
   }, [selectOptions]);
 
@@ -28,7 +31,7 @@ const Internal = (props: ScaleSelectorProps) => {
     <Select {...props}>
       {selectOptions?.map((item, index) => {
         return (
-          <Select.Option value={item.value} key={index}>
+          <Select.Option value={item.value} key={index.toString()}>
             {item.label}
           </Select.Option>
         );

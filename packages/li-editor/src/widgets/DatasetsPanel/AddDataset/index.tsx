@@ -64,7 +64,7 @@ const AddDataset = ({ visible, onClose }: AddDatasetProps) => {
       updateState((draft) => {
         if (!draft.layers.find((item) => item.id === layer.id)) {
           const implementLayer = appService.getImplementLayer(layer.type);
-          const visConfig = implementLayer?.defaultVisConfig || layer.visConfig;
+          const visConfig = { ...implementLayer?.defaultVisConfig, ...layer.visConfig };
           draft.layers.push({ ...layer, visConfig });
         }
       });

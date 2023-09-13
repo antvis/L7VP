@@ -21,7 +21,7 @@ export default genStyleHook('icon-selector', (token) => {
           display: 'none',
         },
         '.rc-virtual-list-holder-inner': {
-          flexDirection: 'row !important',
+          flexDirection: 'row',
           flexWrap: 'wrap',
         },
         [`${antCls}-select-selection-item`]: {

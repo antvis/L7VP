@@ -11,9 +11,9 @@ import { flowLayerStyleConfigToFlat, flowLayerStyleFlatToConfig } from './helper
 import schema from './schema';
 import type { FlowLayerStyleAttributeProps } from './types';
 
-export const FlowLayerStyleAttributeSchemaField: React.FC<Pick<FlowLayerStyleAttributeProps, 'fieldList'>> = (
-  props,
-) => {
+export const FlowLayerStyleAttributeSchemaField: React.FC<
+  Pick<FlowLayerStyleAttributeProps, 'fieldList' | 'colorRanges'>
+> = (props) => {
   const SchemaField = useMemo(
     () =>
       createSchemaField({

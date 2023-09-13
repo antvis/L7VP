@@ -26,7 +26,7 @@ export default genStyleHook('color-range-selector', (token) => {
 
     [`${antCls}-select-dropdown`]: {
       maxHeight: '400px',
-      overflowY: 'auto !important',
+      overflowY: 'auto',
     },
   };
 });

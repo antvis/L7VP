@@ -128,6 +128,7 @@ export function DrawTool(props: DrawProps) {
     const { feature } = e;
     const layerId = (feature as Feature).properties?.id;
     for (const drawData in drawGroupData) {
+      // @ts-ignore
       drawGroupData[drawData] = drawGroupData[drawData].filter((item) => item.properties?.id !== layerId);
     }
     setDrawGroupData(drawGroupData);

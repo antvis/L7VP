@@ -143,6 +143,7 @@ const FilterCard = ({ id: datasetId, datasetOptions, selectedDatasets, onDataset
         filterNodes={filterNodes}
         data={_data}
         columns={columns}
+        // @ts-ignore
         addFilterNode={addFilterNode}
         updateFilterNode={updateFilterNode}
         removeFilterNode={removeFilterNode}

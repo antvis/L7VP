@@ -33,7 +33,7 @@ const Preset_Colors = [
 const RangeItem = ({ index, id, color: defaultValue, onDelete, onChange, onChangeSort }: RangeItemProps) => {
   const prefixCls = usePrefixCls('formily-color-range-selector__custom-range__range-item');
   const [wrapSSR, hashId] = useStyle(prefixCls);
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   const [, drop] = useDrop({
     accept: 'DragDropBox',
@@ -58,9 +58,9 @@ const RangeItem = ({ index, id, color: defaultValue, onDelete, onChange, onChang
   const colorChange = (color: Color) => {
     onChange?.(color.toHexString());
   };
-
+  drag(drop(ref));
   return wrapSSR(
-    <div className={classnames(`${prefixCls}`, hashId)} ref={drag(drop(ref))}>
+    <div className={classnames(`${prefixCls}`, hashId)} ref={ref}>
       <div className={`${prefixCls}__drag-icon`}>
         <HolderOutlined />
       </div>

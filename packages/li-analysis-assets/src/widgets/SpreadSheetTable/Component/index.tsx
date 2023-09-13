@@ -36,7 +36,7 @@ const SpreadSheetTable: React.FC<MiniChartProps> = ({
   const [dataset] = useDataset<LocalOrRemoteDataset>(datasetId);
   const styles = useStyle();
   const containerRef = useRef<HTMLDivElement>(null);
-  const tableRef = useRef<PivotSheet>();
+  const tableRef = useRef<PivotSheet>(null);
   const { data: tableData = [], columns: tableColumns = [] } = dataset || {};
   const size = useSize(containerRef);
 
@@ -98,7 +98,7 @@ const SpreadSheetTable: React.FC<MiniChartProps> = ({
   }, [size]);
 
   if (!dataset) {
-    return;
+    return <></>;
   }
 
   return (
