@@ -37,7 +37,7 @@ const LegendControl: React.FC<LegendType> = (props) => {
   useEffect(() => {
     const updateLegendData = () => {
       const legendDatas = layerList.map(parserLegendData);
-      const legendData = legendDatas.filter((item: LegendDataListType) => {
+      const legendData = legendDatas.filter((item) => {
         const isIconsData = item.type === 'LegendIcon' && !isEmpty(item.data.icons);
         const isColorData = item.type !== 'LegendIcon' && !isEmpty(item.data.colors);
         const isValidData = item.data.labels.length && (isIconsData || isColorData);
@@ -50,11 +50,11 @@ const LegendControl: React.FC<LegendType> = (props) => {
       updateLegendData();
     }, 1000);
 
-    layerList.forEach((layer: Layer) => {
+    layerList.forEach((layer) => {
       layer.on('legend:color', updateLegendData);
     });
     return () => {
-      layerList.forEach((layer: Layer) => {
+      layerList.forEach((layer) => {
         layer.off('legend:color', updateLegendData);
       });
     };
