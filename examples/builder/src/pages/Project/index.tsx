@@ -138,7 +138,7 @@ export default function ProjectPage() {
       >
         <Tabs
           defaultActiveKey="my-project"
-          tabBarExtraContent={OperationsSlot}
+          // tabBarExtraContent={OperationsSlot}
           items={items}
         />
       </Layout.Content>
