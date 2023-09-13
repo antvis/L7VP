@@ -44,7 +44,7 @@ export type WidgetType = 'Layout' | 'Container' | 'Atom' | 'Auto';
 
 /**
  * 组件资产类别：
- * https://www.yuque.com/antv/htpfbw/zqvk302x61qq2kcq#kg6q1
+ * https://www.yuque.com/antv/l7vp/zqvk302x61qq2kcq#kg6q1
  */
 export type WidgetCategory =
   | 'Layout'

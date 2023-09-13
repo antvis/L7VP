@@ -53,29 +53,29 @@ export default function UploadDataset(props: UploadDatasetProps) {
       <div className="li-upload">
         <p className="li-upload__description">
           支持的文件格式有{' '}
-          <a href="https://www.yuque.com/antv/htpfbw/tn0qhoyhoz9d4lx8" target="_blank" rel="noreferrer">
+          <a href="https://www.yuque.com/antv/l7vp/data-format-csv" target="_blank" rel="noreferrer">
             CSV
           </a>
           、
-          <a href="https://www.yuque.com/antv/htpfbw/voebwdpv2dsk3b14" target="_blank" rel="noreferrer">
+          <a href="https://www.yuque.com/antv/l7vp/data-format-excel" target="_blank" rel="noreferrer">
             Excel
           </a>
           、
-          <a href="https://www.yuque.com/antv/htpfbw/ruzc7i0tbwevxtu8" target="_blank" rel="noreferrer">
+          <a href="https://www.yuque.com/antv/l7vp/data-format-json" target="_blank" rel="noreferrer">
             JSON
           </a>
           、
-          <a href="https://www.yuque.com/antv/htpfbw/vytzqa3puynm2f2i" target="_blank" rel="noreferrer">
+          <a href="https://www.yuque.com/antv/l7vp/data-format-geojson" target="_blank" rel="noreferrer">
             GeoJSON
           </a>
           、
           <Tooltip title="需压缩打包为 Zip 格式，上传的 Zip 至少包含 .shp、.dbf、.prj 文件">
-            <a href="https://www.yuque.com/antv/htpfbw/yryletf0pw2veipp" target="_blank" rel="noreferrer">
+            <a href="https://www.yuque.com/antv/l7vp/data-format-shapefile" target="_blank" rel="noreferrer">
               Shapefile
             </a>
           </Tooltip>
           ，了解使用方式详见{' '}
-          <a href="https://www.yuque.com/antv/htpfbw/ga8rg309cmbfhly8" target="_blank" rel="noreferrer">
+          <a href="https://www.yuque.com/antv/l7vp/data-formats" target="_blank" rel="noreferrer">
             使用文档
           </a>
           。

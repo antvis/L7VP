@@ -3,7 +3,7 @@ import type { ChildrenMap, ImplementWidget, ImplementWidgetOptions } from '../ty
 
 /**
  * 实现一个组件资产:
- * LI 资产研发教程 🔗 https://www.yuque.com/antv/htpfbw/zqvk302x61qq2kcq
+ * LI 资产研发教程 🔗 https://www.yuque.com/antv/l7vp/zqvk302x61qq2kcq
  */
 export function implementWidget<P extends Record<string, unknown>, CP extends P = P>(
   options: ImplementWidgetOptions<P, CP>,
