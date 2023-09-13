@@ -43,7 +43,7 @@ const InternalSelect: React.FC<SelectProps<string, FieldSelectOptionType>> = (pr
                   <Tag color={item.typeColor}>{isUndefined(item.typeName) ? item.type : item.typeName}</Tag>
                 )}
 
-                <span>{item.label}-师傅你打算给你打上，烦恼丝，等级分</span>
+                <span>{item.label}</span>
               </div>
             );
           })}
@@ -59,7 +59,7 @@ const InternalSelect: React.FC<SelectProps<string, FieldSelectOptionType>> = (pr
               ) : (
                 <Tag color={item.typeColor}>{isUndefined(item.typeName) ? item.type : item.typeName}</Tag>
               )}
-              <span>{item.label}-师傅你打算给你打上，烦恼丝，等级分</span>
+              <span>{item.label}</span>
             </div>
           </Select.Option>
         );
