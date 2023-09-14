@@ -25,7 +25,7 @@ const InternalSelect: React.FC<SelectProps<string, FieldSelectOptionType>> = (pr
                 <Tag color={item.typeColor}>{isUndefined(item.typeName) ? item.type : item.typeName}</Tag>
               )}
 
-              <span>{item.label}</span>
+              <span title={item.label}>{item.label}</span>
             </div>
           </Select.Option>
         );
