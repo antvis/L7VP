@@ -23,16 +23,14 @@ const InternalSelect: React.FC<SelectProps<string, FieldSelectOptionType>> = (pr
     <Select
       {...prop}
       popupClassName={cls(`${prefixCls}`, hashId)}
-      open={open}
+      open={true}
       onDropdownVisibleChange={(visible) => setOpen(visible)}
       dropdownRender={() => {
         if (!options?.length) {
           return <Empty description="暂无数据" image={Empty.PRESENTED_IMAGE_SIMPLE} />;
         }
 
-        const dropdownHeight =
-          40 * options.length < 200 ? 40 * options.length + (options[0].label.length > 9 ? 20 : 0) : 200;
-
+        const dropdownHeight = 32 * options.length < 256 ? 32 * options.length + 14 : 256;
         return (
           <div className={`${prefixCls}-dropdown`} style={{ height: dropdownHeight }}>
             <div className={`${prefixCls}-dropdown-container`}>
