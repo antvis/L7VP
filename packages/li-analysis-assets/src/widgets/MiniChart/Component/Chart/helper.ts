@@ -70,7 +70,7 @@ export const getChartTheme = (theme: 'dark' | 'light') => {
     theme === 'dark'
       ? {
           type: 'classicDark',
-          viewFill: BACKGROUND_COLOR,
+          view: { viewFill: BACKGROUND_COLOR },
         }
       : { type: 'classic' };
 

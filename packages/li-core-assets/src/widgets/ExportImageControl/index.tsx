@@ -6,8 +6,8 @@ export default implementWidget({
   version: 'v0.1',
   metadata: {
     name: 'ExportImageControl',
-    displayName: '导出图片',
-    description: '导出图片',
+    displayName: '截图地图',
+    description: '地图截图并导出',
     type: 'Auto',
     category: 'MapControl',
   },

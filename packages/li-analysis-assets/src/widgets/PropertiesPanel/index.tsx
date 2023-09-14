@@ -7,7 +7,7 @@ export default implementWidget({
   metadata: {
     name: 'PropertiesPanel',
     displayName: '属性面板',
-    description: '图层属性面板',
+    description: '面板形式展示图层的额外信息',
     category: 'LayerInteraction',
     type: 'Auto',
     icon: '',

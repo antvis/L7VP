@@ -7,7 +7,7 @@ export default implementWidget({
   metadata: {
     name: 'GeoLocateControl',
     displayName: 'GPS 定位',
-    description: '地图定位',
+    description: '使用 GPS 定位到地图上',
     type: 'Auto',
     category: 'MapControl',
   },

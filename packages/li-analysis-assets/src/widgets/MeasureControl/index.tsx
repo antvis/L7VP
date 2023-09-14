@@ -6,8 +6,8 @@ export default implementWidget({
   version: 'v0.1',
   metadata: {
     name: 'MeasureControl',
-    displayName: '距离/面积测量',
-    description: '用于测量距离/面积',
+    displayName: '测距测面',
+    description: '地图上测量距离与面积',
     type: 'Auto',
     category: 'MapControl',
   },

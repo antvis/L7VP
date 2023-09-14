@@ -36,7 +36,7 @@ const TimeLineControl: React.FC<TimeLineControlType> = (props) => {
     const filterList = {
       ...filter,
       children: filter.children.filter(
-        (item) => item.field !== dateField && item.type === 'date' && item.operator === 'BETWEEN',
+        (item) => item.field !== dateField && item.type !== 'date' && item.operator !== 'BETWEEN',
       ),
     };
     return filterList;

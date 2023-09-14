@@ -7,7 +7,7 @@ export default implementWidget({
   metadata: {
     name: 'LogoControl',
     displayName: 'Logo',
-    description: 'Logo 图标',
+    description: '自定义 Logo 图标',
     type: 'Auto',
     category: 'MapControl',
   },
