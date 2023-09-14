@@ -14,7 +14,6 @@ const InternalSelect: React.FC<SelectProps<string, FieldSelectOptionType>> = (pr
   const [open, setOpen] = useState(false);
 
   const onOptionClick = (val: string) => {
-    console.log(val, 'val');
     if (props.onChange) {
       props.onChange(val, options ?? []);
       setOpen(false);
@@ -24,7 +23,7 @@ const InternalSelect: React.FC<SelectProps<string, FieldSelectOptionType>> = (pr
     <Select
       {...prop}
       popupClassName={cls(`${prefixCls}`, hashId)}
-      open={true}
+      open={open}
       onDropdownVisibleChange={(visible) => setOpen(visible)}
       dropdownRender={() => (
         <div className={`${prefixCls}-dropdown`}>
