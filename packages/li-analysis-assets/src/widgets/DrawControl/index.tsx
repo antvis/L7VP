@@ -6,8 +6,8 @@ export default implementWidget({
   version: 'v0.1',
   metadata: {
     name: 'DrawControl',
-    displayName: '绘制组件',
-    description: '用于地图绘制',
+    displayName: '绘制图形',
+    description: '地图上绘制点、线、面、圆数据',
     type: 'Auto',
     category: 'MapControl',
   },

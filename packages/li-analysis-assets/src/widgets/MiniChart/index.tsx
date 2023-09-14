@@ -7,7 +7,7 @@ export default implementWidget({
   metadata: {
     name: 'MiniChart',
     displayName: '统计图表',
-    description: '用于数据分析',
+    description: '以图表的形式展示数据',
     type: 'Atom',
     category: 'DataAnalysis',
   },

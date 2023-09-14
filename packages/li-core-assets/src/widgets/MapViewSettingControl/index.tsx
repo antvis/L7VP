@@ -6,8 +6,8 @@ export default implementWidget({
   version: 'v0.1',
   metadata: {
     name: 'MapViewSettingControl',
-    displayName: '地图倾角',
-    description: '用于调整地图倾斜角度',
+    displayName: '倾角调整',
+    description: '调整地图视角',
     type: 'Auto',
     category: 'MapControl',
   },

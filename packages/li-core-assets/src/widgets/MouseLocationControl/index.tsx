@@ -7,7 +7,7 @@ export default implementWidget({
   metadata: {
     name: 'MouseLocationControl',
     displayName: '光标经纬度',
-    description: '光标经纬度',
+    description: '显示光标在地图上的经纬度信息',
     type: 'Auto',
     category: 'MapControl',
   },

@@ -7,7 +7,7 @@ export default implementWidget({
   metadata: {
     name: 'SpreadSheetTable',
     displayName: '统计表格',
-    description: '用于统计数据表格形式展示',
+    description: '以表格的形式展示数据',
     type: 'Atom',
     category: 'DataAnalysis',
   },
