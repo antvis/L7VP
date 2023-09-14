@@ -6,8 +6,8 @@ export default implementWidget({
   version: 'v0.1',
   metadata: {
     name: 'MapThemeControl',
-    displayName: '地图主题',
-    description: '地图主题',
+    displayName: '底图主题切换',
+    description: '地图底图主题样式切换',
     type: 'Auto',
     category: 'MapControl',
   },

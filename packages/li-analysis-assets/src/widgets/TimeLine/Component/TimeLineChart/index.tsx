@@ -72,16 +72,15 @@ export const TimeLineChart = (props: TimeLineChartProps) => {
         animate: false,
         interaction: {
           brushXHighlight: {
-            series: true,
             maskOpacity: 0.3,
             maskFill: '#777',
             maskHandleWRender: createPathRender((width: number, height: number) => ({
               d: 'M-0.5,31.5c-2.5,0,-4.5,2,-4.5,4.5v30c0,2.5,2,4.5,4.5,4.5V31.5z',
-              transform: `translate(${width / 2}, ${-height / 2 + 5})`,
+              transform: `translate(${width / 2}, -5)`,
             })),
             maskHandleERender: createPathRender((width: number, height: number) => ({
               d: 'M0.5,31.5c2.5,0,4.5,2,4.5,4.5v30c0,2.5,-2,4.5,-4.5,4.5V31.5z',
-              transform: `translate(${width / 2}, ${-height / 2 + 5})`,
+              transform: `translate(${width / 2}, -5)`,
             })),
             maskHandleEFill: '#D3D8E0',
             maskHandleWFill: '#D3D8E0',

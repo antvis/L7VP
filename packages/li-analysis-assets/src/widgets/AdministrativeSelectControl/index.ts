@@ -7,7 +7,7 @@ export default implementWidget({
   metadata: {
     name: 'AdministrativeSelectControl',
     displayName: '行政区域选择器',
-    description: '用于选择行政名地图跳转到行政区域',
+    description: '选择行政名地图切换到行政区域',
     type: 'Auto',
     category: 'MapControl',
   },

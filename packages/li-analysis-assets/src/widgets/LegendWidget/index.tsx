@@ -6,8 +6,8 @@ export default implementWidget({
   version: 'v0.1',
   metadata: {
     name: 'LegendWidget',
-    displayName: '图例组件',
-    description: '用于图层图例',
+    displayName: '图例',
+    description: '显示地图上图层的图例信息',
     type: 'Auto',
     category: 'MapControl',
   },

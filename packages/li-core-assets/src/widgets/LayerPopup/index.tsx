@@ -6,8 +6,8 @@ export default implementWidget({
   version: 'v0.1',
   metadata: {
     name: 'LayerPopup',
-    displayName: '图层信息框',
-    description: '图层信息框',
+    displayName: '信息框',
+    description: '弹窗形式展示图层的额外信息',
     type: 'Auto',
     category: 'LayerInteraction',
   },
