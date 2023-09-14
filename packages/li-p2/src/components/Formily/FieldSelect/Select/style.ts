@@ -9,19 +9,6 @@ export default genStyleHook('field-select', (token) => {
         maxHeight: 256,
         overflow: 'auto',
         position: 'relative',
-
-        '&::-webkit-scrollbar': {
-          width: 7,
-          height: 7,
-          appearance: 'none',
-        },
-
-        /* 滚动条的滑块按钮 */
-        '&::-webkit-scrollbar-thumb': {
-          background: colorTextDescription,
-          borderRadius: '3px',
-          cursor: 'pointer',
-        },
       },
 
       [`${componentCls}-dropdown-container`]: {
