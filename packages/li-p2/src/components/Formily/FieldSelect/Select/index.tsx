@@ -1,6 +1,6 @@
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import type { SelectProps } from 'antd';
-import { Select, Tag } from 'antd';
+import { Select, Tag, Empty } from 'antd';
 import cls from 'classnames';
 import { isUndefined } from 'lodash-es';
 import React, { useState } from 'react';
@@ -25,29 +25,40 @@ const InternalSelect: React.FC<SelectProps<string, FieldSelectOptionType>> = (pr
       popupClassName={cls(`${prefixCls}`, hashId)}
       open={open}
       onDropdownVisibleChange={(visible) => setOpen(visible)}
-      dropdownRender={() => (
-        <div className={`${prefixCls}-dropdown`}>
-          {options?.map((item, index) => {
-            return (
-              <div
-                className={cls(`${prefixCls}-item`, hashId, {
-                  [`${prefixCls}-item_selected`]: item.value === props.value,
-                })}
-                key={index}
-                onClick={() => onOptionClick(item.value)}
-              >
-                {isUndefined(item.type) ? (
-                  <Tag>未知</Tag>
-                ) : (
-                  <Tag color={item.typeColor}>{isUndefined(item.typeName) ? item.type : item.typeName}</Tag>
-                )}
+      dropdownRender={() => {
+        if (!options?.length) {
+          return <Empty description="暂无数据" image={Empty.PRESENTED_IMAGE_SIMPLE} />;
+        }
 
-                <span>{item.label}</span>
-              </div>
-            );
-          })}
-        </div>
-      )}
+        const dropdownHeight =
+          40 * options.length < 200 ? 40 * options.length + (options[0].label.length > 9 ? 20 : 0) : 200;
+
+        return (
+          <div className={`${prefixCls}-dropdown`} style={{ height: dropdownHeight }}>
+            <div className={`${prefixCls}-dropdown-container`}>
+              {options?.map((item, index) => {
+                return (
+                  <div
+                    className={cls(`${prefixCls}-item`, hashId, {
+                      [`${prefixCls}-item_selected`]: item.value === props.value,
+                    })}
+                    key={index}
+                    onClick={() => onOptionClick(item.value)}
+                  >
+                    {isUndefined(item.type) ? (
+                      <Tag>未知</Tag>
+                    ) : (
+                      <Tag color={item.typeColor}>{isUndefined(item.typeName) ? item.type : item.typeName}</Tag>
+                    )}
+
+                    <span>{item.label}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      }}
     >
       {options?.map((item, index) => {
         return (

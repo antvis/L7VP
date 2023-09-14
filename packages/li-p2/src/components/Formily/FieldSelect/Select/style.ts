@@ -1,14 +1,20 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
 export default genStyleHook('field-select', (token) => {
-  const { componentCls, colorPrimaryActive, colorPrimaryHover } = token;
+  const { componentCls, controlItemBgActive, controlItemBgHover } = token;
 
   return {
     [componentCls]: {
       [`${componentCls}-dropdown`]: {
-        maxHeight: 300,
+        maxHeight: 200,
         overflow: 'auto',
         position: 'relative',
+      },
+
+      [`${componentCls}-dropdown-container`]: {
+        maxHeight: 200,
+        position: 'absolute',
+        minWidth: '100%',
       },
 
       [`${componentCls}-item`]: {
@@ -19,11 +25,11 @@ export default genStyleHook('field-select', (token) => {
         cursor: 'pointer',
 
         '&:hover': {
-          color: colorPrimaryHover,
+          background: controlItemBgHover,
         },
 
         '&_selected': {
-          color: colorPrimaryActive,
+          background: controlItemBgActive,
         },
       },
     },
