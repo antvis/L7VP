@@ -23,7 +23,7 @@ const InternalSelect: React.FC<SelectProps<string, FieldSelectOptionType>> = (pr
     <Select
       {...prop}
       popupClassName={cls(`${prefixCls}`, hashId)}
-      open={true}
+      open={open}
       onDropdownVisibleChange={(visible) => setOpen(visible)}
       dropdownRender={() => {
         if (!options?.length) {
