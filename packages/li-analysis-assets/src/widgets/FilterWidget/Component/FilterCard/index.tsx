@@ -17,12 +17,23 @@ const EMPTY_DATASET_FILTER: DatasetFilter = { relation: 'AND', children: [] };
 
 type FilterCardProps = {
   id: string;
+  showDeleteFilter: boolean;
+  showAddFilter: boolean;
+  showFilterRelation: boolean;
   datasetOptions: { id: string; name: string }[];
   selectedDatasets: string[];
   onDel: () => void;
 };
 
-const FilterCard = ({ id, datasetOptions, selectedDatasets, onDel }: FilterCardProps) => {
+const FilterCard = ({
+  id,
+  showDeleteFilter,
+  showAddFilter,
+  showFilterRelation,
+  datasetOptions,
+  selectedDatasets,
+  onDel,
+}: FilterCardProps) => {
   const { token } = useToken();
   const [datasetId, setDatasetId] = useState(id);
   // TODO: 筛选条件不进行筛选自己，获取全量数据
@@ -86,26 +97,33 @@ const FilterCard = ({ id, datasetOptions, selectedDatasets, onDel }: FilterCardP
       bodyStyle={{ padding: 0 }}
       extra={
         <>
-          <Select
-            value={relation}
-            size="small"
-            disabled={isUnselectedDataset(datasetId)}
-            style={{ width: 65, marginLeft: 10 }}
-            options={[
-              { label: '并且', value: 'AND' },
-              { label: '或者', value: 'OR' },
-            ]}
-            onChange={(val: DatasetFilter['relation']) => onRelationChange(val)}
-          />
-          <Popconfirm title="确定要删除此筛选器？" onConfirm={onDelFilter} okText="确定" cancelText="取消">
-            <Button type="link" icon={<DeleteOutlined style={{ color: '#c0c0c0', opacity: 0.6 }} />} />
-          </Popconfirm>
+          {showFilterRelation && (
+            <Select
+              value={relation}
+              size="small"
+              disabled={isUnselectedDataset(datasetId)}
+              style={{ width: 65, marginLeft: 10 }}
+              options={[
+                { label: '并且', value: 'AND' },
+                { label: '或者', value: 'OR' },
+              ]}
+              onChange={(val: DatasetFilter['relation']) => onRelationChange(val)}
+            />
+          )}
+
+          {showDeleteFilter && (
+            <Popconfirm title="确定要删除此筛选器？" onConfirm={onDelFilter} okText="确定" cancelText="取消">
+              <Button type="link" icon={<DeleteOutlined style={{ color: '#c0c0c0', opacity: 0.6 }} />} />
+            </Popconfirm>
+          )}
         </>
       }
     >
       {!isUnselectedDataset(datasetId) && (
         <FilterList
           filterNodes={filterNodes}
+          showDeleteFilter={showDeleteFilter}
+          showAddFilter={showAddFilter}
           data={_data}
           columns={columns}
           // @ts-ignore

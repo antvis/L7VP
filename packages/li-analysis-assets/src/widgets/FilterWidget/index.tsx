@@ -1,5 +1,6 @@
 import { implementWidget } from '@antv/li-sdk';
 import component from './Component/index';
+import registerForm from './registerForm';
 
 export default implementWidget({
   version: 'v0.1',
@@ -10,6 +11,11 @@ export default implementWidget({
     type: 'Atom',
     category: 'DataAnalysis',
   },
+  defaultProperties: {
+    showAddFilter: false,
+    showDeleteFilter: false,
+    showFilterRelation: false,
+  },
   component,
-  registerForm: { schema: {} },
+  registerForm,
 });

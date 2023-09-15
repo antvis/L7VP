@@ -13,6 +13,7 @@ const { useToken } = theme;
 export const CLS_PREFIX = 'li-filter-item';
 
 export type FilterItemProps = {
+  showDeleteFilter: boolean;
   defaultValue: FilterNode;
   data: Record<string, any>[];
   columns: ColumnType[];
@@ -22,7 +23,7 @@ export type FilterItemProps = {
 };
 
 export const FilterItem = (props: FilterItemProps) => {
-  const { defaultValue, data, columns, selectedFields = [], onDelField } = props;
+  const { showDeleteFilter, defaultValue, data, columns, selectedFields = [], onDelField } = props;
   const [filterNode, setFilterNode] = useState(defaultValue);
   const field = isEmpty(filterNode.field) ? undefined : filterNode.field;
   const { token } = useToken();
@@ -96,11 +97,13 @@ export const FilterItem = (props: FilterItemProps) => {
     <div className={`${CLS_PREFIX}`} style={{ borderColor: token.colorBorder }}>
       <div className={`${CLS_PREFIX}__filter-field`}>
         <span>过滤字段</span>
-        <div className={`${CLS_PREFIX}__del-filter`}>
-          <Popconfirm title="确定要删除此筛选字段？" onConfirm={onDelField} okText="确定" cancelText="取消">
-            <DeleteOutlined />
-          </Popconfirm>
-        </div>
+        {showDeleteFilter && (
+          <div className={`${CLS_PREFIX}__del-filter`}>
+            <Popconfirm title="确定要删除此筛选字段？" onConfirm={onDelField} okText="确定" cancelText="取消">
+              <DeleteOutlined />
+            </Popconfirm>
+          </div>
+        )}
       </div>
 
       <div className={`${CLS_PREFIX}__field-operator`}>

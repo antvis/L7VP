@@ -10,6 +10,8 @@ export const CLS_PREFIX = 'li-filter-list';
 
 export type FilterListProps = {
   data: Record<string, any>[];
+  showDeleteFilter: boolean;
+  showAddFilter: boolean;
   columns: ColumnType[];
   filterNodes: FilterNode[];
   addFilterNode: (filterNode: FilterNode, filterLogicalOperator?: FilterLogicalOperators) => void;
@@ -19,6 +21,8 @@ export type FilterListProps = {
 
 export const FilterList = ({
   data,
+  showDeleteFilter = true,
+  showAddFilter = true,
   columns,
   filterNodes,
   addFilterNode,
@@ -63,6 +67,7 @@ export const FilterList = ({
         return (
           <FilterItem
             key={item.id}
+            showDeleteFilter={showDeleteFilter}
             defaultValue={item}
             data={data}
             columns={columns}
@@ -72,9 +77,11 @@ export const FilterList = ({
         );
       })}
 
-      <div className={`${CLS_PREFIX}__add-btn`}>
-        <PlusCircleOutlined className={`${CLS_PREFIX}__add-icon`} onClick={addFilterField} />
-      </div>
+      {showAddFilter && (
+        <div className={`${CLS_PREFIX}__add-btn`}>
+          <PlusCircleOutlined className={`${CLS_PREFIX}__add-icon`} onClick={addFilterField} />
+        </div>
+      )}
     </>
   );
 };

@@ -7,10 +7,12 @@ import { isEmpty, isUndefined, uniqueId } from 'lodash-es';
 import React, { useState } from 'react';
 import FilterCard, { UNSELECTED_DATASET_ID } from './FilterCard';
 import './index.less';
+import type { Properties } from '../registerForm';
 
 const CLS_PREFIX = 'li-analysis-filter-widget';
 
-export default function FilterWidget() {
+const FilterWidget = (props: Properties) => {
+  const { showAddFilter, showDeleteFilter, showFilterRelation } = props;
   const [dataSourcesList] = useDatasetList();
   const datasets = dataSourcesList.filter((item): item is LocalDataset | RemoteDataset => isLocalOrRemoteDataset(item));
   const datasetOptions = datasets.map((item) => ({ id: item.id, name: item.metadata.name }));
@@ -30,6 +32,9 @@ export default function FilterWidget() {
           <FilterCard
             key={id}
             id={id}
+            showDeleteFilter={showDeleteFilter}
+            showAddFilter={showAddFilter}
+            showFilterRelation={showFilterRelation}
             selectedDatasets={selectedDatasets}
             datasetOptions={datasetOptions}
             onDel={() => {
@@ -38,23 +43,27 @@ export default function FilterWidget() {
           />
         );
       })}
-      <div
-        className={classNames(`${CLS_PREFIX}__add-filter`, {
-          [`${CLS_PREFIX}__add-filter_opcity`]: filterWidget.length === 0,
-        })}
-      >
-        <Button
-          block
-          size="small"
-          disabled={isEmpty(datasets)}
-          icon={<PlusOutlined />}
-          onClick={() => {
-            setfilterWidget([...filterWidget, uniqueId(UNSELECTED_DATASET_ID)]);
-          }}
+      {showAddFilter && (
+        <div
+          className={classNames(`${CLS_PREFIX}__add-filter`, {
+            [`${CLS_PREFIX}__add-filter_opcity`]: filterWidget.length === 0,
+          })}
         >
-          新增过滤器
-        </Button>
-      </div>
+          <Button
+            block
+            size="small"
+            disabled={isEmpty(datasets)}
+            icon={<PlusOutlined />}
+            onClick={() => {
+              setfilterWidget([...filterWidget, uniqueId(UNSELECTED_DATASET_ID)]);
+            }}
+          >
+            新增过滤器
+          </Button>
+        </div>
+      )}
     </div>
   );
-}
+};
+
+export default FilterWidget;
