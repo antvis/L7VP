@@ -34,12 +34,6 @@ const useStyle = () => {
       background-color: ${colorBgContainer};
     `,
 
-    panelTooltip: css`
-      max-height: 300px !important;
-      overflow-y: auto !important;
-      font-size: 6px !important;
-    `,
-
     panelContent: css`
       padding: 14px;
     `,

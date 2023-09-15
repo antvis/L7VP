@@ -6,6 +6,7 @@
   ],
   "scripts": {
     "prepare": "husky install",
+    "dev": "lerna run dev --stream --no-bail",
     "start:sdk": "lerna run start --stream --scope=@antv/li-sdk",
     "start:editor": "lerna run start --stream --scope=@antv/li-editor",
     "start:core-assets": "lerna run start --stream --scope=@antv/li-core-assets",
