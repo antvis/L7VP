@@ -18,12 +18,20 @@ const EMPTY_DATASET_FILTER: DatasetFilter = { relation: 'AND', children: [] };
 type FilterCardProps = {
   id: string;
   showDeleteFilter: boolean;
+  showAddFilter: boolean;
   datasetOptions: { id: string; name: string }[];
   selectedDatasets: string[];
   onDel: () => void;
 };
 
-const FilterCard = ({ id, showDeleteFilter, datasetOptions, selectedDatasets, onDel }: FilterCardProps) => {
+const FilterCard = ({
+  id,
+  showDeleteFilter,
+  showAddFilter,
+  datasetOptions,
+  selectedDatasets,
+  onDel,
+}: FilterCardProps) => {
   const { token } = useToken();
   const [datasetId, setDatasetId] = useState(id);
   // TODO: 筛选条件不进行筛选自己，获取全量数据
@@ -109,6 +117,8 @@ const FilterCard = ({ id, showDeleteFilter, datasetOptions, selectedDatasets, on
       {!isUnselectedDataset(datasetId) && (
         <FilterList
           filterNodes={filterNodes}
+          showDeleteFilter={showDeleteFilter}
+          showAddFilter={showAddFilter}
           data={_data}
           columns={columns}
           // @ts-ignore

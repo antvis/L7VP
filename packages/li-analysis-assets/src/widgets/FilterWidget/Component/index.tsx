@@ -33,6 +33,7 @@ const FilterWidget = (props: Properties) => {
             key={id}
             id={id}
             showDeleteFilter={showDeleteFilter}
+            showAddFilter={showAddFilter}
             selectedDatasets={selectedDatasets}
             datasetOptions={datasetOptions}
             onDel={() => {
