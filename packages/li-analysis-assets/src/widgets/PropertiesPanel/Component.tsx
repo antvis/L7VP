@@ -1,8 +1,9 @@
 import { CloseOutlined } from '@ant-design/icons';
 import type { ImplementWidgetProps } from '@antv/li-sdk';
 import { useDatasetList, useLayerList } from '@antv/li-sdk';
-import { Col, Image, Row, Tooltip, Typography } from 'antd';
+import { Col, Image, Row, Typography } from 'antd';
 import cls from 'classnames';
+import { isObject, isString } from 'lodash-es';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import useStyle from './ComponenStyle';
 import { CLS_PREFIX } from './constant';
@@ -63,8 +64,8 @@ const PropertiesPanel: React.FC<PropertiesPanelProps> = ({ items = [], isOpen })
     };
   }, [datasetList, formatLayerList]);
 
-  const getContent = (val: string) => {
-    if (isImageUrl(val)) {
+  const getContent = (val: any) => {
+    if (isString(val) && isImageUrl(val)) {
       return (
         <div>
           <Image referrerPolicy="no-referrer" height={100} src={val} />
@@ -72,18 +73,16 @@ const PropertiesPanel: React.FC<PropertiesPanelProps> = ({ items = [], isOpen })
       );
     }
 
+    const text = isObject(val) ? JSON.stringify(val) : val;
+
     return (
       <Paragraph
         ellipsis={{
           rows: 3,
-          tooltip: {
-            title: JSON.stringify(val).length > 100 ? (typeof val === 'object' ? JSON.stringify(val) : val) : null,
-            zIndex: 99999,
-            overlayClassName: styles.panelTooltip,
-          },
+          expandable: true,
         }}
       >
-        {typeof val === 'object' ? JSON.stringify(val) : val}
+        {text}
       </Paragraph>
     );
   };
@@ -94,13 +93,7 @@ const PropertiesPanel: React.FC<PropertiesPanelProps> = ({ items = [], isOpen })
         <div className={cls(styles.propertiesPanel, CLS_PREFIX)} style={{ width: collapsed }}>
           <div style={{ display: Boolean(collapsed) ? 'block' : 'none' }}>
             <div className={cls(`${CLS_PREFIX}__header`, styles.panelHeader)}>
-              <Tooltip
-                title={title}
-                overlayClassName={cls(`${CLS_PREFIX}__tooltip`, styles.panelTooltip)}
-                zIndex={99999}
-              >
-                <div className={cls(`${CLS_PREFIX}__header__title`, styles.panelHeaderTitle)}>{title}</div>
-              </Tooltip>
+              <div className={cls(`${CLS_PREFIX}__header__title`, styles.panelHeaderTitle)}>{title}</div>
               <CloseOutlined onClick={() => setCollapsed(0)} />
             </div>
             <Row style={{ padding: 14 }} className={cls(`${CLS_PREFIX}__content`, styles.panelContent)}>
