@@ -13,7 +13,7 @@ const PositionSelect: React.FC<SelectProps> = (props) => {
   const [wrapSSR, hashId] = useStyle(prefixCls);
 
   return wrapSSR(
-    <Select {...prop} popupClassName={cls(`${prefixCls}`, hashId)}>
+    <Select {...prop} className={cls(`${prefixCls}-select`, hashId)} popupClassName={cls(`${prefixCls}`, hashId)}>
       {(options ?? POSITION).map((item, index) => {
         return (
           <Select.Option value={item.value} key={index}>
