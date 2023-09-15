@@ -14,6 +14,7 @@ export default implementWidget({
   defaultProperties: {
     showAddFilter: false,
     showDeleteFilter: false,
+    showFilterRelation: false,
   },
   component,
   registerForm,

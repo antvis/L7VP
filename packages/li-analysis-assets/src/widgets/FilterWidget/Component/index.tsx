@@ -12,7 +12,7 @@ import type { Properties } from '../registerForm';
 const CLS_PREFIX = 'li-analysis-filter-widget';
 
 const FilterWidget = (props: Properties) => {
-  const { showAddFilter, showDeleteFilter } = props;
+  const { showAddFilter, showDeleteFilter, showFilterRelation } = props;
   const [dataSourcesList] = useDatasetList();
   const datasets = dataSourcesList.filter((item): item is LocalDataset | RemoteDataset => isLocalOrRemoteDataset(item));
   const datasetOptions = datasets.map((item) => ({ id: item.id, name: item.metadata.name }));
@@ -34,6 +34,7 @@ const FilterWidget = (props: Properties) => {
             id={id}
             showDeleteFilter={showDeleteFilter}
             showAddFilter={showAddFilter}
+            showFilterRelation={showFilterRelation}
             selectedDatasets={selectedDatasets}
             datasetOptions={datasetOptions}
             onDel={() => {

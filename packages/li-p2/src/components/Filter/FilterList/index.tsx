@@ -21,8 +21,8 @@ export type FilterListProps = {
 
 export const FilterList = ({
   data,
-  showDeleteFilter,
-  showAddFilter,
+  showDeleteFilter = true,
+  showAddFilter = true,
   columns,
   filterNodes,
   addFilterNode,
