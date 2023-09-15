@@ -2,7 +2,7 @@ import type { Application, DatasetSchema, LIRuntimeApp } from '@antv/li-sdk';
 import { useLatest, useMemoizedFn, useUpdateEffect } from 'ahooks';
 import classNames from 'classnames';
 import type { WritableDraft } from 'immer/dist/internal';
-import { debounce } from 'lodash-es';
+import { cloneDeep, debounce } from 'lodash-es';
 import type { CSSProperties } from 'react';
 import React from 'react';
 import type { FallbackProps } from 'react-error-boundary';
@@ -21,6 +21,13 @@ function FallbackRender({ error, resetErrorBoundary }: FallbackProps) {
       {/* <button onClick={resetErrorBoundary}>重新渲染</button> */}
     </div>
   );
+}
+
+// 使用 Editor 传下来的 defaultApplication 可能是被 freeze 的
+// 高德地图初始化的时候，会使用 center 属性，直接引用修改变量
+// 为避免修改失败报错，解冻 map 属性
+function cloneDefaultApplication(defaultApplication: Application): Application {
+  return { ...defaultApplication, spec: { ...defaultApplication.spec, map: cloneDeep(defaultApplication.spec.map) } };
 }
 
 export type RuntimeAppProps = {
@@ -44,7 +51,10 @@ const RuntimeApp: React.FC<RuntimeAppProps> = (props) => {
   const { state } = useEditorState();
 
   // LISDK 配置项
-  const [sdkConfigState, updateSdkConfigState] = useImmer<Application>(defaultApplication);
+  const [sdkConfigState, updateSdkConfigState] = useImmer<Application>(
+    cloneDefaultApplication(defaultApplication),
+    false,
+  );
 
   const latestAppConfigRef = useLatest({
     ...sdkConfigState,
