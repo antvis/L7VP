@@ -17,12 +17,13 @@ const EMPTY_DATASET_FILTER: DatasetFilter = { relation: 'AND', children: [] };
 
 type FilterCardProps = {
   id: string;
+  showDeleteFilter: boolean;
   datasetOptions: { id: string; name: string }[];
   selectedDatasets: string[];
   onDel: () => void;
 };
 
-const FilterCard = ({ id, datasetOptions, selectedDatasets, onDel }: FilterCardProps) => {
+const FilterCard = ({ id, showDeleteFilter, datasetOptions, selectedDatasets, onDel }: FilterCardProps) => {
   const { token } = useToken();
   const [datasetId, setDatasetId] = useState(id);
   // TODO: 筛选条件不进行筛选自己，获取全量数据
@@ -97,9 +98,11 @@ const FilterCard = ({ id, datasetOptions, selectedDatasets, onDel }: FilterCardP
             ]}
             onChange={(val: DatasetFilter['relation']) => onRelationChange(val)}
           />
-          <Popconfirm title="确定要删除此筛选器？" onConfirm={onDelFilter} okText="确定" cancelText="取消">
-            <Button type="link" icon={<DeleteOutlined style={{ color: '#c0c0c0', opacity: 0.6 }} />} />
-          </Popconfirm>
+          {showDeleteFilter && (
+            <Popconfirm title="确定要删除此筛选器？" onConfirm={onDelFilter} okText="确定" cancelText="取消">
+              <Button type="link" icon={<DeleteOutlined style={{ color: '#c0c0c0', opacity: 0.6 }} />} />
+            </Popconfirm>
+          )}
         </>
       }
     >
