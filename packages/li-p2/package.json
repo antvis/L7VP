@@ -57,7 +57,7 @@
     "@types/lodash-es": "^4.17.6",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
-    "antd": "5.6.0",
+    "antd": "5.5.0",
     "dumi": "^1.1.46",
     "father": "^4.0.7",
     "rimraf": "^3.0.2",
@@ -65,7 +65,7 @@
   },
   "peerDependencies": {
     "@ant-design/icons": "^5.0.1",
-    "antd": "5.6.0",
+    "antd": "5.5.0",
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0"
   },

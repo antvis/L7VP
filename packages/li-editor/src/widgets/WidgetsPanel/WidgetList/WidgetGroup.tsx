@@ -40,6 +40,7 @@ const WidgetGroup: React.FC<WidgetGroupProps> = ({ className, item }) => {
     return null;
   }
 
+  // @ts-ignore
   const panels: CollapseProps['items'] = widgets
     .filter((widget) => {
       const implementWidget = appService.getImplementWidget(widget.type);
@@ -115,6 +116,7 @@ const WidgetGroup: React.FC<WidgetGroupProps> = ({ className, item }) => {
         defaultActiveKey={[]}
         ghost={true}
         expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
+        // @ts-ignore
         items={panels}
       />
     </div>
