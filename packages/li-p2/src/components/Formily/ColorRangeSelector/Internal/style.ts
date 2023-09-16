@@ -2,6 +2,7 @@ import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
 export default genStyleHook('color-range-selector', (token) => {
   const { componentCls, antCls } = token;
+
   return {
     [componentCls]: {
       maxWidth: 260,
