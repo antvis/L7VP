@@ -8,6 +8,7 @@ import './index.less';
 
 export type DatasetListProps = {
   className?: string;
+  onReplaceDataset: (datasetId: string) => void;
   onPreviewDataset: (datasetId: string) => void;
 };
 
@@ -22,7 +23,14 @@ export default function DatasetList(props: DatasetListProps) {
   return (
     <div className={classnames('li-dataset-list', props.className)}>
       {datasets.map((item) => {
-        return <DatasetItem key={item.id} dataset={item} onPreviewDataset={props.onPreviewDataset} />;
+        return (
+          <DatasetItem
+            key={item.id}
+            dataset={item}
+            onReplaceDataset={props.onReplaceDataset}
+            onPreviewDataset={props.onPreviewDataset}
+          />
+        );
       })}
     </div>
   );

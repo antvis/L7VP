@@ -18,6 +18,8 @@ export type AddDataset =
   | Optional<RasterTileDatasetSchema, 'id'>;
 
 export interface ImplementEditorAddDatasetWidgetProps extends ImplementEditorWidgetProps {
+  // TODO: 区分新增数据集还是替换数据集
+  // mode: 'add' | 'replace';
   onSubmit: (addDatasets: AddDataset[], layers?: LayerSchema[]) => void;
   onCancel: () => void;
 }
