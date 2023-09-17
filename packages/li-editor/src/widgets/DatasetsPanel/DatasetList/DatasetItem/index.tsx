@@ -13,17 +13,22 @@ import './index.less';
 
 export type DatasetItemProps = {
   className?: string;
+  onReplaceDataset: (datasetId: string) => void;
   onPreviewDataset: (datasetId: string) => void;
   dataset: DatasetSchema;
 };
 
 const DatasetItem = (props: DatasetItemProps) => {
-  const { dataset: datasetSchema, onPreviewDataset, className } = props;
+  const { dataset: datasetSchema, onReplaceDataset, onPreviewDataset, className } = props;
   const { state, updateState } = useEditorState();
   const [isEditName, setIsEditName] = useState(false);
   const [dataset] = useEditorDatasets([datasetSchema.id]);
   const isLocalOrRemoteDataSource = dataset && isLocalOrRemoteDataset(dataset);
   const [messageApi, messageContextHolder] = message.useMessage();
+
+  const replaceDataset = () => {
+    onReplaceDataset(datasetSchema.id);
+  };
 
   const copyDataset = () => {
     const copyData: DatasetSchema = {
@@ -68,6 +73,13 @@ const DatasetItem = (props: DatasetItemProps) => {
   };
 
   const dropDownItems: MenuProps['items'] = [
+    {
+      key: 'replaceDataset',
+      label: <>替换数据集</>,
+      onClick() {
+        replaceDataset();
+      },
+    },
     {
       key: 'copyDataset',
       label: <>复制数据集</>,

@@ -8,6 +8,7 @@ import AddDataset from './AddDataset';
 import DatasetList from './DatasetList';
 import './DatasetsPanel.less';
 import PreviewDataset from './PreviewDataset';
+import ReplaceDataset from './ReplaceDataset';
 
 interface DatasetsPanelProps extends ImplementEditorWidgetProps {
   className?: string;
@@ -17,7 +18,9 @@ const DatasetsPanel: React.FC<DatasetsPanelProps> = (props: DatasetsPanelProps) 
   const { className } = props;
   const { state } = useEditorState();
   const [addDatasetVisible, setAddDatasetVisible] = useState(false);
-  const [previewdatasetId, setPreviewDatasetId] = useState<string>('');
+  const [replaceDatasetId, setReplaceDatasetId] = useState<string>('');
+  const [replaceDatasetVisible, setReplaceDatasetVisible] = useState(false);
+  const [previewDatasetId, setPreviewDatasetId] = useState<string>('');
   const [previewDatasetVisible, setPreviewDatasetVisible] = useState(false);
 
   return (
@@ -39,6 +42,10 @@ const DatasetsPanel: React.FC<DatasetsPanelProps> = (props: DatasetsPanelProps) 
 
       <DatasetList
         className="li-datasets-panel__dataset-list"
+        onReplaceDataset={(datasetId) => {
+          setReplaceDatasetId(datasetId);
+          setReplaceDatasetVisible(true);
+        }}
         onPreviewDataset={(datasetId) => {
           setPreviewDatasetId(datasetId);
           setPreviewDatasetVisible(true);
@@ -46,11 +53,16 @@ const DatasetsPanel: React.FC<DatasetsPanelProps> = (props: DatasetsPanelProps) 
       />
 
       <AddDataset visible={addDatasetVisible} onClose={() => setAddDatasetVisible(false)} />
+      <ReplaceDataset
+        datasetId={replaceDatasetId}
+        visible={replaceDatasetVisible}
+        onClose={() => setReplaceDatasetVisible(false)}
+      />
       {previewDatasetVisible && (
         <PreviewDataset
+          datasetId={previewDatasetId}
           visible={previewDatasetVisible}
           onClose={() => setPreviewDatasetVisible(false)}
-          datasetId={previewdatasetId}
         />
       )}
     </div>
