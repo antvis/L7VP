@@ -1,4 +1,5 @@
 @cls-prefix: li-filter-item;
+@import '../../../theme/index.less';
 
 .@{cls-prefix} {
   position: relative;
@@ -32,7 +33,38 @@
 
   &__select-field {
     flex: 1;
+    max-width: calc(100% - 120px);
     border-radius: 4px;
+  }
+
+  &-dropdown {
+    position: relative;
+    max-height: 256;
+    overflow: auto;
+  }
+
+  &-dropdown-container {
+    position: absolute;
+    min-width: 100%;
+    padding-top: 7;
+  }
+
+  &-item {
+    height: 32px;
+    padding: 0 12px;
+    font-size: 14px;
+    line-height: 32px;
+    white-space: nowrap;
+    border-radius: 4;
+    cursor: pointer;
+
+    &:hover {
+      background: @bg-color-secondary;
+    }
+
+    &_selected {
+      background: @bg-color-secondary;
+    }
   }
 
   &__select-operator {

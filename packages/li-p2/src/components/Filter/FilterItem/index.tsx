@@ -1,8 +1,8 @@
 import { DeleteOutlined } from '@ant-design/icons';
-import { Popconfirm, Select, Tag, theme } from 'antd';
-import type { DefaultOptionType } from 'antd/lib/select';
+import { Popconfirm, Select, Tag, theme, Empty } from 'antd';
 import { isArray, isEmpty, isUndefined } from 'lodash-es';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import cls from 'classnames';
 import { DEFAULT_RANGE, FilterNumber } from '../FilterField/FilterNumber';
 import { FilterString } from '../FilterField/FilterString';
 import type { ColumnType, FilterNode, FilterType } from '../types';
@@ -27,22 +27,27 @@ export const FilterItem = (props: FilterItemProps) => {
   const [filterNode, setFilterNode] = useState(defaultValue);
   const field = isEmpty(filterNode.field) ? undefined : filterNode.field;
   const { token } = useToken();
+  const [open, setOpen] = useState(false);
 
   // 过滤字段
-  const fieldOptions: DefaultOptionType[] = columns
-    .filter((column) => ['string', 'number'].includes(column.type))
-    .map((colm) => ({
-      label: (
-        <span>
-          <Tag color={colm.typeColor}>{isUndefined(colm.typeName) ? colm.type : colm.typeName}</Tag>
-          {colm.displayName || colm.name}
-        </span>
-      ),
-      title: colm.displayName || colm.name,
-      value: colm.name,
-      // 暂时启用可重复选择字段
-      // disabled: selectedFields.includes(colm.name) && colm.name !== filterNode.field,
-    }));
+  // const fieldOptions: DefaultOptionType[] = columns
+  //   .filter((column) => ['string', 'number'].includes(column.type))
+  //   .map((colm) => ({
+  //     label: (
+  //       <span>
+  //         <Tag color={colm.typeColor}>{isUndefined(colm.typeName) ? colm.type : colm.typeName}</Tag>
+  //         {colm.displayName || colm.name}
+  //       </span>
+  //     ),
+  //     title: colm.displayName || colm.name,
+  //     value: colm.name,
+  //     // 暂时启用可重复选择字段
+  //     // disabled: selectedFields.includes(colm.name) && colm.name !== filterNode.field,
+  //   }));
+
+  const fieldOptions = useMemo(() => {
+    return columns.filter((column) => ['string', 'number'].includes(column.type));
+  }, [columns]);
 
   const onValueChange = (val: FilterNode['value']) => {
     const _filterNode = { ...filterNode, value: val } as FilterNode;
@@ -64,6 +69,7 @@ export const FilterItem = (props: FilterItemProps) => {
     }
     setFilterNode(_filterNode);
     props.onChange(_filterNode);
+    setOpen(false);
   };
 
   const onOperatorChange = (val: FilterNode['operator']) => {
@@ -114,10 +120,46 @@ export const FilterItem = (props: FilterItemProps) => {
           size="small"
           placeholder="请选择筛选字段"
           value={field}
-          options={fieldOptions}
-          filterOption={(input, option) => (option?.title ?? '').includes(input)}
-          onChange={(val: string) => onFieldChange(val)}
-        />
+          open={open}
+          onDropdownVisibleChange={(visible) => setOpen(visible)}
+          dropdownRender={() => {
+            if (!fieldOptions?.length) {
+              return <Empty description="暂无数据" image={Empty.PRESENTED_IMAGE_SIMPLE} />;
+            }
+
+            const dropdownHeight = 32 * fieldOptions.length < 256 ? 32 * fieldOptions.length + 14 : 256;
+            return (
+              <div className={`${CLS_PREFIX}-dropdown`} style={{ height: dropdownHeight }}>
+                <div className={`${CLS_PREFIX}-dropdown-container`}>
+                  {fieldOptions?.map((item, index) => {
+                    return (
+                      <div
+                        className={cls(`${CLS_PREFIX}-item`, {
+                          [`${CLS_PREFIX}-item_selected`]: item.name === field,
+                        })}
+                        key={index}
+                        onClick={() => onFieldChange(item.name)}
+                      >
+                        <Tag color={item.typeColor}>{isUndefined(item.typeName) ? item.type : item.typeName}</Tag>
+                        <span>{item.displayName || item.name}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          }}
+        >
+          {fieldOptions?.map((item, index) => {
+            return (
+              <Select.Option value={item.name} key={index}>
+                <Tag color={item.typeColor}>{isUndefined(item.typeName) ? item.type : item.typeName}</Tag>
+                <span>{item.displayName || item.name}</span>
+              </Select.Option>
+            );
+          })}
+        </Select>
+
         <Select
           className={`${CLS_PREFIX}__select-operator`}
           size="small"
