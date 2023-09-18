@@ -44,12 +44,8 @@ const VisTypeSelect: React.FC<SelectProps<any, any>> = (props) => {
       {options?.map((item: Record<string, any>, index) => {
         return (
           <Select.Option value={item.value} key={index}>
-            <div className="li-vis-type-select__selected-option">
-              <div className="li-vis-type-select__selected-icon">
-                <Icon component={item.icon} />
-              </div>
-              <span className="li-vis-type-select__selected-label">{item.label}</span>
-            </div>
+            <Icon component={item.icon} className="li-vis-type-select__selected-icon" style={{ marginRight: 5 }} />
+            {item.label}
           </Select.Option>
         );
       })}
