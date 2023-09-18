@@ -16,7 +16,7 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
   // 属性面板表单的 Schema 定义，来自表单库 formily 的 Schema
   const schema = {
     showAddFilter: {
-      title: '启用新增过筛选',
+      title: '启用新增筛选',
       type: 'boolean',
       'x-decorator': 'FormItem',
       'x-component': 'Switch',
@@ -30,7 +30,7 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
       default: false,
     },
     showFilterRelation: {
-      title: '启用逻辑运算',
+      title: '修改逻辑运算',
       type: 'boolean',
       'x-decorator': 'FormItem',
       'x-component': 'Switch',
