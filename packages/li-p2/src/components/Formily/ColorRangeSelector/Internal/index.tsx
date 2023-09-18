@@ -61,19 +61,18 @@ const Internal = (props: ColorRangeSelectorProps) => {
 
         return (
           <Select.Option key={colorList.toString()} value={colorList.toString()}>
-            <div className={`${prefixCls}__selection-item`}>
-              {colorList.map((color) => (
-                <span
-                  key={color}
-                  className={`${prefixCls}__selection-item-color`}
-                  style={{
-                    backgroundColor: color,
-                    height: '22px',
-                    width: `${100 / colorList.length}%`,
-                  }}
-                />
-              ))}
-            </div>
+            {colorList.map((color) => (
+              <span
+                key={color}
+                className={`${prefixCls}__selection-item-color`}
+                style={{
+                  backgroundColor: color,
+                  height: '22px',
+                  width: `${100 / colorList.length}%`,
+                  display: 'inline-block',
+                }}
+              />
+            ))}
           </Select.Option>
         );
       })}

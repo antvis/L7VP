@@ -61,14 +61,12 @@ const InternalSelect: React.FC<SelectProps<string, FieldSelectOptionType>> = (pr
       {options?.map((item, index) => {
         return (
           <Select.Option value={item.value} key={index}>
-            <div className={cls(`${prefixCls}-item`, hashId)}>
-              {isUndefined(item.type) ? (
-                <Tag>未知</Tag>
-              ) : (
-                <Tag color={item.typeColor}>{isUndefined(item.typeName) ? item.type : item.typeName}</Tag>
-              )}
-              <span title={item.label}>{item.label}</span>
-            </div>
+            {isUndefined(item.type) ? (
+              <Tag>未知</Tag>
+            ) : (
+              <Tag color={item.typeColor}>{isUndefined(item.typeName) ? item.type : item.typeName}</Tag>
+            )}
+            <span title={item.label}>{item.label}</span>
           </Select.Option>
         );
       })}

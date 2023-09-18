@@ -66,7 +66,7 @@
     "@types/react-beautiful-dnd": "^13.1.2",
     "@types/react-dom": "^18.0.0",
     "@types/shapefile": "^0.6.1",
-    "antd": "5.5.0",
+    "antd": "^5.5.0",
     "dumi": "^1.1.46",
     "father": "^4.0.7",
     "rimraf": "^3.0.2",
@@ -76,7 +76,7 @@
     "@ant-design/icons": "^5.0.1",
     "@antv/l7": "^2.17.2",
     "@antv/larkmap": "^1.4.1",
-    "antd": "5.5.0",
+    "antd": "^5.5.0",
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0"
   },

@@ -7,6 +7,12 @@ export default genStyleHook('color-range-selector', (token) => {
     [componentCls]: {
       maxWidth: 260,
 
+      [`${antCls}-select-selection-item`]: {
+        span: {
+          marginTop: 10,
+        },
+      },
+
       [`${componentCls}__selection-item`]: {
         display: 'flex',
         alignItems: 'center',

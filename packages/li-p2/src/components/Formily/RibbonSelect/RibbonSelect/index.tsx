@@ -56,18 +56,17 @@ const InternalRibbonSelect = (props: RibbonSelectProps) => {
         const colorList = colorReverse ? [...item].reverse() : item;
         return (
           <Select.Option key={index} value={index}>
-            <div className={`${prefixCls}__selection-item`}>
-              {colorList.map((color) => (
-                <span
-                  key={color}
-                  style={{
-                    backgroundColor: color,
-                    height: '24px',
-                    width: `${100 / colorList.length}%`,
-                  }}
-                />
-              ))}
-            </div>
+            {colorList.map((color) => (
+              <span
+                key={color}
+                style={{
+                  backgroundColor: color,
+                  height: '24px',
+                  width: `${100 / colorList.length}%`,
+                  display: 'inline-block',
+                }}
+              />
+            ))}
           </Select.Option>
         );
       })}
