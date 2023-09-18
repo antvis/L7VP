@@ -1,6 +1,6 @@
 import { getDatasetColumns } from '@antv/li-sdk';
 import { useAsyncEffect } from 'ahooks';
-import { ConfigProvider, Spin } from 'antd';
+import { ConfigProvider, notification, Spin } from 'antd';
 import classNames from 'classnames';
 import React, { useState } from 'react';
 import { useEditorService, useEditorState } from '../hooks';
@@ -22,6 +22,7 @@ export const DefaultTheme = {
 
 const Layout: React.FC<LayoutProps> = (props) => {
   const { className, style, defaultApplication, App } = props;
+  const [notificationApi, contextHolder] = notification.useNotification();
   const { state, updateState } = useEditorState();
   const { appService } = useEditorService();
   const { datasets, serviceCache } = state;
@@ -30,9 +31,12 @@ const Layout: React.FC<LayoutProps> = (props) => {
 
   useAsyncEffect(async () => {
     const newServiceCache: EditorServiceCache = {};
-    const requestList: { datasetId: string; promise: Promise<Record<string, any>[]> }[] = [];
+    const requestList: { datasetId: string; datasetName: string; promise: Promise<Record<string, any>[]> }[] = [];
     datasets.forEach((dataset) => {
-      const datasetId = dataset.id;
+      const {
+        id: datasetId,
+        metadata: { name: datasetName },
+      } = dataset;
       if (dataset.type === 'remote') {
         if (serviceCache[datasetId]) {
           newServiceCache[datasetId] = serviceCache[datasetId];
@@ -40,6 +44,7 @@ const Layout: React.FC<LayoutProps> = (props) => {
           const service = appService.getImplementService(dataset.serviceType);
           if (service) {
             requestList.push({
+              datasetName,
               datasetId,
               promise: service.service({
                 properties: dataset.properties,
@@ -54,12 +59,19 @@ const Layout: React.FC<LayoutProps> = (props) => {
     setDataLoading(true);
 
     await Promise.all(
-      requestList.map(async ({ datasetId, promise }) => {
-        const data = await promise;
-        newServiceCache[datasetId] = {
-          data: data ?? [],
-          columns: data?.length ? getDatasetColumns(data[0]) : [],
-        };
+      requestList.map(async ({ datasetId, datasetName, promise }) => {
+        try {
+          const data = await promise;
+          newServiceCache[datasetId] = {
+            data: data ?? [],
+            columns: data?.length ? getDatasetColumns(data[0]) : [],
+          };
+        } catch (error: any) {
+          notificationApi.error({
+            message: `数据集"${datasetName}"请求失败`,
+            description: error?.message || error,
+          });
+        }
       }),
     ).finally(() => {
       setDataLoading(false);
@@ -76,6 +88,7 @@ const Layout: React.FC<LayoutProps> = (props) => {
   return (
     <div className={classNames('li-editor', 'li-editor-layout', className)} style={style}>
       <ConfigProvider theme={DefaultTheme}>
+        {contextHolder}
         {dataLoading && (
           <div className="li-editor-layout__loading">
             <Spin />

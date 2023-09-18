@@ -35,11 +35,8 @@ export const FilterList = ({
 
   const onFilterFieldChange = (val: FilterNode, id: string) => {
     setFilterFields((pre) => {
-      const index = pre.findIndex((item) => item.id === id);
-      if (index !== -1) {
-        pre[index] = val;
-      }
-      return pre.slice();
+      const list = pre.map((item) => (item.id === id ? val : item));
+      return list;
     });
     if (isEmpty(val.field)) return;
 

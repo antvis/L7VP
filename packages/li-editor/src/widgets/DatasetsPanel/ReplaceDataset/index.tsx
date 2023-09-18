@@ -19,7 +19,8 @@ const ReplaceDataset = ({ datasetId, visible, onClose }: ReplaceDatasetProps) =>
       const index = draft.datasets.findIndex((item) => item.id === datasetId);
       if (index !== -1) {
         const replaceDataset = getAddDatasetSchema(dataset, datasetId);
-        draft.datasets[index] = replaceDataset;
+        // 复写 filter 情况
+        draft.datasets[index] = { ...draft.datasets[index], ...replaceDataset };
       }
     });
   };
