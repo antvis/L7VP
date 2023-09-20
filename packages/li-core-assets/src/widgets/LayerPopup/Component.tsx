@@ -14,6 +14,7 @@ export interface LILayerPopupProps extends Properties, ImplementWidgetProps {}
 const LILayerPopup: React.FC<LILayerPopupProps> = (props) => {
   const { isOpen = true, trigger, items = [] } = props;
   const styles = useStyle();
+  const isClick = trigger === 'click';
 
   const popupItems: ILayerPopupConfigItem[] = useMemo(() => {
     const list = items
@@ -76,6 +77,7 @@ const LILayerPopup: React.FC<LILayerPopupProps> = (props) => {
       {isOpen && (
         <LayerPopup
           className={cls(CLS_PREFIX, styles.layerPopup)}
+          closeButton={isClick}
           anchor="top-left"
           offsets={[10, -10]}
           items={popupItems}
