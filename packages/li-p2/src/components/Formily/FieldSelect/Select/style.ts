@@ -1,7 +1,7 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
 export default genStyleHook('field-select', (token) => {
-  const { componentCls, controlItemBgActive, controlItemBgHover, colorTextDescription } = token;
+  const { componentCls, controlItemBgActive, controlItemBgHover } = token;
 
   return {
     [componentCls]: {
