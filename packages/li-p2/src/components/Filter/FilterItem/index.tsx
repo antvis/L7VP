@@ -8,6 +8,7 @@ import { FilterString } from '../FilterField/FilterString';
 import type { ColumnType, FilterNode, FilterType } from '../types';
 import { NumberOperatorsOption, StringOperatorsOption } from './constants';
 import './index.less';
+import useStyle from './style';
 
 const { useToken } = theme;
 export const CLS_PREFIX = 'li-filter-item';
@@ -28,6 +29,7 @@ export const FilterItem = (props: FilterItemProps) => {
   const field = isEmpty(filterNode.field) ? undefined : filterNode.field;
   const { token } = useToken();
   const [open, setOpen] = useState(false);
+  const styles = useStyle();
 
   // 过滤字段
   // const fieldOptions: DefaultOptionType[] = columns
@@ -134,8 +136,8 @@ export const FilterItem = (props: FilterItemProps) => {
                   {fieldOptions?.map((item, index) => {
                     return (
                       <div
-                        className={cls(`${CLS_PREFIX}-item`, {
-                          [`${CLS_PREFIX}-item_selected`]: item.name === field,
+                        className={cls(`${CLS_PREFIX}-item`, styles.selectItem, {
+                          [styles.selectedItem]: item.name === field,
                         })}
                         key={index}
                         onClick={() => onFieldChange(item.name)}
