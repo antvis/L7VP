@@ -37,7 +37,7 @@ export default (options: AttributeSchemaOptions) => {
                 dependencies: ['aggregateMethod'],
                 fulfill: {
                   run:
-                    "$form.setFieldState('fillColorField',state=>{ state.dataSource = $form.getFieldState( 'aggregateMethod' ,state => { return [{value:'count',label:'count'},{label:state.value,value:state.value}] } ) })",
+                    "$form.setFieldState('fillColorField',state=>{ state.dataSource = $form.getFieldState( 'aggregateMethod' ,state => { return [{value:'count',label:'count'},{label:state.value,value:state.value}] } ),state.value = state.value === 'count' ? 'count' : undefined })",
                 },
               },
             ],
