@@ -115,6 +115,7 @@ export const FilterItem = (props: FilterItemProps) => {
           placeholder="请选择筛选字段"
           value={field}
           options={fieldOptions}
+          popupMatchSelectWidth={false}
           filterOption={(input, option) => (option?.title ?? '').includes(input)}
           onChange={(val: string) => onFieldChange(val)}
         />
