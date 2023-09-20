@@ -109,7 +109,6 @@ export default (fieldList: FieldSelectOptionType[]) => {
             aggregateMethod: {
               type: 'string',
               title: '聚合方法',
-              default: 'sum',
               'x-decorator': 'FormItem',
               'x-component': 'Select',
               'x-component-props': {
