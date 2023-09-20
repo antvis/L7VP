@@ -484,7 +484,7 @@ const DEFAULT_ANALYSIS_APP: Application = {
             select: { fillColor: false, strokeColor: 'red' },
           },
           label: {
-            field: '',
+            field: undefined,
             visible: false,
             style: {
               fill: '#454d64',
