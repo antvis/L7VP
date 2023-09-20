@@ -98,7 +98,6 @@ export default (fieldList: FieldSelectOptionType[]) => {
             aggregateField: {
               type: 'string',
               title: '聚合字段',
-              required: true,
               'x-decorator': 'FormItem',
               'x-component': 'FieldSelect',
               'x-component-props': {
@@ -110,11 +109,11 @@ export default (fieldList: FieldSelectOptionType[]) => {
             aggregateMethod: {
               type: 'string',
               title: '聚合方法',
-              required: true,
               default: 'sum',
               'x-decorator': 'FormItem',
               'x-component': 'Select',
               'x-component-props': {
+                allowClear: true,
                 placeholder: '请选择字段',
               },
               enum: [
