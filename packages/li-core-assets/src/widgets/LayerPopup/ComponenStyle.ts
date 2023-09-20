@@ -22,6 +22,10 @@ const useStyle = () => {
         padding: 12px;
         color: ${colorText};
         background: ${colorBgElevated};
+
+        .l7-popup-close-button {
+          fill: ${colorText};
+        }
       }
     `,
 
