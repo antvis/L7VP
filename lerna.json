@@ -4,7 +4,7 @@
   "npmClient": "yarn",
   "command": {
     "version": {
-      "message": "chore: publish %s",
+      "message": "chore: publish version",
       "private": false,
       "changelog": false,
       "exact": false
