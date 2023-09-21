@@ -102,7 +102,6 @@ export default (fieldList: FieldSelectOptionType[]) => {
             aggregateField: {
               type: 'string',
               title: '聚合字段',
-              required: true,
               'x-decorator': 'FormItem',
               'x-component': 'FieldSelect',
               'x-component-props': {
@@ -114,11 +113,10 @@ export default (fieldList: FieldSelectOptionType[]) => {
             aggregateMethod: {
               type: 'string',
               title: '聚合方法',
-              required: true,
-              default: 'sum',
               'x-decorator': 'FormItem',
               'x-component': 'Select',
               'x-component-props': {
+                allowClear: true,
                 placeholder: '请选择字段',
               },
               enum: [
@@ -126,6 +124,41 @@ export default (fieldList: FieldSelectOptionType[]) => {
                 { label: 'max', value: 'max' },
                 { label: 'min', value: 'min' },
                 { label: 'mean', value: 'mean' },
+              ],
+              'x-reactions': [
+                {
+                  dependencies: ['aggregateMethod'],
+                  fulfill: {
+                    run: `$form.setFieldState("fillColorField", (state) => {
+                      state.dataSource = $form.getFieldState("aggregateMethod", (state) => {
+                      return state.value
+                      ? [
+                      { value: "count", label: "count" },
+                      { label: state.value, value: state.value },
+                      ]
+                      : [{ value: "count", label: "count" }];
+                      });
+                      });
+                      
+                      $form.setFieldState("fillColorField", (state) => {
+                      state.value = $form
+                      .getFieldState("aggregateMethod", (state) => {
+                      return [state.value, "count"];
+                      })
+                      .includes(state.value)
+                      ? state.value
+                      : undefined;
+                      });`,
+                  },
+                },
+                {
+                  dependencies: ['aggregateField'],
+                  fulfill: {
+                    state: {
+                      visible: '{{ $deps[0] !== undefined }}',
+                    },
+                  },
+                },
               ],
             },
           },
