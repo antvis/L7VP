@@ -1,7 +1,7 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
 export default genStyleHook('scale-selector', (token) => {
-  const { componentCls, antCls, controlItemBgHover, controlItemBgActive, colorTextBase } = token;
+  const { componentCls, controlItemBgHover, controlItemBgActive, colorTextBase } = token;
 
   return {
     [componentCls]: {},
