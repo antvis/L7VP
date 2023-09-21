@@ -32,22 +32,6 @@ export default (options: AttributeSchemaOptions) => {
               placeholder: '请选择字段',
             },
             enum: [{ value: 'count', label: 'count' }],
-            'x-reactions': [
-              {
-                dependencies: ['aggregateMethod'],
-                fulfill: {
-                  run:
-                    "$form.setFieldState('fillColorField',state=>{ state.dataSource = $form.getFieldState( 'aggregateMethod' ,state => { return [{value:'count',label:'count'},{label:state.value,value:state.value}] } )})",
-                },
-              },
-              {
-                dependencies: ['aggregateMethod'],
-                fulfill: {
-                  run:
-                    "$form.setFieldState('fillColorField',state=>{ state.value = $form.getFieldState( 'aggregateMethod' ,state => { return [state.value,'count']} ).includes(state.value)?state.value:undefined })",
-                },
-              },
-            ],
           },
 
           fillColorScale: {
