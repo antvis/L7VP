@@ -105,15 +105,6 @@ export default (fieldList: FieldSelectOptionType[]) => {
                 placeholder: '请选择字段',
               },
               enum: [...fieldList],
-              'x-reactions': [
-                {
-                  dependencies: ['aggregateMethod'],
-                  fulfill: {
-                    run:
-                      "$form.setFieldState('aggregateField',state=>{ state.required = $form.getFieldState('aggregateMethod',state=>{return state.value}) && $form.getFieldState('fillColorField',state=>{return state.value}) && $form.getFieldState('aggregateMethod',state=>{return state.value}) === $form.getFieldState('fillColorField',state=>{return state.value}) ? true :false  })",
-                  },
-                },
-              ],
             },
             aggregateMethod: {
               type: 'string',
@@ -134,15 +125,34 @@ export default (fieldList: FieldSelectOptionType[]) => {
                 {
                   dependencies: ['aggregateMethod'],
                   fulfill: {
-                    run:
-                      "$form.setFieldState('fillColorField',state=>{ state.dataSource = $form.getFieldState( 'aggregateMethod' ,state => { return state.value?[{value:'count',label:'count'},{label:state.value,value:state.value}]:[{value:'count',label:'count'}] } )})",
+                    run: `$form.setFieldState("fillColorField", (state) => {
+                      state.dataSource = $form.getFieldState("aggregateMethod", (state) => {
+                      return state.value
+                      ? [
+                      { value: "count", label: "count" },
+                      { label: state.value, value: state.value },
+                      ]
+                      : [{ value: "count", label: "count" }];
+                      });
+                      });
+                      
+                      $form.setFieldState("fillColorField", (state) => {
+                      state.value = $form
+                      .getFieldState("aggregateMethod", (state) => {
+                      return [state.value, "count"];
+                      })
+                      .includes(state.value)
+                      ? state.value
+                      : undefined;
+                      });`,
                   },
                 },
                 {
-                  dependencies: ['aggregateMethod'],
+                  dependencies: ['aggregateField'],
                   fulfill: {
-                    run:
-                      "$form.setFieldState('fillColorField',state=>{ state.value = $form.getFieldState( 'aggregateMethod' ,state => { return [state.value,'count']} ).includes(state.value)?state.value:undefined })",
+                    state: {
+                      visible: '{{ $deps[0] !== undefined }}',
+                    },
                   },
                 },
               ],
