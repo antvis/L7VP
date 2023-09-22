@@ -8,7 +8,7 @@ export interface FlowLayerWrapperProps extends FlowLayerProps, ImplementLayerPro
 
 const FlowLayerWrapper: React.FC<FlowLayerWrapperProps> = (props) => {
   const { source, ...other } = props;
-  if (isEmpty(source.data)) {
+  if (isEmpty(source?.data)) {
     return null;
   }
   return <FlowLayer {...other} source={source} />;
