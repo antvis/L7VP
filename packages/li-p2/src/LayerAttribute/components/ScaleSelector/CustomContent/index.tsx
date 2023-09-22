@@ -6,28 +6,30 @@ import { uniqueId } from 'lodash-es';
 import React, { useEffect, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import type { CustomItemType, CustomItemValueType, CustomType } from '../type';
+import type { CustomItemType, CustomItemValueType, CustomType, DatasetType, CustomItems } from '../type';
 import { customTypeList } from './contants';
 import CustomItem from './CustomItem';
 import useStyle from './style';
 
 type CustomContentProps = {
-  customRanges: CustomItemType[];
-  onChange: (value: CustomItemType[]) => void;
+  // 数据集展示信息
+  dataset: DatasetType | any;
+  customRanges: CustomItemType;
+  onChange: (value: CustomItemType) => void;
   onCancel: () => void;
   className?: string;
 };
 
 const CustomContent = (props: CustomContentProps) => {
-  const { customRanges: defaultCustomRanges, onChange, onCancel, className } = props;
+  const { dataset, customRanges: defaultCustomRanges, onChange, onCancel, className } = props;
   const prefixCls = usePrefixCls('formily-color-range-selector__custom-range');
   const [wrapSSR, hashId] = useStyle(prefixCls);
-  const [customRanges, setCustomRanges] = useState<CustomItemType[]>([]);
-  const [customType, setCustomType] = useState<CustomType>('customCat');
+  const [customRanges, setCustomRanges] = useState<CustomItems[]>([]);
+  const [customType, setCustomType] = useState<CustomType>(dataset.type || 'string');
 
   useEffect(() => {
-    if (defaultCustomRanges?.length) {
-      const list = defaultCustomRanges.map((item: CustomItemType) => {
+    if (defaultCustomRanges.list?.length) {
+      const list = defaultCustomRanges.list.map((item: CustomItems) => {
         return {
           id: uniqueId(),
           ...item,
@@ -38,12 +40,12 @@ const CustomContent = (props: CustomContentProps) => {
   }, [defaultCustomRanges]);
 
   const addPaletteRangeItem = () => {
-    const addItem: CustomItemType = {
+    const addItem: CustomItems = {
       id: uniqueId(),
       value: customRanges[customRanges.length - 1].value,
       color: customRanges[customRanges.length - 1].color,
     };
-    const list: CustomItemType[] = [...customRanges, addItem];
+    const list: CustomItems[] = [...customRanges, addItem];
     setCustomRanges(list);
   };
 
@@ -77,12 +79,13 @@ const CustomContent = (props: CustomContentProps) => {
     const list = customRanges.map((item) => {
       return { value: item.value, color: item.color };
     });
-    onChange(list);
+    onChange({ type: customType, list });
     onCancel();
   };
 
   const onCustomTypeChange = (type: CustomType) => {
     setCustomType(type);
+    setCustomRanges([]);
   };
 
   return wrapSSR(
@@ -98,7 +101,7 @@ const CustomContent = (props: CustomContentProps) => {
       </Radio.Group>
 
       <DndProvider backend={HTML5Backend}>
-        {customRanges.map((customItem: CustomItemType, index: string | number) => (
+        {customRanges.map((customItem: CustomItems, index: string | number) => (
           <CustomItem
             customType={customType}
             index={index}
@@ -106,6 +109,7 @@ const CustomContent = (props: CustomContentProps) => {
             key={`drag_card${index}`}
             color={customItem.color}
             value={customItem.value}
+            selectOptions={[]}
             onChangeSort={onChangeSort}
             onDelete={() => deletePaletteRangeItem(customItem?.id ?? '')}
             onChange={(value: CustomItemValueType, color: string) =>

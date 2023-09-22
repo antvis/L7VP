@@ -38,12 +38,12 @@ const Item = ({ customType, value, onChange }: ItemProps) => {
 
   return wrapSSR(
     <div className={classnames(`${prefixCls}`, hashId)}>
-      {customType === 'customArray' && (
+      {customType === 'string' && (
         <Select
           mode="multiple"
           maxTagCount={1}
           allowClear
-          style={{ width: '100%' }}
+          style={{ width: 150 }}
           placeholder="请选择"
           value={itemVal as string[]}
           onChange={onSelectChange}
@@ -55,7 +55,7 @@ const Item = ({ customType, value, onChange }: ItemProps) => {
         />
       )}
 
-      {customType === 'customCat' && (
+      {customType === 'number' && (
         <div className={`${prefixCls}__input-group`}>
           <InputNumber
             size="small"

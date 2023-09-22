@@ -50,8 +50,8 @@ const LayerForm: React.FC<LayerFormProps> = ({ className, config, onChange }) =>
 
       const list = dataFormatProcessing({
         dataset: itemValue.map((_item: string | number) => ({ label: _item, value: _item })),
-        xField: 'label',
-        yField: 'value',
+        label: 'label',
+        value: 'value',
       });
 
       return {

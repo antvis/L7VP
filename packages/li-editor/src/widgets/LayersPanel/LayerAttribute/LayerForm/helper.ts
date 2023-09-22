@@ -1,36 +1,34 @@
-import { isNumber, isString } from 'lodash-es';
-
 export const dataFormatProcessing = ({
   dataset,
-  xField,
-  yField,
+  label,
+  value,
 }: {
   dataset: Record<string, any>[];
-  xField: string;
-  yField: string;
+  label: string;
+  value: string;
 }) => {
   const result: Record<string, any> = {};
 
   for (let i = 0; i < dataset.length; i++) {
     const item = dataset[i];
 
-    if (result[item[`${xField}`]]) {
-      result[item[`${xField}`]] = [...result[item[`${xField}`]], item[`${yField}`]];
+    if (result[item[`${label}`]]) {
+      result[item[`${label}`]] = [...result[item[`${label}`]], item[`${value}`]];
     } else {
-      result[item[`${xField}`]] = [item[`${yField}`]];
+      result[item[`${label}`]] = [item[`${value}`]];
     }
   }
 
   const _value = Object.keys(result).map((key) => ({
-    [`${xField}`]: key,
-    [`${yField}`]: result[key],
+    [`${label}`]: key,
+    [`${value}`]: result[key],
   }));
 
   return _value.map((_item) => {
     return {
       ..._item,
-      value: _item[`${xField}`],
-      count: _item[`${yField}`].length,
+      value: _item[`${label}`],
+      count: _item[`${value}`].length,
     };
   });
 };

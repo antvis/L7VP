@@ -12,6 +12,7 @@ import useStyle from './style';
 type RangeItemProps = {
   customType: CustomType;
   index: string | number;
+  selectOptions: { label: string; value: string; count: number }[];
   id: string;
   color: string;
   value: CustomItemValueType;
