@@ -4,10 +4,11 @@ import { Form } from '@formily/antd-v5';
 import { createForm, onFieldValueChange } from '@formily/core';
 import { useMemoizedFn } from 'ahooks';
 import classNames from 'classnames';
-import { pick } from 'lodash-es';
+import { max, min, pick } from 'lodash-es';
 import React, { useMemo, useState } from 'react';
 import { useEditorDatasets, useEditorService, useEditorState } from '../../../../hooks';
 import BaseFormSchemaField from '../BaseFormSchemaField';
+import { dataFormatProcessing } from './helper';
 import './index.less';
 import StyleForm from './StyleForm';
 
@@ -41,6 +42,32 @@ const LayerForm: React.FC<LayerFormProps> = ({ className, config, onChange }) =>
   }, [state.datasets]);
 
   const datasetFields = useMemo(() => getDatasetFields(columns), [columns]);
+
+  const datasetFieldList = useMemo(() => {
+    return datasetFields.map((item) => {
+      // @ts-ignore
+      const itemValue = dataset.data.map((_item: Record<string, any>) => _item[item.value]);
+
+      const list = dataFormatProcessing({
+        dataset: itemValue.map((_item: string | number) => ({ label: _item, value: _item })),
+        xField: 'label',
+        yField: 'value',
+      });
+
+      return {
+        ...item,
+        domin:
+          item.type === 'number'
+            ? {
+                min: min(itemValue),
+                max: max(itemValue),
+                list,
+              }
+            : { list },
+      };
+    });
+    // @ts-ignore
+  }, [datasetFields, dataset.data]);
 
   const handleFormValuesChange = useMemoizedFn((styleConfig: Pick<LayerSchema, 'sourceConfig' | 'visConfig'>) => {
     if (styleConfig.sourceConfig && datasetId) {
@@ -103,7 +130,7 @@ const LayerForm: React.FC<LayerFormProps> = ({ className, config, onChange }) =>
         <StyleForm
           initialValues={initialValues}
           implementLayer={implementLayer}
-          datasetFields={datasetFields}
+          datasetFields={datasetFieldList}
           onChange={handleFormValuesChange}
         />
       )}
