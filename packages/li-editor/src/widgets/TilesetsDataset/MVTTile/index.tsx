@@ -129,7 +129,19 @@ const MVTTile = (props: MVTTileProps) => {
           </Form.Item> */}
         </Form>
         <div style={{ marginLeft: 20, marginTop: -70, height: 350, width: '100%', backgroundColor: '#1e1e1e' }}>
-          {metadata && <MonacoEditor language="json" options={{ readOnly: true }} theme="vs-dark" value={metadata} />}
+          {metadata && (
+            <MonacoEditor
+              language="json"
+              options={{
+                readOnly: true,
+                minimap: { enabled: false },
+                lineNumbers: 'off',
+                overviewRulerBorder: false,
+              }}
+              theme="vs-dark"
+              value={metadata}
+            />
+          )}
         </div>
       </div>
       <div className="ant-modal-footer">
