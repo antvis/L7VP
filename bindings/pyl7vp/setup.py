@@ -22,7 +22,7 @@ __url__ = "https://github.com/antvis/L7VP/bindings/pyl7vp"
 __author_email__ = "yunji.me@outlook.com"
 __license__ = "Apache-2.0"
 
-__requires__ = ["jinja2>=3.0.0", "simplejson"]
+__requires__ = ["jinja2>=3.0.0", "simplejson", "pandas>=1.0.0"]
 __extra_requires__ = {}
 
 __keywords__ = ["AntV", "L7VP", "PyL7VP",

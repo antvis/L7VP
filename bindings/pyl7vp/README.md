@@ -21,20 +21,20 @@ $ pip install pyl7vp
 ### Jupyter Notebook and JupyterLab
 
 ```py
+import pandas as pd
 from pyl7vp import L7VP
 
 l7vp_map = L7VP(height = 600)
 
 # data
-data = [
-  { "longitude": 105.005, "latitude": 32.349, "mag": 5.2 },
-  { "longitude": 104.602, "latitude": 32.067, "mag": 3 },
-  { "longitude": 103.665, "latitude": 31.29, "mag": 6 },
-  { "longitude": 105.275, "latitude": 32.416, "mag": 2 }
-]
+df = pd.DataFrame(
+  {'longitude': [105.005, 104.602, 103.665, 105.275],
+   'latitude': [32.349, 32.067, 31.29, 32.416],
+   'mag': [5.2, 3.0, 6.0, 2.0]
+  })
 
 # add dataset to map
-l7vp_map.add_dataset({"id": "my_dataset", "type": 'local', "data": data})
+l7vp_map.add_dataset({"id": "my_dataset", "type": 'local', "data": df})
 
 # Set config
 l7vp_map.set_config({
@@ -65,10 +65,11 @@ l7vp_map.save_to_html("map.html")
 
 ## User Guide
 
-- [Quick Start](https://www.yuque.com/antv/htpfbw/usrw68bir8tt0yxy#C7cMY)
-- [Data Format](https://www.yuque.com/antv/htpfbw/usrw68bir8tt0yxy#ZaJB8)
-- [API Document](https://www.yuque.com/antv/htpfbw/usrw68bir8tt0yxy#YdNaX)
-- Online in [Google Colab](https://colab.research.google.com/drive/1KCTfPRv-NksUF3sVGLjSrYo7RgHmfeHH?usp=sharing)
+- [Quick Start](https://www.yuque.com/antv/l7vp/pyl7vp-user-guide#C7cMY)
+- [Data Format](https://www.yuque.com/antv/l7vp/pyl7vp-user-guide#ZaJB8)
+- [API Document](https://www.yuque.com/antv/l7vp/pyl7vp-user-guide#YdNaX)
+- [PyL7VP in Notebook](https://github.com/antvis/L7VP/blob/master/bindings/pyl7vp/notebooks/quick-start.ipynb)
+- [PyL7VP in Google Colab](https://colab.research.google.com/github/antvis/L7VP/blob/master/bindings/pyl7vp/notebooks/quick-start.ipynb)
 
 ## Local Development
 

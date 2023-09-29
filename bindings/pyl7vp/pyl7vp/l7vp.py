@@ -1,5 +1,6 @@
 import uuid
 from jinja2 import Environment
+import pandas as pd
 
 from pyl7vp.engine import Engine
 from pyl7vp.config import DEFAULT_ANALYSIS_CONFIG, DEFAULT_ANALYSIS_SPEC
@@ -8,10 +9,18 @@ from pyl7vp.libs import L7VP_APP_LIBS, L7VP_Editor_LIBS
 from pyl7vp.helper.code import json_dump_to_js
 from pyl7vp.helper.file import write_utf8_file
 from pyl7vp.helper.html import HTML
-from typing import Optional
+from typing import Union, Optional
 
+import pandas as pd
+
+def _normalize_dataset_data(data: Union[list, pd.DataFrame]):
+  if isinstance(data, pd.DataFrame):
+    return data.to_dict(orient='records')
+  return data
 
 def _validate_dataset(dataset: dict):
+    dataset = dataset.copy()
+
     if not isinstance(dataset, dict):
         raise TypeError("dataset must be a dict")
     if "id" not in dataset:
@@ -30,19 +39,23 @@ def _validate_dataset(dataset: dict):
     if dataset["type"] == "local":
         if "data" not in dataset:
             raise TypeError("local dataset must have a data")
-        if not isinstance(dataset["data"], list):
-            raise TypeError("local dataset data must be a list")
+        if isinstance(dataset["data"], list) or isinstance(dataset["data"], pd.DataFrame):
+            dataset["data"] = _normalize_dataset_data(dataset["data"])
+        else:
+            raise TypeError("local dataset data must be a list or DataFrame")
 
     if "columns" not in dataset:
         dataset["columns"] = []
 
+    return dataset
+
 def _validate_datasets(datasets: list):
     if not isinstance(datasets, list):
         raise TypeError("datasets must be a list")
-    for dataset in datasets:
-        _validate_dataset(dataset)
 
-    return datasets
+    validate_datasets = list(map(lambda dataset: _validate_dataset(dataset), datasets))
+
+    return validate_datasets
 
 
 def _validate_config(config: dict):
@@ -81,11 +94,11 @@ class L7VP():
             'https://github.com/antvis/L7VP/blob/master/bindings/pyl7vp/README.md#user-guide'))
 
     '''
-    add dataset to l7vp datasets, documents [here](https://www.yuque.com/antv/htpfbw/yt98k1sgofg9wgqa#PlyNq)
+    add dataset to l7vp datasets, documents [here](https://www.yuque.com/antv/l7vp/yt98k1sgofg9wgqa#PlyNq)
     '''
 
     def add_dataset(self, dataset: dict):
-        _validate_dataset(dataset)
+        dataset = _validate_dataset(dataset)
         datasets = list(filter(lambda x: x["id"] != dataset["id"], self.datasets))
         datasets.append(dataset)
 
@@ -93,7 +106,7 @@ class L7VP():
 
 
     '''
-    set the l7vp config, documents [here](https://www.yuque.com/antv/htpfbw/yt98k1sgofg9wgqa#fy1wU)
+    set the l7vp config, documents [here](https://www.yuque.com/antv/l7vp/yt98k1sgofg9wgqa#fy1wU)
     '''
 
     def set_config(self, config: dict):

@@ -10,8 +10,8 @@
 
 <p align="center">
   <a href="https://locationinsight.antv.antgroup.com">Website</a> •
-  <a href="https://www.yuque.com/antv/htpfbw">Document</a> •
-  <a href="https://www.yuque.com/antv/htpfbw/cmp1vz2u5p07ghrt">SDK</a> •
+  <a href="https://www.yuque.com/antv/l7vp">Document</a> •
+  <a href="https://www.yuque.com/antv/l7vp/cmp1vz2u5p07ghrt">SDK</a> •
   <a href="https://locationinsight.antv.antgroup.com/#/case">Case</a>
 </p>
 
