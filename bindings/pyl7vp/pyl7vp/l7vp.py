@@ -94,7 +94,7 @@ class L7VP():
             'https://github.com/antvis/L7VP/blob/master/bindings/pyl7vp/README.md#user-guide'))
 
     '''
-    add dataset to l7vp datasets, documents [here](https://www.yuque.com/antv/htpfbw/yt98k1sgofg9wgqa#PlyNq)
+    add dataset to l7vp datasets, documents [here](https://www.yuque.com/antv/l7vp/yt98k1sgofg9wgqa#PlyNq)
     '''
 
     def add_dataset(self, dataset: dict):
@@ -106,7 +106,7 @@ class L7VP():
 
 
     '''
-    set the l7vp config, documents [here](https://www.yuque.com/antv/htpfbw/yt98k1sgofg9wgqa#fy1wU)
+    set the l7vp config, documents [here](https://www.yuque.com/antv/l7vp/yt98k1sgofg9wgqa#fy1wU)
     '''
 
     def set_config(self, config: dict):

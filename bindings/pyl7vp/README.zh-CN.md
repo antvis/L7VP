@@ -64,10 +64,11 @@ l7vp_map.save_to_html("map.html")
 
 ## 使用教程
 
-- [快速开始](https://www.yuque.com/antv/htpfbw/usrw68bir8tt0yxy#C7cMY)
-- [数据格式](https://www.yuque.com/antv/htpfbw/usrw68bir8tt0yxy#ZaJB8)
-- [API 文档](https://www.yuque.com/antv/htpfbw/usrw68bir8tt0yxy#YdNaX)
-- [Google Colab 示例](https://colab.research.google.com/drive/1KCTfPRv-NksUF3sVGLjSrYo7RgHmfeHH?usp=sharing)
+- [快速开始](https://www.yuque.com/antv/l7vp/pyl7vp-user-guide#C7cMY)
+- [数据格式](https://www.yuque.com/antv/l7vp/pyl7vp-user-guide#ZaJB8)
+- [API 文档](https://www.yuque.com/antv/l7vp/pyl7vp-user-guide#YdNaX)
+- [PyL7VP in Notebook](https://github.com/antvis/L7VP/blob/master/bindings/pyl7vp/notebooks/quick-start.ipynb)
+- [PyL7VP in Google Colab](https://colab.research.google.com/github/antvis/L7VP/blob/master/bindings/pyl7vp/notebooks/quick-start.ipynb)
 
 ## 本地研发
 
