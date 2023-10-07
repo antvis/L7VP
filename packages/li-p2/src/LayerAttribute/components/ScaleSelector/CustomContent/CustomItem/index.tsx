@@ -3,7 +3,7 @@ import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { ColorPicker } from 'antd';
 import type { Color } from 'antd/es/color-picker';
 import classnames from 'classnames';
-import React, { useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import type { CustomItemValueType, CustomType } from '../../type';
 import Item from './Item';
@@ -12,7 +12,10 @@ import useStyle from './style';
 type RangeItemProps = {
   customType: CustomType;
   index: string | number;
+  selectedOption: (string | number)[];
   selectOptions: { label: string; value: string; count: number }[];
+  min?: number;
+  max?: number;
   id: string;
   color: string;
   value: CustomItemValueType;
@@ -24,9 +27,13 @@ type RangeItemProps = {
 const RangeItem = ({
   customType,
   index,
+  selectedOption,
+  selectOptions,
   id,
   color: defaultColor,
   value: defaultValue,
+  min = 0,
+  max = 100,
   onDelete,
   onChange,
   onChangeSort,
@@ -34,6 +41,15 @@ const RangeItem = ({
   const prefixCls = usePrefixCls('formily-scale-selector__custom-content__custom-item');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const ref = useRef<HTMLDivElement>(null);
+
+  const options = useMemo(() => {
+    if (!selectedOption.length && !defaultValue.length) {
+      return selectOptions;
+    }
+
+    const selected = selectedOption.filter((item) => !defaultValue.includes(item));
+    return selectOptions.filter((item) => !selected.includes(item.value));
+  }, [selectedOption, selectOptions, defaultValue]);
 
   const [, drop] = useDrop({
     accept: 'DragDropBox',
@@ -83,7 +99,14 @@ const RangeItem = ({
           </ColorPicker>
         </div>
 
-        <Item customType={customType} onChange={(e) => onValueChange(e)} value={defaultValue} />
+        <Item
+          customType={customType}
+          value={defaultValue}
+          options={options}
+          onChange={(e) => onValueChange(e)}
+          min={min}
+          max={max}
+        />
 
         <div className={`${prefixCls}__infor__delete-icon`} onClick={onDelete}>
           <DeleteOutlined />

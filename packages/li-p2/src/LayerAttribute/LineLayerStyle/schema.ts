@@ -47,7 +47,7 @@ export default (options: AttributeSchemaOptions = {}) => {
                   placeholder: '请选择',
                   type:
                     '{{ $form.getFieldState("fillColorField",state=> { return state.dataSource.find((item) => item.value === state.value)?.type })}}',
-                  dataSet:
+                  dataset:
                     '{{ $form.getFieldState("fillColorField",state=> { return state.dataSource.find((item) => item.value === state.value)?.domin })}}',
                 },
                 'x-decorator-props': {},

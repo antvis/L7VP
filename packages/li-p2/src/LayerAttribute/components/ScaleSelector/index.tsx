@@ -8,12 +8,13 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { DEHAULT_OPTIONS } from './constants';
 import CustomContent from './CustomContent';
 import useStyle from './style';
-import type { CustomItemType, CustomItems, DatasetType } from './type';
+import type { CustomItemType, DatasetType } from './type';
 export interface ColorScaleSelectOptionType extends DefaultOptionType {
   type: 'string' | 'number' | 'custom';
-  dataSet?: DatasetType;
+  dataset?: DatasetType;
 }
 
+// 测试数据待删除
 const defaultValue = {
   type: 'string', //选择的筛选字段的类型
   value: {
@@ -68,33 +69,44 @@ const defaultValue = {
     ],
   },
 };
-
+// 测试数据待删除
 const defaultValueNumber = {
-  type: 'string',
-  value: 'quantize',
-  dataSet: {
+  type: 'number', //选择的筛选字段的类型
+  value: {
+    type: 'string',
+    list: [
+      {
+        value: [5, 5.6, 5.4],
+        color: '#ff0',
+      },
+    ],
+  },
+  dataset: {
     min: 5,
     max: 7.9,
     list: [
-      { label: '5', value: '5', count: 17 },
-      { label: '5.2', value: '5.2', count: 4 },
-      { label: '5.8', value: '5.8', count: 3 },
-      { label: '5.6', value: '5.6', count: 2 },
-      { label: '5.4', value: '5.4', count: 2 },
-      { label: '5.3', value: '5.3', count: 4 },
-      { label: '6.1', value: '6.1', count: 1 },
-      { label: '5.5', value: '5.5', count: 1 },
-      { label: '5.7', value: '5.7', count: 2 },
-      { label: '7.9', value: '7.9', count: 1 },
+      { label: 5, value: 5, count: 17 },
+      { label: 5.2, value: 5.2, count: 4 },
+      { label: 5.8, value: 5.8, count: 3 },
+      { label: 5.6, value: 5.6, count: 2 },
+      { label: 5.4, value: 5.4, count: 2 },
+      { label: 5.3, value: 5.3, count: 4 },
+      { label: 6.1, value: 6.1, count: 1 },
+      { label: 5.5, value: 5.5, count: 1 },
+      { label: 5.7, value: 5.7, count: 2 },
+      { label: 7.9, value: 7.9, count: 1 },
     ],
   },
 };
 
-export type ScaleSelectorProps = SelectProps<string, ColorScaleSelectOptionType> & { type: 'string' | 'number' };
+export type ScaleSelectorProps = SelectProps<string, ColorScaleSelectOptionType> & {
+  type: 'string' | 'number';
+  dataset?: DatasetType;
+};
 
 const Internal = (props: ScaleSelectorProps) => {
   const prefixCls = usePrefixCls('formily-scale-selector', props);
-  const { type: defaultType, value, dataset } = defaultValue;
+  const { type: defaultType, value, dataset } = defaultValueNumber;
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const [open, setOpen] = useState(false);
   const [type, setType] = useState('');
@@ -116,16 +128,17 @@ const Internal = (props: ScaleSelectorProps) => {
   }, [selectOptions]);
 
   const onValueChange = (ranges: CustomItemType) => {
-    console.log(ranges, 'CustomItemType');
-    // 提交到外部数据
-    // props.onChange(ranges);
+    // @ts-ignore
+    props?.onChange({
+      value: 'custom',
+      ...ranges,
+    });
+    setOpen(false);
   };
 
   const onClose = () => {
     setCustomOpen(false);
   };
-
-  // ---------------------------------------------------
 
   const onTypeChange = (type: string) => {
     setType(type);
@@ -133,6 +146,7 @@ const Internal = (props: ScaleSelectorProps) => {
       setCustomOpen(true);
     } else {
       setOpen(false);
+      props?.onChange?.(type, []);
     }
   };
 
@@ -148,7 +162,6 @@ const Internal = (props: ScaleSelectorProps) => {
     <Select
       {...props}
       open={open}
-      // open={true}
       className={cls(`${prefixCls}`, hashId)}
       onDropdownVisibleChange={(visible) => setOpen(visible)}
       dropdownRender={() => {
@@ -171,6 +184,7 @@ const Internal = (props: ScaleSelectorProps) => {
 
             {customOpen && (
               <CustomContent
+                fieldType={defaultType}
                 dataset={dataset}
                 customRanges={value}
                 onChange={(ranges) => onValueChange(ranges)}
