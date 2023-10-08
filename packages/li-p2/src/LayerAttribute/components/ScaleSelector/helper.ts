@@ -18,7 +18,7 @@ export const transformToLayer = (val: CustomItemType) => {
     for (let i = 0; i < list.length; i++) {
       const item = list[i].value;
       item.forEach((_item: string | number, index: number) => {
-        return _val.splice(i + index * 2, 0, _item);
+        return _val.splice(i + index * colors.length, 0, _item);
       });
     }
 
