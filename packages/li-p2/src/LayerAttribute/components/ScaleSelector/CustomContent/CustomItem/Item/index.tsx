@@ -11,10 +11,11 @@ type ItemProps = {
   options: { label: string; value: string; count: number }[];
   min: number;
   max: number;
+  position: string | null;
   onChange: (val: (string | number)[]) => void;
 };
 
-const Item = ({ customType, value, options, min, max, onChange }: ItemProps) => {
+const Item = ({ customType, value, options, min, max, position, onChange }: ItemProps) => {
   const prefixCls = usePrefixCls('formily-scale-selector__custom-content__custom-item__item');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const [itemVal, setItemVal] = useState<(string | number)[]>(value);
@@ -57,23 +58,55 @@ const Item = ({ customType, value, options, min, max, onChange }: ItemProps) => 
 
       {customType === 'number' && (
         <div className={`${prefixCls}__input-group`}>
-          <InputNumber
-            size="small"
-            min={min}
-            max={max}
-            value={itemVal?.[0]}
-            className={`${prefixCls}__input-group__input`}
-            onChange={(e) => onFirstInputChange(e as number)}
-          />
-          <span style={{ margin: '0 8px' }}>-</span>
-          <InputNumber
-            size="small"
-            min={itemVal[0]}
-            max={max}
-            value={itemVal?.[1]}
-            className={`${prefixCls}__input-group__input`}
-            onChange={(e) => onLastInputChange(e as number)}
-          />
+          {position === 'first' && (
+            <>
+              <span style={{ margin: '0 8px' }}>小于</span>
+              <InputNumber
+                size="small"
+                min={itemVal[0]}
+                max={max}
+                value={itemVal?.[1]}
+                className={`${prefixCls}__input-group__input`}
+                onChange={(e) => onLastInputChange(e as number)}
+              />
+            </>
+          )}
+
+          {position === 'last' && (
+            <>
+              <span style={{ margin: '0 8px' }}>大于</span>
+              <InputNumber
+                size="small"
+                min={itemVal[0]}
+                max={max}
+                value={itemVal?.[0]}
+                className={`${prefixCls}__input-group__input`}
+                onChange={(e) => onLastInputChange(e as number)}
+              />
+            </>
+          )}
+
+          {!position && (
+            <>
+              <InputNumber
+                size="small"
+                min={min}
+                max={max}
+                value={itemVal?.[0]}
+                className={`${prefixCls}__input-group__input`}
+                onChange={(e) => onFirstInputChange(e as number)}
+              />
+              <span style={{ margin: '0 8px' }}>-</span>
+              <InputNumber
+                size="small"
+                min={itemVal[0]}
+                max={max}
+                value={itemVal?.[1]}
+                className={`${prefixCls}__input-group__input`}
+                onChange={(e) => onLastInputChange(e as number)}
+              />
+            </>
+          )}
         </div>
       )}
     </div>,

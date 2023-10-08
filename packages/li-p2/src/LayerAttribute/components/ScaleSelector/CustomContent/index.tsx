@@ -12,7 +12,7 @@ import CustomItem from './CustomItem';
 import useStyle from './style';
 
 type CustomContentProps = {
-  fieldType: string;
+  fieldType: 'string' | 'number';
   // 数据集展示信息
   dataset: DatasetType | any;
   customRanges: CustomItemType;
@@ -26,7 +26,7 @@ const CustomContent = (props: CustomContentProps) => {
   const prefixCls = usePrefixCls('formily-color-range-selector__custom-range');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const [customRanges, setCustomRanges] = useState<CustomItems[]>([]);
-  const [customType, setCustomType] = useState<CustomType>(dataset.type || 'string');
+  const [customType, setCustomType] = useState<CustomType>(defaultCustomRanges?.type || 'string');
 
   const selectedOption = useMemo(() => {
     if (!customRanges.length) {
@@ -38,7 +38,7 @@ const CustomContent = (props: CustomContentProps) => {
   }, [customRanges]);
 
   useEffect(() => {
-    if (defaultCustomRanges.list?.length) {
+    if (defaultCustomRanges?.list?.length) {
       const list = defaultCustomRanges.list.map((item: CustomItems) => {
         return {
           id: uniqueId(),
@@ -91,7 +91,7 @@ const CustomContent = (props: CustomContentProps) => {
     const list = customRanges.map((item) => {
       return { value: item.value, color: item.color };
     });
-    onChange({ type: customType, list });
+    onChange({ type: customType, scaleType: 'threshold', list });
     onCancel();
   };
 
@@ -127,6 +127,7 @@ const CustomContent = (props: CustomContentProps) => {
         {customRanges.map((customItem: CustomItems, index: number) => {
           const min = index === 0 ? dataset.min : customRanges[index - 1].value[1];
           const max = dataset.max;
+
           return (
             <CustomItem
               customType={customType}
@@ -139,6 +140,7 @@ const CustomContent = (props: CustomContentProps) => {
               selectOptions={dataset.list}
               min={min}
               max={max}
+              position={index === 0 ? 'first' : index === customRanges.length - 1 ? 'last' : null}
               onChangeSort={onChangeSort}
               onDelete={() => deletePaletteRangeItem(customItem?.id ?? '')}
               onChange={(value: CustomItemValueType, color: string) =>

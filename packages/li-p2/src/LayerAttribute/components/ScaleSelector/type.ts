@@ -6,12 +6,13 @@ export type CustomItems = {
   id?: string;
 };
 
+export type CustomType = 'string' | 'number';
+
 export type CustomItemType = {
-  type: string;
+  type: CustomType;
+  scaleType: string;
   list: CustomItems[];
 };
-
-export type CustomType = 'string' | 'number';
 
 export type DatasetType = {
   min?: number;

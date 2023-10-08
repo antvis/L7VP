@@ -18,7 +18,7 @@ export const DEHAULT_OPTIONS: ColorScaleSelectOptionType[] = [
   },
   {
     label: '自定义',
-    value: 'custom',
-    type: 'custom',
+    value: 'threshold',
+    type: 'threshold',
   },
 ];

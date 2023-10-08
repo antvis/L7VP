@@ -11,7 +11,8 @@ import useStyle from './style';
 
 type RangeItemProps = {
   customType: CustomType;
-  index: string | number;
+  index: number;
+  position: string | null;
   selectedOption: (string | number)[];
   selectOptions: { label: string; value: string; count: number }[];
   min?: number;
@@ -27,6 +28,7 @@ type RangeItemProps = {
 const RangeItem = ({
   customType,
   index,
+  position,
   selectedOption,
   selectOptions,
   id,
@@ -106,6 +108,7 @@ const RangeItem = ({
           onChange={(e) => onValueChange(e)}
           min={min}
           max={max}
+          position={position}
         />
 
         <div className={`${prefixCls}__infor__delete-icon`} onClick={onDelete}>
