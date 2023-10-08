@@ -1,7 +1,6 @@
-import type { Application, DatasetSchema, LIRuntimeApp } from '@antv/li-sdk';
+import type { Application, LIRuntimeApp } from '@antv/li-sdk';
 import { useLatest, useMemoizedFn, useUpdateEffect } from 'ahooks';
 import classNames from 'classnames';
-import type { WritableDraft } from 'immer/dist/internal';
 import { cloneDeep, debounce } from 'lodash-es';
 import type { CSSProperties } from 'react';
 import React from 'react';
@@ -78,7 +77,7 @@ const RuntimeApp: React.FC<RuntimeAppProps> = (props) => {
   useUpdateEffect(() => {
     console.log('update state.datasets => ', state.datasets);
     updateSdkConfigState((draft) => {
-      draft.datasets = validateDatasets(state.datasets) as WritableDraft<DatasetSchema[]>;
+      draft.datasets = validateDatasets(state.datasets);
     });
     publishSdkUpdateEvent();
   }, [state.datasets]);
