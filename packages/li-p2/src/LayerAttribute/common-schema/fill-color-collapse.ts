@@ -102,6 +102,15 @@ export default (options: AttributeSchemaOptions) => {
                   },
                 },
               },
+              {
+                dependencies: ['fillColorScale'],
+                fulfill: {
+                  run: `$form.setFieldState("fillColorRange", (state) => {
+                    state.disabled = $form.getFieldState("fillColorScale", (state) => state.value?.type === "threshold");
+                    state.value = { colors: $form.getFieldState("fillColorScale", (state) => state.value?.colors)??state.value.colors };
+                })`,
+                },
+              },
             ],
           },
 

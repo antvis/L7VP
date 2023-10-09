@@ -1,19 +1,19 @@
 import type { CustomItemType } from './type';
 
 export const transformToLayer = (val: CustomItemType) => {
-  const { type, scaleType, list } = val;
+  const { type, thresholdType, list } = val;
   const colors = list.map((item) => item.color);
-  if (type === 'number') {
+  if (thresholdType === 'number') {
     const _val = Array.from(new Set(list.map((item) => item.value).flat())).filter((item) => item);
     return {
-      scaleType,
+      thresholdType,
       type,
       domain: _val,
       colors,
     };
   }
 
-  if (type === 'string') {
+  if (thresholdType === 'string') {
     const _val: (string | number)[] = [];
     for (let i = 0; i < list.length; i++) {
       const item = list[i].value;
@@ -23,7 +23,7 @@ export const transformToLayer = (val: CustomItemType) => {
     }
 
     return {
-      scaleType,
+      thresholdType,
       type,
       domain: _val,
       colors,
@@ -32,8 +32,12 @@ export const transformToLayer = (val: CustomItemType) => {
 };
 
 export const transformToScale = (val: Record<string, any>) => {
-  const { scaleType, type, domain, colors } = val;
-  if (type === 'number') {
+  if (typeof val === 'string') {
+    return val;
+  }
+
+  const { thresholdType, type, domain, colors } = val || {};
+  if (thresholdType === 'number') {
     const list = colors.map((item: string, index: number) => {
       return {
         value: [domain[index - 1], domain[index]],
@@ -42,13 +46,13 @@ export const transformToScale = (val: Record<string, any>) => {
     });
 
     return {
-      scaleType,
+      thresholdType,
       type,
       list,
     };
   }
 
-  if (type === 'string') {
+  if (thresholdType === 'string') {
     const list = domain.map((item: string | number, index: number) => {
       return {
         value: item,
@@ -67,7 +71,7 @@ export const transformToScale = (val: Record<string, any>) => {
     }
 
     return {
-      scaleType,
+      thresholdType,
       type,
       list: Object.keys(result).map((key) => ({
         color: key,

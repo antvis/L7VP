@@ -7,18 +7,18 @@ import cls from 'classnames';
 import React, { useEffect, useMemo, useState } from 'react';
 import { DEHAULT_OPTIONS } from './constants';
 import CustomContent from './CustomContent';
+import { transformToLayer, transformToScale } from './helper';
 import useStyle from './style';
 import type { CustomItemType, DatasetType } from './type';
-import { transformToLayer, transformToScale } from './helper';
 export interface ColorScaleSelectOptionType extends DefaultOptionType {
   type: 'string' | 'number' | 'threshold';
-  scaleType?: string;
+  thresholdType?: string;
   dataset?: DatasetType;
 }
 
 export type ScaleSelectorProps = SelectProps<any, ColorScaleSelectOptionType> & {
   type: 'string' | 'number';
-  scaleType: string;
+  thresholdType: string;
   dataset?: DatasetType;
 };
 
@@ -28,11 +28,11 @@ const Internal = (props: ScaleSelectorProps) => {
   const [wrapSSR, hashId] = useStyle(prefixCls);
 
   const defaultValue = useMemo(() => {
-    return transformToScale(props.value);
+    return transformToScale(props.value) as CustomItemType;
   }, [value]);
 
   const [open, setOpen] = useState(false);
-  const [type, setType] = useState(defaultValue?.scaleType);
+  const [type, setType] = useState(defaultValue?.type ?? defaultValue);
   const [customOpen, setCustomOpen] = useState(false);
 
   const selectOptions = useMemo(() => {
@@ -42,7 +42,7 @@ const Internal = (props: ScaleSelectorProps) => {
   }, [props.type, props.options]);
 
   useEffect(() => {
-    if (!props.value?.scaleType || selectOptions.findIndex((item) => item.value === props.value?.scaleType) === -1) {
+    if (!props.value?.type || selectOptions.findIndex((item) => item.value === props.value?.type) === -1) {
       if (props.onChange) {
         const val = selectOptions[0].value as string;
         props.onChange(val, selectOptions);
@@ -54,7 +54,7 @@ const Internal = (props: ScaleSelectorProps) => {
     const _val = transformToLayer(ranges);
     // @ts-ignore
     props?.onChange({
-      scaleType: 'threshold',
+      type: 'threshold',
       ..._val,
     });
     setOpen(false);

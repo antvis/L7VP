@@ -9,8 +9,8 @@ export type CustomItems = {
 export type CustomType = 'string' | 'number';
 
 export type CustomItemType = {
-  type: CustomType;
-  scaleType: string;
+  type: string;
+  thresholdType: CustomType;
   list: CustomItems[];
 };
 

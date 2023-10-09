@@ -114,10 +114,10 @@ const schema = {
       type: 'string',
       title: '颜色划分',
       default: {
-        scaleType: 'threshold',
-        type: 'string',
+        type: 'threshold',
+        thresholdType: 'string',
         domain: [5, 5.2, 5.6, 5.7, 7.9],
-        colors: ['#f00', '#ff0'],
+        colors: ['#f00', '#ff0', '#00f'],
       },
       'x-decorator': 'FormItem',
       'x-component': 'ScaleSelector',

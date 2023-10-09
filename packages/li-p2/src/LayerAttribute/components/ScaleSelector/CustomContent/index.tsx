@@ -26,7 +26,7 @@ const CustomContent = (props: CustomContentProps) => {
   const prefixCls = usePrefixCls('formily-color-range-selector__custom-range');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const [customRanges, setCustomRanges] = useState<CustomItems[]>([]);
-  const [customType, setCustomType] = useState<CustomType>(defaultCustomRanges?.type || 'string');
+  const [customType, setCustomType] = useState<CustomType>(defaultCustomRanges?.thresholdType || 'string');
 
   const selectedOption = useMemo(() => {
     if (!customRanges.length) {
@@ -91,7 +91,7 @@ const CustomContent = (props: CustomContentProps) => {
     const list = customRanges.map((item) => {
       return { value: item.value, color: item.color };
     });
-    onChange({ type: customType, scaleType: 'threshold', list });
+    onChange({ thresholdType: customType, type: 'threshold', list });
     onCancel();
   };
 
@@ -125,8 +125,8 @@ const CustomContent = (props: CustomContentProps) => {
 
       <DndProvider backend={HTML5Backend}>
         {customRanges.map((customItem: CustomItems, index: number) => {
-          const min = index === 0 ? dataset.min : customRanges[index - 1].value[1];
-          const max = dataset.max;
+          const min = index === 0 ? dataset?.min : customRanges[index - 1].value[1];
+          const max = dataset?.max;
 
           return (
             <CustomItem
