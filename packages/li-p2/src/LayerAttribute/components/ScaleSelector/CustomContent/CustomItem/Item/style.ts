@@ -7,14 +7,16 @@ export default genStyleHook('scale-selector__custom-content__custom-item__item',
     [componentCls]: {
       flex: 1,
       margin: '0 5px',
-      textAlign: 'right',
 
       '&__input-group': {
-        margin: '0 5px',
+        width: '100%',
+        textAlign: 'right',
         display: 'flex',
+        flex: 1,
+        justifyContent: 'space-between',
 
         '&__input': {
-          width: 60,
+          maxWidth: 60,
         },
       },
     },

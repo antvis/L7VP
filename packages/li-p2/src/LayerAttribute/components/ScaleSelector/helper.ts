@@ -4,7 +4,8 @@ export const transformToLayer = (val: CustomItemType) => {
   const { type, thresholdType, list } = val;
   const colors = list.map((item) => item.color);
   if (thresholdType === 'number') {
-    const _val = Array.from(new Set(list.map((item) => item.value).flat())).filter((item) => item);
+    const _val = list.map((item) => item.value[1]).filter((item) => item);
+
     return {
       thresholdType,
       type,
@@ -40,7 +41,7 @@ export const transformToScale = (val: Record<string, any>) => {
   if (thresholdType === 'number') {
     const list = colors.map((item: string, index: number) => {
       return {
-        value: [domain[index - 1], domain[index]],
+        value: [domain[index - 1] ?? null, domain[index] ?? null],
         color: item,
       };
     });

@@ -26,6 +26,10 @@ export default genStyleHook('scale-selector__custom-content__custom-item', (toke
           height: '18px',
         },
 
+        '&__delete-icon': {
+          width: '14px',
+        },
+
         '&__delete-icon:hover': {
           color: colorInfoTextHover,
         },
