@@ -1,6 +1,6 @@
 import type { LocalDataset, RasterTileDataset, RemoteDataset, VectorTileDataset } from '@antv/li-sdk';
 
-type FieldPair = {
+export type FieldPair = {
   defaultName: string;
   pair: Record<
     string,

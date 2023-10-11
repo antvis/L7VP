@@ -51,7 +51,6 @@ class EditorWidgetManager {
 
   public getNavSlotBottomWidgets() {
     const widgets = this.getContainerWithinSideNavWidgets('bottom');
-    console.log('widgets: ', widgets);
     return widgets;
   }
 }
