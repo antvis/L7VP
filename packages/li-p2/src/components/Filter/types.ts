@@ -17,6 +17,10 @@ export type ColumnType = {
    * 类型颜色
    */
   typeColor?: string;
+  /**
+   * 时间类型
+   */
+  format?: string;
 };
 
 export type FilterType = 'number' | 'string' | 'date';

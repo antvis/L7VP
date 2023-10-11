@@ -5,8 +5,9 @@ import { isArray, isEmpty, isUndefined } from 'lodash-es';
 import React, { useState } from 'react';
 import { DEFAULT_RANGE, FilterNumber } from '../FilterField/FilterNumber';
 import { FilterString } from '../FilterField/FilterString';
+import { FilterDate } from '../FilterField/FilterDate';
 import type { ColumnType, FilterNode, FilterType } from '../types';
-import { NumberOperatorsOption, StringOperatorsOption } from './constants';
+import { OperatorsOption } from './constants';
 import './index.less';
 
 const { useToken } = theme;
@@ -30,7 +31,7 @@ export const FilterItem = (props: FilterItemProps) => {
 
   // 过滤字段
   const fieldOptions: DefaultOptionType[] = columns
-    .filter((column) => ['string', 'number'].includes(column.type))
+    .filter((column) => ['string', 'number', 'date'].includes(column.type))
     .map((colm) => ({
       label: (
         <span>
@@ -79,7 +80,7 @@ export const FilterItem = (props: FilterItemProps) => {
       if (val === 'BETWEEN') {
         _filterNodeValue = isArray(filterNode.value) && filterNode.value.length === 2 ? filterNode.value : [];
       } else {
-        _filterNodeValue = isArray(filterNode.value) ? filterNode.value[0] : filterNode.value;
+        _filterNodeValue = '';
       }
     } else if (filterNode.type === 'string') {
       if (['IN', 'NOT_IN'].includes(val)) {
@@ -123,7 +124,7 @@ export const FilterItem = (props: FilterItemProps) => {
           className={`${CLS_PREFIX}__select-operator`}
           size="small"
           placeholder="请选择筛选方式"
-          options={(filterNode.type === 'string' ? StringOperatorsOption : NumberOperatorsOption) as any[]}
+          options={OperatorsOption[filterNode.type] as any[]}
           value={filterNode.operator}
           onChange={(val) => onOperatorChange(val)}
         />
@@ -150,6 +151,16 @@ export const FilterItem = (props: FilterItemProps) => {
             <FilterString
               field={filterNode.field}
               data={data}
+              operator={filterNode.operator}
+              value={filterNode.value}
+              onChange={(val) => onValueChange(val)}
+            />
+          )}
+
+          {/* 日期类型筛选 */}
+          {filterNode.type === 'date' && (
+            <FilterDate
+              format={columns.find((item) => item.name === filterNode.field)?.format}
               operator={filterNode.operator}
               value={filterNode.value}
               onChange={(val) => onValueChange(val)}

@@ -21,3 +21,9 @@ export const DateOperatorsOption: { value: FilterDateOperator; label: string }[]
   { label: '小于', value: '<' },
   { label: '介于', value: 'BETWEEN' },
 ];
+
+export const OperatorsOption = {
+  string: StringOperatorsOption,
+  number: NumberOperatorsOption,
+  date: DateOperatorsOption,
+};
