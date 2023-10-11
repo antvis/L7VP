@@ -7,12 +7,8 @@ export default genStyleHook('scale-selector__custom-content__custom-item', (toke
     [componentCls]: {
       display: 'flex',
       alignItems: 'center',
-      padding: '3px 0',
-
-      [`${componentCls}__drag-icon`]: {
-        cursor: 'move',
-        opacity: 0,
-      },
+      padding: '3px 2px',
+      borderRadius: '4px',
 
       [`${componentCls}__infor`]: {
         display: 'flex',
@@ -24,6 +20,12 @@ export default genStyleHook('scale-selector__custom-content__custom-item', (toke
         '&__color': {
           width: '32px',
           height: '18px',
+        },
+
+        '&__content': {
+          flex: 1,
+          width: '100%',
+          overflow: 'hidden',
         },
 
         '&__delete-icon': {

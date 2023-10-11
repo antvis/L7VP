@@ -1,9 +1,9 @@
-import { ScaleSelector } from '@antv/li-p2';
 import { Form, FormItem } from '@formily/antd-v5';
 import type { Form as FormInstance } from '@formily/core';
 import { createForm, onFormValuesChange } from '@formily/core';
 import { createSchemaField, FormConsumer } from '@formily/react';
 import React from 'react';
+import { ScaleSelector } from '../../index';
 
 // 测试数据待删除
 const defaultValue = {
@@ -112,7 +112,7 @@ const schema = {
   properties: {
     fillColorScale: {
       type: 'string',
-      title: '颜色划分',
+      title: '颜色划分----',
       default: {
         type: 'threshold',
         thresholdType: 'string',

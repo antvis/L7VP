@@ -60,14 +60,6 @@ const CustomContent = (props: CustomContentProps) => {
     setCustomRanges(list);
   };
 
-  const onChangeSort = (dragIndex: string | number, hoverIndex: string | number) => {
-    const data = customRanges.slice();
-    const temp = data[Number(dragIndex)];
-    data[Number(dragIndex)] = data[Number(hoverIndex)];
-    data[Number(hoverIndex)] = temp;
-    setCustomRanges(data);
-  };
-
   const deletePaletteRangeItem = (id: string) => {
     setCustomRanges((pre) => pre.filter((item) => item.id !== id));
   };
@@ -123,7 +115,7 @@ const CustomContent = (props: CustomContentProps) => {
         })}
       </Radio.Group>
 
-      <DndProvider backend={HTML5Backend}>
+      <>
         {customRanges.map((customItem: CustomItems, index: number) => {
           const min = index === 0 ? dataset?.min : customRanges[index - 1].value[1];
           const max = dataset?.max;
@@ -131,8 +123,6 @@ const CustomContent = (props: CustomContentProps) => {
           return (
             <CustomItem
               customType={customType}
-              index={index}
-              id={customItem?.id ?? ''}
               key={`drag_card${index}`}
               color={customItem.color}
               value={customItem.value}
@@ -141,7 +131,6 @@ const CustomContent = (props: CustomContentProps) => {
               min={min}
               max={max}
               position={index === 0 ? 'first' : index === customRanges.length - 1 ? 'last' : null}
-              onChangeSort={onChangeSort}
               onDelete={() => deletePaletteRangeItem(customItem?.id ?? '')}
               onChange={(value: CustomItemValueType, color: string) =>
                 onChangePaletteRangeItem(customItem?.id ?? '', value, color)
@@ -149,7 +138,7 @@ const CustomContent = (props: CustomContentProps) => {
             />
           );
         })}
-      </DndProvider>
+      </>
 
       <div onClick={addPaletteRangeItem} className={`${prefixCls}__add-range-item`}>
         <PlusOutlined /> 添加
