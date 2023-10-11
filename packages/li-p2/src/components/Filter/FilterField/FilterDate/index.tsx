@@ -61,7 +61,13 @@ export const FilterDate: React.FC<FilterDateProps> = ({ value: defaultValue, ope
 
   return (
     <div className={`${CLS_PREFIX}`}>
-      <Select value={granularity.value} style={{ marginRight: 10 }} onChange={onTypeChange} options={options} />
+      <Select
+        placeholder="时间粒度"
+        value={granularity.value}
+        style={{ marginRight: 10 }}
+        onChange={onTypeChange}
+        options={options}
+      />
 
       {['>', '<'].includes(operator) && (
         <>
