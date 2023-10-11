@@ -11,7 +11,7 @@ import useStyle from './style';
 type RangeItemProps = {
   customType: CustomType;
   position: string | null;
-  selectedOption: (string | number)[];
+  selectedOption: (string | number | null)[];
   selectOptions: { label: string; value: string; count: number }[];
   min?: number;
   max?: number;
@@ -49,7 +49,7 @@ const RangeItem = ({
     onChange?.(defaultValue, color.toHexString());
   };
 
-  const onValueChange = (_value: (string | number)[]) => {
+  const onValueChange = (_value: (string | number | null)[]) => {
     onChange?.(_value, defaultColor);
   };
 

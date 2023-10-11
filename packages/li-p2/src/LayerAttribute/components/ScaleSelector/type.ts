@@ -1,4 +1,4 @@
-export type CustomItemValueType = (string | number)[];
+export type CustomItemValueType = (string | number | null)[];
 
 export type CustomItems = {
   color: string;
