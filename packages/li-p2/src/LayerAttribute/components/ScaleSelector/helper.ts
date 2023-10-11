@@ -18,8 +18,10 @@ export const transformToLayer = (val: CustomItemType) => {
     const _val: (string | number)[] = [];
     for (let i = 0; i < list.length; i++) {
       const item = list[i].value;
-      item.forEach((_item: string | number, index: number) => {
-        return _val.splice(i + index * colors.length, 0, _item);
+      item.forEach((_item: string | number | null, index: number) => {
+        if (_item) {
+          return _val.splice(i + index * colors.length, 0, _item);
+        }
       });
     }
 
