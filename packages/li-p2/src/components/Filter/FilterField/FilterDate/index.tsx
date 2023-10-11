@@ -53,6 +53,12 @@ export const FilterDate: React.FC<FilterDateProps> = ({ value: defaultValue, ope
   };
 
   useEffect(() => {
+    if (timer) {
+      onChange(getTimeFormat(defaultValue, granularity.value, operator));
+    }
+  }, [defaultValue, granularity]);
+
+  useEffect(() => {
     if (format && options.length) {
       const _type = options.find((item) => item.value === format);
       setGranularity(_type as Granularity);
