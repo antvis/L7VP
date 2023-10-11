@@ -54,9 +54,16 @@ export const FilterDate: React.FC<FilterDateProps> = ({ value: defaultValue, ope
 
   useEffect(() => {
     if (!isEmpty(defaultValue)) {
-      onChange(getTimeFormat(defaultValue, granularity.value, operator));
+      const _value: FilterDateValue =
+        typeof defaultValue === 'string'
+          ? dayjs(defaultValue).format(granularity.value).toString()
+          : [
+              dayjs(defaultValue[0]).format(granularity.value).toString(),
+              dayjs(defaultValue[1]).format(granularity.value).toString(),
+            ];
+      onChange(getTimeFormat(_value, granularity.value, operator));
     }
-  }, [defaultValue, granularity, operator]);
+  }, [granularity, operator]);
 
   useEffect(() => {
     if (format && options.length) {

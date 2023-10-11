@@ -2,7 +2,7 @@ import type { DefaultOptionType } from 'antd/es/select';
 import { isEmpty } from 'lodash-es';
 import dayjs from 'dayjs';
 import type { OpUnitType } from 'dayjs';
-import type { FilterDateOperator } from '../../types';
+import type { FilterDateOperator, FilterDateValue } from '../../types';
 import type { Granularity } from './index';
 
 const DateGranularity: Record<string, { format: string; granularity: OpUnitType }> = {
@@ -50,10 +50,10 @@ export const getOptions = (format?: string): DefaultOptionType[] => {
 };
 
 export const getTimeFormat = (
-  times: string | [string, string],
+  times: FilterDateValue,
   dateGranularity: string,
   operator: FilterDateOperator,
-): string | [string, string] => {
+): FilterDateValue => {
   const _format = DateGranularity[dateGranularity];
   if (!_format) {
     return times;
