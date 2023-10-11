@@ -80,7 +80,7 @@ export const FilterItem = (props: FilterItemProps) => {
       if (val === 'BETWEEN') {
         _filterNodeValue = isArray(filterNode.value) && filterNode.value.length === 2 ? filterNode.value : [];
       } else {
-        _filterNodeValue = '';
+        _filterNodeValue = isArray(filterNode.value) ? filterNode.value[0] : filterNode.value;
       }
     } else if (filterNode.type === 'string') {
       if (['IN', 'NOT_IN'].includes(val)) {
