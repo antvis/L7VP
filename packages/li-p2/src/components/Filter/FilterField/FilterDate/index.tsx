@@ -41,7 +41,7 @@ export const FilterDate: React.FC<FilterDateProps> = ({ value: defaultValue, ope
     return getOptions(format);
   }, [format]);
 
-  const onTypeChange = (e: string) => {
+  const onGranularityChange = (e: string) => {
     const _granularity = options.find((item) => item.value === e) as Granularity;
     if (_granularity) {
       setGranularity(_granularity);
@@ -53,10 +53,10 @@ export const FilterDate: React.FC<FilterDateProps> = ({ value: defaultValue, ope
   };
 
   useEffect(() => {
-    if (timer) {
+    if (!isEmpty(defaultValue)) {
       onChange(getTimeFormat(defaultValue, granularity.value, operator));
     }
-  }, [defaultValue, granularity]);
+  }, [defaultValue, granularity, operator]);
 
   useEffect(() => {
     if (format && options.length) {
@@ -71,7 +71,7 @@ export const FilterDate: React.FC<FilterDateProps> = ({ value: defaultValue, ope
         placeholder="时间粒度"
         value={granularity.value}
         style={{ marginRight: 10 }}
-        onChange={onTypeChange}
+        onChange={onGranularityChange}
         options={options}
       />
 
