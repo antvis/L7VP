@@ -85,7 +85,7 @@ const Internal = (props: ScaleSelectorProps) => {
   return wrapSSR(
     <Select
       value={type}
-      open={true}
+      open={open}
       className={cls(`${prefixCls}`, hashId)}
       onDropdownVisibleChange={(visible) => setOpen(visible)}
       dropdownRender={() => {

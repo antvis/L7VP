@@ -4,8 +4,6 @@ import { Radio } from 'antd';
 import classnames from 'classnames';
 import { uniqueId } from 'lodash-es';
 import React, { useEffect, useMemo, useState } from 'react';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 import type { CustomItems, CustomItemType, CustomItemValueType, CustomType, DatasetType } from '../type';
 import { customTypeList } from './contants';
 import CustomItem from './CustomItem';
@@ -64,15 +62,31 @@ const CustomContent = (props: CustomContentProps) => {
     setCustomRanges((pre) => pre.filter((item) => item.id !== id));
   };
 
-  const onChangePaletteRangeItem = (id: string, value: CustomItemValueType, color: string) => {
-    const list = customRanges.map((item) => {
-      if (item.id === id) {
+  const onChangePaletteRangeItem = (id: string, value: CustomItemValueType, color: string, index: number) => {
+    const list = customRanges.map((item, _index) => {
+      if (index === _index) {
         return {
           ...item,
           value,
           color,
         };
       }
+
+      // 上一个
+      if (index - 1 === _index) {
+        return {
+          ...item,
+          value: [item.value[0], value[0]],
+        };
+      }
+
+      if (index + 1 === _index) {
+        return {
+          ...item,
+          value: [value[1], item.value[1]],
+        };
+      }
+
       return item;
     });
 
@@ -133,7 +147,7 @@ const CustomContent = (props: CustomContentProps) => {
               position={index === 0 ? 'first' : index === customRanges.length - 1 ? 'last' : null}
               onDelete={() => deletePaletteRangeItem(customItem?.id ?? '')}
               onChange={(value: CustomItemValueType, color: string) =>
-                onChangePaletteRangeItem(customItem?.id ?? '', value, color)
+                onChangePaletteRangeItem(customItem?.id ?? '', value, color, index)
               }
             />
           );

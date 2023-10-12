@@ -1,7 +1,7 @@
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { InputNumber, Select } from 'antd';
 import classnames from 'classnames';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { CustomType } from '../../../type';
 import useStyle from './style';
 
@@ -46,6 +46,10 @@ const Item = ({ customType, value, options, min, max, position, onChange }: Item
       setItemVal(val);
     }
   };
+
+  useEffect(() => {
+    setItemVal(value);
+  }, [value]);
 
   return wrapSSR(
     <div className={classnames(`${prefixCls}`, hashId)}>

@@ -1,4 +1,4 @@
-import { DeleteOutlined, HolderOutlined } from '@ant-design/icons';
+import { DeleteOutlined } from '@ant-design/icons';
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { ColorPicker } from 'antd';
 import type { Color } from 'antd/es/color-picker';
