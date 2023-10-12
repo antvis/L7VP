@@ -1,6 +1,6 @@
 import Icon from '@ant-design/icons';
 import { CustomControl } from '@antv/larkmap';
-import type { ImplementWidgetProps } from '@antv/li-sdk';
+import type { FilterNode, ImplementWidgetProps } from '@antv/li-sdk';
 import { getUniqueId, isLocalOrRemoteDataset, useDataset, useDatasetFilter } from '@antv/li-sdk';
 import { useThrottleFn } from 'ahooks';
 import { Tooltip } from 'antd';
@@ -11,12 +11,19 @@ import type { Properties } from '../registerForm';
 import { CLS_PREFIX, EMPTY_DATASET_FILTER, TimeAxisSvg as TimeLineSvg } from './constants';
 import useStyle from './style';
 import TimeLinePanel from './TimeLinePanel';
-import type { FilterNode } from './types';
+import type { TimeLineFilter } from './types';
+
+const isTimeLineFilter = (item: FilterNode, dateField: string, widgetId: string) => {
+  return (
+    item.field === dateField && item.type === 'date' && item.operator === 'BETWEEN' && item?.params?.owner === widgetId
+  );
+};
 
 export interface TimeLineControlType extends ImplementWidgetProps, Properties {}
 
 const TimeLineControl: React.FC<TimeLineControlType> = (props) => {
-  const { datasetId = '', dateField = '', dateGranularity = '' } = props;
+  const { 'data-widget-id': dataWidgetId, datasetId = '', dateField = '', dateGranularity = '' } = props;
+
   const styles = useStyle();
   const [open, setOpenPopover] = useState(true);
 
@@ -35,12 +42,10 @@ const TimeLineControl: React.FC<TimeLineControlType> = (props) => {
 
     const filterList = {
       ...filter,
-      children: filter.children.filter(
-        (item) => item.field !== dateField && item.type !== 'date' && item.operator !== 'BETWEEN',
-      ),
+      children: filter.children.filter((item) => !isTimeLineFilter(item, dateField, dataWidgetId)),
     };
     return filterList;
-  }, [filter, dateField]);
+  }, [filter, dateField, dataWidgetId]);
 
   // 获取数据源
   const [dataset] = useDataset(datasetId, { filter: dataSetFilter });
@@ -71,9 +76,10 @@ const TimeLineControl: React.FC<TimeLineControlType> = (props) => {
   }
 
   const fieldType = dataset.columns.find((item: Record<string, any>) => item.name === dateField)?.type;
-  const filterNode = filter?.children?.find(
-    (item): item is FilterNode => item.field === dateField && item.type === fieldType && item.operator === 'BETWEEN',
+  const filterNode = filter?.children?.find((item): item is TimeLineFilter =>
+    isTimeLineFilter(item, dateField, dataWidgetId),
   );
+
   const selectedRange = filterNode?.value;
   const isTimeXField = fieldType === 'date';
 
@@ -93,11 +99,12 @@ const TimeLineControl: React.FC<TimeLineControlType> = (props) => {
     }
 
     // 添加筛选
-    const _filterNode: FilterNode = {
+    const _filterNode: TimeLineFilter = {
       id: getUniqueId(),
       type: fieldType as 'date',
       field: dateField,
       operator: 'BETWEEN',
+      params: { owner: dataWidgetId },
       value,
     };
 
