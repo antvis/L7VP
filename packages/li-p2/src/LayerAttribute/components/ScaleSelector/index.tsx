@@ -27,7 +27,7 @@ const Internal = (props: ScaleSelectorProps) => {
   const { type: defaultType, value, dataset } = props;
   const [wrapSSR, hashId] = useStyle(prefixCls);
 
-  const defaultValue = useMemo(() => {
+  const defaultValue: CustomItemType = useMemo(() => {
     return transformToScale(props.value) as CustomItemType;
   }, [value]);
 
