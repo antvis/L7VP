@@ -3,7 +3,7 @@ import { isEmpty } from 'lodash-es';
 import dayjs from 'dayjs';
 import type { OpUnitType } from 'dayjs';
 import type { FilterDateOperator, FilterDateValue } from '../../types';
-import type { Granularity } from './index';
+import type { GranularityItem } from './type';
 
 const DateGranularity: Record<string, { format: string; granularity: OpUnitType }> = {
   'YYYY/MM/DD HH:mm:ss': { format: 'YYYY/MM/DD HH:mm:ss', granularity: 'second' },
@@ -19,13 +19,13 @@ const DateGranularity: Record<string, { format: string; granularity: OpUnitType 
   YYYY: { format: 'YYYY-MM-DD HH:mm:ss', granularity: 'year' },
 };
 
-export const DEFAULT_OPTIONS: Granularity[] = [
-  { value: 'YYYY/MM/DD HH:mm:ss', other: 'YYYY-MM-DD HH:mm:ss', label: '秒' },
-  { value: 'YYYY/MM/DD HH:mm', other: 'YYYY-MM-DD HH:mm', label: '分钟' },
-  { value: 'YYYY/MM/DD HH', other: 'YYYY-MM-DD HH', label: '小时' },
-  { value: 'YYYY/MM/DD', other: 'YYYY-MM-DD', label: '日', picker: 'date' },
-  { value: 'YYYY/MM', other: 'YYYY-MM', label: '月', picker: 'month' },
-  { value: 'YYYY', other: 'YYYY', label: '年', picker: 'year' },
+export const DEFAULT_OPTIONS: GranularityItem[] = [
+  { value: 'YYYY/MM/DD HH:mm:ss', other: 'YYYY-MM-DD HH:mm:ss', label: '秒', granularity: 'second' },
+  { value: 'YYYY/MM/DD HH:mm', other: 'YYYY-MM-DD HH:mm', label: '分钟', granularity: 'minute' },
+  { value: 'YYYY/MM/DD HH', other: 'YYYY-MM-DD HH', label: '小时', granularity: 'hour' },
+  { value: 'YYYY/MM/DD', other: 'YYYY-MM-DD', label: '日', picker: 'date', granularity: 'day' },
+  { value: 'YYYY/MM', other: 'YYYY-MM', label: '月', picker: 'month', granularity: 'month' },
+  { value: 'YYYY', other: 'YYYY', label: '年', picker: 'year', granularity: 'year' },
 ];
 
 export const getOptions = (format?: string): DefaultOptionType[] => {
@@ -49,6 +49,7 @@ export const getOptions = (format?: string): DefaultOptionType[] => {
   return options.slice(formatIndex);
 };
 
+// 处理时间到最小粒度
 export const getTimeFormat = (
   times: FilterDateValue,
   dateGranularity: string,

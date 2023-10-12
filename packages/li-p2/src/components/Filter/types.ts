@@ -18,7 +18,7 @@ export type ColumnType = {
    */
   typeColor?: string;
   /**
-   * 时间类型
+   * 数据格式，用于日期类型指定日期格式，仅在 type 为 date 时有效
    */
   format?: string;
 };
@@ -54,6 +54,7 @@ export type FilterNode = {
       type: 'date';
       operator: FilterDateOperator;
       value: FilterDateValue;
+      granularity?: 'second' | 'minute' | 'hour' | 'day' | 'month' | 'year';
     }
 );
 

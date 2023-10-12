@@ -1,12 +1,20 @@
 import { DeleteOutlined } from '@ant-design/icons';
+import type {} from 'antd';
 import { Popconfirm, Select, Tag, theme } from 'antd';
 import type { DefaultOptionType } from 'antd/lib/select';
 import { isArray, isEmpty, isUndefined } from 'lodash-es';
 import React, { useState } from 'react';
+import { FilterDate } from '../FilterField/FilterDate';
 import { DEFAULT_RANGE, FilterNumber } from '../FilterField/FilterNumber';
 import { FilterString } from '../FilterField/FilterString';
-import { FilterDate } from '../FilterField/FilterDate';
-import type { ColumnType, FilterNode, FilterType } from '../types';
+import type {
+  ColumnType,
+  FilterDateOperator,
+  FilterNode,
+  FilterNumberOperator,
+  FilterStringOperator,
+  FilterType,
+} from '../types';
 import { OperatorsOption } from './constants';
 import './index.less';
 
@@ -45,8 +53,10 @@ export const FilterItem = (props: FilterItemProps) => {
       // disabled: selectedFields.includes(colm.name) && colm.name !== filterNode.field,
     }));
 
-  const onValueChange = (val: FilterNode['value']) => {
-    const _filterNode = { ...filterNode, value: val } as FilterNode;
+  const onValueChange = (val: FilterNode['value'], granularity?: string) => {
+    const _filterNode = (filterNode.type === 'date'
+      ? { ...filterNode, value: val, granularity }
+      : { ...filterNode, value: val }) as FilterNode;
     setFilterNode(_filterNode);
     props.onChange(_filterNode);
   };
@@ -124,7 +134,12 @@ export const FilterItem = (props: FilterItemProps) => {
           className={`${CLS_PREFIX}__select-operator`}
           size="small"
           placeholder="请选择筛选方式"
-          options={OperatorsOption[filterNode.type] as any[]}
+          options={
+            OperatorsOption[filterNode.type] as {
+              label: string;
+              value: FilterDateOperator | FilterStringOperator | FilterNumberOperator;
+            }[]
+          }
           value={filterNode.operator}
           onChange={(val) => onOperatorChange(val)}
         />
@@ -161,6 +176,7 @@ export const FilterItem = (props: FilterItemProps) => {
           {filterNode.type === 'date' && (
             <FilterDate
               format={columns.find((item) => item.name === filterNode.field)?.format}
+              granularity={filterNode.granularity}
               operator={filterNode.operator}
               value={filterNode.value}
               onChange={(val) => onValueChange(val)}
