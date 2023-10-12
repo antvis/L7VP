@@ -2,7 +2,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { Radio } from 'antd';
 import classnames from 'classnames';
-import { uniqueId } from 'lodash-es';
+import { isEmpty, uniqueId } from 'lodash-es';
 import React, { useEffect, useMemo, useState } from 'react';
 import type { CustomItems, CustomItemType, CustomItemValueType, CustomType, DatasetType } from '../type';
 import { customTypeList } from './contants';
@@ -58,39 +58,90 @@ const CustomContent = (props: CustomContentProps) => {
     setCustomRanges(list);
   };
 
-  const deletePaletteRangeItem = (id: string) => {
-    setCustomRanges((pre) => pre.filter((item) => item.id !== id));
+  const deletePaletteRangeItem = (index: number, position: string | null) => {
+    if (customType === 'number') {
+      const _value = customRanges[index];
+
+      const list = customRanges
+        .map((item, _index) => {
+          if (index === _index) {
+            return undefined;
+          }
+
+          if (position !== 'last') {
+            // 下一个
+            if (index + 1 === _index) {
+              return {
+                ...item,
+                value: [_value.value[0], item.value[1]],
+              };
+            }
+
+            return item;
+          } else {
+            //上一个
+            if (index - 1 === _index) {
+              return {
+                ...item,
+                value: [item.value[0], null],
+              };
+            }
+
+            return item;
+          }
+        })
+        .filter((item) => !isEmpty(item)) as CustomItems[];
+
+      setCustomRanges(list);
+    } else {
+      setCustomRanges((pre) => pre.filter((_, _index) => _index !== index));
+    }
   };
 
-  const onChangePaletteRangeItem = (id: string, value: CustomItemValueType, color: string, index: number) => {
-    const list = customRanges.map((item, _index) => {
-      if (index === _index) {
-        return {
-          ...item,
-          value,
-          color,
-        };
-      }
+  const onChangePaletteRangeItem = (value: CustomItemValueType, color: string, index: number) => {
+    if (customType === 'number') {
+      const list = customRanges.map((item, _index) => {
+        if (index === _index) {
+          return {
+            ...item,
+            value,
+            color,
+          };
+        }
 
-      // 上一个
-      if (index - 1 === _index) {
-        return {
-          ...item,
-          value: [item.value[0], value[0]],
-        };
-      }
+        if (index - 1 === _index) {
+          return {
+            ...item,
+            value: [item.value[0], value[0]],
+          };
+        }
 
-      if (index + 1 === _index) {
-        return {
-          ...item,
-          value: [value[1], item.value[1]],
-        };
-      }
+        if (index + 1 === _index) {
+          return {
+            ...item,
+            value: [value[1], item.value[1]],
+          };
+        }
 
-      return item;
-    });
+        return item;
+      });
 
-    setCustomRanges(list);
+      setCustomRanges(list);
+    } else {
+      const list = customRanges.map((item, _index) => {
+        if (index === _index) {
+          return {
+            ...item,
+            value,
+            color,
+          };
+        }
+
+        return item;
+      });
+
+      setCustomRanges(list);
+    }
   };
 
   const onSubmit = () => {
@@ -133,6 +184,7 @@ const CustomContent = (props: CustomContentProps) => {
         {customRanges.map((customItem: CustomItems, index: number) => {
           const min = index === 0 ? dataset?.min : customRanges[index - 1].value[1];
           const max = dataset?.max;
+          const position = index === 0 ? 'first' : index === customRanges.length - 1 ? 'last' : null;
 
           return (
             <CustomItem
@@ -144,11 +196,9 @@ const CustomContent = (props: CustomContentProps) => {
               selectOptions={dataset.list}
               min={min}
               max={max}
-              position={index === 0 ? 'first' : index === customRanges.length - 1 ? 'last' : null}
-              onDelete={() => deletePaletteRangeItem(customItem?.id ?? '')}
-              onChange={(value: CustomItemValueType, color: string) =>
-                onChangePaletteRangeItem(customItem?.id ?? '', value, color, index)
-              }
+              position={position}
+              onDelete={() => deletePaletteRangeItem(index, position)}
+              onChange={(value: CustomItemValueType, color: string) => onChangePaletteRangeItem(value, color, index)}
             />
           );
         })}
