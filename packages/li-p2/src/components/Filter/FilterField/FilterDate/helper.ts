@@ -30,7 +30,12 @@ export const DEFAULT_OPTIONS: GranularityItem[] = [
 
 export const getOptions = (format?: string): DefaultOptionType[] => {
   if (!format) {
-    return DEFAULT_OPTIONS.map((item) => ({ label: item.label, value: item.value, picker: item.picker }));
+    return DEFAULT_OPTIONS.map((item) => ({
+      label: item.label,
+      value: item.value,
+      picker: item.picker,
+      granularity: item.granularity,
+    }));
   }
 
   const isDiagonalLineSplit = format.indexOf('/') !== -1;
@@ -38,6 +43,7 @@ export const getOptions = (format?: string): DefaultOptionType[] => {
     label: item.label,
     value: isDiagonalLineSplit ? item.value : item.other,
     picker: item.picker,
+    granularity: item.granularity,
   }));
 
   const formatIndex = DEFAULT_OPTIONS.findIndex((item) => item.value === format || item.other === format);

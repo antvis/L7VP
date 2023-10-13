@@ -1,5 +1,6 @@
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
+import "dayjs/locale/zh-cn";
 import { Outlet } from 'umi';
 import './index.less';
 

@@ -179,7 +179,7 @@ export const FilterItem = (props: FilterItemProps) => {
               granularity={filterNode.granularity}
               operator={filterNode.operator}
               value={filterNode.value}
-              onChange={(val) => onValueChange(val)}
+              onChange={(val, granularity) => onValueChange(val, granularity)}
             />
           )}
         </>

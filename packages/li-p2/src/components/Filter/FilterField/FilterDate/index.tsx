@@ -5,8 +5,8 @@ import dayjs from 'dayjs';
 import React, { useEffect, useMemo, useState } from 'react';
 import type { FilterDateOperator, FilterDateValue } from '../../types';
 import { DEFAULT_OPTIONS, getOptions, getTimeFormat } from './helper';
-import type { GranularityItem, Granularity } from './type';
 import './index.less';
+import type { Granularity, GranularityItem } from './type';
 
 interface FilterDateProps {
   operator: FilterDateOperator;
@@ -27,7 +27,17 @@ export const FilterDate: React.FC<FilterDateProps> = ({
   format,
   onChange,
 }) => {
-  const [granularity, setGranularity] = useState<GranularityItem>(DEFAULT_OPTIONS[3]);
+  const options = useMemo(() => {
+    return getOptions(format);
+  }, [format]);
+
+  const _granularity = defaultGranularity ? defaultGranularity : format;
+  const _defaultGranularity = options.find((item) =>
+    [item.granularity, item.value].includes(_granularity),
+  ) as GranularityItem;
+  const [granularity, setGranularity] = useState<GranularityItem>(
+    _defaultGranularity ? _defaultGranularity : DEFAULT_OPTIONS[3],
+  );
 
   const timer: Dayjs | Dayjs[] | undefined = useMemo(() => {
     if (isEmpty(defaultValue)) {
@@ -41,10 +51,6 @@ export const FilterDate: React.FC<FilterDateProps> = ({
       return _timer;
     }
   }, [defaultValue]);
-
-  const options = useMemo(() => {
-    return getOptions(format);
-  }, [format]);
 
   const onGranularityChange = (e: string) => {
     const _granularity = options.find((item) => item.value === e) as GranularityItem;
@@ -73,15 +79,6 @@ export const FilterDate: React.FC<FilterDateProps> = ({
       onChange(timer, granularity.granularity ?? 'day');
     }
   }, [granularity, operator]);
-
-  useEffect(() => {
-    // 数据根据所选粒度回填
-    if ((defaultGranularity || format) && options.length) {
-      const _granularity = defaultGranularity || format;
-      const _type = options.find((item) => item.defaultGranularity === _granularity);
-      setGranularity(_type as GranularityItem);
-    }
-  }, [options, defaultGranularity, format]);
 
   return (
     <div className={`${CLS_PREFIX}`}>
