@@ -7,5 +7,5 @@ export type GranularityItem = {
   value: string;
   granularity: Granularity;
   picker?: Picker;
-  other?: string;
+  other: string;
 };

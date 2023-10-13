@@ -1,7 +1,5 @@
-import type { DefaultOptionType } from 'antd/es/select';
-import { isEmpty } from 'lodash-es';
-import dayjs from 'dayjs';
 import type { OpUnitType } from 'dayjs';
+import dayjs from 'dayjs';
 import type { FilterDateOperator, FilterDateValue } from '../../types';
 import type { GranularityItem } from './type';
 
@@ -28,27 +26,16 @@ export const DEFAULT_OPTIONS: GranularityItem[] = [
   { value: 'YYYY', other: 'YYYY', label: '年', picker: 'year', granularity: 'year' },
 ];
 
-export const getOptions = (format?: string) => {
-  if (!format) {
-    return DEFAULT_OPTIONS.map((item) => ({
-      label: item.label,
-      value: item.value,
-      picker: item.picker,
-      granularity: item.granularity,
-    }));
-  }
-
+export const getOptions = (format: string): GranularityItem[] => {
   const isDiagonalLineSplit = format.indexOf('/') !== -1;
-  const options = DEFAULT_OPTIONS.map((item) => ({
-    label: item.label,
+  const options: GranularityItem[] = DEFAULT_OPTIONS.map((item) => ({
+    ...item,
     value: isDiagonalLineSplit ? item.value : item.other,
-    picker: item.picker,
-    granularity: item.granularity,
   }));
 
   const formatIndex = DEFAULT_OPTIONS.findIndex((item) => item.value === format || item.other === format);
 
-  if (!isEmpty(formatIndex)) {
+  if (formatIndex === -1) {
     return options;
   }
 

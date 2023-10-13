@@ -3,7 +3,7 @@ import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import { isEmpty } from 'lodash-es';
 import React, { useEffect, useMemo, useState } from 'react';
-import type { FilterDateOperator, FilterDateValue , Granularity } from '../../types';
+import type { FilterDateOperator, FilterDateValue, Granularity } from '../../types';
 import { getOptions, getTimeFormat } from './helper';
 import './index.less';
 import type { GranularityItem } from './type';
@@ -23,7 +23,7 @@ const { RangePicker } = DatePicker;
 export const FilterDate: React.FC<FilterDateProps> = ({
   operator,
   value: defaultValue,
-  format = 'YYYY',
+  format,
   defaultGranularity = 'day',
   onChange,
 }) => {
@@ -31,12 +31,12 @@ export const FilterDate: React.FC<FilterDateProps> = ({
     return getOptions(format);
   }, [format]);
 
-  const _defaultGranularity = options.find((item) => item.granularity === defaultGranularity) as GranularityItem;
+  const _defaultGranularity = options.find((item) => item.granularity === defaultGranularity)!;
   const [granularity, setGranularity] = useState<GranularityItem>(_defaultGranularity);
 
-  const timer: Dayjs | Dayjs[] | undefined = useMemo(() => {
+  const timer: Dayjs | Dayjs[] | null = useMemo(() => {
     if (isEmpty(defaultValue)) {
-      return undefined;
+      return null;
     }
     if (typeof defaultValue === 'string') {
       const _timer = dayjs(defaultValue, format);
@@ -56,8 +56,8 @@ export const FilterDate: React.FC<FilterDateProps> = ({
 
   const onValueChange = (_: any, dateString: FilterDateValue) => {
     // 处理时间到最小粒度
-    const timer = getTimeFormat(dateString, granularity.value, operator);
-    onChange(timer);
+    const _timer = getTimeFormat(dateString, granularity.value, operator);
+    onChange(_timer);
   };
 
   useEffect(() => {
@@ -70,8 +70,8 @@ export const FilterDate: React.FC<FilterDateProps> = ({
               dayjs(defaultValue[1]).format(granularity.value).toString(),
             ];
       // 处理时间到最小粒度
-      const timer = getTimeFormat(_value, granularity.value, operator);
-      onChange(timer, granularity.granularity);
+      const _timer = getTimeFormat(_value, granularity.value, operator);
+      onChange(_timer, granularity.granularity);
     }
   }, [granularity, operator]);
 
