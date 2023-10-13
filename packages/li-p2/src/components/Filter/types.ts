@@ -17,6 +17,10 @@ export type ColumnType = {
    * 类型颜色
    */
   typeColor?: string;
+  /**
+   * 数据格式，用于日期类型指定日期格式，仅在 type 为 date 时有效
+   */
+  format?: string;
 };
 
 export type FilterType = 'number' | 'string' | 'date';
@@ -29,6 +33,7 @@ export type FilterStringValue = string | string[];
 
 export type FilterDateOperator = 'BETWEEN' | '>' | '<';
 export type FilterDateValue = string | [string, string];
+export type Granularity = 'second' | 'minute' | 'hour' | 'day' | 'month' | 'year';
 
 /** 筛选器子节点，单个筛选条件 */
 export type FilterNode = {
@@ -50,6 +55,7 @@ export type FilterNode = {
       type: 'date';
       operator: FilterDateOperator;
       value: FilterDateValue;
+      granularity: Granularity;
     }
 );
 

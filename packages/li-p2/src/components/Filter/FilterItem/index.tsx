@@ -3,10 +3,11 @@ import { Popconfirm, Select, Tag, theme } from 'antd';
 import type { DefaultOptionType } from 'antd/lib/select';
 import { isArray, isEmpty, isUndefined } from 'lodash-es';
 import React, { useState } from 'react';
+import { FilterDate } from '../FilterField/FilterDate';
 import { DEFAULT_RANGE, FilterNumber } from '../FilterField/FilterNumber';
 import { FilterString } from '../FilterField/FilterString';
-import type { ColumnType, FilterNode, FilterType } from '../types';
-import { NumberOperatorsOption, StringOperatorsOption } from './constants';
+import type { ColumnType, FilterNode, FilterType , Granularity } from '../types';
+import { OperatorsOption } from './constants';
 import './index.less';
 
 const { useToken } = theme;
@@ -30,7 +31,7 @@ export const FilterItem = (props: FilterItemProps) => {
 
   // 过滤字段
   const fieldOptions: DefaultOptionType[] = columns
-    .filter((column) => ['string', 'number'].includes(column.type))
+    .filter((column) => ['string', 'number', 'date'].includes(column.type))
     .map((colm) => ({
       label: (
         <span>
@@ -44,8 +45,15 @@ export const FilterItem = (props: FilterItemProps) => {
       // disabled: selectedFields.includes(colm.name) && colm.name !== filterNode.field,
     }));
 
-  const onValueChange = (val: FilterNode['value']) => {
+  const operatorsOption: DefaultOptionType[] = OperatorsOption[filterNode.type];
+
+  const onValueChange = (val: FilterNode['value'], granularity?: Granularity) => {
     const _filterNode = { ...filterNode, value: val } as FilterNode;
+
+    if (_filterNode.type === 'date' && granularity) {
+      _filterNode.granularity = granularity;
+    }
+
     setFilterNode(_filterNode);
     props.onChange(_filterNode);
   };
@@ -58,7 +66,7 @@ export const FilterItem = (props: FilterItemProps) => {
     if (type === 'number') {
       _filterNode = { id: filterNode.id, type: 'number', field: val, operator: '>', value: 0 };
     } else if (type === 'date') {
-      _filterNode = { id: filterNode.id, type: 'date', field: val, operator: '>', value: '' };
+      _filterNode = { id: filterNode.id, type: 'date', field: val, operator: '>', value: '', granularity: 'day' };
     } else {
       _filterNode = { id: filterNode.id, type: 'string', field: val, operator: 'IN', value: [] as string[] };
     }
@@ -123,7 +131,7 @@ export const FilterItem = (props: FilterItemProps) => {
           className={`${CLS_PREFIX}__select-operator`}
           size="small"
           placeholder="请选择筛选方式"
-          options={(filterNode.type === 'string' ? StringOperatorsOption : NumberOperatorsOption) as any[]}
+          options={operatorsOption}
           value={filterNode.operator}
           onChange={(val) => onOperatorChange(val)}
         />
@@ -153,6 +161,17 @@ export const FilterItem = (props: FilterItemProps) => {
               operator={filterNode.operator}
               value={filterNode.value}
               onChange={(val) => onValueChange(val)}
+            />
+          )}
+
+          {/* 日期类型筛选 */}
+          {filterNode.type === 'date' && (
+            <FilterDate
+              format={columns.find((item) => item.name === filterNode.field)?.format ?? 'YYYY'}
+              defaultGranularity={filterNode.granularity}
+              operator={filterNode.operator}
+              value={filterNode.value}
+              onChange={(val, granularity) => onValueChange(val, granularity)}
             />
           )}
         </>

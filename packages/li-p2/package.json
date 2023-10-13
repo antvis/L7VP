@@ -48,6 +48,7 @@
     "colorbrewer": "^1.5.3",
     "lodash-es": "^4.17.21",
     "react-dnd": "^16.0.1",
+    "dayjs": "^1.11.7",
     "react-dnd-html5-backend": "^16.0.1"
   },
   "devDependencies": {
