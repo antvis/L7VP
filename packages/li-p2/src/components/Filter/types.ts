@@ -33,6 +33,7 @@ export type FilterStringValue = string | string[];
 
 export type FilterDateOperator = 'BETWEEN' | '>' | '<';
 export type FilterDateValue = string | [string, string];
+export type Granularity = 'second' | 'minute' | 'hour' | 'day' | 'month' | 'year';
 
 /** 筛选器子节点，单个筛选条件 */
 export type FilterNode = {
@@ -54,7 +55,7 @@ export type FilterNode = {
       type: 'date';
       operator: FilterDateOperator;
       value: FilterDateValue;
-      granularity: 'second' | 'minute' | 'hour' | 'day' | 'month' | 'year';
+      granularity: Granularity;
     }
 );
 

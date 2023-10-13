@@ -48,9 +48,12 @@ export const FilterItem = (props: FilterItemProps) => {
   const operatorsOption: DefaultOptionType[] = OperatorsOption[filterNode.type];
 
   const onValueChange = (val: FilterNode['value'], granularity?: string) => {
-    const _filterNode = (filterNode.type === 'date'
-      ? { ...filterNode, value: val, granularity: granularity ? granularity : filterNode.granularity }
-      : { ...filterNode, value: val }) as FilterNode;
+    const _filterNode = { ...filterNode, value: val } as FilterNode;
+
+    if (_filterNode.type === 'date' && granularity) {
+      _filterNode.granularity = granularity;
+    }
+
     setFilterNode(_filterNode);
     props.onChange(_filterNode);
   };
