@@ -104,6 +104,7 @@ const TimeLineControl: React.FC<TimeLineControlType> = (props) => {
       type: fieldType as 'date',
       field: dateField,
       operator: 'BETWEEN',
+      granularity: 'second',
       params: { owner: dataWidgetId },
       value,
     };

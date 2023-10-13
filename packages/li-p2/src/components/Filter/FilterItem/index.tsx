@@ -1,5 +1,4 @@
 import { DeleteOutlined } from '@ant-design/icons';
-import type {} from 'antd';
 import { Popconfirm, Select, Tag, theme } from 'antd';
 import type { DefaultOptionType } from 'antd/lib/select';
 import { isArray, isEmpty, isUndefined } from 'lodash-es';
@@ -55,7 +54,7 @@ export const FilterItem = (props: FilterItemProps) => {
 
   const onValueChange = (val: FilterNode['value'], granularity?: string) => {
     const _filterNode = (filterNode.type === 'date'
-      ? { ...filterNode, value: val, granularity }
+      ? { ...filterNode, value: val, granularity: granularity ? granularity : filterNode.granularity }
       : { ...filterNode, value: val }) as FilterNode;
     setFilterNode(_filterNode);
     props.onChange(_filterNode);
@@ -69,7 +68,7 @@ export const FilterItem = (props: FilterItemProps) => {
     if (type === 'number') {
       _filterNode = { id: filterNode.id, type: 'number', field: val, operator: '>', value: 0 };
     } else if (type === 'date') {
-      _filterNode = { id: filterNode.id, type: 'date', field: val, operator: '>', value: '' };
+      _filterNode = { id: filterNode.id, type: 'date', field: val, operator: '>', value: '', granularity: 'day' };
     } else {
       _filterNode = { id: filterNode.id, type: 'string', field: val, operator: 'IN', value: [] as string[] };
     }
@@ -175,8 +174,8 @@ export const FilterItem = (props: FilterItemProps) => {
           {/* 日期类型筛选 */}
           {filterNode.type === 'date' && (
             <FilterDate
-              format={columns.find((item) => item.name === filterNode.field)?.format}
-              granularity={filterNode.granularity}
+              format={columns.find((item) => item.name === filterNode.field)?.format ?? 'YYYY'}
+              defaultGranularity={filterNode.granularity}
               operator={filterNode.operator}
               value={filterNode.value}
               onChange={(val, granularity) => onValueChange(val, granularity)}

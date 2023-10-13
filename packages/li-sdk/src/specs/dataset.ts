@@ -44,7 +44,7 @@ export type FilterNumber = FilterBase & {
 export type FilterDate = FilterBase & {
   type: 'date';
   /** 日期粒度 */
-  granularity?: 'second' | 'minute' | 'hour' | 'day' | 'month' | 'year';
+  granularity: 'second' | 'minute' | 'hour' | 'day' | 'month' | 'year';
 } & (
     | {
         operator: 'BETWEEN';

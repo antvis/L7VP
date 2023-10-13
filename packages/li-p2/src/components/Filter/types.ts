@@ -54,7 +54,7 @@ export type FilterNode = {
       type: 'date';
       operator: FilterDateOperator;
       value: FilterDateValue;
-      granularity?: 'second' | 'minute' | 'hour' | 'day' | 'month' | 'year';
+      granularity: 'second' | 'minute' | 'hour' | 'day' | 'month' | 'year';
     }
 );
 

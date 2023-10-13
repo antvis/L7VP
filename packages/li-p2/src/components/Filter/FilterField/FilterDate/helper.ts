@@ -28,7 +28,7 @@ export const DEFAULT_OPTIONS: GranularityItem[] = [
   { value: 'YYYY', other: 'YYYY', label: '年', picker: 'year', granularity: 'year' },
 ];
 
-export const getOptions = (format?: string): DefaultOptionType[] => {
+export const getOptions = (format?: string) => {
   if (!format) {
     return DEFAULT_OPTIONS.map((item) => ({
       label: item.label,

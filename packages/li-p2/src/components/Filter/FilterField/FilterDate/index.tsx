@@ -1,19 +1,19 @@
-import { isEmpty } from '@formily/shared';
 import { DatePicker, Select } from 'antd';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
+import { isEmpty } from 'lodash-es';
 import React, { useEffect, useMemo, useState } from 'react';
 import type { FilterDateOperator, FilterDateValue } from '../../types';
-import { DEFAULT_OPTIONS, getOptions, getTimeFormat } from './helper';
+import { getOptions, getTimeFormat } from './helper';
 import './index.less';
 import type { Granularity, GranularityItem } from './type';
 
 interface FilterDateProps {
   operator: FilterDateOperator;
   value: FilterDateValue;
-  granularity?: Granularity;
-  format?: string;
-  onChange: (val: FilterDateValue, granularity: Granularity) => void;
+  format: string;
+  defaultGranularity: Granularity;
+  onChange: (val: FilterDateValue, granularity?: Granularity) => void;
 }
 
 const CLS_PREFIX = 'li-filter-item-filter-field-date';
@@ -21,23 +21,18 @@ const CLS_PREFIX = 'li-filter-item-filter-field-date';
 const { RangePicker } = DatePicker;
 
 export const FilterDate: React.FC<FilterDateProps> = ({
-  value: defaultValue,
-  granularity: defaultGranularity,
   operator,
-  format,
+  value: defaultValue,
+  format = 'YYYY',
+  defaultGranularity = 'day',
   onChange,
 }) => {
   const options = useMemo(() => {
     return getOptions(format);
   }, [format]);
 
-  const _granularity = defaultGranularity ? defaultGranularity : format;
-  const _defaultGranularity = options.find((item) =>
-    [item.granularity, item.value].includes(_granularity),
-  ) as GranularityItem;
-  const [granularity, setGranularity] = useState<GranularityItem>(
-    _defaultGranularity ? _defaultGranularity : DEFAULT_OPTIONS[3],
-  );
+  const _defaultGranularity = options.find((item) => item.granularity === defaultGranularity) as GranularityItem;
+  const [granularity, setGranularity] = useState<GranularityItem>(_defaultGranularity);
 
   const timer: Dayjs | Dayjs[] | undefined = useMemo(() => {
     if (isEmpty(defaultValue)) {
@@ -62,7 +57,7 @@ export const FilterDate: React.FC<FilterDateProps> = ({
   const onValueChange = (_: any, dateString: FilterDateValue) => {
     // 处理时间到最小粒度
     const timer = getTimeFormat(dateString, granularity.value, operator);
-    onChange(timer, granularity.granularity ?? 'day');
+    onChange(timer);
   };
 
   useEffect(() => {
@@ -76,7 +71,7 @@ export const FilterDate: React.FC<FilterDateProps> = ({
             ];
       // 处理时间到最小粒度
       const timer = getTimeFormat(_value, granularity.value, operator);
-      onChange(timer, granularity.granularity ?? 'day');
+      onChange(timer, granularity.granularity);
     }
   }, [granularity, operator]);
 
