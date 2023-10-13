@@ -3,10 +3,10 @@ import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import { isEmpty } from 'lodash-es';
 import React, { useEffect, useMemo, useState } from 'react';
-import type { FilterDateOperator, FilterDateValue } from '../../types';
+import type { FilterDateOperator, FilterDateValue , Granularity } from '../../types';
 import { getOptions, getTimeFormat } from './helper';
 import './index.less';
-import type { Granularity, GranularityItem } from './type';
+import type { GranularityItem } from './type';
 
 interface FilterDateProps {
   operator: FilterDateOperator;

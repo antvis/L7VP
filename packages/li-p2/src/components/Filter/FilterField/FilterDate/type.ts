@@ -1,5 +1,6 @@
+import type { Granularity } from '../../types';
+
 type Picker = 'year' | 'month' | 'date';
-export type Granularity = 'second' | 'minute' | 'hour' | 'day' | 'month' | 'year';
 
 export type GranularityItem = {
   label: string;

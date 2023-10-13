@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { FilterDate } from '../FilterField/FilterDate';
 import { DEFAULT_RANGE, FilterNumber } from '../FilterField/FilterNumber';
 import { FilterString } from '../FilterField/FilterString';
-import type { ColumnType, FilterNode, FilterType } from '../types';
+import type { ColumnType, FilterNode, FilterType , Granularity } from '../types';
 import { OperatorsOption } from './constants';
 import './index.less';
 
@@ -47,7 +47,7 @@ export const FilterItem = (props: FilterItemProps) => {
 
   const operatorsOption: DefaultOptionType[] = OperatorsOption[filterNode.type];
 
-  const onValueChange = (val: FilterNode['value'], granularity?: string) => {
+  const onValueChange = (val: FilterNode['value'], granularity?: Granularity) => {
     const _filterNode = { ...filterNode, value: val } as FilterNode;
 
     if (_filterNode.type === 'date' && granularity) {
