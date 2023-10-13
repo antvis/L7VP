@@ -57,7 +57,7 @@ export function filterFalsyDatasetFilter(filter: DatasetFilter) {
     ...filter,
     children: filter.children.filter((item) => {
       // 过滤掉条件空值
-      if (['string', 'number'].includes(item.type)) {
+      if (['string', 'number', 'date'].includes(item.type)) {
         if (item.value === '') return false;
         if (Array.isArray(item.value) && item.value.length === 0) return false;
       }
