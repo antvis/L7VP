@@ -6,14 +6,7 @@ import React, { useState } from 'react';
 import { FilterDate } from '../FilterField/FilterDate';
 import { DEFAULT_RANGE, FilterNumber } from '../FilterField/FilterNumber';
 import { FilterString } from '../FilterField/FilterString';
-import type {
-  ColumnType,
-  FilterDateOperator,
-  FilterNode,
-  FilterNumberOperator,
-  FilterStringOperator,
-  FilterType,
-} from '../types';
+import type { ColumnType, FilterNode, FilterType } from '../types';
 import { OperatorsOption } from './constants';
 import './index.less';
 
@@ -51,6 +44,8 @@ export const FilterItem = (props: FilterItemProps) => {
       // 暂时启用可重复选择字段
       // disabled: selectedFields.includes(colm.name) && colm.name !== filterNode.field,
     }));
+
+  const operatorsOption: DefaultOptionType[] = OperatorsOption[filterNode.type];
 
   const onValueChange = (val: FilterNode['value'], granularity?: string) => {
     const _filterNode = (filterNode.type === 'date'
@@ -133,12 +128,7 @@ export const FilterItem = (props: FilterItemProps) => {
           className={`${CLS_PREFIX}__select-operator`}
           size="small"
           placeholder="请选择筛选方式"
-          options={
-            OperatorsOption[filterNode.type] as {
-              label: string;
-              value: FilterDateOperator | FilterStringOperator | FilterNumberOperator;
-            }[]
-          }
+          options={operatorsOption}
           value={filterNode.operator}
           onChange={(val) => onOperatorChange(val)}
         />
