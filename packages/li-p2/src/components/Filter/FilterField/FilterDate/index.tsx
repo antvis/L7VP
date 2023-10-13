@@ -85,6 +85,7 @@ export const FilterDate: React.FC<FilterDateProps> = ({
         style={{ marginRight: 10 }}
         onChange={onGranularityChange}
         options={options}
+        popupMatchSelectWidth={false}
       />
 
       {['>', '<'].includes(operator) && (
