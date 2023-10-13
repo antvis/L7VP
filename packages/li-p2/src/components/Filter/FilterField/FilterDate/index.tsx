@@ -31,8 +31,9 @@ export const FilterDate: React.FC<FilterDateProps> = ({
     return getOptions(format);
   }, [format]);
 
-  const _defaultGranularity = options.find((item) => item.granularity === defaultGranularity)!;
-  const [granularity, setGranularity] = useState<GranularityItem>(_defaultGranularity);
+  const [granularity, setGranularity] = useState<GranularityItem>(
+    () => options.find((item) => item.granularity === defaultGranularity)!,
+  );
 
   const timer: Dayjs | Dayjs[] | null = useMemo(() => {
     if (isEmpty(defaultValue)) {
@@ -48,7 +49,7 @@ export const FilterDate: React.FC<FilterDateProps> = ({
   }, [defaultValue]);
 
   const onGranularityChange = (e: string) => {
-    const _granularity = options.find((item) => item.value === e) as GranularityItem;
+    const _granularity = options.find((item) => item.value === e);
     if (_granularity) {
       setGranularity(_granularity);
     }
@@ -92,7 +93,7 @@ export const FilterDate: React.FC<FilterDateProps> = ({
             <DatePicker
               size="small"
               className={`${CLS_PREFIX}-picker`}
-              value={timer as Dayjs}
+              value={timer as Dayjs | null}
               picker={granularity.picker}
               format={granularity.value}
               onChange={onValueChange}
@@ -101,7 +102,7 @@ export const FilterDate: React.FC<FilterDateProps> = ({
             <DatePicker
               size="small"
               className={`${CLS_PREFIX}-picker`}
-              value={timer as Dayjs}
+              value={timer as Dayjs | null}
               showTime={{ format: granularity.value }}
               format={granularity.value}
               onChange={onValueChange}
@@ -116,7 +117,7 @@ export const FilterDate: React.FC<FilterDateProps> = ({
             <RangePicker
               size="small"
               className={`${CLS_PREFIX}-picker`}
-              value={timer as [Dayjs, Dayjs]}
+              value={timer as [Dayjs, Dayjs] | null}
               picker={granularity.picker}
               onChange={onValueChange}
               format={granularity.value}
@@ -125,7 +126,7 @@ export const FilterDate: React.FC<FilterDateProps> = ({
             <RangePicker
               size="small"
               className={`${CLS_PREFIX}-picker`}
-              value={timer as [Dayjs, Dayjs]}
+              value={timer as [Dayjs, Dayjs] | null}
               showTime={{ format: granularity.value }}
               onChange={onValueChange}
               format={granularity.value}
