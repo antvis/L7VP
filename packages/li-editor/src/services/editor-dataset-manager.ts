@@ -1,6 +1,12 @@
 import type { DatasetField, DatasetSchema } from '@antv/li-sdk';
-import { getDatasetColumns, isLocalDatasetSchema, isLocalOrRemoteDatasetSchema } from '@antv/li-sdk';
+import {
+  getDatasetColumns,
+  isLocalDatasetSchema,
+  isLocalOrRemoteDatasetSchema,
+  isRemoteDatasetSchema,
+} from '@antv/li-sdk';
 import type { FieldPair } from '../types';
+import type AppService from './app-service';
 
 const getPointFieldPairs = (fields: DatasetField[]) => {
   const fieldPairs: FieldPair[] = [];
@@ -25,10 +31,12 @@ export class EditorDataset {
 
   constructor(schema: DatasetSchema) {
     this.schema = this.savePropertiesFromSchema(schema);
-    this.data = isLocalDatasetSchema(schema) ? schema.data : [];
-    if (isLocalOrRemoteDatasetSchema(schema)) {
-      this.columns = schema.columns || [];
+    if (isLocalDatasetSchema(schema)) {
+      this.data = schema.data;
+      this.columns = schema.columns;
       this.fieldPairs = getPointFieldPairs(this.columns);
+    } else if (isRemoteDatasetSchema(schema)) {
+      //
     }
   }
 
@@ -61,6 +69,13 @@ export class EditorDataset {
     this.fieldPairs = getPointFieldPairs(this.columns);
   }
 
+  /**
+   * 动态数据源类型情况，异步请求数据
+   */
+  public requestRemoteDataset(service: (...params: any) => Promise<any>) {
+    return service;
+  }
+
   public savePropertiesFromSchema(datasetSchema: DatasetSchema) {
     return datasetSchema;
   }
@@ -75,8 +90,10 @@ export class EditorDataset {
  */
 class EditorDatasetManager {
   private datasets: Map<string, EditorDataset>;
+  private appService: AppService;
 
-  constructor(datasets: DatasetSchema[] = []) {
+  constructor(appService: AppService, datasets: DatasetSchema[] = []) {
+    this.appService = appService;
     this.datasets = new Map(
       datasets.map((item) => {
         return [item.id, new EditorDataset(item)];
@@ -132,6 +149,7 @@ class EditorDatasetManager {
         // 原则：只考虑会影响数据发生更新的情况；替换数据集的情况？
         this.copyEditorDatasetAndUpdate(editorDataset, { schema: datasetSchema });
       } else {
+        // appService
         this.datasets.set(datasetSchema.id, new EditorDataset(datasetSchema));
       }
     }
@@ -141,6 +159,20 @@ class EditorDatasetManager {
    * 动态数据源类型情况，异步请求数据
    */
   public requestRemoteDataset(service: (...params: any) => Promise<any>) {
+    return service;
+  }
+
+  private getRemoteDatasetService(serviceName: string) {
+    const datasetService = this.appService.getImplementDatasetService(serviceName);
+    const service = datasetService?.service;
+
+    // if (service) {
+    //   service.service({
+    //     // properties: dataset.properties,
+    //     // TODO: filters 初始值问题
+    //   });
+    // }
+
     return service;
   }
 }

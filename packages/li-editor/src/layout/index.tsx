@@ -28,6 +28,7 @@ const Layout: React.FC<LayoutProps> = (props) => {
   const { datasets, serviceCache } = state;
 
   const [dataLoading, setDataLoading] = useState(false);
+  // const {loading: dataLoading} = _useEditorDatasets()
 
   useAsyncEffect(async () => {
     const newServiceCache: EditorServiceCache = {};

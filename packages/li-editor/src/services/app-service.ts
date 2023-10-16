@@ -1,4 +1,4 @@
-import type { LIRuntimeApp, WidgetSchema } from '@antv/li-sdk';
+import type { AssetPackage, LIRuntimeApp, WidgetSchema } from '@antv/li-sdk';
 import { isEmpty } from 'lodash-es';
 import { AtomWidgetEmptyContainer, AtomWidgets } from '../constants';
 
@@ -8,6 +8,13 @@ class AppService {
 
   constructor(runtimeApp: LIRuntimeApp) {
     this.runtimeApp = runtimeApp;
+  }
+
+  /**
+   * 安装资产包
+   */
+  public installAssets(assets: AssetPackage[]) {
+    this.runtimeApp.installAssets(assets);
   }
 
   /**
@@ -30,7 +37,7 @@ class AppService {
   public getImplementWidget(name: string) {
     const widget = this.getImplementWidgetsMap().get(name);
     if (!widget) {
-      console.info(`组件 ${name} 未在资产中.`);
+      console.warn(`组件 ${name} 未在资产中.`);
     }
     return widget;
   }
@@ -48,7 +55,7 @@ class AppService {
   public getImplementService(name: string) {
     const service = this.getImplementServicesMap().get(name);
     if (!service) {
-      console.info(`服务 ${name} 未在资产中.`);
+      console.warn(`服务 ${name} 未在资产中.`);
     }
     return service;
   }
@@ -66,6 +73,19 @@ class AppService {
    */
   public getImplementDatasetServices() {
     return this.getImplementServices().filter((service) => service.metadata.type === 'Dataset');
+  }
+
+  /**
+   * 获取注册的数据集类型服务资产
+   */
+  public getImplementDatasetService(name: string) {
+    const service = this.getImplementServicesMap().get(name);
+    if (!service) {
+      console.warn(`数据集查询服务 ${name} 未在资产中.`);
+    } else if (service.metadata.type !== 'Dataset') {
+      console.warn(`${name} 不属于数据集查询服务.`);
+    }
+    return service;
   }
 
   /**
@@ -139,7 +159,7 @@ class AppService {
     if (isEmpty(name)) return undefined;
     const layer = this.getImplementLayersMap().get(name);
     if (!layer) {
-      console.info(`图层 ${name} 未在资产中.`);
+      console.warn(`图层 ${name} 未在资产中.`);
     }
     return layer;
   }

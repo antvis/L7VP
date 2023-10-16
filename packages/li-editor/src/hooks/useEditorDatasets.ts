@@ -1,6 +1,6 @@
 import { isLocalDatasetSchema, isRemoteDatasetSchema } from '@antv/li-sdk';
 import { useUpdateEffect } from 'ahooks';
-import { useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import type { EditorDataset } from '../types';
 import { useEditorService } from './useEditor';
 import { useEditorState } from './useEditorState';
@@ -43,12 +43,6 @@ export const _useEditorDatasets_ = (datasetIds?: string[]) => {
   const { editorDatasetManager } = editorService;
   const { state } = useEditorState();
   const { serviceCache, datasets: datasetSchemas } = state;
-  const isFirst = useRef(false);
-
-  if (!isFirst.current) {
-    editorDatasetManager.update(datasetSchemas);
-    isFirst.current = true;
-  }
 
   useUpdateEffect(() => {
     editorDatasetManager.update(datasetSchemas);
@@ -57,4 +51,21 @@ export const _useEditorDatasets_ = (datasetIds?: string[]) => {
   const [editorDatasets, setEditorDatasets] = useState(() => {});
 
   return editorDatasetManager.getDatasetList();
+};
+
+export const _useEditorDatasets = () => {
+  const { editorService } = useEditorService();
+  const { editorDatasetManager } = editorService;
+  const { state } = useEditorState();
+  const { serviceCache, datasets: datasetSchemas } = state;
+
+  const [editorDatasets, setEditorDatasets] = useState(() => editorDatasetManager.getDatasetList());
+
+  useUpdateEffect(() => {
+    editorDatasetManager.update(datasetSchemas);
+  }, [datasetSchemas]);
+
+  const loading = editorDatasetManager.loading;
+
+  return { editorDatasets, loading };
 };

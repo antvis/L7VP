@@ -54,6 +54,10 @@ class LIEditor extends EventEmitter {
    */
   public Editor: React.FC<LIEditorProps>;
   /**
+   * appService
+   */
+  private appService: AppService;
+  /**
    * editorService
    */
   private editorService: EditorService;
@@ -62,14 +66,16 @@ class LIEditor extends EventEmitter {
     super();
     const { assets, editorWidgets = [] } = options;
     const widgets = LIEditor.DefaultEditorWidgets.concat(editorWidgets);
-    const editorWidgetManager = new EditorWidgetManager(widgets);
-    const editorService = new EditorService(this, editorWidgetManager);
     const runtimeApp = new LIRuntimeApp({ assets });
+    const appService = new AppService(runtimeApp);
+    const editorWidgetManager = new EditorWidgetManager(widgets);
+    const editorService = new EditorService(this, appService, editorWidgetManager);
 
     this.options = options;
     this.runtimeApp = runtimeApp;
     this.registryAssetManager = runtimeApp.registryManager;
     this.editorWidgetManager = editorWidgetManager;
+    this.appService = appService;
     this.editorService = editorService;
 
     this.Editor = this.getEditor();
@@ -79,9 +85,8 @@ class LIEditor extends EventEmitter {
    * 获取编辑器组件
    */
   private getEditor() {
-    const { runtimeApp, editorService } = this;
+    const { runtimeApp, appService, editorService } = this;
     const App = runtimeApp.App;
-    const appService = new AppService(this.runtimeApp);
     const { containerSlotMap } = editorService;
 
     // 编辑器上下文服务
@@ -95,8 +100,12 @@ class LIEditor extends EventEmitter {
     return function LIEditor(props: LIEditorProps) {
       const { defaultActiveNavMenuKey } = props;
       // 校验 Application Schema 是否规范
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      const defaultApplication = useMemo(() => validateApplicationSchema(props.defaultApplication), []);
+      const defaultApplication = useMemo(() => {
+        const _defaultApplication = validateApplicationSchema(props.defaultApplication);
+        editorService.editorDatasetManager.update(_defaultApplication.datasets);
+        return _defaultApplication;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, []);
       const activeNavMenuKey = useMemo(() => {
         const navMenuList = editorService.getNavMenuList();
         if (defaultActiveNavMenuKey && navMenuList.find((item) => item.key === defaultActiveNavMenuKey)) {
@@ -140,7 +149,7 @@ class LIEditor extends EventEmitter {
    * 安装资产包
    */
   public installAssets(assets: AssetPackage[]) {
-    this.runtimeApp.installAssets(assets);
+    this.appService.installAssets(assets);
   }
 
   /**

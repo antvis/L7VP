@@ -2,6 +2,7 @@ import type EventEmitter from '@antv/event-emitter';
 import type { ContainerSlotMap, EditorContextState } from '../types';
 import { getMenuList, resolveContainerSlotMap } from '../utils';
 import { getApplicationSchema } from '../utils/application';
+import type AppService from './app-service';
 import EditorDatasetManager from './editor-dataset-manager';
 import type EditorWidgetManager from './editor-widget-manager';
 
@@ -12,9 +13,9 @@ class EditorService {
   private editorWidgetManager: EditorWidgetManager;
   public editorStateRef!: EditorContextState;
 
-  constructor(eventBus: EventEmitter, editorWidgetManager: EditorWidgetManager) {
+  constructor(eventBus: EventEmitter, appService: AppService, editorWidgetManager: EditorWidgetManager) {
     this.eventBus = eventBus;
-    this.editorDatasetManager = new EditorDatasetManager();
+    this.editorDatasetManager = new EditorDatasetManager(appService);
     this.editorWidgetManager = editorWidgetManager;
     this.containerSlotMap = this.getWidgetsContainerSlotMap();
   }
