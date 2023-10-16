@@ -44,6 +44,7 @@ export default (options: AttributeSchemaOptions) => {
                 '{{ $form.getFieldState("fillColorField",state=> { return state.dataSource.find((item) => item.value === state.value)?.type })}}',
               dataset:
                 '{{ $form.getFieldState("fillColorField",state=> { return state.dataSource.find((item) => item.value === state.value)?.domin })}}',
+              defaultColors: '{{ $form.getFieldState("fillColorRange",state=> { return state?.value?.colors })}}',
             },
             'x-decorator-props': {},
             'x-reactions': [

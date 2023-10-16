@@ -8,6 +8,17 @@ export default genStyleHook('scale-selector', (token) => {
 
     [`${componentCls}-dropdown`]: {
       padding: '4px',
+
+      [`${componentCls}-threshold`]: {
+        padding: '5px 12px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      },
+
+      [`${componentCls}-customcontent`]: {
+        padding: '5px 12px',
+      },
     },
 
     [`${componentCls}-select-option`]: {

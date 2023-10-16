@@ -1,30 +1,25 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
-import { Radio } from 'antd';
 import classnames from 'classnames';
 import { isEmpty, uniqueId } from 'lodash-es';
 import React, { useEffect, useMemo, useState } from 'react';
-import type { CustomItems, CustomItemType, CustomItemValueType, CustomType, DatasetType } from '../type';
-import { customTypeList } from './contants';
+import type { CustomItems, CustomItemType, CustomItemValueType, DatasetType } from '../type';
 import CustomItem from './CustomItem';
 import useStyle from './style';
 
 type CustomContentProps = {
   fieldType: 'string' | 'number';
-  // 数据集展示信息
   dataset: DatasetType | any;
   customRanges: CustomItemType;
   onChange: (value: CustomItemType) => void;
-  onCancel: () => void;
   className?: string;
 };
 
 const CustomContent = (props: CustomContentProps) => {
-  const { fieldType, dataset, customRanges: defaultCustomRanges, onChange, onCancel, className } = props;
+  const { fieldType = 'string', dataset, customRanges: defaultCustomRanges, onChange, className } = props;
   const prefixCls = usePrefixCls('formily-color-range-selector__custom-range');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const [customRanges, setCustomRanges] = useState<CustomItems[]>([]);
-  const [customType, setCustomType] = useState<CustomType>(defaultCustomRanges?.thresholdType || 'string');
 
   const selectedOption = useMemo(() => {
     if (!customRanges.length) {
@@ -59,7 +54,7 @@ const CustomContent = (props: CustomContentProps) => {
   };
 
   const deletePaletteRangeItem = (index: number, position: string | null) => {
-    if (customType === 'number') {
+    if (fieldType === 'number') {
       const _value = customRanges[index];
 
       const list = customRanges
@@ -99,7 +94,7 @@ const CustomContent = (props: CustomContentProps) => {
   };
 
   const onChangePaletteRangeItem = (value: CustomItemValueType, color: string, index: number) => {
-    if (customType === 'number') {
+    if (fieldType === 'number') {
       const list = customRanges.map((item, _index) => {
         if (index === _index) {
           return {
@@ -148,68 +143,38 @@ const CustomContent = (props: CustomContentProps) => {
     const list = customRanges.map((item) => {
       return { value: item.value, color: item.color };
     });
-    onChange({ thresholdType: customType, type: 'threshold', list });
-    onCancel();
-  };
-
-  const onCustomTypeChange = (type: CustomType) => {
-    setCustomType(type);
-    const addItem: CustomItems[] = [
-      {
-        id: uniqueId(),
-        value: [],
-        color: '#5B8FF9',
-      },
-    ];
-    setCustomRanges(addItem);
+    onChange({ type: fieldType, list });
   };
 
   return wrapSSR(
     <div className={classnames(`${prefixCls}`, hashId, className)}>
-      <Radio.Group value={customType} onChange={(e) => onCustomTypeChange(e.target.value)}>
-        {customTypeList.map((item) => {
-          return (
-            <Radio.Button
-              value={item.value}
-              key={item.value}
-              disabled={fieldType === 'string' && item.value === 'number'}
-            >
-              {item.label}
-            </Radio.Button>
-          );
-        })}
-      </Radio.Group>
+      {customRanges.map((customItem: CustomItems, index: number) => {
+        const min = index === 0 ? dataset?.min : customRanges[index - 1].value[1];
+        const max = dataset?.max;
+        const position = index === 0 ? 'first' : index === customRanges.length - 1 ? 'last' : null;
 
-      <>
-        {customRanges.map((customItem: CustomItems, index: number) => {
-          const min = index === 0 ? dataset?.min : customRanges[index - 1].value[1];
-          const max = dataset?.max;
-          const position = index === 0 ? 'first' : index === customRanges.length - 1 ? 'last' : null;
-
-          return (
-            <CustomItem
-              customType={customType}
-              key={`drag_card${index}`}
-              color={customItem.color}
-              value={customItem.value}
-              selectedOption={selectedOption}
-              selectOptions={dataset.list}
-              min={min}
-              max={max}
-              position={position}
-              onDelete={() => deletePaletteRangeItem(index, position)}
-              onChange={(value: CustomItemValueType, color: string) => onChangePaletteRangeItem(value, color, index)}
-            />
-          );
-        })}
-      </>
+        return (
+          <CustomItem
+            customType={fieldType}
+            key={`drag_card${index}`}
+            color={customItem.color}
+            value={customItem.value}
+            selectedOption={selectedOption}
+            selectOptions={dataset.list}
+            min={min}
+            max={max}
+            position={position}
+            onDelete={() => deletePaletteRangeItem(index, position)}
+            onChange={(value: CustomItemValueType, color: string) => onChangePaletteRangeItem(value, color, index)}
+          />
+        );
+      })}
 
       <div onClick={addPaletteRangeItem} className={`${prefixCls}__add-range-item`}>
         <PlusOutlined /> 添加
       </div>
 
       <div className={`${prefixCls}__btn`}>
-        <span onClick={onCancel}>取消</span>
         <span onClick={onSubmit}>确定</span>
       </div>
     </div>,

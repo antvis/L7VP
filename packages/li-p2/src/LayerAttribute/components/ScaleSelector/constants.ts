@@ -1,5 +1,7 @@
 import type { ColorScaleSelectOptionType } from './index';
 
+export const THRESHOLD = 'threshold';
+
 export const DEHAULT_OPTIONS: ColorScaleSelectOptionType[] = [
   {
     label: '等间距',

@@ -5,6 +5,21 @@ import type { LineLayerStyleAttributeValue } from './types';
  * 将表单的平铺数据转为图层样式的数据结构
  * */
 export const lineLayerStyleFlatToConfig = (style: Record<string, any>) => {
+  const fillColor = style.fillColorField
+    ? {
+        field: style.fillColorField,
+        value: typeof style.fillColorScale === 'string' ? style.fillColorRange.colors : style.fillColorScale.colors,
+        scale:
+          typeof style.fillColorScale === 'string'
+            ? { type: style.fillColorScale }
+            : {
+                type: style.fillColorScale.type,
+                domain: style.fillColorScale.domain,
+              },
+        isReversed: style.fillColorRange.isReversed,
+      }
+    : style.fillColor;
+
   const styleConfig: LineLayerStyleAttributeValue = {
     size: style.sizeField
       ? {
@@ -13,14 +28,7 @@ export const lineLayerStyleFlatToConfig = (style: Record<string, any>) => {
         }
       : style.size,
 
-    color: style.fillColorField
-      ? {
-          field: style.fillColorField,
-          value: style.fillColorRange.colors,
-          scale: { type: style.fillColorScale },
-          isReversed: style.fillColorRange.isReversed,
-        }
-      : style.sourceColor,
+    color: fillColor,
     style: {
       opacity: style.fillColorOpacity,
       lineType: 'solid' as const,
@@ -48,6 +56,17 @@ export const lineLayerStyleFlatToConfig = (style: Record<string, any>) => {
  * */
 export const lineLayerStyleConfigToFlat = (styleConfig: LineLayerStyleAttributeValue) => {
   const { size, color, style, minZoom = 0, maxZoom = 24, blend, animate } = styleConfig;
+  const fillColorScale =
+    typeof color === 'object'
+      ? color.scale?.domain
+        ? {
+            type: color?.scale?.type ?? '',
+            domain: color?.scale?.domain ?? [],
+            colors: color?.value,
+          }
+        : color?.scale?.type
+      : undefined;
+
   const config = {
     size: typeof size === 'object' ? undefined : size,
     // @ts-ignore
@@ -63,7 +82,7 @@ export const lineLayerStyleConfigToFlat = (styleConfig: LineLayerStyleAttributeV
             isReversed: color?.isReversed || false,
           }
         : undefined,
-    fillColorScale: typeof color === 'object' ? color?.scale?.type : undefined,
+    fillColorScale,
 
     fillColorOpacity: style?.opacity,
 

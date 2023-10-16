@@ -13,9 +13,8 @@ export const bubbleLayerStyleFlatToConfig = (style: Record<string, any>) => {
           typeof style.fillColorScale === 'string'
             ? { type: style.fillColorScale }
             : {
-                type: style.fillColorScale.thresholdType === 'string' ? 'cat' : style.fillColorScale.type,
+                type: style.fillColorScale.type,
                 domain: style.fillColorScale.domain,
-                thresholdType: style.fillColorScale.type,
               },
         isReversed: style.fillColorRange.isReversed,
       }
@@ -78,10 +77,7 @@ export const bubbleLayerStyleConfigToFlat = (styleConfig: BubbleLayerStyleAttrib
     typeof fillColor === 'object'
       ? fillColor.scale?.domain
         ? {
-            // @ts-ignore
-            type: fillColor?.scale?.thresholdType ?? '',
-            thresholdType: fillColor?.scale?.type === 'cat' ? 'string' : 'number',
-            // @ts-ignore
+            type: fillColor?.scale?.type ?? '',
             domain: fillColor?.scale?.domain ?? [],
             colors: fillColor?.value,
           }
