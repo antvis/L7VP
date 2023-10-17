@@ -67,7 +67,7 @@ export const TimeLineChart = (props: TimeLineChartProps) => {
       const commConfig = {
         type: 'interval',
         data: data,
-        axis: { x: { labelAutoHide: true, title: false }, y: false },
+        axis: { x: { labelAutoHide: true, title: false, labelTransform: 'rotate(0)' }, y: false },
         state: { inactive: { fill: 'rgb(105 116 131)' } },
         animate: false,
         interaction: {
