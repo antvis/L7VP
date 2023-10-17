@@ -56,16 +56,6 @@ export default (options: AttributeSchemaOptions) => {
                   },
                 },
               },
-              {
-                dependencies: ['fillColorScale'],
-                fulfill: {
-                  run: `$form.getFieldState("fillColorScale", (state) => {
-                   
-console.log(state.value,'祖库利尼看见你')
-                  
-                })`,
-                },
-              },
             ],
           },
 
