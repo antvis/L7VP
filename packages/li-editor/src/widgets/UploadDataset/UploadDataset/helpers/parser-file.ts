@@ -17,16 +17,16 @@ export const parserFileToSource = async (file: File) => {
   if (fileExtension === 'zip') {
     try {
       const files = await unzipFile(file);
-      dataset = await parserShapefileToSource(files, fileNames, getUniqueId(fileNames));
+      dataset = await parserShapefileToSource(files, fileNames, getUniqueId());
     } catch (message) {
       return Promise.reject(message);
     }
   } else {
     try {
       if (['xlsx', 'xls'].includes(fileExtension)) {
-        dataset = await parserExcelFileToSource(file, fileNames, getUniqueId(fileNames));
+        dataset = await parserExcelFileToSource(file, fileNames, getUniqueId());
       } else if (['csv', 'geojson', 'json'].includes(fileExtension)) {
-        dataset = await parserTextFileToSource(file, fileNames, getUniqueId(fileNames));
+        dataset = await parserTextFileToSource(file, fileNames, getUniqueId());
       }
     } catch (e) {
       return Promise.reject('文件解析失败，请检查文件格式。');

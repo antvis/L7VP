@@ -19,7 +19,7 @@ const AddDataset = ({ visible, onClose }: AddDatasetProps) => {
   const onAddDatasets = (datasets: AddDatasetType[]) => {
     updateState((draft) => {
       datasets.forEach((dataset) => {
-        const id = dataset.id ?? getUniqueId(dataset.metadata.name);
+        const id = dataset.id ?? getUniqueId();
         const newDataset = getAddDatasetSchema(dataset, id);
         if (!draft.datasets.find((item) => item.id === dataset.id)) {
           draft.datasets.push(newDataset);
