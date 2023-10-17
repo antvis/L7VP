@@ -74,7 +74,7 @@ const Item = ({ customType, value, options, min, max, position, onChange }: Item
         <div className={classnames(`${prefixCls}__input-group`, hashId)}>
           {position === 'first' && (
             <>
-              <span style={{ margin: '0 8px' }}>小于</span>
+              <span style={{ margin: '0 8px' }}>{`<`}</span>
               <InputNumber
                 size="small"
                 min={min}
@@ -88,7 +88,7 @@ const Item = ({ customType, value, options, min, max, position, onChange }: Item
 
           {position === 'last' && (
             <>
-              <span style={{ margin: '0 8px' }}>大于</span>
+              <span style={{ margin: '0 8px' }}>{`>`}</span>
               <InputNumber
                 size="small"
                 min={min}

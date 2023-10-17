@@ -72,6 +72,7 @@ export const parserLegendData = (layer: Layer) => {
   }
 
   const { items, type, field } = legendData;
+
   items.forEach((item, index) => {
     if (Array.isArray(item.value)) {
       if (index === items.length - 1) {
@@ -105,7 +106,7 @@ export const parserLegendData = (layer: Layer) => {
     };
 
     return data;
-  } else if (['linear', 'quantile', 'quantize'].includes(type as string)) {
+  } else if (['linear', 'quantile', 'quantize', 'threshold'].includes(type as string)) {
     const data: LegendRampData = {
       type: 'LegendRamp',
       field: field,

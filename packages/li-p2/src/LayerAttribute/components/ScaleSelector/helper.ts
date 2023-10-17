@@ -1,6 +1,6 @@
-import { maxBy , fill } from 'lodash-es';
-import type { CustomItemType, CustomItems, DatasetType } from './type';
+import { fill, maxBy } from 'lodash-es';
 import { THRESHOLD } from './constants';
+import type { CustomItems, CustomItemType, DatasetType } from './type';
 
 export const stringToFix = (list: CustomItems[]) => {
   const colors = list.map((item) => item.color);
@@ -47,11 +47,15 @@ export const transformToLayer = (val: CustomItemType) => {
 };
 
 export const transformToScale = (fieldType: 'string' | 'number', val: Record<string, any>) => {
+  if (!val) {
+    return undefined;
+  }
+
   if (typeof val === 'string') {
     return val;
   }
 
-  const { domain, colors } = val || {};
+  const { domain = [], colors = [] } = val || {};
   if (fieldType === 'number') {
     const list = colors.map((item: string, index: number) => {
       return {

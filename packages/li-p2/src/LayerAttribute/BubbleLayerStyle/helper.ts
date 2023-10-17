@@ -8,7 +8,7 @@ export const bubbleLayerStyleFlatToConfig = (style: Record<string, any>) => {
   const fillColor = style.fillColorField
     ? {
         field: style.fillColorField,
-        value: typeof style.fillColorScale === 'string' ? style.fillColorRange.colors : style.fillColorScale.colors,
+        value: typeof style.fillColorScale === 'string' ? style.fillColorRange?.colors : style.fillColorScale?.colors,
         scale:
           typeof style.fillColorScale === 'string'
             ? { type: style.fillColorScale }

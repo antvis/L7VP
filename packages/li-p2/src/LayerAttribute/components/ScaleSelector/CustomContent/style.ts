@@ -33,7 +33,7 @@ export default genStyleHook('color-range-selector__custom-range', (token) => {
         alignItems: 'center',
         justifyContent: 'right',
         marginTop: '10px',
-        padding: '10px 0',
+        paddingTop: '10px',
         textAlign: 'right',
         borderTop: `${lineWidth}px ${lineType} ${colorBorder}`,
 

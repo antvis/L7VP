@@ -56,8 +56,19 @@ export default (options: AttributeSchemaOptions) => {
                   },
                 },
               },
+              {
+                dependencies: ['fillColorScale'],
+                fulfill: {
+                  run: `$form.getFieldState("fillColorScale", (state) => {
+                   
+console.log(state.value,'祖库利尼看见你')
+                  
+                })`,
+                },
+              },
             ],
           },
+
           // 颜色选择器
           fillColor: {
             type: 'string',
@@ -80,6 +91,7 @@ export default (options: AttributeSchemaOptions) => {
               },
             ],
           },
+
           // 色带
           fillColorRange: {
             type: 'object',
@@ -106,9 +118,20 @@ export default (options: AttributeSchemaOptions) => {
               {
                 dependencies: ['fillColorScale'],
                 fulfill: {
-                  run: `$form.setFieldState("fillColorRange", (state) => {
-                    state.disabled = $form.getFieldState("fillColorScale", (state) => state.value?.type === "threshold");
-                    state.value = { colors: $form.getFieldState("fillColorScale", (state) => state.value?.colors)??state.value.colors };
+                  run: `$form.setFieldState("fillColorRange", (_state) => {
+                    _state.disabled = $form.getFieldState("fillColorScale", (state) => state.value?.type === "threshold");
+
+                    $form.getFieldState('fillColorScale', (state) => {
+                      if (state.value?.domain) {
+                        return (_state.value = {
+                          colors: $form.getFieldState('fillColorScale', (state) => state.value?.colors)
+                            ? $form.getFieldState('fillColorScale', (state) => state.value.colors)
+                            : ['#ffffcc', '#d9f0a3', '#addd8e', '#78c679', '#31a354', '#006837'],
+                        });
+                      } else {
+                        return;
+                      }
+                    });
                 })`,
                 },
               },

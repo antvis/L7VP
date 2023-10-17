@@ -7,7 +7,7 @@ import cls from 'classnames';
 import React, { useEffect, useMemo, useState } from 'react';
 import { DEHAULT_OPTIONS, THRESHOLD } from './constants';
 import CustomContent from './CustomContent';
-import { transformToLayer, transformToScale, getDefault } from './helper';
+import { getDefault, transformToLayer, transformToScale } from './helper';
 import useStyle from './style';
 import type { CustomItemType, DatasetType } from './type';
 export interface ColorScaleSelectOptionType extends DefaultOptionType {
@@ -36,8 +36,15 @@ const Internal = (props: ScaleSelectorProps) => {
   }, [value]);
 
   const [open, setOpen] = useState(false);
-  const [type, setType] = useState(defaultValue?.type ?? defaultValue);
-  const [customOpen, setCustomOpen] = useState(defaultValue?.type === THRESHOLD ? true : false);
+  const [type, setType] = useState<string>();
+  const [customOpen, setCustomOpen] = useState(false);
+
+  useEffect(() => {
+    if (defaultValue) {
+      const _type = (defaultValue?.type ? defaultValue.type : defaultValue) as string;
+      setType(_type);
+    }
+  }, [defaultValue]);
 
   const selectOptions = useMemo(() => {
     const options = props.options ?? DEHAULT_OPTIONS;
@@ -56,24 +63,25 @@ const Internal = (props: ScaleSelectorProps) => {
 
   const onValueChange = (ranges: CustomItemType) => {
     const _val = transformToLayer(ranges);
-    // 传递参数到外部
     // @ts-ignore
     props?.onChange({
       ..._val,
     });
-    setOpen(false);
+    setCustomOpen(false);
   };
 
   const onTypeChange = (type: string) => {
-    setType(type);
-    setCustomOpen(false);
+    if (props.onChange) {
+      setType(type);
+      setOpen(false);
+      props.onChange(type, selectOptions);
+    }
   };
 
   const onSwitchChange = (checked: boolean) => {
     if (checked) {
-      onTypeChange(THRESHOLD);
+      setType(THRESHOLD);
       setCustomOpen(true);
-
       const _defaultValue = getDefault(fieldType, dataset, defaultColors);
       // @ts-ignore
       props?.onChange({
@@ -81,7 +89,11 @@ const Internal = (props: ScaleSelectorProps) => {
       });
     } else {
       setCustomOpen(false);
-      onTypeChange(selectOptions[0].value as 'string');
+      if (props.onChange) {
+        const val = selectOptions[0].value as string;
+        setType(val);
+        props.onChange(val, selectOptions);
+      }
     }
   };
 
@@ -94,24 +106,28 @@ const Internal = (props: ScaleSelectorProps) => {
       dropdownRender={() => {
         return (
           <div className={cls(`${prefixCls}-dropdown`, hashId)}>
-            {selectOptions.map((item) => {
-              if (item.value !== THRESHOLD) {
-                return (
-                  <div
-                    className={cls(`${prefixCls}-select-option`, hashId, {
-                      [`${prefixCls}-select-option-selected`]: item.value === type,
-                    })}
-                    key={item?.value?.toString()}
-                    onClick={() => onTypeChange(item.value as string)}
-                  >
-                    {item.label}
-                  </div>
-                );
-              }
-            })}
+            {!customOpen && (
+              <>
+                {selectOptions.map((item) => {
+                  if (item.value !== THRESHOLD) {
+                    return (
+                      <div
+                        className={cls(`${prefixCls}-select-option`, hashId, {
+                          [`${prefixCls}-select-option-selected`]: item.value === type,
+                        })}
+                        key={item?.value?.toString()}
+                        onClick={() => onTypeChange(item.value as string)}
+                      >
+                        {item.label}
+                      </div>
+                    );
+                  }
+                })}
+              </>
+            )}
 
             <div className={`${prefixCls}-threshold`}>
-              自定义 <Switch size="small" checked={type === THRESHOLD ? true : false} onChange={onSwitchChange} />
+              自定义 <Switch size="small" checked={customOpen} onChange={onSwitchChange} />
             </div>
 
             {customOpen && (
