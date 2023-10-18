@@ -1,6 +1,6 @@
 import { fill, maxBy } from 'lodash-es';
 import { THRESHOLD } from './constants';
-import type { CustomItems, CustomItemType, DatasetType } from './type';
+import type { CustomItems, CustomItemType, SelectorValue } from './type';
 
 export const stringToFix = (list: CustomItems[]) => {
   const colors = list.map((item) => item.color);
@@ -46,18 +46,18 @@ export const transformToLayer = (val: CustomItemType) => {
   }
 };
 
-export const transformToScale = (fieldType: 'string' | 'number', val: Record<string, any>) => {
+export const transformToScale = (fieldType: 'string' | 'number', val: SelectorValue) => {
   if (!val) {
     return undefined;
   }
 
-  if (typeof val === 'string') {
+  if (!val.domain) {
     return val;
   }
 
-  const { domain = [], colors = [] } = val || {};
+  const { domain = [], ranges = [] } = val || {};
   if (fieldType === 'number') {
-    const list = colors.map((item: string, index: number) => {
+    const list = ranges.map((item: string, index: number) => {
       return {
         value: [domain[index - 1] ?? null, domain[index] ?? null],
         color: item,
@@ -74,7 +74,7 @@ export const transformToScale = (fieldType: 'string' | 'number', val: Record<str
     const list = domain.map((item: string | number, index: number) => {
       return {
         value: item,
-        color: colors[index % colors.length],
+        color: ranges[index % ranges.length],
       };
     });
 
@@ -99,36 +99,33 @@ export const transformToScale = (fieldType: 'string' | 'number', val: Record<str
 };
 
 // 返回默认值展示
-export const getDefault = (fieldType: 'number' | 'string', dataset: DatasetType, colors: string[]) => {
+export const getDefault = (fieldType: 'number' | 'string', domain: [number, number] | string[], colors: string[]) => {
   if (fieldType === 'number') {
-    const { min = 0, max = 0 } = dataset;
-    const _interval = (max - min) / (colors.length - 2);
+    const [min, max] = domain as [number, number];
+    const _interval = (max - min) / colors.length;
     const _length: number = colors.length - 1 > 0 ? colors.length - 1 : 0;
-    // @ts-ignore
+
     const _domain = fill(Array(_length), undefined).map((_, index) => {
-      return min + _interval * index;
+      return (min + _interval * index + 1).toFixed(2);
     });
 
     return {
       type: 'threshold',
       domain: _domain,
-      colors: colors,
+      ranges: colors,
     };
   } else {
-    const { list = [] } = dataset;
     const _domain = colors.map((item, index) => {
       if (index + 1 === colors.length) {
-        return { color: item, value: list.slice(index).map((item) => item.value) };
+        return { color: item, value: domain.slice(index).map((item) => item) };
       }
-      return { color: item, value: [list[index].value] };
+      return { color: item, value: [domain[index]] };
     });
-
-    const domain = stringToFix(_domain);
 
     return {
       type: 'cat',
-      domain,
-      colors: colors,
+      domain: stringToFix(_domain),
+      ranges: colors,
     };
   }
 };

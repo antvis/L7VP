@@ -1,8 +1,12 @@
-import type { ColorScaleSelectOptionType } from './index';
+import type { SelectType } from './type';
 
 export const THRESHOLD = 'custom';
 
-export const DEHAULT_OPTIONS: ColorScaleSelectOptionType[] = [
+export const DEHAULT_OPTIONS: {
+  label: string;
+  type: 'number' | 'string' | 'custom';
+  value: SelectType;
+}[] = [
   {
     label: '等间距',
     value: 'quantize',

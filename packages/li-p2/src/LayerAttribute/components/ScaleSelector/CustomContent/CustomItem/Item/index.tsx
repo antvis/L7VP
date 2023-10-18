@@ -8,7 +8,7 @@ import useStyle from './style';
 type ItemProps = {
   customType: CustomType;
   value: (string | number | null)[];
-  options: { label: string; value: string; count: number }[];
+  options: { label: string; value: string }[];
   min: number;
   max: number;
   position: string | null;

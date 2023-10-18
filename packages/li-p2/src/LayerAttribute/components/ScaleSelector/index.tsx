@@ -1,62 +1,58 @@
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { connect } from '@formily/react';
-import type { SelectProps } from 'antd';
-import { Select, Switch } from 'antd';
-import type { DefaultOptionType } from 'antd/es/select';
+import { Select } from 'antd';
 import cls from 'classnames';
 import React, { useEffect, useMemo, useState } from 'react';
 import { DEHAULT_OPTIONS, THRESHOLD } from './constants';
 import CustomContent from './CustomContent';
 import { getDefault, transformToLayer, transformToScale } from './helper';
 import useStyle from './style';
-import type { CustomItemType, DatasetType } from './type';
-export interface ColorScaleSelectOptionType extends DefaultOptionType {
-  type: 'string' | 'number' | 'custom';
-  dataset?: DatasetType;
-}
+import type { CustomItemType, SelectorValue, SelectorValueType, SelectType } from './type';
 
-export type ScaleSelectorProps = SelectProps<any, ColorScaleSelectOptionType> & {
-  type: 'string' | 'number';
-  dataset?: DatasetType;
-  defaultColors?: string[];
+type ScaleSelectorProp = {
+  fieldType: 'string' | 'number';
+  defaultRanges?: string[];
+  domain: [number, number] | string[];
+  value?: SelectorValue;
+  /**
+   * 选择发生改变时
+   */
+  onChange?: (val: SelectorValue) => void;
 };
 
-const Internal = (props: ScaleSelectorProps) => {
-  const prefixCls = usePrefixCls('formily-scale-selector', props);
-  const {
-    type: fieldType,
-    value,
-    dataset = { min: 0, max: 100, list: [] },
-    defaultColors = ['#f00', '#ff0', '#00f', '#faa'],
-  } = props;
+const Internal = (props: ScaleSelectorProp) => {
+  const prefixCls = usePrefixCls('formily-scale-selector');
+  const { fieldType, value, domain = [], defaultRanges = ['#f00', '#ff0', '#00f', '#faa'], onChange } = props;
   const [wrapSSR, hashId] = useStyle(prefixCls);
 
-  const defaultValue: CustomItemType = useMemo(() => {
-    return transformToScale(fieldType, value) as CustomItemType;
+  const defaultValue = useMemo(() => {
+    if (value) {
+      return transformToScale(fieldType, value) as CustomItemType;
+    }
   }, [value]);
 
   const [open, setOpen] = useState(false);
-  const [type, setType] = useState<string>();
+  const _type = (value?.domain ? THRESHOLD : value?.type) as SelectType;
+  const [type, setType] = useState<SelectType>(_type);
   const [customOpen, setCustomOpen] = useState(false);
 
   useEffect(() => {
     if (defaultValue) {
-      const _type = (defaultValue?.type ? defaultValue.type : defaultValue) as string;
+      const _type = (defaultValue?.type ? defaultValue.type : defaultValue) as SelectType;
       setType(_type);
     }
   }, [defaultValue]);
 
   const selectOptions = useMemo(() => {
-    const options = props.options ?? DEHAULT_OPTIONS;
     const _type = ['string', 'number'].includes(fieldType) ? fieldType : 'string';
-    return options.filter((item) => item.type === _type || item.type === 'custom');
-  }, [props.type, props.options]);
+    return DEHAULT_OPTIONS.filter((item) => item.type === _type || item.type === 'custom');
+  }, [fieldType]);
 
   useEffect(() => {
-    if (!props.value?.type || selectOptions.findIndex((item) => item.value === props.value?.type) === -1) {
+    if (!defaultValue?.type || selectOptions.findIndex((item) => item.value === defaultValue.type) === -1) {
       if (props.onChange) {
-        const val = selectOptions[0].value as string;
-        props.onChange(val, selectOptions);
+        const val = selectOptions[0].value as SelectorValueType;
+        props.onChange({ type: val });
       }
     }
   }, [selectOptions]);
@@ -70,32 +66,17 @@ const Internal = (props: ScaleSelectorProps) => {
     setCustomOpen(false);
   };
 
-  const onTypeChange = (type: string) => {
-    if (props.onChange) {
-      setType(type);
-      setOpen(false);
-      props.onChange(type, selectOptions);
-    }
-  };
-
-  const onSwitchChange = (checked: boolean) => {
-    if (checked) {
-      setType(THRESHOLD);
-      setCustomOpen(true);
-      if (!defaultValue.list) {
-        const _defaultValue = getDefault(fieldType, dataset, defaultColors);
-        // @ts-ignore
-        props?.onChange({
+  const onTypeChange = (type: SelectType) => {
+    setType(type);
+    if (type === 'custom') {
+      const _defaultValue = getDefault(fieldType, domain, defaultRanges) as SelectorValue;
+      if (onChange)
+        onChange({
           ..._defaultValue,
         });
-      }
     } else {
-      setCustomOpen(false);
-      if (props.onChange) {
-        const val = selectOptions[0].value as string;
-        setType(val);
-        props.onChange(val, selectOptions);
-      }
+      if (onChange) onChange({ type });
+      setOpen(false);
     }
   };
 
@@ -111,32 +92,26 @@ const Internal = (props: ScaleSelectorProps) => {
             {!customOpen && (
               <>
                 {selectOptions.map((item) => {
-                  if (item.value !== THRESHOLD) {
-                    return (
-                      <div
-                        className={cls(`${prefixCls}-select-option`, hashId, {
-                          [`${prefixCls}-select-option-selected`]: item.value === type,
-                        })}
-                        key={item?.value?.toString()}
-                        onClick={() => onTypeChange(item.value as string)}
-                      >
-                        {item.label}
-                      </div>
-                    );
-                  }
+                  return (
+                    <div
+                      className={cls(`${prefixCls}-select-option`, hashId, {
+                        [`${prefixCls}-select-option-selected`]: item.value === type,
+                      })}
+                      key={item?.value?.toString()}
+                      onClick={() => onTypeChange(item.value)}
+                    >
+                      {item.label}
+                    </div>
+                  );
                 })}
               </>
             )}
 
-            <div className={`${prefixCls}-custom`}>
-              自定义 <Switch size="small" checked={customOpen} onChange={onSwitchChange} />
-            </div>
-
-            {customOpen && (
+            {type === 'custom' && (
               <CustomContent
                 className={`${prefixCls}-customcontent`}
                 fieldType={fieldType}
-                dataset={dataset}
+                domain={domain}
                 customRanges={defaultValue}
                 onChange={(ranges) => onValueChange(ranges)}
               />

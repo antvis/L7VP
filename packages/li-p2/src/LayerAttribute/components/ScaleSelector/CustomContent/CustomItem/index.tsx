@@ -12,7 +12,7 @@ type RangeItemProps = {
   customType: CustomType;
   position: string | null;
   selectedOption: (string | number | null)[];
-  selectOptions: { label: string; value: string; count: number }[];
+  selectOptions: { label: string; value: string }[];
   min?: number;
   max?: number;
   color: string;

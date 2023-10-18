@@ -7,7 +7,7 @@ export const gridLayerStyleFlatToConfig = (style: Record<string, any>) => {
   const fillColor = style.fillColorField
     ? {
         field: style.fillColorField,
-        value: typeof style.fillColorScale === 'string' ? style.fillColorRange.colors : style.fillColorScale.colors,
+        value: typeof style.fillColorScale === 'string' ? style.fillColorRange.colors : style.fillColorScale.ranges,
         scale:
           typeof style.fillColorScale === 'string'
             ? { type: style.fillColorScale }
@@ -48,7 +48,7 @@ export const gridLayerStyleConfigToFlat = (styleConfig: GridLayerStyleAttributeV
         ? {
             type: color?.scale?.type ?? '',
             domain: color?.scale?.domain ?? [],
-            colors: color?.value,
+            ranges: color?.value,
           }
         : color?.scale?.type
       : undefined;

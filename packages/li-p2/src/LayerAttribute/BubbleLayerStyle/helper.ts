@@ -8,7 +8,7 @@ export const bubbleLayerStyleFlatToConfig = (style: Record<string, any>) => {
   const fillColor = style.fillColorField
     ? {
         field: style.fillColorField,
-        value: typeof style.fillColorScale === 'string' ? style.fillColorRange?.colors : style.fillColorScale?.colors,
+        value: typeof style.fillColorScale === 'string' ? style.fillColorRange?.colors : style.fillColorScale?.ranges,
         scale:
           typeof style.fillColorScale === 'string'
             ? { type: style.fillColorScale }
@@ -79,7 +79,7 @@ export const bubbleLayerStyleConfigToFlat = (styleConfig: BubbleLayerStyleAttrib
         ? {
             type: fillColor?.scale?.type ?? '',
             domain: fillColor?.scale?.domain ?? [],
-            colors: fillColor?.value,
+            ranges: fillColor?.value,
           }
         : fillColor?.scale?.type
       : undefined;

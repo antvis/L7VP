@@ -3,32 +3,40 @@ import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import classnames from 'classnames';
 import { isEmpty, uniqueId } from 'lodash-es';
 import React, { useEffect, useMemo, useState } from 'react';
-import type { CustomItems, CustomItemType, CustomItemValueType, DatasetType } from '../type';
+import type { CustomItems, CustomItemType, CustomItemValueType } from '../type';
 import CustomItem from './CustomItem';
 import useStyle from './style';
 
 type CustomContentProps = {
   fieldType: 'string' | 'number';
-  dataset: DatasetType | any;
-  customRanges: CustomItemType;
+  domain: string[] | [number, number];
+  customRanges?: CustomItemType;
   onChange: (value: CustomItemType) => void;
   className?: string;
 };
 
 const CustomContent = (props: CustomContentProps) => {
-  const { fieldType = 'string', dataset, customRanges: defaultCustomRanges, onChange, className } = props;
+  const { fieldType = 'string', domain, customRanges: defaultCustomRanges, onChange, className } = props;
   const prefixCls = usePrefixCls('formily-color-range-selector__custom-range');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const [customRanges, setCustomRanges] = useState<CustomItems[]>([]);
 
   const selectedOption = useMemo(() => {
-    if (!customRanges.length) {
-      return [];
+    if (fieldType === 'string' && customRanges.length) {
+      const values = customRanges.map((item) => item.value).flat();
+      return values;
     }
 
-    const values = customRanges.map((item) => item.value).flat();
-    return values;
+    return [];
   }, [customRanges]);
+
+  const selectOptions = useMemo(() => {
+    if (fieldType === 'string') {
+      return (domain as string[]).map((value: string) => ({ label: value, value }));
+    }
+
+    return [];
+  }, [domain]);
 
   useEffect(() => {
     if (defaultCustomRanges?.list?.length) {
@@ -149,8 +157,7 @@ const CustomContent = (props: CustomContentProps) => {
   return wrapSSR(
     <div className={classnames(`${prefixCls}`, hashId, className)}>
       {customRanges.map((customItem: CustomItems, index: number) => {
-        const min = index === 0 ? dataset?.min : customRanges[index - 1].value[1];
-        const max = dataset?.max;
+        const [min, max] = domain as [number, number];
         const position = index === 0 ? 'first' : index === customRanges.length - 1 ? 'last' : null;
 
         return (
@@ -160,7 +167,7 @@ const CustomContent = (props: CustomContentProps) => {
             color={customItem.color}
             value={customItem.value}
             selectedOption={selectedOption}
-            selectOptions={dataset.list}
+            selectOptions={selectOptions}
             min={min}
             max={max}
             position={position}
@@ -175,7 +182,7 @@ const CustomContent = (props: CustomContentProps) => {
       </div>
 
       <div className={`${prefixCls}__btn`}>
-        <span onClick={onSubmit}>确定</span>
+        <span onClick={onSubmit}>应用</span>
       </div>
     </div>,
   );
