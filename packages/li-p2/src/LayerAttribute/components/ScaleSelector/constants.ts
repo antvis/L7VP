@@ -1,6 +1,6 @@
 import type { ColorScaleSelectOptionType } from './index';
 
-export const THRESHOLD = 'threshold';
+export const THRESHOLD = 'custom';
 
 export const DEHAULT_OPTIONS: ColorScaleSelectOptionType[] = [
   {
@@ -20,7 +20,7 @@ export const DEHAULT_OPTIONS: ColorScaleSelectOptionType[] = [
   },
   {
     label: '自定义',
-    value: 'threshold',
-    type: 'threshold',
+    value: 'custom',
+    type: 'custom',
   },
 ];

@@ -9,7 +9,7 @@ export default genStyleHook('scale-selector', (token) => {
     [`${componentCls}-dropdown`]: {
       padding: '4px',
 
-      [`${componentCls}-threshold`]: {
+      [`${componentCls}-custom`]: {
         padding: '5px 12px',
         display: 'flex',
         justifyContent: 'space-between',

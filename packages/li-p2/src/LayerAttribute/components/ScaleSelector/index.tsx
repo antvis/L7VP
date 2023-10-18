@@ -11,7 +11,7 @@ import { getDefault, transformToLayer, transformToScale } from './helper';
 import useStyle from './style';
 import type { CustomItemType, DatasetType } from './type';
 export interface ColorScaleSelectOptionType extends DefaultOptionType {
-  type: 'string' | 'number' | 'threshold';
+  type: 'string' | 'number' | 'custom';
   dataset?: DatasetType;
 }
 
@@ -49,7 +49,7 @@ const Internal = (props: ScaleSelectorProps) => {
   const selectOptions = useMemo(() => {
     const options = props.options ?? DEHAULT_OPTIONS;
     const _type = ['string', 'number'].includes(fieldType) ? fieldType : 'string';
-    return options.filter((item) => item.type === _type || item.type === 'threshold');
+    return options.filter((item) => item.type === _type || item.type === 'custom');
   }, [props.type, props.options]);
 
   useEffect(() => {
@@ -128,7 +128,7 @@ const Internal = (props: ScaleSelectorProps) => {
               </>
             )}
 
-            <div className={`${prefixCls}-threshold`}>
+            <div className={`${prefixCls}-custom`}>
               自定义 <Switch size="small" checked={customOpen} onChange={onSwitchChange} />
             </div>
 

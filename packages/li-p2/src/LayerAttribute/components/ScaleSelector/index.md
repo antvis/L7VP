@@ -9,11 +9,9 @@ nav:
   path: /components
 ---
 
-# 双向滑动条 - kjdgnjdhgjdgj
+# 颜色划分组件
 
 ## 介绍
-
-带输入框的双向滑动条
 
 ## 代码演示
 
