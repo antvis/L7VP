@@ -111,18 +111,18 @@ const schema = {
   type: 'object',
   properties: {
     fillColorScale: {
-      type: 'string',
-      title: '颜色划分----',
+      type: 'number',
+      title: '颜色划分',
       default: {
-        type: 'cat',
-        domain: [5, 5.6, undefined, 5.7, undefined, 7.9, undefined, 5.8],
-        colors: ['#63759a', '#e61486'],
+        type: 'threshold',
+        domain: [5, 5.6, 5.7],
+        colors: ['#63759a', '#e61486', '#f00', '#0f0'],
       },
       'x-decorator': 'FormItem',
       'x-component': 'ScaleSelector',
       'x-component-props': {
         placeholder: '请选择',
-        type: 'string', //选择的筛选字段的类型
+        type: 'number', //选择的筛选字段的类型
         dataset: {
           min: 5,
           max: 7.9,

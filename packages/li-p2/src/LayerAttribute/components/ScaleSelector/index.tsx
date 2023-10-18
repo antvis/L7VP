@@ -82,11 +82,13 @@ const Internal = (props: ScaleSelectorProps) => {
     if (checked) {
       setType(THRESHOLD);
       setCustomOpen(true);
-      const _defaultValue = getDefault(fieldType, dataset, defaultColors);
-      // @ts-ignore
-      props?.onChange({
-        ..._defaultValue,
-      });
+      if (!defaultValue.list) {
+        const _defaultValue = getDefault(fieldType, dataset, defaultColors);
+        // @ts-ignore
+        props?.onChange({
+          ..._defaultValue,
+        });
+      }
     } else {
       setCustomOpen(false);
       if (props.onChange) {
