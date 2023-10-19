@@ -6,13 +6,8 @@ import {
   isRemoteDatasetSchema,
 } from '@antv/li-sdk';
 import type { FieldPair } from '../types';
+import { getPointFieldPairs } from '../utils/dataset';
 import type AppService from './app-service';
-
-const getPointFieldPairs = (fields: DatasetField[]) => {
-  const fieldPairs: FieldPair[] = [];
-
-  return fieldPairs;
-};
 
 /**
  * 单个数据集的数据状态
@@ -24,8 +19,8 @@ export class EditorDataset {
   public data: Record<string, any>[] = [];
   /** 列字段 */
   public columns: DatasetField[] = [];
-  /** 成对列字段 */
-  public fieldPairs: FieldPair[] = [];
+  /** 经纬度成对列字段 */
+  public pointFieldPairs: FieldPair[] = [];
   /** 数据集是否请求中，动态数据源类型情况 */
   public loading = false;
 
@@ -34,7 +29,7 @@ export class EditorDataset {
     if (isLocalDatasetSchema(schema)) {
       this.data = schema.data;
       this.columns = schema.columns;
-      this.fieldPairs = getPointFieldPairs(this.columns);
+      this.pointFieldPairs = getPointFieldPairs(this.columns);
     } else if (isRemoteDatasetSchema(schema)) {
       //
     }
@@ -66,7 +61,7 @@ export class EditorDataset {
   public updateData(data: Record<string, any>[]) {
     this.data = data;
     this.columns = data.length ? getDatasetColumns(data) : [];
-    this.fieldPairs = getPointFieldPairs(this.columns);
+    this.pointFieldPairs = getPointFieldPairs(this.columns);
   }
 
   /**
