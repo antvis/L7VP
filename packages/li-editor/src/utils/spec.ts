@@ -99,14 +99,14 @@ const LayersSchema: LayerSchema[] = [
   },
 ];
 
-export const generateLayersSchemaByDataset = (dataset: EditorDataset) => {
+export const generateLayersSchemaByDatasetDetect = (dataset: EditorDataset) => {
   const layersSchema: LayerSchema[] = [];
 
   return layersSchema;
 };
 
-export const generateLayersSchemaByDatasets = (datasets: EditorDataset[]) => {
-  const layersSchema: LayerSchema[] = datasets.map((dataset) => generateLayersSchemaByDataset(dataset)).flat();
+export const generateLayersSchemaByDatasetDetects = (datasets: EditorDataset[]) => {
+  const layersSchema: LayerSchema[] = datasets.map((dataset) => generateLayersSchemaByDatasetDetect(dataset)).flat();
 
   return layersSchema;
 };

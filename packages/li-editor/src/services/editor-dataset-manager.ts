@@ -5,8 +5,8 @@ import {
   isLocalOrRemoteDatasetSchema,
   isRemoteDatasetSchema,
 } from '@antv/li-sdk';
-import type { FieldPair } from '../types';
-import { getPointFieldPairs } from '../utils/dataset';
+import type { FieldPair, GeoField } from '../types';
+import { getGeoFields, getPointFieldPairs } from '../utils/dataset';
 import type AppService from './app-service';
 
 /**
@@ -20,7 +20,9 @@ export class EditorDataset {
   /** 列字段 */
   public columns: DatasetField[] = [];
   /** 经纬度成对列字段 */
-  public pointFieldPairs: FieldPair[] = [];
+  public fieldPairs: FieldPair[] = [];
+  /** 地理数据字段 */
+  public geoFields: GeoField[] = [];
   /** 数据集是否请求中，动态数据源类型情况 */
   public loading = false;
 
@@ -29,7 +31,8 @@ export class EditorDataset {
     if (isLocalDatasetSchema(schema)) {
       this.data = schema.data;
       this.columns = schema.columns;
-      this.pointFieldPairs = getPointFieldPairs(this.columns);
+      this.fieldPairs = getPointFieldPairs(this.columns);
+      this.geoFields = getGeoFields(this.columns, this.data);
     } else if (isRemoteDatasetSchema(schema)) {
       //
     }
@@ -58,10 +61,15 @@ export class EditorDataset {
     return undefined;
   }
 
+  /** h3 数据字段 */
+  public get h3Fields() {
+    return this.columns.filter((item) => item.type === 'h3');
+  }
+
   public updateData(data: Record<string, any>[]) {
     this.data = data;
     this.columns = data.length ? getDatasetColumns(data) : [];
-    this.pointFieldPairs = getPointFieldPairs(this.columns);
+    this.fieldPairs = getPointFieldPairs(this.columns);
   }
 
   /**

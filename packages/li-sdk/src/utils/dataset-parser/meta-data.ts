@@ -5,6 +5,8 @@ import type { DatasetField } from '../../specs';
 
 dayjs.extend(customParseFormat);
 
+const SupportGeometryType = ['Point', 'MultiPoint', 'LineString', 'MultiLineString', 'Polygon', 'MultiPolygon'];
+
 const isDateField = (value: string) => {
   // '1970-01-01 00:00:00'
   if (dayjs(value, 'YYYY-MM-DD HH:mm:ss', true).isValid()) {
@@ -60,6 +62,14 @@ const isBooleanField = (value: string) => {
   return /^(true|false)$/.test(value);
 };
 
+const isGeoJsonGeometryObject = (value: Record<string, any>) => {
+  return value.type && Array.isArray(value.coordinates) && SupportGeometryType.includes(value.type);
+};
+
+const isGeoField = (value: Record<string, any>) => {
+  return isGeoJsonGeometryObject(value);
+};
+
 /**
  *  获取数据集表头元数据信息
  */
@@ -97,8 +107,7 @@ export const getDatasetColumns = (data: Record<string, any>) => {
         });
       }
     } else if (typeof value === 'object') {
-      // TODO:type is GeoJsonGeometryTypes
-      if (value && value.type && Array.isArray(value.coordinates)) {
+      if (value && isGeoField(value)) {
         columns.push({
           type: 'geo',
           name: key,

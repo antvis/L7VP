@@ -1,4 +1,4 @@
-import type { LocalDataset, RasterTileDataset, RemoteDataset, VectorTileDataset } from '@antv/li-sdk';
+import type { DatasetField, LocalDataset, RasterTileDataset, RemoteDataset, VectorTileDataset } from '@antv/li-sdk';
 
 export type FieldPair = {
   defaultName: string;
@@ -10,6 +10,10 @@ export type FieldPair = {
     }
   >;
   suffix: string[];
+};
+
+export type GeoField = DatasetField & {
+  geoType: 'Point' | 'Line' | 'Polygon';
 };
 
 type EditorLocalDataset = LocalDataset & {

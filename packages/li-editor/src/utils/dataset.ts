@@ -1,5 +1,6 @@
 import type { DatasetField } from '@antv/li-sdk';
-import type { FieldPair } from '../types';
+import { isEmpty } from 'lodash-es';
+import type { FieldPair, GeoField } from '../types';
 
 const POINT_FIELDS: [string, string][] = [
   ['lat', 'lng'],
@@ -83,4 +84,39 @@ export const getPointFieldPairs = (fields: DatasetField[]) => {
   }
 
   return fieldPairs;
+};
+
+/**
+ * 从字段中查找地理数据的字段
+ * @param fields DatasetField[]
+ * @returns geoFields
+ */
+export const getGeoFields = (fields: DatasetField[], data: Record<string, any>[]) => {
+  if (data.length === 0) return [];
+  const simpleRecord = data[0];
+
+  const typeMap: Record<string, GeoField['geoType']> = {
+    Point: 'Point',
+    MultiPoint: 'Point',
+    LineString: 'Line',
+    MultiLineString: 'Line',
+    Polygon: 'Polygon',
+    MultiPolygon: 'Polygon',
+  };
+
+  const geoFields: GeoField[] = [];
+
+  for (let index = 0; index < fields.length; index++) {
+    const field = fields[index];
+
+    if (field.type !== 'geo') continue;
+    const geoJsonGeometryType = simpleRecord[field.name]?.type;
+    if (isEmpty(geoJsonGeometryType)) continue;
+    const geoType = typeMap[geoJsonGeometryType];
+    if (isEmpty(geoJsonGeometryType)) continue;
+
+    geoFields.push({ ...field, geoType: geoType });
+  }
+
+  return geoFields;
 };
