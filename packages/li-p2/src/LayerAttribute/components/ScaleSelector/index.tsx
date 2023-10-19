@@ -3,15 +3,16 @@ import { connect } from '@formily/react';
 import { Select } from 'antd';
 import cls from 'classnames';
 import React, { useEffect, useMemo, useState } from 'react';
-import { DEHAULT_OPTIONS, THRESHOLD } from './constants';
+import { useUpdateEffect } from 'ahooks';
+import { DEHAULT_OPTIONS } from './constants';
 import CustomContent from './CustomContent';
-import { getDefault, transformToLayer, transformToScale } from './helper';
+import { getDefaultValue, transformToLayer, transformToScale } from './helper';
 import useStyle from './style';
 import type { CustomItemType, SelectorValue, SelectorValueType, SelectType } from './type';
 
 type ScaleSelectorProp = {
-  fieldType: 'string' | 'number';
-  defaultRanges?: string[];
+  dataType: 'string' | 'number';
+  defaultColors?: string[];
   domain: [number, number] | string[];
   value?: SelectorValue;
   /**
@@ -22,63 +23,71 @@ type ScaleSelectorProp = {
 
 const Internal = (props: ScaleSelectorProp) => {
   const prefixCls = usePrefixCls('formily-scale-selector');
-  const { fieldType, value, domain = [], defaultRanges = ['#f00', '#ff0', '#00f', '#faa'], onChange } = props;
+  const { dataType, value, domain = [], defaultColors = ['#f00', '#ff0', '#00f', '#faa'], onChange } = props;
   const [wrapSSR, hashId] = useStyle(prefixCls);
 
   const defaultValue = useMemo(() => {
     if (value) {
-      return transformToScale(fieldType, value) as CustomItemType;
+      return transformToScale(dataType, value);
     }
   }, [value]);
 
   const [open, setOpen] = useState(false);
-  const _type = (value?.domain ? THRESHOLD : value?.type) as SelectType;
-  const [type, setType] = useState<SelectType>(_type);
+  const [type, setType] = useState(defaultValue?.type);
   const [customOpen, setCustomOpen] = useState(false);
 
-  useEffect(() => {
-    if (defaultValue) {
-      const _type = (defaultValue?.type ? defaultValue.type : defaultValue) as SelectType;
-      setType(_type);
-    }
-  }, [defaultValue]);
-
   const selectOptions = useMemo(() => {
-    const _type = ['string', 'number'].includes(fieldType) ? fieldType : 'string';
-    return DEHAULT_OPTIONS.filter((item) => item.type === _type || item.type === 'custom');
-  }, [fieldType]);
+    const _type = ['string', 'number'].includes(dataType) ? dataType : 'string';
+    return DEHAULT_OPTIONS.filter((item) => item.type === _type);
+  }, [dataType]);
 
-  useEffect(() => {
-    if (!defaultValue?.type || selectOptions.findIndex((item) => item.value === defaultValue.type) === -1) {
-      if (props.onChange) {
-        const val = selectOptions[0].value as SelectorValueType;
-        props.onChange({ type: val });
-      }
-    }
-  }, [selectOptions]);
-
+  // 自定义数据变动
   const onValueChange = (ranges: CustomItemType) => {
     const _val = transformToLayer(ranges);
-    // @ts-ignore
-    props?.onChange({
-      ..._val,
-    });
+    onChange?.({ ..._val });
     setCustomOpen(false);
   };
 
+  // 类型选择变化
   const onTypeChange = (type: SelectType) => {
     setType(type);
     if (type === 'custom') {
-      const _defaultValue = getDefault(fieldType, domain, defaultRanges) as SelectorValue;
+      const _defaultValue = getDefaultValue(dataType, domain, defaultColors);
       if (onChange)
         onChange({
           ..._defaultValue,
         });
     } else {
-      if (onChange) onChange({ type });
+      onChange?.({ type });
       setOpen(false);
     }
   };
+
+  // 选择字段变更
+  useEffect(() => {
+    if (!value) return;
+    const isCustom = value.type === 'threshold' || (value.type === 'cat' && value.domain && value.domain.length !== 0);
+    // 非自定义数据
+    if (!isCustom) {
+      const isValid = selectOptions.findIndex((item) => item.value === value.type) === -1;
+      if (isValid) {
+        const val = selectOptions[0].value as SelectorValueType;
+        setType(val);
+        onChange?.({ type: val });
+      }
+    }
+  }, [selectOptions]);
+
+  // 自定义类型数据变动
+  useUpdateEffect(() => {
+    if (type === 'custom' && value?.domain && value.domain.length !== 0) {
+      const _defaultValue = getDefaultValue(dataType, domain, value.range ?? defaultColors);
+      if (onChange)
+        onChange({
+          ..._defaultValue,
+        });
+    }
+  }, [domain.toString()]);
 
   return wrapSSR(
     <Select
@@ -110,9 +119,9 @@ const Internal = (props: ScaleSelectorProp) => {
             {type === 'custom' && (
               <CustomContent
                 className={`${prefixCls}-customcontent`}
-                fieldType={fieldType}
+                fieldType={dataType}
                 domain={domain}
-                customRanges={defaultValue}
+                customRanges={defaultValue as CustomItemType}
                 onChange={(ranges) => onValueChange(ranges)}
               />
             )}

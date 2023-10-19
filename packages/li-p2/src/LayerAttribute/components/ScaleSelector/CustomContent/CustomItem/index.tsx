@@ -4,21 +4,20 @@ import { ColorPicker } from 'antd';
 import type { Color } from 'antd/es/color-picker';
 import classnames from 'classnames';
 import React, { useMemo } from 'react';
-import type { CustomItemValueType, CustomType } from '../../type';
 import Item from './Item';
 import useStyle from './style';
 
 type RangeItemProps = {
-  customType: CustomType;
+  customType: 'string' | 'number';
   position: string | null;
   selectedOption: (string | number | null)[];
   selectOptions: { label: string; value: string }[];
   min?: number;
   max?: number;
   color: string;
-  value: CustomItemValueType;
+  value: (string | number | null)[];
   onDelete: () => void;
-  onChange: (value: CustomItemValueType, color: string) => void;
+  onChange: (value: (string | number | null)[], color: string) => void;
 };
 
 const RangeItem = ({
@@ -41,7 +40,7 @@ const RangeItem = ({
       return selectOptions;
     }
 
-    const selected = selectedOption.filter((item) => !defaultValue.includes(item));
+    const selected = selectedOption.filter((item) => item && !defaultValue.includes(item));
     return selectOptions.filter((item) => !selected.includes(item.value));
   }, [selectedOption, selectOptions, defaultValue]);
 
@@ -72,7 +71,7 @@ const RangeItem = ({
             customType={customType}
             value={defaultValue}
             options={options}
-            onChange={(e) => onValueChange(e)}
+            onChange={onValueChange}
             min={min}
             max={max}
             position={position}

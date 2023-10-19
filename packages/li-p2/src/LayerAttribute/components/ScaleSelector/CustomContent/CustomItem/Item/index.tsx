@@ -2,11 +2,10 @@ import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { InputNumber, Select } from 'antd';
 import classnames from 'classnames';
 import React, { useEffect, useState } from 'react';
-import type { CustomType } from '../../../type';
 import useStyle from './style';
 
 type ItemProps = {
-  customType: CustomType;
+  customType: 'string' | 'number';
   value: (string | number | null)[];
   options: { label: string; value: string }[];
   min: number;

@@ -5,18 +5,23 @@ import type { ChoroplethLayerStyleAttributeValue } from './types';
  * 将表单的平铺数据转为图层样式的数据结构
  * */
 export const choroplethLayerStyleFlatToConfig = (style: Record<string, any>) => {
+  const isCustom =
+    style.fillColorScale.type === 'threshold' ||
+    (style.fillColorScale.type === 'cat' && style.fillColorScale.domain?.length !== 0);
+
   const fillColor = style.fillColorField
     ? {
         field: style.fillColorField,
-        value: typeof style.fillColorScale === 'string' ? style.fillColorRange.colors : style.fillColorScale.ranges,
-        scale:
-          typeof style.fillColorScale === 'string'
-            ? { type: style.fillColorScale }
-            : {
-                type: style.fillColorScale.type,
-                domain: style.fillColorScale.domain,
-              },
-        isReversed: style.fillColorRange.isReversed,
+        value: isCustom ? style.fillColorScale.range : style.fillColorRange?.colors,
+        scale: isCustom
+          ? {
+              type: style.fillColorScale.type,
+              domain: style.fillColorScale.domain,
+            }
+          : {
+              type: style.fillColorScale.type,
+            },
+        isReversed: style.fillColorRange?.isReversed ?? false,
       }
     : style.fillColor;
 
@@ -63,13 +68,11 @@ export const choroplethLayerStyleConfigToFlat = (styleConfig: ChoroplethLayerSty
 
   const fillColorScale =
     typeof fillColor === 'object'
-      ? fillColor.scale?.domain
-        ? {
-            type: fillColor?.scale?.type ?? '',
-            domain: fillColor?.scale?.domain ?? [],
-            ranges: fillColor?.value,
-          }
-        : fillColor?.scale?.type
+      ? {
+          type: fillColor?.scale?.type ?? '',
+          domain: fillColor?.scale?.domain ?? [],
+          range: fillColor?.value,
+        }
       : undefined;
 
   const config = {

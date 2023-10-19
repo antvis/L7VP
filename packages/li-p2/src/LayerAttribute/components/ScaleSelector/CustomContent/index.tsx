@@ -3,7 +3,7 @@ import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import classnames from 'classnames';
 import { isEmpty, uniqueId } from 'lodash-es';
 import React, { useEffect, useMemo, useState } from 'react';
-import type { CustomItems, CustomItemType, CustomItemValueType } from '../type';
+import type { CustomItems, CustomItemType } from '../type';
 import CustomItem from './CustomItem';
 import useStyle from './style';
 
@@ -101,7 +101,7 @@ const CustomContent = (props: CustomContentProps) => {
     }
   };
 
-  const onChangePaletteRangeItem = (value: CustomItemValueType, color: string, index: number) => {
+  const onChangePaletteRangeItem = (value: (string | number | null)[], color: string, index: number) => {
     if (fieldType === 'number') {
       const list = customRanges.map((item, _index) => {
         if (index === _index) {
@@ -172,7 +172,9 @@ const CustomContent = (props: CustomContentProps) => {
             max={max}
             position={position}
             onDelete={() => deletePaletteRangeItem(index, position)}
-            onChange={(value: CustomItemValueType, color: string) => onChangePaletteRangeItem(value, color, index)}
+            onChange={(value: (string | number | null)[], color: string) =>
+              onChangePaletteRangeItem(value, color, index)
+            }
           />
         );
       })}

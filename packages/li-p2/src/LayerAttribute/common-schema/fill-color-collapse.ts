@@ -40,11 +40,11 @@ export default (options: AttributeSchemaOptions) => {
             'x-component': 'ScaleSelector',
             'x-component-props': {
               placeholder: '请选择',
-              fieldType:
+              dataType:
                 '{{ $form.getFieldState("fillColorField",state=> { return state.dataSource.find((item) => item.value === state.value)?.type })}}',
               domain:
                 '{{ $form.getFieldState("fillColorField",state=> { return state.dataSource.find((item) => item.value === state.value)?.domain })}}',
-              defaultRanges: '{{ $form.getFieldState("fillColorRange",state=> { return state?.value?.colors })}}',
+              defaultColors: '{{ $form.getFieldState("fillColorRange",state=> { return state?.value?.colors })}}',
             },
             'x-decorator-props': {},
             'x-reactions': [
@@ -98,33 +98,11 @@ export default (options: AttributeSchemaOptions) => {
             'x-decorator-props': {},
             'x-reactions': [
               {
-                dependencies: ['fillColorField'],
+                dependencies: ['fillColorField', 'fillColorScale'],
                 fulfill: {
                   state: {
-                    visible: '{{ $deps[0] !== undefined }}',
+                    visible: '{{ $deps[0] !== undefined && !($deps[1].domain && $deps[1].domain.length !== 0) }}',
                   },
-                },
-              },
-              {
-                dependencies: ['fillColorScale'],
-                fulfill: {
-                  run: `$form.setFieldState('fillColorRange', (_state) => {
-                    _state.visible =
-                      !$form.getFieldState('fillColorScale', (state) => state.value?.domain) &&
-                      $form.getFieldState('fillColorField', (state) => state.value);
-                  });
-                  `,
-                },
-              },
-              {
-                dependencies: ['fillColorField'],
-                fulfill: {
-                  run: `$form.setFieldState('fillColorRange', (_state) => {
-                    _state.visible =
-                      !$form.getFieldState('fillColorScale', (state) => state.value?.domain) &&
-                      $form.getFieldState('fillColorField', (state) => state.value);
-                  });
-                  `,
                 },
               },
             ],

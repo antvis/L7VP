@@ -1,10 +1,10 @@
 import type { SelectType } from './type';
 
-export const THRESHOLD = 'custom';
+export const CUSTOM = 'custom';
 
 export const DEHAULT_OPTIONS: {
   label: string;
-  type: 'number' | 'string' | 'custom';
+  type: 'number' | 'string';
   value: SelectType;
 }[] = [
   {
@@ -23,8 +23,13 @@ export const DEHAULT_OPTIONS: {
     type: 'string',
   },
   {
-    label: '自定义',
+    label: '自定义分类',
     value: 'custom',
-    type: 'custom',
+    type: 'string',
+  },
+  {
+    label: '自定义分段',
+    value: 'custom',
+    type: 'number',
   },
 ];

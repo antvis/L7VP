@@ -30,13 +30,13 @@ const schema = {
       default: {
         type: 'threshold', //选择的筛选字段的类型
         domain: [3, 5.666666666666666, 8.333333333333332],
-        ranges: ['#63759a', '#e61486', '#f00', '#faa'],
+        range: ['#63759a', '#e61486', '#f00', '#faa'],
       },
       'x-decorator': 'FormItem',
       'x-component': 'ScaleSelector',
       'x-component-props': {
         placeholder: '请选择',
-        fieldType: 'number', //选择的筛选字段的类型
+        dataType: 'number', //选择的筛选字段的类型
         domain: [2, 10],
         defaultColors: ['#f00', '#ff0', '#00f', '#faa'],
       },

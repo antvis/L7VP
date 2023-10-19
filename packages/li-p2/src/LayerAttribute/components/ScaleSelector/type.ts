@@ -1,12 +1,8 @@
-export type CustomItemValueType = (string | number | null)[];
-
 export type CustomItems = {
   color: string;
-  value: CustomItemValueType;
+  value: (string | number | null)[];
   id?: string;
 };
-
-export type CustomType = 'string' | 'number';
 
 export type CustomItemType = {
   type: string;
@@ -16,8 +12,9 @@ export type CustomItemType = {
 export type SelectType = 'custom' | 'quantize' | 'quantile' | 'cat';
 
 export type SelectorValueType = 'cat' | 'threshold' | 'quantize' | 'quantile';
+
 export type SelectorValue = {
   type: SelectorValueType;
-  domain?: (string | number)[];
-  ranges?: string[];
+  domain?: string[] | number[];
+  range?: string[];
 };
