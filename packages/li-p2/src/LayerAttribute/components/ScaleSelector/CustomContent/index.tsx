@@ -54,17 +54,17 @@ const CustomContent = (props: CustomContentProps) => {
     if (fieldType === 'number') {
       const _item = customRanges[customRanges.length - 1];
       const min = Number(_item.value[0]);
-      const _interval = ((Number(domain[1]) - min) / 2).toFixed(2);
+      const _interval = Number(((Number(domain[1]) - min) / 2).toFixed(2)) + min;
 
       const addList = [
         {
           id: _item.id,
-          value: [min, min + _interval],
+          value: [min, _interval],
           color: _item.color ?? '#5B8FF9',
         },
         {
           id: uniqueId(),
-          value: [min + _interval, null],
+          value: [_interval, null],
           color: _item.color ?? '#5B8FF9',
         },
       ];
@@ -81,6 +81,8 @@ const CustomContent = (props: CustomContentProps) => {
       setCustomRanges(list);
     }
   };
+
+  console.log(customRanges);
 
   const deletePaletteRangeItem = (index: number, position: string | null) => {
     if (fieldType === 'number') {
