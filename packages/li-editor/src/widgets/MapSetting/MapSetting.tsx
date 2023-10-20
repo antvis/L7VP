@@ -2,16 +2,10 @@ import Icon, { DownOutlined } from '@ant-design/icons';
 import type { RadioChangeEvent } from 'antd';
 import { Button, ConfigProvider, Dropdown, Form, InputNumber, message, Modal, Radio, Space, Tooltip } from 'antd';
 import React, { useState } from 'react';
+import { AMAP_KEY as AMAP__KEY, MAPBOX_TOKEN as MAPBOX__TOKEN } from '../../constants';
 import { useEditorService, useEditorState } from '../../hooks';
 import type { ImplementEditorWidgetProps } from '../../types';
-import {
-  AMAP_KEY as AMAP__KEY,
-  BaseMapSvg,
-  CLS_PREFIX,
-  GaodeMapStyleConfig,
-  MapboxStyleConfig,
-  MAPBOX_TOKEN as MAPBOX__TOKEN,
-} from './constant';
+import { BaseMapSvg, CLS_PREFIX, GaodeMapStyleConfig, MapboxStyleConfig } from './constant';
 import { MapCenterModal } from './MapCenterModal';
 import './MapSetting.less';
 

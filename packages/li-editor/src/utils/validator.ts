@@ -1,7 +1,14 @@
-import type { Application, DatasetSchema, LayerSchema, LocalDatasetSchema, WidgetSchema } from '@antv/li-sdk';
+import type {
+  Application,
+  DatasetSchema,
+  LayerSchema,
+  LocalDatasetSchema,
+  MapSchema,
+  WidgetSchema,
+} from '@antv/li-sdk';
 import { getDatasetColumns, isLocalDatasetSchema } from '@antv/li-sdk';
 import { isEmpty, isUndefined, omit } from 'lodash-es';
-import { AtomWidgetEmptyContainer } from '../constants';
+import { AMAP_KEY, AtomWidgetEmptyContainer, MAPBOX_TOKEN } from '../constants';
 
 export const validateMetadata = (metadata: Application['metadata']) => {
   const _metadata = { ...metadata };
@@ -15,6 +22,21 @@ export const validateMetadata = (metadata: Application['metadata']) => {
   }
 
   return _metadata;
+};
+
+export const validateMap = (mapSchema: MapSchema) => {
+  if (mapSchema.basemap !== 'Map' && isEmpty(mapSchema.config.token)) {
+    const _mapSchema: MapSchema = { ...mapSchema };
+    if (mapSchema.basemap === 'Mapbox') {
+      _mapSchema.config = { ..._mapSchema.config, token: MAPBOX_TOKEN };
+    } else {
+      _mapSchema.config = { ..._mapSchema.config, token: AMAP_KEY };
+    }
+
+    return _mapSchema;
+  }
+
+  return mapSchema;
 };
 
 export const validateDataset = (dataset: DatasetSchema) => {

@@ -1,9 +1,11 @@
 import { defineConfig } from 'umi';
 
 export default defineConfig({
+  mfsu: false,
   history: {
     type: 'hash',
   },
+  codeSplitting: {jsStrategy: 'granularChunks'},
   routes: [
     { path: '/', component: 'Project' },
     { path: '/builder/:id', component: 'Builder' },
