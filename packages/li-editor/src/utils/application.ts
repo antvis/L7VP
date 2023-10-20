@@ -2,7 +2,7 @@ import type { Application } from '@antv/li-sdk';
 import { parseVersion } from '@antv/li-sdk';
 import { Empty_App_Schema } from '../constants';
 import type { EditorContextState } from '../types';
-import { validateDatasets, validateLayers, validateMetadata, validWidgets } from './validator';
+import { validateDatasets, validateLayers, validateMap, validateMetadata, validWidgets } from './validator';
 
 export const creatEmptyApplication = (applicationName: string) => {
   const config: Application = {
@@ -29,7 +29,7 @@ export const validateApplicationSchema = (appSchema: Application) => {
     metadata: appSchema.metadata,
     datasets: validateDatasets(appSchema.datasets),
     spec: {
-      ...appSchema.spec,
+      map: validateMap(appSchema.spec.map),
       layers: validateLayers(appSchema.spec.layers),
       widgets: validWidgets(appSchema.spec.widgets),
     },
