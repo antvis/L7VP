@@ -86,11 +86,11 @@ const CustomMappingColor = (props: CustomMappingColorProps) => {
   const deletePaletteRangeItem = (index: number, position: string | null) => {
     if (dataType === 'number') {
       const _value = customRanges[index];
-      // @ts-ignore
+
       const list: CustomMappingColorItem[] = customRanges
         .map((item, _index) => {
           if (index === _index) {
-            return undefined;
+            return item;
           }
 
           if (position !== 'last') {
@@ -115,7 +115,7 @@ const CustomMappingColor = (props: CustomMappingColorProps) => {
             return item;
           }
         })
-        .filter((item) => !isEmpty(item));
+        .filter((item, _index) => _index !== index);
 
       setCustomRanges(list);
     } else {
@@ -125,7 +125,6 @@ const CustomMappingColor = (props: CustomMappingColorProps) => {
 
   const onChangePaletteRangeItem = (value: (string | number | null)[], color: string, index: number) => {
     if (dataType === 'number') {
-      // @ts-ignore
       const list: CustomMappingColorItem[] = customRanges.map((item, _index) => {
         if (index === _index) {
           return {
@@ -154,7 +153,6 @@ const CustomMappingColor = (props: CustomMappingColorProps) => {
 
       setCustomRanges(list);
     } else {
-      // @ts-ignore
       const list: CustomMappingColorItem[] = customRanges.map((item, _index) => {
         if (index === _index) {
           return {
