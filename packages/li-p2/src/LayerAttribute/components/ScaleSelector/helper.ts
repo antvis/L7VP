@@ -1,13 +1,13 @@
 import { fill } from 'lodash-es';
 import { CUSTOM } from './constants';
-import type { CustomItems, CustomMappingData, SelectorValue } from './type';
+import type { CustomMappingColor, CustomMappingData, SelectorValue } from './type';
 
-// 字符映射转化
-const arrayToMap = (list: CustomItems[]) => {
-  const mapList: { color: string; value: string }[] = [];
+// 通过自定义颜色映射转换为 Scale 的 domain 与 range 数据
+const getScaleDataByMappingColors = (list: CustomMappingColor[]) => {
+  const mapList: { color: string; value: string | number }[] = [];
   list.forEach((item) => {
     item.value.forEach((_item) => {
-      mapList.push({ color: item.color, value: _item as string });
+      mapList.push({ color: item.color, value: _item });
     });
   });
 
@@ -39,7 +39,7 @@ export const getDefaultValue = (
       type: 'threshold',
       domain: _domain,
       range,
-    } as SelectorValue;
+    };
   } else {
     // 数值类型为 string 时
     const _domain = range.map((item, index) => {
@@ -49,19 +49,19 @@ export const getDefaultValue = (
       return { color: item, value: [defaultDomain[index]] };
     });
 
-    const { domain, range: colors } = arrayToMap(_domain);
+    const { domain, range: colors } = getScaleDataByMappingColors(_domain);
 
     return {
       isCustom: true,
       type: 'cat',
       domain,
       range: colors,
-    } as SelectorValue;
+    };
   }
 };
 
-// 将组件内部数据结构转化为图层数据
-export const transformToLayer = (val: CustomMappingData) => {
+// 通过自定义颜色映射转换为 Scale 的数据格式
+export const getScaleByCustomMappingData = (val: CustomMappingData) => {
   const { type, list } = val;
 
   if (type === 'number') {
@@ -73,24 +73,24 @@ export const transformToLayer = (val: CustomMappingData) => {
       type: 'threshold',
       domain: _val,
       range,
-    } as SelectorValue;
+    };
 
     return layerValue;
   }
 
-  const { domain, range } = arrayToMap(list);
+  const { domain, range } = getScaleDataByMappingColors(list);
   const layerValue = {
     isCustom: true,
     type: 'cat',
     domain,
     range,
-  } as SelectorValue;
+  };
 
   return layerValue;
 };
 
 // 将图层数据转化为组件内部数据结构
-export const transformToScale = (dataType: 'string' | 'number', val: SelectorValue) => {
+export const getCustomMappingData = (dataType: 'string' | 'number', val: SelectorValue) => {
   const isCustom = val.type === 'threshold' || (val.type === 'cat' && val.domain && val.domain.length !== 0);
 
   if (!isCustom) {

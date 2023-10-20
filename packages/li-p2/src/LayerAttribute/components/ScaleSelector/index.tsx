@@ -6,7 +6,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useUpdateEffect } from 'ahooks';
 import { DEHAULT_OPTIONS } from './constants';
 import CustomMaPpingColor from './CustomMaPpingColor';
-import { getDefaultValue, transformToLayer, transformToScale } from './helper';
+import { getDefaultValue, getScaleByCustomMappingData, getCustomMappingData } from './helper';
 import useStyle from './style';
 import type { CustomMappingData, SelectorValue, SelectorValueType, SelectType } from './type';
 
@@ -28,7 +28,7 @@ const Internal = (props: ScaleSelectorProp) => {
 
   const defaultValue = useMemo(() => {
     if (value) {
-      return transformToScale(dataType, value);
+      return getCustomMappingData(dataType, value);
     }
   }, [value]);
 
@@ -43,7 +43,7 @@ const Internal = (props: ScaleSelectorProp) => {
 
   // 自定义数据变动
   const onValueChange = (ranges: CustomMappingData) => {
-    const _val = transformToLayer(ranges);
+    const _val = getScaleByCustomMappingData(ranges);
     onChange?.({ ..._val });
     setCustomOpen(false);
   };

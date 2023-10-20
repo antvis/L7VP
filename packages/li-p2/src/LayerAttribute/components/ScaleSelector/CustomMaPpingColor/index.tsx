@@ -3,7 +3,7 @@ import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import classnames from 'classnames';
 import { isEmpty, uniqueId } from 'lodash-es';
 import React, { useEffect, useMemo, useState } from 'react';
-import type { CustomItems, CustomMappingData } from '../type';
+import type { CustomMappingColor, CustomMappingData } from '../type';
 import CustomItem from './CustomItem';
 import useStyle from './style';
 
@@ -19,7 +19,7 @@ const CustomMaPpingColor = (props: CustomMaPpingColorProps) => {
   const { dataType = 'string', domain, value, onChange, className } = props;
   const prefixCls = usePrefixCls('formily-color-range-selector__custom-range');
   const [wrapSSR, hashId] = useStyle(prefixCls);
-  const [customRanges, setCustomRanges] = useState<CustomItems[]>([]);
+  const [customRanges, setCustomRanges] = useState<CustomMappingColor[]>([]);
 
   const selectedOption = useMemo(() => {
     if (dataType === 'string' && customRanges.length) {
@@ -40,7 +40,7 @@ const CustomMaPpingColor = (props: CustomMaPpingColorProps) => {
 
   useEffect(() => {
     if (value?.list?.length) {
-      const list = value.list.map((item: CustomItems) => {
+      const list = value.list.map((item: CustomMappingColor) => {
         return {
           id: uniqueId(),
           ...item,
@@ -68,16 +68,16 @@ const CustomMaPpingColor = (props: CustomMaPpingColorProps) => {
           color: _item.color ?? '#5B8FF9',
         },
       ];
-      const list: CustomItems[] = [...customRanges.slice(0, -1), ...addList];
+      const list: CustomMappingColor[] = [...customRanges.slice(0, -1), ...addList];
       setCustomRanges(list);
     } else {
-      const addItem: CustomItems = {
+      const addItem: CustomMappingColor = {
         id: uniqueId(),
         value: [],
         color: customRanges[customRanges.length - 1]?.color ?? '#5B8FF9',
       };
 
-      const list: CustomItems[] = [...customRanges, addItem];
+      const list: CustomMappingColor[] = [...customRanges, addItem];
       setCustomRanges(list);
     }
   };
@@ -114,7 +114,7 @@ const CustomMaPpingColor = (props: CustomMaPpingColorProps) => {
             return item;
           }
         })
-        .filter((item) => !isEmpty(item)) as CustomItems[];
+        .filter((item) => !isEmpty(item)) as CustomMappingColor[];
 
       setCustomRanges(list);
     } else {
@@ -177,7 +177,7 @@ const CustomMaPpingColor = (props: CustomMaPpingColorProps) => {
 
   return wrapSSR(
     <div className={classnames(`${prefixCls}`, hashId, className)}>
-      {customRanges.map((customItem: CustomItems, index: number) => {
+      {customRanges.map((customItem: CustomMappingColor, index: number) => {
         const [min, max] = domain as [number, number];
         const position = index === 0 ? 'first' : index === customRanges.length - 1 ? 'last' : null;
 
