@@ -87,10 +87,10 @@ export const parserLegendData = (layer: Layer) => {
   });
 
   if (type === 'threshold') {
-    if (!labels[0]) {
+    if (labels[0] === undefined) {
       labels.splice(0, 1, '<');
     }
-    if (!labels[labels.length - 1]) {
+    if (labels[labels.length - 1] === undefined) {
       labels.splice(labels.length - 1, 1, '<');
     }
   }

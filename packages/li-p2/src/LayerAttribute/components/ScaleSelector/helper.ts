@@ -1,13 +1,13 @@
 import { fill } from 'lodash-es';
 import { CUSTOM } from './constants';
-import type { CustomMappingColor, CustomMappingData, SelectorValue } from './type';
+import type { CustomMappingColorItem, CustomMappingData, SelectorValue } from './type';
 
 // 通过自定义颜色映射转换为 Scale 的 domain 与 range 数据
-const getScaleDataByMappingColors = (list: CustomMappingColor[]) => {
-  const mapList: { color: string; value: string | number }[] = [];
+const getScaleDataByMappingColors = (list: CustomMappingColorItem[]) => {
+  const mapList: { color: string; value: string }[] = [];
   list.forEach((item) => {
     item.value.forEach((_item) => {
-      mapList.push({ color: item.color, value: _item });
+      mapList.push({ color: item.color, value: typeof _item === 'string' ? _item : _item.toString() });
     });
   });
 
@@ -31,15 +31,17 @@ export const getDefaultValue = (
     const _length: number = range.length - 1 > 0 ? range.length - 1 : 0;
     const _domain = fill(Array(_length), undefined).map((_, index) => {
       const _value = min + _interval * index + 1;
-      return _value % 1 === 0 ? _value : _value.toFixed(2);
+      return _value % 1 === 0 ? Number(_value) : Number(_value.toFixed(2));
     });
 
-    return {
+    const defaultValue: SelectorValue = {
       isCustom: true,
       type: 'threshold',
       domain: _domain,
       range,
     };
+
+    return defaultValue;
   } else {
     // 数值类型为 string 时
     const _domain = range.map((item, index) => {
@@ -51,12 +53,14 @@ export const getDefaultValue = (
 
     const { domain, range: colors } = getScaleDataByMappingColors(_domain);
 
-    return {
+    const defaultValue: SelectorValue = {
       isCustom: true,
       type: 'cat',
       domain,
       range: colors,
     };
+
+    return defaultValue;
   }
 };
 
@@ -66,9 +70,9 @@ export const getScaleByCustomMappingData = (val: CustomMappingData) => {
 
   if (type === 'number') {
     const range = list.map((item) => item.color);
-    const _val = list.map((item) => item.value[1]).filter((item) => item);
+    const _val = list.map((item) => Number(item.value[1])).filter((item) => item);
 
-    const layerValue = {
+    const layerValue: SelectorValue = {
       isCustom: true,
       type: 'threshold',
       domain: _val,
@@ -79,7 +83,7 @@ export const getScaleByCustomMappingData = (val: CustomMappingData) => {
   }
 
   const { domain, range } = getScaleDataByMappingColors(list);
-  const layerValue = {
+  const layerValue: SelectorValue = {
     isCustom: true,
     type: 'cat',
     domain,

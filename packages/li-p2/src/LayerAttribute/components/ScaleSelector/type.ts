@@ -1,4 +1,4 @@
-export type CustomMappingColor = {
+export type CustomMappingColorItem = {
   color: string;
   value: (string | number)[];
   id?: string;
@@ -6,7 +6,7 @@ export type CustomMappingColor = {
 
 export type CustomMappingData = {
   type: 'number' | 'string';
-  list: CustomMappingColor[];
+  list: CustomMappingColorItem[];
 };
 
 export type SelectType = 'custom' | 'quantize' | 'quantile' | 'cat';

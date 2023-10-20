@@ -5,7 +5,7 @@ import cls from 'classnames';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useUpdateEffect } from 'ahooks';
 import { DEHAULT_OPTIONS } from './constants';
-import CustomMaPpingColor from './CustomMaPpingColor';
+import CustomMappingColor from './CustomMappingColor';
 import { getDefaultValue, getScaleByCustomMappingData, getCustomMappingData } from './helper';
 import useStyle from './style';
 import type { CustomMappingData, SelectorValue, SelectorValueType, SelectType } from './type';
@@ -118,7 +118,7 @@ const Internal = (props: ScaleSelectorProp) => {
             )}
 
             {type === 'custom' && (
-              <CustomMaPpingColor
+              <CustomMappingColor
                 className={`${prefixCls}-customcontent`}
                 dataType={dataType}
                 domain={domain}

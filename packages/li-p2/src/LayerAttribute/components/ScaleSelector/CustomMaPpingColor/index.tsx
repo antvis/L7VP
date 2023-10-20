@@ -3,11 +3,11 @@ import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import classnames from 'classnames';
 import { isEmpty, uniqueId } from 'lodash-es';
 import React, { useEffect, useMemo, useState } from 'react';
-import type { CustomMappingColor, CustomMappingData } from '../type';
+import type { CustomMappingColorItem, CustomMappingData } from '../type';
 import CustomItem from './CustomItem';
 import useStyle from './style';
 
-type CustomMaPpingColorProps = {
+type CustomMappingColorProps = {
   dataType: 'string' | 'number';
   domain: string[] | [number, number];
   value?: CustomMappingData;
@@ -15,11 +15,11 @@ type CustomMaPpingColorProps = {
   className?: string;
 };
 
-const CustomMaPpingColor = (props: CustomMaPpingColorProps) => {
+const CustomMappingColor = (props: CustomMappingColorProps) => {
   const { dataType = 'string', domain, value, onChange, className } = props;
   const prefixCls = usePrefixCls('formily-color-range-selector__custom-range');
   const [wrapSSR, hashId] = useStyle(prefixCls);
-  const [customRanges, setCustomRanges] = useState<CustomMappingColor[]>([]);
+  const [customRanges, setCustomRanges] = useState<CustomMappingColorItem[]>([]);
 
   const selectedOption = useMemo(() => {
     if (dataType === 'string' && customRanges.length) {
@@ -40,7 +40,7 @@ const CustomMaPpingColor = (props: CustomMaPpingColorProps) => {
 
   useEffect(() => {
     if (value?.list?.length) {
-      const list = value.list.map((item: CustomMappingColor) => {
+      const list = value.list.map((item: CustomMappingColorItem) => {
         return {
           id: uniqueId(),
           ...item,
@@ -56,7 +56,7 @@ const CustomMaPpingColor = (props: CustomMaPpingColorProps) => {
       const min = Number(_item.value[0]);
       const _interval = Number(((Number(domain[1]) - min) / 2).toFixed(2)) + min;
 
-      const addList = [
+      const addList: CustomMappingColorItem[] = [
         {
           id: _item.id,
           value: [min, _interval],
@@ -64,20 +64,21 @@ const CustomMaPpingColor = (props: CustomMaPpingColorProps) => {
         },
         {
           id: uniqueId(),
+          // @ts-ignore
           value: [_interval, null],
           color: _item.color ?? '#5B8FF9',
         },
       ];
-      const list: CustomMappingColor[] = [...customRanges.slice(0, -1), ...addList];
+      const list = [...customRanges.slice(0, -1), ...addList];
       setCustomRanges(list);
     } else {
-      const addItem: CustomMappingColor = {
+      const addItem: CustomMappingColorItem = {
         id: uniqueId(),
         value: [],
         color: customRanges[customRanges.length - 1]?.color ?? '#5B8FF9',
       };
 
-      const list: CustomMappingColor[] = [...customRanges, addItem];
+      const list: CustomMappingColorItem[] = [...customRanges, addItem];
       setCustomRanges(list);
     }
   };
@@ -124,7 +125,8 @@ const CustomMaPpingColor = (props: CustomMaPpingColorProps) => {
 
   const onChangePaletteRangeItem = (value: (string | number | null)[], color: string, index: number) => {
     if (dataType === 'number') {
-      const list = customRanges.map((item, _index) => {
+      // @ts-ignore
+      const list: CustomMappingColor[] = customRanges.map((item, _index) => {
         if (index === _index) {
           return {
             ...item,
@@ -152,7 +154,8 @@ const CustomMaPpingColor = (props: CustomMaPpingColorProps) => {
 
       setCustomRanges(list);
     } else {
-      const list = customRanges.map((item, _index) => {
+      // @ts-ignore
+      const list: CustomMappingColor[] = customRanges.map((item, _index) => {
         if (index === _index) {
           return {
             ...item,
@@ -177,7 +180,7 @@ const CustomMaPpingColor = (props: CustomMaPpingColorProps) => {
 
   return wrapSSR(
     <div className={classnames(`${prefixCls}`, hashId, className)}>
-      {customRanges.map((customItem: CustomMappingColor, index: number) => {
+      {customRanges.map((customItem: CustomMappingColorItem, index: number) => {
         const [min, max] = domain as [number, number];
         const position = index === 0 ? 'first' : index === customRanges.length - 1 ? 'last' : null;
 
@@ -211,4 +214,4 @@ const CustomMaPpingColor = (props: CustomMaPpingColorProps) => {
   );
 };
 
-export default CustomMaPpingColor;
+export default CustomMappingColor;
