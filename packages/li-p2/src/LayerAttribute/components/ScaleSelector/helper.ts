@@ -7,7 +7,9 @@ const getScaleDataByMappingColors = (list: CustomMappingColorItem[]) => {
   const mapList: { color: string; value: string }[] = [];
   list.forEach((item) => {
     item.value.forEach((_item) => {
-      mapList.push({ color: item.color, value: typeof _item === 'string' ? _item : _item.toString() });
+      if (_item) {
+        mapList.push({ color: item.color, value: typeof _item === 'string' ? _item : _item.toString() });
+      }
     });
   });
 
