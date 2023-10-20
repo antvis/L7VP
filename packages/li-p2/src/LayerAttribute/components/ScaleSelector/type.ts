@@ -4,8 +4,8 @@ export type CustomItems = {
   id?: string;
 };
 
-export type CustomItemType = {
-  type: string;
+export type CustomMappingData = {
+  type: 'number' | 'string';
   list: CustomItems[];
 };
 
@@ -17,4 +17,5 @@ export type SelectorValue = {
   type: SelectorValueType;
   domain?: string[] | number[];
   range?: string[];
+  isCustom?: boolean;
 };

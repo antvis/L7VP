@@ -5,15 +5,11 @@ import type { LineLayerStyleAttributeValue } from './types';
  * 将表单的平铺数据转为图层样式的数据结构
  * */
 export const lineLayerStyleFlatToConfig = (style: Record<string, any>) => {
-  const isCustom =
-    style.fillColorScale.type === 'threshold' ||
-    (style.fillColorScale.type === 'cat' && style.fillColorScale.domain?.length !== 0);
-
   const fillColor = style.fillColorField
     ? {
         field: style.fillColorField,
-        value: isCustom ? style.fillColorScale.range : style.fillColorRange?.colors,
-        scale: isCustom
+        value: style.fillColorScale.isCustom ? style.fillColorScale.range : style.fillColorRange?.colors,
+        scale: style.fillColorScale.isCustom
           ? {
               type: style.fillColorScale.type,
               domain: style.fillColorScale.domain,
@@ -65,8 +61,8 @@ export const lineLayerStyleConfigToFlat = (styleConfig: LineLayerStyleAttributeV
   const fillColorScale =
     typeof color === 'object'
       ? {
-          type: color?.scale?.type ?? '',
-          domain: color?.scale?.domain ?? [],
+          type: color?.scale?.type,
+          domain: color?.scale?.domain,
           range: color?.value,
         }
       : undefined;

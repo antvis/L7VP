@@ -5,15 +5,11 @@ import type { ChoroplethLayerStyleAttributeValue } from './types';
  * 将表单的平铺数据转为图层样式的数据结构
  * */
 export const choroplethLayerStyleFlatToConfig = (style: Record<string, any>) => {
-  const isCustom =
-    style.fillColorScale.type === 'threshold' ||
-    (style.fillColorScale.type === 'cat' && style.fillColorScale.domain?.length !== 0);
-
   const fillColor = style.fillColorField
     ? {
         field: style.fillColorField,
-        value: isCustom ? style.fillColorScale.range : style.fillColorRange?.colors,
-        scale: isCustom
+        value: style.fillColorScale.isCustom ? style.fillColorScale.range : style.fillColorRange?.colors,
+        scale: style.fillColorScale.isCustom
           ? {
               type: style.fillColorScale.type,
               domain: style.fillColorScale.domain,
@@ -69,8 +65,8 @@ export const choroplethLayerStyleConfigToFlat = (styleConfig: ChoroplethLayerSty
   const fillColorScale =
     typeof fillColor === 'object'
       ? {
-          type: fillColor?.scale?.type ?? '',
-          domain: fillColor?.scale?.domain ?? [],
+          type: fillColor?.scale?.type,
+          domain: fillColor?.scale?.domain,
           range: fillColor?.value,
         }
       : undefined;

@@ -86,6 +86,11 @@ export const parserLegendData = (layer: Layer) => {
     colors.push(item.color);
   });
 
+  if (type === 'threshold') {
+    labels.splice(0, 1, '<');
+    labels.splice(labels.length - 1, 1, '<');
+  }
+
   if (type === 'cat') {
     // 分类图例
     // 对标签进行排序

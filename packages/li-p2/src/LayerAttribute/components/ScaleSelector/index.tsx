@@ -5,10 +5,10 @@ import cls from 'classnames';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useUpdateEffect } from 'ahooks';
 import { DEHAULT_OPTIONS } from './constants';
-import CustomContent from './CustomContent';
+import CustomMaPpingColor from './CustomMaPpingColor';
 import { getDefaultValue, transformToLayer, transformToScale } from './helper';
 import useStyle from './style';
-import type { CustomItemType, SelectorValue, SelectorValueType, SelectType } from './type';
+import type { CustomMappingData, SelectorValue, SelectorValueType, SelectType } from './type';
 
 type ScaleSelectorProp = {
   dataType: 'string' | 'number';
@@ -42,7 +42,7 @@ const Internal = (props: ScaleSelectorProp) => {
   }, [dataType]);
 
   // 自定义数据变动
-  const onValueChange = (ranges: CustomItemType) => {
+  const onValueChange = (ranges: CustomMappingData) => {
     const _val = transformToLayer(ranges);
     onChange?.({ ..._val });
     setCustomOpen(false);
@@ -58,12 +58,12 @@ const Internal = (props: ScaleSelectorProp) => {
           ..._defaultValue,
         });
     } else {
-      onChange?.({ type });
+      onChange?.({ isCustom: false, type });
       setOpen(false);
     }
   };
 
-  // 选择字段变更
+  // dataType 变更
   useEffect(() => {
     if (!value) return;
     const isCustom = value.type === 'threshold' || (value.type === 'cat' && value.domain && value.domain.length !== 0);
@@ -73,12 +73,12 @@ const Internal = (props: ScaleSelectorProp) => {
       if (isValid) {
         const val = selectOptions[0].value as SelectorValueType;
         setType(val);
-        onChange?.({ type: val });
+        onChange?.({ isCustom: false, type: val });
       }
     }
   }, [selectOptions]);
 
-  // 自定义类型数据变动
+  // 自定义 scale 且数据 domain 发生更新时，自动计算默认值
   useUpdateEffect(() => {
     if (type === 'custom' && value?.domain && value.domain.length !== 0) {
       const _defaultValue = getDefaultValue(dataType, domain, value.range ?? defaultColors);
@@ -117,11 +117,11 @@ const Internal = (props: ScaleSelectorProp) => {
             )}
 
             {type === 'custom' && (
-              <CustomContent
+              <CustomMaPpingColor
                 className={`${prefixCls}-customcontent`}
-                fieldType={dataType}
+                dataType={dataType}
                 domain={domain}
-                customRanges={defaultValue as CustomItemType}
+                value={defaultValue as CustomMappingData}
                 onChange={(ranges) => onValueChange(ranges)}
               />
             )}

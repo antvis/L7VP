@@ -3,26 +3,26 @@ import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import classnames from 'classnames';
 import { isEmpty, uniqueId } from 'lodash-es';
 import React, { useEffect, useMemo, useState } from 'react';
-import type { CustomItems, CustomItemType } from '../type';
+import type { CustomItems, CustomMappingData } from '../type';
 import CustomItem from './CustomItem';
 import useStyle from './style';
 
-type CustomContentProps = {
-  fieldType: 'string' | 'number';
+type CustomMaPpingColorProps = {
+  dataType: 'string' | 'number';
   domain: string[] | [number, number];
-  customRanges?: CustomItemType;
-  onChange: (value: CustomItemType) => void;
+  value?: CustomMappingData;
+  onChange: (value: CustomMappingData) => void;
   className?: string;
 };
 
-const CustomContent = (props: CustomContentProps) => {
-  const { fieldType = 'string', domain, customRanges: defaultCustomRanges, onChange, className } = props;
+const CustomMaPpingColor = (props: CustomMaPpingColorProps) => {
+  const { dataType = 'string', domain, value, onChange, className } = props;
   const prefixCls = usePrefixCls('formily-color-range-selector__custom-range');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const [customRanges, setCustomRanges] = useState<CustomItems[]>([]);
 
   const selectedOption = useMemo(() => {
-    if (fieldType === 'string' && customRanges.length) {
+    if (dataType === 'string' && customRanges.length) {
       const values = customRanges.map((item) => item.value).flat();
       return values;
     }
@@ -31,7 +31,7 @@ const CustomContent = (props: CustomContentProps) => {
   }, [customRanges]);
 
   const selectOptions = useMemo(() => {
-    if (fieldType === 'string') {
+    if (dataType === 'string') {
       return (domain as string[]).map((value: string) => ({ label: value, value }));
     }
 
@@ -39,8 +39,8 @@ const CustomContent = (props: CustomContentProps) => {
   }, [domain]);
 
   useEffect(() => {
-    if (defaultCustomRanges?.list?.length) {
-      const list = defaultCustomRanges.list.map((item: CustomItems) => {
+    if (value?.list?.length) {
+      const list = value.list.map((item: CustomItems) => {
         return {
           id: uniqueId(),
           ...item,
@@ -48,10 +48,10 @@ const CustomContent = (props: CustomContentProps) => {
       });
       setCustomRanges(list);
     }
-  }, [defaultCustomRanges]);
+  }, [value]);
 
   const addPaletteRangeItem = () => {
-    if (fieldType === 'number') {
+    if (dataType === 'number') {
       const _item = customRanges[customRanges.length - 1];
       const min = Number(_item.value[0]);
       const _interval = Number(((Number(domain[1]) - min) / 2).toFixed(2)) + min;
@@ -82,10 +82,8 @@ const CustomContent = (props: CustomContentProps) => {
     }
   };
 
-  console.log(customRanges);
-
   const deletePaletteRangeItem = (index: number, position: string | null) => {
-    if (fieldType === 'number') {
+    if (dataType === 'number') {
       const _value = customRanges[index];
 
       const list = customRanges
@@ -125,7 +123,7 @@ const CustomContent = (props: CustomContentProps) => {
   };
 
   const onChangePaletteRangeItem = (value: (string | number | null)[], color: string, index: number) => {
-    if (fieldType === 'number') {
+    if (dataType === 'number') {
       const list = customRanges.map((item, _index) => {
         if (index === _index) {
           return {
@@ -174,7 +172,7 @@ const CustomContent = (props: CustomContentProps) => {
     const list = customRanges.map((item) => {
       return { value: item.value, color: item.color };
     });
-    onChange({ type: fieldType, list });
+    onChange({ type: dataType, list });
   };
 
   return wrapSSR(
@@ -185,7 +183,7 @@ const CustomContent = (props: CustomContentProps) => {
 
         return (
           <CustomItem
-            customType={fieldType}
+            customType={dataType}
             key={`drag_card${index}`}
             color={customItem.color}
             value={customItem.value}
@@ -213,4 +211,4 @@ const CustomContent = (props: CustomContentProps) => {
   );
 };
 
-export default CustomContent;
+export default CustomMaPpingColor;
