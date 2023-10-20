@@ -5,7 +5,7 @@ import cls from 'classnames';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useUpdateEffect } from 'ahooks';
 import { DEHAULT_OPTIONS } from './constants';
-import CustomMappingColor from './CustomMappingColor';
+import CustomMappingColor from './CustomMappingColors';
 import { getDefaultValue, getScaleByCustomMappingData, getCustomMappingData } from './helper';
 import useStyle from './style';
 import type { CustomMappingData, SelectorValue, SelectorValueType, SelectType } from './type';
