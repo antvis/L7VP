@@ -15,7 +15,6 @@ type CustomMappingColorProps = {
   className?: string;
 };
 
-// jskdgfjdh
 const CustomMappingColor = (props: CustomMappingColorProps) => {
   const { dataType = 'string', domain, value, onChange, className } = props;
   const prefixCls = usePrefixCls('formily-color-range-selector__custom-range');
