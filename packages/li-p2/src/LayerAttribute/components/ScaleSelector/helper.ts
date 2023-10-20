@@ -133,7 +133,7 @@ export const transformToScale = (dataType: 'string' | 'number', val: SelectorVal
     type: CUSTOM,
     list: Object.keys(result).map((key) => ({
       color: key,
-      value: result[key].filter((item: string) => item),
+      value: result[key],
     })),
   };
 };

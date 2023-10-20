@@ -81,7 +81,8 @@ const Internal = (props: ScaleSelectorProp) => {
   // 自定义 scale 且数据 domain 发生更新时，自动计算默认值
   useUpdateEffect(() => {
     if (type === 'custom' && value?.domain && value.domain.length !== 0) {
-      const _defaultValue = getDefaultValue(dataType, domain, value.range ?? defaultColors);
+      const range = value.range ? [...new Set(value.range)] : defaultColors;
+      const _defaultValue = getDefaultValue(dataType, domain, range);
       if (onChange)
         onChange({
           ..._defaultValue,
