@@ -1,7 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import classnames from 'classnames';
-import { isEmpty, uniqueId } from 'lodash-es';
+import { uniqueId } from 'lodash-es';
 import React, { useEffect, useMemo, useState } from 'react';
 import type { CustomMappingColorItem, CustomMappingData } from '../type';
 import CustomItem from './CustomItem';
