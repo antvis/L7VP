@@ -77,8 +77,8 @@
     "@antv/l7": "^2.17.2",
     "@antv/larkmap": "^1.4.1",
     "antd": "^5.5.0",
-    "react": ">=16.9.0",
-    "react-dom": ">=16.9.0"
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "publishConfig": {
     "access": "public",
