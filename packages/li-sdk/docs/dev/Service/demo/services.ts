@@ -1,14 +1,17 @@
-import type { ServiceParams } from '@antv/li-sdk';
+import type { DatasetServiceParams } from '@antv/li-sdk';
 import { implementService } from '@antv/li-sdk';
 import type { FeatureCollection } from 'geojson';
 
-interface ProvinceListService extends ServiceParams {
-  countryCode: string;
-}
+type ProvinceListServiceParams = {
+  adcode: string;
+};
 
-function getProvinceListService(params: ProvinceListService): Promise<Record<string, any>[]> {
-  const { countryCode = '100000' } = params ?? {};
-  return fetch(`https://geo.datav.aliyun.com/areas_v3/bound/${countryCode}_full.json`)
+function getProvinceListService(
+  params: DatasetServiceParams<ProvinceListServiceParams>,
+): Promise<Record<string, any>[]> {
+  const { properties, signal } = params;
+  const { adcode = '100000' } = properties;
+  return fetch(`https://geo.datav.aliyun.com/areas_v3/bound/${adcode}_full.json`, { signal })
     .then((res) => res.json())
     .then((fc: FeatureCollection) =>
       fc.features.map((item) => {
@@ -20,9 +23,10 @@ function getProvinceListService(params: ProvinceListService): Promise<Record<str
     );
 }
 
-function getCityListService(params: ServiceParams & { provinceCode: string }): Promise<Record<string, any>[]> {
-  const { provinceCode = '330000' } = params ?? {};
-  return fetch(`https://geo.datav.aliyun.com/areas_v3/bound/${provinceCode}_full.json`)
+function getCityListService(params: DatasetServiceParams<{ provinceCode: string }>): Promise<Record<string, any>[]> {
+  const { properties, signal } = params;
+  const { provinceCode = '330000' } = properties;
+  return fetch(`https://geo.datav.aliyun.com/areas_v3/bound/${provinceCode}_full.json`, { signal })
     .then((res) => res.json())
     .then((fc: FeatureCollection) =>
       fc.features.map((item) => {

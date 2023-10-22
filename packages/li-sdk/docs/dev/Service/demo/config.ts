@@ -11,7 +11,7 @@ const config: Application = {
       type: 'remote',
       metadata: { name: '中国省份数据源' },
       id: 'dataset_1',
-      properties: {},
+      properties: { adcode: '100000' },
       serviceType: 'GET_PROVINCE_LIST',
     },
   ],

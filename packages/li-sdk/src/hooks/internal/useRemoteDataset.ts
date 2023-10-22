@@ -2,7 +2,7 @@ import { useThrottleEffect } from 'ahooks';
 import { isArray, isObject, isUndefined } from 'lodash-es';
 import { useEffect, useMemo, useState } from 'react';
 import type { DatasetField, DatasetFilter, RemoteDatasetSchema } from '../../specs';
-import type { ImplementService, RemoteDataset, ServiceParams } from '../../types';
+import type { DatasetServiceParams, ImplementService, RemoteDataset } from '../../types';
 import { filterFalsyDatasetFilter, getDatasetColumns } from '../../utils';
 import { useMemoDeep } from './useMemoDeep';
 import { useRegistryManager } from './index';
@@ -51,11 +51,11 @@ const Caches = new Map();
 export function useRemoteDataset(datasetSchema: RemoteDatasetSchema, pickFilter?: DatasetFilter) {
   const registryManager = useRegistryManager();
   const serviceType = datasetSchema.serviceType;
-  const implementService: ImplementService<[ServiceParams], Record<string, any>[]> =
+  const implementService: ImplementService<[DatasetServiceParams], Record<string, any>[]> =
     serviceType === NOOP_REMOTE_DATASET.serviceType ? NOOP_SERVICE : registryManager.getService(serviceType);
   const service = implementService.service;
 
-  const proxyService = (params: ServiceParams) => {
+  const proxyService = (params: DatasetServiceParams) => {
     const cacheKey = implementService.metadata.name + JSON.stringify(params);
     if (Caches.has(cacheKey)) {
       return Promise.resolve(Caches.get(cacheKey));
@@ -82,34 +82,39 @@ export function useRemoteDataset(datasetSchema: RemoteDatasetSchema, pickFilter?
   }, [datasetSchema.filter, pickFilter, datasetSchema.columns]);
   const datasetProperties = datasetSchema.properties;
 
-  const params: ServiceParams = useMemoDeep(() => ({ properties: datasetProperties, filter }));
+  const params: Omit<DatasetServiceParams, 'signal'> = useMemoDeep(() => ({
+    properties: datasetProperties,
+    filter,
+  }));
   // 防抖
-  const [debouncedParams, setDebouncedParams] = useState<ServiceParams>(params);
+  const [debouncedParams, setDebouncedParams] = useState<Omit<DatasetServiceParams, 'signal'>>(params);
   useThrottleEffect(() => setDebouncedParams(params), [params], { wait: 100 });
 
   const [data, setData] = useState<Record<string, any>[]>();
 
   // const cacheKey = implementService.metadata.name + JSON.stringify(params);
-  // const { data, run, loading } = useRequest<Record<string, unknown>[], [ServiceParams]>(proxyService, {
+  // const { data, run, loading } = useRequest<Record<string, unknown>[], [DatasetServiceParams]>(proxyService, {
   //   cacheKey,
   //   manual: true,
   // });
 
   useEffect(() => {
-    let didCancel = false;
-    // TODO: 处理竞态优化，取消上一次
-    proxyService(debouncedParams)
+    const abortController = new AbortController();
+    const queryFnContext: DatasetServiceParams = { ...debouncedParams, signal: abortController.signal };
+    proxyService(queryFnContext)
       .then((_data) => {
-        if (!didCancel) {
+        if (!abortController.signal.aborted) {
           setData(_data);
         }
       })
       .catch((error) => {
-        console.error(error);
+        if (!abortController.signal.aborted) {
+          console.error(error);
+        }
       });
 
     return () => {
-      didCancel = true;
+      abortController.abort();
     };
   }, [debouncedParams]);
 

@@ -1,15 +1,18 @@
-import type { AssetPackage, ServiceParams } from '@antv/li-sdk';
+import type { AssetPackage, DatasetServiceParams } from '@antv/li-sdk';
 import { implementService } from '@antv/li-sdk';
 import type { FeatureCollection } from 'geojson';
 import { DataseInfor, LocationSearchControl } from './CustomWidgets';
-interface ChinaGeoListServiceParams extends ServiceParams {
-  countryCode: string;
-}
 
-function getChinaGeoListService(params: ChinaGeoListServiceParams): Promise<Record<string, any>[]> {
-  const { properties } = params;
+type ProvinceListServiceParams = {
+  adcode: string;
+};
+
+function getChinaGeoListService(
+  params: DatasetServiceParams<ProvinceListServiceParams>,
+): Promise<Record<string, any>[]> {
+  const { properties, signal } = params;
   const { adcode = '100000' } = properties;
-  return fetch(`https://geo.datav.aliyun.com/areas_v3/bound/${adcode}_full.json`)
+  return fetch(`https://geo.datav.aliyun.com/areas_v3/bound/${adcode}_full.json`, { signal })
     .then((res) => res.json())
     .then((fc: FeatureCollection) =>
       fc.features.map((item) => {
