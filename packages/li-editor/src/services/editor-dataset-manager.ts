@@ -222,12 +222,16 @@ class EditorDatasetManager extends Subscribable<EditorDatasetManagerListener> {
   /**
    * 数据请求结构变更
    */
-  private onQueriesStoreChange() {
-    const queriesResult = this.queriesObserver.getCurrentResult();
+  private onQueriesStoreChange = () => {
+    console.log('onQueriesStoreChange');
+    const queriesResult = this.queriesObserver.getOptimisticResult(
+      this.getQueriesOptions(this.getDatasetList().map((item) => item.schema)),
+    );
+    console.log('queriesResult: ', queriesResult);
     queriesResult.forEach((queriesResult) => {
       // queriesResult
     });
-  }
+  };
 
   public getSnapshot() {
     return this.getDatasetList();
