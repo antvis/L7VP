@@ -1,6 +1,7 @@
 import EventEmitter from '@antv/event-emitter';
 import type { AssetPackage } from '@antv/li-sdk';
 import { LIRuntimeApp } from '@antv/li-sdk';
+import { useUpdateEffect } from 'ahooks';
 import React, { useMemo } from 'react';
 import { Registry_Default_Editor_Widgets } from '../constants';
 import { LIEditorStateContext } from '../hooks';
@@ -132,6 +133,11 @@ class LIEditor extends EventEmitter {
       const editorContextValue = useMemo(() => {
         return { state: editorState, updateState: updateEditorState };
       }, [editorState, updateEditorState]);
+
+      // 同步 datasetSchemas 更新到 editorDatasetManager
+      useUpdateEffect(() => {
+        editorService.editorDatasetManager.update(editorState.datasets);
+      }, [editorState.datasets]);
 
       editorService.editorStateRef = editorState;
 
