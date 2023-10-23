@@ -25,6 +25,21 @@ const toValues = (config: LayerRegisterFormResultType<MVTLayerStyleAttributeValu
     blend,
   } = visConfig;
 
+  const isCustom =
+    typeof fillColor === 'object' &&
+    (fillColor?.scale?.type === 'threshold' ||
+      (fillColor?.scale?.type === 'cat' && fillColor?.scale?.domain && fillColor?.scale?.domain.length !== 0));
+
+  const fillColorScale =
+    typeof fillColor === 'object'
+      ? {
+          type: fillColor?.scale?.type,
+          domain: fillColor?.scale?.domain,
+          range: fillColor?.value,
+          isCustom,
+        }
+      : undefined;
+
   const styleConfug = {
     fillColorField: typeof fillColor === 'object' ? fillColor?.field : undefined,
     fillColorRange:
@@ -35,7 +50,7 @@ const toValues = (config: LayerRegisterFormResultType<MVTLayerStyleAttributeValu
             isReversed: fillColor?.isReversed || false,
           }
         : undefined,
-    fillColorScale: typeof fillColor === 'object' ? fillColor?.scale?.type : undefined,
+    fillColorScale,
     fillColor: typeof fillColor !== 'object' ? fillColor : undefined,
     fillColorOpacity: opacity,
     strokeColor: strokeColor,
@@ -63,15 +78,24 @@ const fromValues = (values: Record<string, any>): LayerRegisterFormResultType<MV
     parser: { type: 'mvt' },
   };
 
+  const fillColor = values.fillColorField
+    ? {
+        field: values.fillColorField,
+        value: values.fillColorScale.isCustom ? values.fillColorScale.range : values.fillColorRange?.colors,
+        scale: values.fillColorScale.isCustom
+          ? {
+              type: values.fillColorScale.type,
+              domain: values.fillColorScale.domain,
+            }
+          : {
+              type: values.fillColorScale.type,
+            },
+        isReversed: values.fillColorRange?.isReversed ?? false,
+      }
+    : values.fillColor;
+
   const visConfig = {
-    fillColor: values.fillColorField
-      ? {
-          field: values.fillColorField,
-          value: values.fillColorRange.colors,
-          scale: { type: values.fillColorScale },
-          isReversed: values.fillColorRange.isReversed,
-        }
-      : values.fillColor,
+    fillColor,
     opacity: values.fillColorOpacity,
     strokeColor: values.strokeColor,
     lineWidth: values.lineWidth,

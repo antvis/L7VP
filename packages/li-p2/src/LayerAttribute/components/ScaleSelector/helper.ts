@@ -26,13 +26,13 @@ export const getDefaultValue = (
   range: string[],
 ) => {
   if (dataType === 'number') {
-    const [min, max] = defaultDomain as [number, number];
+    const [min, max] = defaultDomain;
     // 数值类型计算均分间隔
-    const _interval = (max - min) / range.length;
+    const _interval = (Number(max) - Number(min)) / range.length;
     // 根据 range 来确定数值长度
     const _length: number = range.length - 1 > 0 ? range.length - 1 : 0;
     const _domain = fill(Array(_length), undefined).map((_, index) => {
-      const _value = min + _interval * index + 1;
+      const _value = Number(min) + _interval * (index + 1);
       return _value % 1 === 0 ? Number(_value) : Number(_value.toFixed(2));
     });
 
@@ -74,33 +74,31 @@ export const getScaleByCustomMappingData = (val: CustomMappingData) => {
     const range = list.map((item) => item.color);
     const _val = list.map((item) => Number(item.value[1])).filter((item) => item);
 
-    const layerValue: SelectorValue = {
+    const scaleValue: SelectorValue = {
       isCustom: true,
       type: 'threshold',
       domain: _val,
       range,
     };
 
-    return layerValue;
+    return scaleValue;
   }
 
   const { domain, range } = getScaleDataByMappingColors(list);
-  const layerValue: SelectorValue = {
+  const scaleValue: SelectorValue = {
     isCustom: true,
     type: 'cat',
     domain,
     range,
   };
 
-  return layerValue;
+  return scaleValue;
 };
 
-// 将图层数据转化为组件内部数据结构
+// 通过 Scale 的数据格式转换为自定义颜色映射
 export const getCustomMappingData = (dataType: 'string' | 'number', val: SelectorValue) => {
-  const isCustom = val.type === 'threshold' || (val.type === 'cat' && val.domain && val.domain.length !== 0);
-
-  if (!isCustom) {
-    return val;
+  if (!val.isCustom) {
+    return undefined;
   }
 
   const { domain = [], range = [] } = val;
@@ -112,10 +110,12 @@ export const getCustomMappingData = (dataType: 'string' | 'number', val: Selecto
       };
     });
 
-    return {
+    const customMappingData: CustomMappingData = {
       type: CUSTOM,
       list,
     };
+
+    return customMappingData;
   }
 
   const list = domain.map((item: string | number, index: number) => {
@@ -135,11 +135,13 @@ export const getCustomMappingData = (dataType: 'string' | 'number', val: Selecto
     }
   }
 
-  return {
+  const customMappingData: CustomMappingData = {
     type: CUSTOM,
     list: Object.keys(result).map((key) => ({
       color: key,
       value: result[key],
     })),
   };
+
+  return customMappingData;
 };

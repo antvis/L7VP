@@ -5,7 +5,7 @@ export type CustomMappingColorItem = {
 };
 
 export type CustomMappingData = {
-  type: 'number' | 'string';
+  type: 'number' | 'string' | 'custom';
   list: CustomMappingColorItem[];
 };
 
@@ -15,7 +15,7 @@ export type SelectorValueType = 'cat' | 'threshold' | 'quantize' | 'quantile';
 
 export type SelectorValue = {
   type: SelectorValueType;
+  isCustom: boolean;
   domain?: string[] | number[];
   range?: string[];
-  isCustom?: boolean;
 };

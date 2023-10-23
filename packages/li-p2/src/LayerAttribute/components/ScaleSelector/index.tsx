@@ -26,14 +26,14 @@ const Internal = (props: ScaleSelectorProp) => {
   const { dataType, value, domain = [], defaultColors = ['#f00', '#ff0', '#00f', '#faa'], onChange } = props;
   const [wrapSSR, hashId] = useStyle(prefixCls);
 
-  const defaultValue = useMemo(() => {
+  const customMappingData = useMemo(() => {
     if (value) {
       return getCustomMappingData(dataType, value);
     }
   }, [value]);
 
   const [open, setOpen] = useState(false);
-  const [type, setType] = useState(defaultValue?.type);
+  const [type, setType] = useState(customMappingData?.type || value?.type);
   const [customOpen, setCustomOpen] = useState(false);
 
   const selectOptions = useMemo(() => {
@@ -66,14 +66,15 @@ const Internal = (props: ScaleSelectorProp) => {
   // dataType 变更
   useEffect(() => {
     if (!value) return;
-    const isCustom = value.type === 'threshold' || (value.type === 'cat' && value.domain && value.domain.length !== 0);
     // 非自定义数据
-    if (!isCustom) {
+    if (!value.isCustom) {
       const isValid = selectOptions.findIndex((item) => item.value === value.type) === -1;
       if (isValid) {
-        const val = selectOptions[0].value as SelectorValueType;
+        const val = selectOptions[0].value !== 'custom' ? selectOptions[0].value : undefined;
         setType(val);
-        onChange?.({ isCustom: false, type: val });
+        if (val) {
+          onChange?.({ isCustom: false, type: val });
+        }
       }
     }
   }, [selectOptions]);
@@ -117,12 +118,12 @@ const Internal = (props: ScaleSelectorProp) => {
               </>
             )}
 
-            {type === 'custom' && (
+            {type === 'custom' && customMappingData && (
               <CustomMappingColor
                 className={`${prefixCls}-customcontent`}
                 dataType={dataType}
                 domain={domain}
-                value={defaultValue as CustomMappingData}
+                value={customMappingData}
                 onChange={(ranges: CustomMappingData) => onValueChange(ranges)}
               />
             )}

@@ -43,12 +43,18 @@ export const gridLayerStyleFlatToConfig = (style: Record<string, any>) => {
 export const gridLayerStyleConfigToFlat = (styleConfig: GridLayerStyleAttributeValue) => {
   const { aggregateSize, style, color, minZoom = 0, maxZoom = 24, blend } = styleConfig;
 
+  const isCustom =
+    typeof color === 'object' &&
+    (color?.scale?.type === 'threshold' ||
+      (color?.scale?.type === 'cat' && color?.scale?.domain && color?.scale?.domain.length !== 0));
+
   const fillColorScale =
     typeof color === 'object'
       ? {
           type: color?.scale?.type,
           domain: color?.scale?.domain,
           range: color?.value,
+          isCustom,
         }
       : undefined;
 

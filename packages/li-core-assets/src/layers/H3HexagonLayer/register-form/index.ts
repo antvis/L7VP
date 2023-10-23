@@ -10,6 +10,21 @@ const toValues = (config: LayerRegisterFormResultType<ChoroplethLayerStyleAttrib
   const { fillColor, opacity, minZoom = 0, maxZoom = 24, blend } = visConfig;
   const { parser } = sourceConfig;
 
+  const isCustom =
+    typeof fillColor === 'object' &&
+    (fillColor?.scale?.type === 'threshold' ||
+      (fillColor?.scale?.type === 'cat' && fillColor?.scale?.domain && fillColor?.scale?.domain.length !== 0));
+
+  const fillColorScale =
+    typeof fillColor === 'object'
+      ? {
+          type: fillColor?.scale?.type,
+          domain: fillColor?.scale?.domain,
+          range: fillColor?.value,
+          isCustom,
+        }
+      : undefined;
+
   return {
     hexagonId: parser?.hexagonId,
     fillColorField: typeof fillColor === 'object' ? fillColor?.field : undefined,
@@ -21,7 +36,7 @@ const toValues = (config: LayerRegisterFormResultType<ChoroplethLayerStyleAttrib
             isReversed: fillColor?.isReversed || false,
           }
         : undefined,
-    fillColorScale: typeof fillColor === 'object' ? fillColor?.scale?.type : undefined,
+    fillColorScale,
     fillColor: typeof fillColor !== 'object' ? fillColor : undefined,
     fillColorOpacity: opacity,
     zoom: [minZoom, maxZoom],
@@ -40,17 +55,26 @@ const fromValues = (style: Record<string, any>): LayerRegisterFormResultType<Cho
     },
   };
 
+  const fillColor = style.fillColorField
+    ? {
+        field: style.fillColorField,
+        value: style.fillColorScale.isCustom ? style.fillColorScale.range : style.fillColorRange?.colors,
+        scale: style.fillColorScale.isCustom
+          ? {
+              type: style.fillColorScale.type,
+              domain: style.fillColorScale.domain,
+            }
+          : {
+              type: style.fillColorScale.type,
+            },
+        isReversed: style.fillColorRange?.isReversed ?? false,
+      }
+    : style.fillColor;
+
   return {
     sourceConfig,
     visConfig: {
-      fillColor: style.fillColorField
-        ? {
-            field: style.fillColorField,
-            value: style.fillColorRange?.colors || [],
-            isReversed: style.fillColorRange?.isReversed || false,
-            scale: { type: style.fillColorScale },
-          }
-        : style.fillColor,
+      fillColor,
       opacity: style.fillColorOpacity,
       lineWidth: 0,
       minZoom: style?.zoom?.[0],
