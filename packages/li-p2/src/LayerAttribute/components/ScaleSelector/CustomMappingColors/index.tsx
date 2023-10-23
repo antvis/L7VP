@@ -114,7 +114,7 @@ const CustomMappingColor = (props: CustomMappingColorProps) => {
             return item;
           }
         })
-        .filter((item, _index) => _index !== index);
+        .filter((_, _index) => _index !== index);
 
       setCustomRanges(list);
     } else {

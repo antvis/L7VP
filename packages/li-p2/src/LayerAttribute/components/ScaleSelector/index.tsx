@@ -1,19 +1,31 @@
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { connect } from '@formily/react';
+import { useUpdateEffect } from 'ahooks';
 import { Select } from 'antd';
 import cls from 'classnames';
 import React, { useEffect, useMemo, useState } from 'react';
-import { useUpdateEffect } from 'ahooks';
 import { DEHAULT_OPTIONS } from './constants';
 import CustomMappingColor from './CustomMappingColors';
-import { getDefaultValue, getScaleByCustomMappingData, getCustomMappingData } from './helper';
+import { getCustomMappingData, getDefaultValue, getScaleByCustomMappingData } from './helper';
 import useStyle from './style';
-import type { CustomMappingData, SelectorValue, SelectorValueType, SelectType } from './type';
+import type { CustomMappingData, SelectorValue, SelectType } from './type';
 
 type ScaleSelectorProp = {
+  /**
+   * 数据字段类型
+   */
   dataType: 'string' | 'number';
+  /**
+   * 默认颜色
+   */
   defaultColors?: string[];
+  /**
+   * 自定义参数值
+   */
   domain: [number, number] | string[];
+  /**
+   * value
+   */
   value?: SelectorValue;
   /**
    * 选择发生改变时
@@ -33,8 +45,7 @@ const Internal = (props: ScaleSelectorProp) => {
   }, [value]);
 
   const [open, setOpen] = useState(false);
-  const [type, setType] = useState(customMappingData?.type || value?.type);
-  const [customOpen, setCustomOpen] = useState(false);
+  const [selectedType, setSelectedType] = useState(value?.isCustom ? 'custom' : value?.type);
 
   const selectOptions = useMemo(() => {
     const _type = ['string', 'number'].includes(dataType) ? dataType : 'string';
@@ -45,12 +56,12 @@ const Internal = (props: ScaleSelectorProp) => {
   const onValueChange = (ranges: CustomMappingData) => {
     const _val = getScaleByCustomMappingData(ranges);
     onChange?.({ ..._val });
-    setCustomOpen(false);
+    setOpen(false);
   };
 
   // 类型选择变化
   const onTypeChange = (type: SelectType) => {
-    setType(type);
+    setSelectedType(type);
     if (type === 'custom') {
       const _defaultValue = getDefaultValue(dataType, domain, defaultColors);
       if (onChange)
@@ -63,15 +74,16 @@ const Internal = (props: ScaleSelectorProp) => {
     }
   };
 
-  // dataType 变更
+  // dataType 变更，引起可选类型变更，当 scale 为非自定义时自动填充当前类型
   useEffect(() => {
     if (!value) return;
     // 非自定义数据
     if (!value.isCustom) {
+      // 判断 value 类型是否有效
       const isValid = selectOptions.findIndex((item) => item.value === value.type) === -1;
       if (isValid) {
         const val = selectOptions[0].value !== 'custom' ? selectOptions[0].value : undefined;
-        setType(val);
+        setSelectedType(val);
         if (val) {
           onChange?.({ isCustom: false, type: val });
         }
@@ -81,7 +93,7 @@ const Internal = (props: ScaleSelectorProp) => {
 
   // 自定义 scale 且数据 domain 发生更新时，自动计算默认值
   useUpdateEffect(() => {
-    if (type === 'custom' && value?.domain && value.domain.length !== 0) {
+    if (selectedType === 'custom' && value?.domain && value.domain.length !== 0) {
       const range = value.range ? [...new Set(value.range)] : defaultColors;
       const _defaultValue = getDefaultValue(dataType, domain, range);
       if (onChange)
@@ -93,32 +105,28 @@ const Internal = (props: ScaleSelectorProp) => {
 
   return wrapSSR(
     <Select
-      value={type}
+      value={selectedType}
       open={open}
       className={cls(`${prefixCls}`, hashId)}
       onDropdownVisibleChange={(visible) => setOpen(visible)}
       dropdownRender={() => {
         return (
           <div className={cls(`${prefixCls}-dropdown`, hashId)}>
-            {!customOpen && (
-              <>
-                {selectOptions.map((item) => {
-                  return (
-                    <div
-                      className={cls(`${prefixCls}-select-option`, hashId, {
-                        [`${prefixCls}-select-option-selected`]: item.value === type,
-                      })}
-                      key={item?.value?.toString()}
-                      onClick={() => onTypeChange(item.value)}
-                    >
-                      {item.label}
-                    </div>
-                  );
-                })}
-              </>
-            )}
+            {selectOptions.map((item) => {
+              return (
+                <div
+                  className={cls(`${prefixCls}-select-option`, hashId, {
+                    [`${prefixCls}-select-option-selected`]: item.value === selectedType,
+                  })}
+                  key={item?.value?.toString()}
+                  onClick={() => onTypeChange(item.value)}
+                >
+                  {item.label}
+                </div>
+              );
+            })}
 
-            {type === 'custom' && customMappingData && (
+            {selectedType === 'custom' && customMappingData && (
               <CustomMappingColor
                 className={`${prefixCls}-customcontent`}
                 dataType={dataType}
