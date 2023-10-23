@@ -40,8 +40,11 @@ export default (options: AttributeSchemaOptions) => {
             'x-component': 'ScaleSelector',
             'x-component-props': {
               placeholder: '请选择',
-              type:
+              dataType:
                 '{{ $form.getFieldState("fillColorField",state=> { return state.dataSource.find((item) => item.value === state.value)?.type })}}',
+              domain:
+                '{{ $form.getFieldState("fillColorField",state=> { return state.dataSource.find((item) => item.value === state.value)?.domain })}}',
+              defaultColors: '{{ $form.getFieldState("fillColorRange",state=> { return state?.value?.colors })}}',
             },
             'x-decorator-props': {},
             'x-reactions': [
@@ -55,6 +58,7 @@ export default (options: AttributeSchemaOptions) => {
               },
             ],
           },
+
           // 颜色选择器
           fillColor: {
             type: 'string',
@@ -77,6 +81,7 @@ export default (options: AttributeSchemaOptions) => {
               },
             ],
           },
+
           // 色带
           fillColorRange: {
             type: 'object',
@@ -93,10 +98,10 @@ export default (options: AttributeSchemaOptions) => {
             'x-decorator-props': {},
             'x-reactions': [
               {
-                dependencies: ['fillColorField'],
+                dependencies: ['fillColorField', 'fillColorScale'],
                 fulfill: {
                   state: {
-                    visible: '{{ $deps[0] !== undefined }}',
+                    visible: '{{ $deps[0] !== undefined && !$deps[1].isCustom }}',
                   },
                 },
               },

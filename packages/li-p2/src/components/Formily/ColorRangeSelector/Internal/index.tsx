@@ -11,6 +11,10 @@ import type { ColorRange, SelectorValue } from './types';
 
 export interface ColorRangeSelectorProps {
   /**
+   * 是否可用
+   */
+  disabled?: boolean;
+  /**
    * 颜色值
    */
   value?: SelectorValue;
@@ -41,6 +45,7 @@ const Internal = (props: ColorRangeSelectorProps) => {
 
   return wrapSSR(
     <Select
+      disabled={props.disabled}
       className={cls(`${prefixCls}`, hashId)}
       open={open}
       onDropdownVisibleChange={(visible) => setOpen(visible)}
