@@ -1,6 +1,6 @@
 {
   "name": "@antv/li-p2",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "property panel for location insight editor",
   "keywords": [
     "li",
@@ -46,9 +46,9 @@
     "ahooks": "^3.7.0",
     "classnames": "^2.3.1",
     "colorbrewer": "^1.5.3",
+    "dayjs": "^1.11.7",
     "lodash-es": "^4.17.21",
     "react-dnd": "^16.0.1",
-    "dayjs": "^1.11.7",
     "react-dnd-html5-backend": "^16.0.1"
   },
   "devDependencies": {
