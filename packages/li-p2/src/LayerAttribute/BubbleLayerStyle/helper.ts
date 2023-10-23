@@ -74,10 +74,7 @@ export const bubbleLayerStyleConfigToFlat = (styleConfig: BubbleLayerStyleAttrib
     blend,
   } = styleConfig;
 
-  const isCustom =
-    typeof fillColor === 'object' &&
-    (fillColor?.scale?.type === 'threshold' ||
-      (fillColor?.scale?.type === 'cat' && fillColor?.scale?.domain && fillColor?.scale?.domain.length !== 0));
+  const isCustom = typeof fillColor === 'object' && fillColor?.scale?.domain && fillColor?.scale?.domain.length !== 0;
 
   const fillColorScale =
     typeof fillColor === 'object'

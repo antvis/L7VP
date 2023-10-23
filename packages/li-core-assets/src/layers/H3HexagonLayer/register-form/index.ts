@@ -10,10 +10,7 @@ const toValues = (config: LayerRegisterFormResultType<ChoroplethLayerStyleAttrib
   const { fillColor, opacity, minZoom = 0, maxZoom = 24, blend } = visConfig;
   const { parser } = sourceConfig;
 
-  const isCustom =
-    typeof fillColor === 'object' &&
-    (fillColor?.scale?.type === 'threshold' ||
-      (fillColor?.scale?.type === 'cat' && fillColor?.scale?.domain && fillColor?.scale?.domain.length !== 0));
+  const isCustom = typeof fillColor === 'object' && fillColor?.scale?.domain && fillColor?.scale?.domain.length !== 0;
 
   const fillColorScale =
     typeof fillColor === 'object'

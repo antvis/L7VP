@@ -25,10 +25,7 @@ const toValues = (config: LayerRegisterFormResultType<MVTLayerStyleAttributeValu
     blend,
   } = visConfig;
 
-  const isCustom =
-    typeof fillColor === 'object' &&
-    (fillColor?.scale?.type === 'threshold' ||
-      (fillColor?.scale?.type === 'cat' && fillColor?.scale?.domain && fillColor?.scale?.domain.length !== 0));
+  const isCustom = typeof fillColor === 'object' && fillColor?.scale?.domain && fillColor?.scale?.domain.length !== 0;
 
   const fillColorScale =
     typeof fillColor === 'object'
