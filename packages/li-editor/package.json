@@ -42,6 +42,8 @@
     "@formily/core": "^2.2.24",
     "@formily/react": "^2.2.24",
     "@monaco-editor/react": "^4.5.1",
+    "@tanstack/query-core": "^5.0.0",
+    "@tanstack/react-query": "^5.0.0",
     "@turf/turf": "^6.5.0",
     "ahooks": "^3.7.0",
     "classnames": "^2.3.1",

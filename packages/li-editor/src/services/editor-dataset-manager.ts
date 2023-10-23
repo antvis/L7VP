@@ -1,10 +1,12 @@
-import type { DatasetField, DatasetSchema } from '@antv/li-sdk';
+import type { DatasetField, DatasetSchema, DatasetServiceParams, RemoteDatasetSchema } from '@antv/li-sdk';
 import {
   getDatasetColumns,
   isLocalDatasetSchema,
   isLocalOrRemoteDatasetSchema,
   isRemoteDatasetSchema,
 } from '@antv/li-sdk';
+import { queryServiceClient } from '@antv/li-sdk/dist/esm/utils';
+import { QueryObserver } from '@tanstack/query-core';
 import type { FieldPair, GeoField } from '../types';
 import { getGeoFields, getPointFieldPairs } from '../utils/dataset';
 import type AppService from './app-service';
@@ -165,9 +167,27 @@ class EditorDatasetManager {
     return service;
   }
 
-  private getRemoteDatasetService(serviceName: string) {
+  private getRemoteDatasetService(serviceName: string, datasetSchema: RemoteDatasetSchema) {
     const datasetService = this.appService.getImplementDatasetService(serviceName);
-    const service = datasetService?.service;
+    if (!datasetService) {
+      // TODO: remove
+      throw new Error(`数据集查询服务 ${name} 未在资产中.`);
+    }
+
+    const service = datasetService.service;
+    const { filter, properties } = datasetSchema;
+    const queryObserver = new QueryObserver(queryServiceClient, {
+      queryKey: [serviceName, filter, properties],
+      queryFn: (context) => {
+        const serviceParams: DatasetServiceParams = { filter, properties, signal: context.signal };
+        return service(serviceParams);
+      },
+    });
+
+    const unsubscribe = queryObserver.subscribe((result) => {
+      console.log(result);
+      unsubscribe();
+    });
 
     // if (service) {
     //   service.service({

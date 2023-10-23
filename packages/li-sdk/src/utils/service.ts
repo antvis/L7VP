@@ -1,3 +1,5 @@
+import type { QueryClientConfig } from '@tanstack/query-core';
+import { QueryClient } from '@tanstack/query-core';
 import type { DatasetServiceParams, ImplementService, ImplementServiceOptions } from '../types';
 
 /**
@@ -12,3 +14,19 @@ export function implementService<
 
   return result;
 }
+
+const queryClientConfig: QueryClientConfig = {
+  defaultOptions: {
+    queries: {
+      // set 2 minutes
+      staleTime: 2 * 60 * 1000,
+      // Defaults is 5 * 60 * 1000 (5 minutes)
+      // gcTime: 5 * 60 * 1000,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      retryOnMount: false,
+    },
+  },
+};
+export const queryServiceClient = new QueryClient(queryClientConfig);
