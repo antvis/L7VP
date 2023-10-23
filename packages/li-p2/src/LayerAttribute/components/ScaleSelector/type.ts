@@ -1,6 +1,6 @@
 export type CustomMappingColorItem = {
   color: string;
-  value: (string | number | null)[];
+  value: (string | number)[];
   id?: string;
 };
 

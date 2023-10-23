@@ -72,7 +72,7 @@ export const getScaleByCustomMappingData = (val: CustomMappingData) => {
 
   if (type === 'number') {
     const range = list.map((item) => item.color);
-    const _val = list.map((item) => Number(item.value[1])).filter((item) => item);
+    const _val = list.map((item, index) => (index === list.length - 1 ? Number(item.value[0]) : Number(item.value[1])));
 
     const scaleValue: SelectorValue = {
       isCustom: true,
@@ -105,7 +105,7 @@ export const getCustomMappingData = (dataType: 'string' | 'number', val: Selecto
   if (dataType === 'number') {
     const list = range.map((item: string, index: number) => {
       return {
-        value: [domain[index - 1] ?? null, domain[index] ?? null],
+        value: [domain[index - 1] ?? -Infinity, domain[index] ?? Infinity],
         color: item,
       };
     });

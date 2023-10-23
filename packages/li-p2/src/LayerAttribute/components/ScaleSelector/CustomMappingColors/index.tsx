@@ -64,8 +64,7 @@ const CustomMappingColor = (props: CustomMappingColorProps) => {
         },
         {
           id: uniqueId(),
-          // @ts-ignore
-          value: [_interval, null],
+          value: [_interval, Infinity],
           color: _item.color ?? '#5B8FF9',
         },
       ];
@@ -108,7 +107,7 @@ const CustomMappingColor = (props: CustomMappingColorProps) => {
             if (index - 1 === _index) {
               return {
                 ...item,
-                value: [item.value[0], null],
+                value: [item.value[0], Infinity],
               };
             }
 
@@ -123,7 +122,7 @@ const CustomMappingColor = (props: CustomMappingColorProps) => {
     }
   };
 
-  const onChangePaletteRangeItem = (value: (string | number | null)[], color: string, index: number) => {
+  const onChangePaletteRangeItem = (value: (string | number)[], color: string, index: number) => {
     if (dataType === 'number') {
       const list: CustomMappingColorItem[] = customRanges.map((item, _index) => {
         if (index === _index) {
@@ -194,9 +193,7 @@ const CustomMappingColor = (props: CustomMappingColorProps) => {
             max={max}
             position={position}
             onDelete={() => deletePaletteRangeItem(index, position)}
-            onChange={(value: (string | number | null)[], color: string) =>
-              onChangePaletteRangeItem(value, color, index)
-            }
+            onChange={(value: (string | number)[], color: string) => onChangePaletteRangeItem(value, color, index)}
           />
         );
       })}

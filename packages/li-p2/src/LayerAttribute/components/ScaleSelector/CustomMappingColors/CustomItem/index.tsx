@@ -10,14 +10,14 @@ import useStyle from './style';
 type RangeItemProps = {
   customType: 'string' | 'number';
   position: string | null;
-  selectedOption: (string | number | null)[];
+  selectedOption: (string | number)[];
   selectOptions: { label: string; value: string }[];
   min?: number;
   max?: number;
   color: string;
-  value: (string | number | null)[];
+  value: (string | number)[];
   onDelete: () => void;
-  onChange: (value: (string | number | null)[], color: string) => void;
+  onChange: (value: (string | number)[], color: string) => void;
 };
 
 const RangeItem = ({
@@ -48,7 +48,7 @@ const RangeItem = ({
     onChange?.(defaultValue, color.toHexString());
   };
 
-  const onValueChange = (_value: (string | number | null)[]) => {
+  const onValueChange = (_value: (string | number)[]) => {
     onChange?.(_value, defaultColor);
   };
 

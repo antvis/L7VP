@@ -6,18 +6,18 @@ import useStyle from './style';
 
 type ItemProps = {
   customType: 'string' | 'number';
-  value: (string | number | null)[];
+  value: (string | number)[];
   options: { label: string; value: string }[];
   min: number;
   max: number;
   position: string | null;
-  onChange: (val: (string | number | null)[]) => void;
+  onChange: (val: (string | number)[]) => void;
 };
 
 const Item = ({ customType, value, options, min, max, position, onChange }: ItemProps) => {
   const prefixCls = usePrefixCls('formily-scale-selector__custom-content__custom-item__item');
   const [wrapSSR, hashId] = useStyle(prefixCls);
-  const [itemVal, setItemVal] = useState<(string | number | null)[]>(value);
+  const [itemVal, setItemVal] = useState<(string | number)[]>(value);
 
   const onSelectChange = (val: string[]) => {
     setItemVal(val);
@@ -25,22 +25,22 @@ const Item = ({ customType, value, options, min, max, position, onChange }: Item
   };
 
   const onFirstInputChange = (e: number) => {
-    const val = itemVal?.length === 2 ? [e, itemVal[1]] : [e];
+    const val = itemVal?.length === 2 ? [e, itemVal[1]] : [e, Infinity];
     onChange(val);
     setItemVal(val);
   };
 
   const onLastInputChange = (e: number) => {
     if (position === 'first') {
-      const val = [null, e];
+      const val = [-Infinity, e];
       onChange(val);
       setItemVal(val);
     } else if (position === 'last') {
-      const val = [e, null];
+      const val = [e, Infinity];
       onChange(val);
       setItemVal(val);
     } else {
-      const val = itemVal?.length > 0 ? [itemVal[0], e] : [e];
+      const val = itemVal?.length > 0 ? [itemVal[0], e] : [-Infinity, e];
       onChange(val);
       setItemVal(val);
     }
