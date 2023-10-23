@@ -1,10 +1,5 @@
 import type { DatasetField, DatasetSchema, DatasetServiceParams, RemoteDatasetSchema } from '@antv/li-sdk';
-import {
-  getDatasetColumns,
-  isLocalDatasetSchema,
-  isLocalOrRemoteDatasetSchema,
-  isRemoteDatasetSchema,
-} from '@antv/li-sdk';
+import { getDatasetColumns, isLocalDatasetSchema, isLocalOrRemoteDatasetSchema } from '@antv/li-sdk';
 import { queryServiceClient } from '@antv/li-sdk/dist/esm/utils';
 import { QueryObserver } from '@tanstack/query-core';
 import type { FieldPair, GeoField } from '../types';
@@ -35,8 +30,6 @@ export class EditorDataset {
       this.columns = schema.columns;
       this.fieldPairs = getPointFieldPairs(this.columns);
       this.geoFields = getGeoFields(this.columns, this.data);
-    } else if (isRemoteDatasetSchema(schema)) {
-      //
     }
   }
 
@@ -72,13 +65,7 @@ export class EditorDataset {
     this.data = data;
     this.columns = data.length ? getDatasetColumns(data) : [];
     this.fieldPairs = getPointFieldPairs(this.columns);
-  }
-
-  /**
-   * 动态数据源类型情况，异步请求数据
-   */
-  public requestRemoteDataset(service: (...params: any) => Promise<any>) {
-    return service;
+    this.geoFields = getGeoFields(this.columns, this.data);
   }
 
   public savePropertiesFromSchema(datasetSchema: DatasetSchema) {
@@ -169,7 +156,6 @@ class EditorDatasetManager {
 
   private getRemoteDatasetService(serviceName: string, datasetSchema: RemoteDatasetSchema) {
     const datasetService = this.appService.getImplementDatasetService(serviceName);
-
     const service = datasetService.service;
     const { filter, properties } = datasetSchema;
     const queryObserver = new QueryObserver(queryServiceClient, {
