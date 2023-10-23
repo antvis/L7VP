@@ -169,10 +169,6 @@ class EditorDatasetManager {
 
   private getRemoteDatasetService(serviceName: string, datasetSchema: RemoteDatasetSchema) {
     const datasetService = this.appService.getImplementDatasetService(serviceName);
-    if (!datasetService) {
-      // TODO: remove
-      throw new Error(`数据集查询服务 ${name} 未在资产中.`);
-    }
 
     const service = datasetService.service;
     const { filter, properties } = datasetSchema;

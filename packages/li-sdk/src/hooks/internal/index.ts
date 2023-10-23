@@ -1,3 +1,4 @@
+export * from './useDatasetBase';
 export * from './useEventBus';
 export * from './useLayerConfigList';
 export * from './useLIContext';

@@ -1,11 +1,11 @@
-import { useThrottleEffect } from 'ahooks';
+import type { QueryFunctionContext } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { isArray, isObject, isUndefined } from 'lodash-es';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import type { DatasetField, DatasetFilter, RemoteDatasetSchema } from '../../specs';
 import type { DatasetServiceParams, ImplementService, RemoteDataset } from '../../types';
-import { filterFalsyDatasetFilter, getDatasetColumns } from '../../utils';
-import { useMemoDeep } from './useMemoDeep';
-import { useRegistryManager } from './index';
+import { filterFalsyDatasetFilter, getDatasetColumns, queryServiceClient } from '../../utils';
+import { useRegistryManager } from './useRegistryManager';
 
 const mergeColumns = (columns: DatasetField[], originColumns?: DatasetField[]) => {
   if (!originColumns) {
@@ -45,27 +45,12 @@ const NOOP_SERVICE: ImplementService = {
   service: () => Promise.resolve([]),
 };
 
-// TODO: 优化缓存
-const Caches = new Map();
-
 export function useRemoteDataset(datasetSchema: RemoteDatasetSchema, pickFilter?: DatasetFilter) {
   const registryManager = useRegistryManager();
   const serviceType = datasetSchema.serviceType;
   const implementService: ImplementService<[DatasetServiceParams], Record<string, any>[]> =
     serviceType === NOOP_REMOTE_DATASET.serviceType ? NOOP_SERVICE : registryManager.getService(serviceType);
   const service = implementService.service;
-
-  const proxyService = (params: DatasetServiceParams) => {
-    const cacheKey = implementService.metadata.name + JSON.stringify(params);
-    if (Caches.has(cacheKey)) {
-      return Promise.resolve(Caches.get(cacheKey));
-    }
-
-    return service(params).then((data) => {
-      Caches.set(cacheKey, data);
-      return data;
-    });
-  };
 
   const filter = useMemo(() => {
     const _columns = datasetSchema.columns || [];
@@ -82,41 +67,27 @@ export function useRemoteDataset(datasetSchema: RemoteDatasetSchema, pickFilter?
   }, [datasetSchema.filter, pickFilter, datasetSchema.columns]);
   const datasetProperties = datasetSchema.properties;
 
-  const params: Omit<DatasetServiceParams, 'signal'> = useMemoDeep(() => ({
-    properties: datasetProperties,
-    filter,
-  }));
+  // const params: Omit<DatasetServiceParams, 'signal'> = useMemoDeep(() => ({
+  //   properties: datasetProperties,
+  //   filter,
+  // }));
   // 防抖
-  const [debouncedParams, setDebouncedParams] = useState<Omit<DatasetServiceParams, 'signal'>>(params);
-  useThrottleEffect(() => setDebouncedParams(params), [params], { wait: 100 });
+  // const [debouncedParams, setDebouncedParams] = useState<Omit<DatasetServiceParams, 'signal'>>(params);
+  // useThrottleEffect(() => setDebouncedParams(params), [params], { wait: 100 });
 
-  const [data, setData] = useState<Record<string, any>[]>();
+  const queryFn = (context: QueryFunctionContext) => {
+    const serviceParams: DatasetServiceParams = { filter, properties: datasetProperties, signal: context.signal };
+    return service(serviceParams);
+  };
 
-  // const cacheKey = implementService.metadata.name + JSON.stringify(params);
-  // const { data, run, loading } = useRequest<Record<string, unknown>[], [DatasetServiceParams]>(proxyService, {
-  //   cacheKey,
-  //   manual: true,
-  // });
-
-  useEffect(() => {
-    const abortController = new AbortController();
-    const queryFnContext: DatasetServiceParams = { ...debouncedParams, signal: abortController.signal };
-    proxyService(queryFnContext)
-      .then((_data) => {
-        if (!abortController.signal.aborted) {
-          setData(_data);
-        }
-      })
-      .catch((error) => {
-        if (!abortController.signal.aborted) {
-          console.error(error);
-        }
-      });
-
-    return () => {
-      abortController.abort();
-    };
-  }, [debouncedParams]);
+  const { data } = useQuery(
+    {
+      queryKey: [implementService.metadata.name, filter, datasetProperties],
+      queryFn,
+      placeholderData: [],
+    },
+    queryServiceClient,
+  );
 
   const dataset: RemoteDataset = useMemo(() => {
     const columns =

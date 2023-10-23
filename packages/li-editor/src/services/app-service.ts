@@ -1,6 +1,12 @@
-import type { AssetPackage, LIRuntimeApp, WidgetSchema } from '@antv/li-sdk';
+import type { AssetPackage, ImplementService, LIRuntimeApp, WidgetSchema } from '@antv/li-sdk';
 import { isEmpty } from 'lodash-es';
 import { AtomWidgetEmptyContainer, AtomWidgets } from '../constants';
+
+const NOOP_SERVICE: ImplementService = {
+  version: 'noop',
+  metadata: { name: 'noop', displayName: 'noop', type: 'Dataset' },
+  service: () => Promise.resolve([]),
+};
 
 class AppService {
   /** 运行时应用 */
@@ -81,11 +87,11 @@ class AppService {
   public getImplementDatasetService(name: string) {
     const service = this.getImplementServicesMap().get(name);
     if (!service) {
-      console.warn(`数据集查询服务 ${name} 未在资产中.`);
+      console.error(`数据集查询服务 ${name} 未在资产中.`);
     } else if (service.metadata.type !== 'Dataset') {
-      console.warn(`${name} 不属于数据集查询服务.`);
+      console.error(`${name} 不属于数据集查询服务.`);
     }
-    return service;
+    return service || NOOP_SERVICE;
   }
 
   /**

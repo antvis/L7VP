@@ -30,8 +30,8 @@ export default defineConfig({
     // 'https://gw.alipayobjects.com/os/lib/antd/5.3.2/dist/reset.css'
   ],
   scripts: [
-    'https://gw.alipayobjects.com/os/lib/react/17.0.1/umd/react.development.js',
-    'https://gw.alipayobjects.com/os/lib/react-dom/17.0.1/umd/react-dom.development.js',
+    'https://gw.alipayobjects.com/os/lib/react/18.2.0/umd/react.development.js',
+    'https://gw.alipayobjects.com/os/lib/react-dom/18.2.0/umd/react-dom.development.js',
     // 'https://gw.alipayobjects.com/os/lib/antd/5.3.2/dist/antd.js',
     /** lodash */
     'https://gw.alipayobjects.com/os/lib/lodash/4.17.20/lodash.min.js',
