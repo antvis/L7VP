@@ -1,4 +1,4 @@
-import type { ImplementWidget, WidgetSchema } from '@antv/li-sdk';
+import type { Dataset, ImplementWidget, WidgetSchema } from '@antv/li-sdk';
 import classNames from 'classnames';
 import { forOwn, omit } from 'lodash-es';
 import React, { useCallback, useMemo } from 'react';
@@ -37,7 +37,8 @@ const WidgetAttribute: React.FC<WidgetAttributeProps> = (props) => {
   ]);
 
   // 数据集列表
-  const datasets = useEditorDatasets();
+  const { editorDatasets } = useEditorDatasets();
+  const datasets: Dataset[] = editorDatasets.map((item) => ({ ...item.schema, columns: item.columns, data: [] }));
 
   // 服务资产列表
   const services = useMemo(() => appService.getImplementServices(), [appService]);

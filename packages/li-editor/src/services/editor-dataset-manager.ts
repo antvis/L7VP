@@ -52,6 +52,10 @@ export class EditorDataset {
     return this.schema.type;
   }
 
+  public get isLocalOrRemoteDataset() {
+    return isLocalOrRemoteDatasetSchema(this.schema);
+  }
+
   /** 筛选器 */
   public get filter() {
     if (isLocalOrRemoteDatasetSchema(this.schema)) {
@@ -67,7 +71,20 @@ export class EditorDataset {
 
   /** 数据集是否请求中，动态数据源类型情况 */
   public get isLoading() {
+    // if (this.queryObserver) {
+    //   console.log('getCurrentResult', this.queryObserver?.getCurrentResult());
+    // }
     return this.queryObserver?.getCurrentResult().isLoading ?? false;
+  }
+
+  /** 数据集是否请求出错，动态数据源类型情况 */
+  public get isLoadingError() {
+    return this.queryObserver?.getCurrentResult().isLoadingError;
+  }
+
+  /** 数据集请求错误，动态数据源类型情况 */
+  public get error() {
+    return this.queryObserver?.getCurrentResult().error;
   }
 
   public setSchema(schema: DatasetSchema) {
@@ -146,7 +163,11 @@ export class EditorDataset {
     return datasetSchema;
   }
 
-  public loadSchemaFromPropertie() {
+  public loadSchemaFromPropertie(): DatasetSchema {
+    if (isLocalDatasetSchema(this.schema)) {
+      return { ...this.schema, data: this.data, columns: this.columns };
+    }
+
     return this.schema;
   }
 }
@@ -281,7 +302,6 @@ class EditorDatasetManager extends Subscribable<EditorDatasetManagerListener> {
     const index = this.datasets.findIndex((item) => item.id === datasetId);
     if (index !== -1) {
       const data = Array.isArray(result.data) ? result.data : [];
-      console.log('onQueryObserverResult', data);
       const newDatasets = this.datasets.slice(0);
       newDatasets[index] = this.copyEditorDataset(newDatasets[index]).updateData(data);
       this.datasets = newDatasets;

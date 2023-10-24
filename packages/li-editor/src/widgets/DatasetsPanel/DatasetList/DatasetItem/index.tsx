@@ -1,6 +1,6 @@
 import { DeleteOutlined, FormOutlined, InsertRowAboveOutlined, MoreOutlined } from '@ant-design/icons';
 import type { DatasetSchema } from '@antv/li-sdk';
-import { getUniqueId, isLocalOrRemoteDataset } from '@antv/li-sdk';
+import { getUniqueId } from '@antv/li-sdk';
 import type { MenuProps } from 'antd';
 import { Dropdown, message, Popconfirm, Space, Tooltip } from 'antd';
 import classnames from 'classnames';
@@ -8,7 +8,7 @@ import { downloadText } from 'download.js';
 import type { WritableDraft } from 'immer/dist/internal';
 import React, { useState } from 'react';
 import DatasetName from '../../../../components/EditName';
-import { useEditorDatasets, useEditorState } from '../../../../hooks';
+import { useEditorDataset, useEditorState } from '../../../../hooks';
 import './index.less';
 
 export type DatasetItemProps = {
@@ -22,8 +22,8 @@ const DatasetItem = (props: DatasetItemProps) => {
   const { dataset: datasetSchema, onReplaceDataset, onPreviewDataset, className } = props;
   const { state, updateState } = useEditorState();
   const [isEditName, setIsEditName] = useState(false);
-  const [dataset] = useEditorDatasets([datasetSchema.id]);
-  const isLocalOrRemoteDataSource = dataset && isLocalOrRemoteDataset(dataset);
+  const editorDataset = useEditorDataset(datasetSchema.id);
+  const isLocalOrRemoteDataSource = editorDataset?.isLocalOrRemoteDataset;
   const [messageApi, messageContextHolder] = message.useMessage();
 
   const replaceDataset = () => {
@@ -46,9 +46,9 @@ const DatasetItem = (props: DatasetItemProps) => {
   };
 
   const downloadDataset = () => {
-    if (dataset && isLocalOrRemoteDataset(dataset)) {
-      const { metadata } = dataset;
-      downloadText(`${metadata.name}.json`, JSON.stringify(dataset.data));
+    if (isLocalOrRemoteDataSource) {
+      const { metadata } = editorDataset;
+      downloadText(`${metadata.name}.json`, JSON.stringify(editorDataset.data));
     }
   };
 
@@ -116,10 +116,10 @@ const DatasetItem = (props: DatasetItemProps) => {
         >
           {isLocalOrRemoteDataSource ? (
             <>
-              共<span className="li-dataset-list__info-count">{dataset.data.length}</span>行数据
+              共<span className="li-dataset-list__info-count">{editorDataset.data.length}</span>行数据
             </>
           ) : (
-            dataset.metadata.description || dataset.properties.type
+            editorDataset?.metadata.description
           )}
         </div>
       </div>

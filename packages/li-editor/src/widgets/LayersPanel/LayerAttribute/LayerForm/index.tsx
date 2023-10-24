@@ -1,12 +1,12 @@
 import type { LayerSchema } from '@antv/li-sdk';
-import { getDatasetFields, isLocalOrRemoteDataset } from '@antv/li-sdk';
+import { getDatasetFields } from '@antv/li-sdk';
 import { Form } from '@formily/antd-v5';
 import { createForm, onFieldValueChange } from '@formily/core';
 import { useMemoizedFn } from 'ahooks';
 import classNames from 'classnames';
 import { pick } from 'lodash-es';
 import React, { useMemo, useState } from 'react';
-import { useEditorDatasets, useEditorService, useEditorState } from '../../../../hooks';
+import { useEditorDataset, useEditorService, useEditorState } from '../../../../hooks';
 import BaseFormSchemaField from '../BaseFormSchemaField';
 import './index.less';
 import StyleForm from './StyleForm';
@@ -21,9 +21,8 @@ const LayerForm: React.FC<LayerFormProps> = ({ className, config, onChange }) =>
   const { state } = useEditorState();
   const [visType, setVisType] = useState(config.type);
   const [datasetId, setDatasetId] = useState(config?.sourceConfig?.datasetId);
-  const datasetIds = useMemo(() => (datasetId ? [datasetId] : []), [datasetId]);
-  const [dataset] = useEditorDatasets(datasetIds);
-  const columns = useMemo(() => (dataset && isLocalOrRemoteDataset(dataset) ? dataset.columns : []), [dataset]);
+  const editorDataset = useEditorDataset(datasetId!);
+  const columns = useMemo(() => (editorDataset ? editorDataset.columns : []), [editorDataset]);
 
   const [initialValues, setInitialValues] = useState<Pick<LayerSchema, 'sourceConfig' | 'visConfig'>>(
     pick(config, ['sourceConfig', 'visConfig']),
