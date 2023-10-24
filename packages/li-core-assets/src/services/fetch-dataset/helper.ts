@@ -1,6 +1,5 @@
 import type { DatasetFilter, DatasetServiceParams } from '@antv/li-sdk';
-import { parserDataWithGeo } from '@antv/li-sdk';
-import { applyDatasetFilter } from '@antv/li-sdk/dist/esm/utils';
+import { parserDataWithGeo, applyDatasetFilter } from '@antv/li-sdk';
 
 const Chache = new Map();
 

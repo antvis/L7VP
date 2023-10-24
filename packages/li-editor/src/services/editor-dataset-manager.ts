@@ -4,8 +4,7 @@ import {
   isLocalDatasetSchema,
   isLocalOrRemoteDatasetSchema,
   isRemoteDatasetSchema,
-} from '@antv/li-sdk';
-import { queryServiceClient, Subscribable } from '@antv/li-sdk/dist/esm/utils';
+ queryServiceClient, Subscribable } from '@antv/li-sdk';
 import type { QueryObserverOptions, QueryObserverResult } from '@tanstack/query-core';
 import { QueryObserver } from '@tanstack/query-core';
 import type { FieldPair, GeoField } from '../types';
