@@ -1,5 +1,6 @@
-import type { Application } from '@antv/li-sdk';
+import type { Application, DatasetSchema } from '@antv/li-sdk';
 import { parseVersion } from '@antv/li-sdk';
+import { omit } from 'lodash-es';
 import { Empty_App_Schema } from '../constants';
 import type { EditorContextState } from '../types';
 import { validateDatasets, validateLayers, validateMap, validateMetadata, validWidgets } from './validator';
@@ -38,25 +39,59 @@ export const validateApplicationSchema = (appSchema: Application) => {
   return config;
 };
 
+const getDatasetSchemaFromRuntime = (dataset: DatasetSchema) => {
+  const _dataset: DatasetSchema = {
+    ...dataset,
+    // 删除临时存储元数据信息
+    metadata: omit(dataset.metadata, ['_autoCreateLayers']) as DatasetSchema['metadata'],
+  };
+
+  return _dataset;
+};
+
+const getDatasetsSchemaFromRuntime = (datasets: DatasetSchema[]) => {
+  const _datasets: DatasetSchema[] = datasets.map((dataset) => getDatasetSchemaFromRuntime(dataset));
+
+  return _datasets;
+};
+
 /**
- * 通过上下文状态生成 Application Schema
+ * 通过编辑态的 Schema 生成规范的 Application Schema
  */
-export const getApplicationSchema = (state: EditorContextState) => {
-  const _metadata = validateMetadata(state.metadata);
-  const _datasets = validateDatasets(state.datasets);
-  const _layers = validateLayers(state.layers);
-  const _widgets = validWidgets(state.widgets);
+export const getApplicationSchemaFromRuntime = (runtimeSchema: Application) => {
+  const _metadata = validateMetadata(runtimeSchema.metadata);
+  const _datasets = getDatasetsSchemaFromRuntime(runtimeSchema.datasets);
+  const _layers = validateLayers(runtimeSchema.spec.layers);
+  const _widgets = validWidgets(runtimeSchema.spec.widgets);
 
   const config: Application = {
     version: 'v0.1',
     metadata: _metadata,
     datasets: _datasets,
     spec: {
-      map: state.map,
+      map: runtimeSchema.spec.map,
       layers: _layers,
       widgets: _widgets,
     },
   };
+
+  return config;
+};
+
+/**
+ * 通过上下文状态生成 Application Schema
+ */
+export const getApplicationSchemaFromContext = (state: EditorContextState) => {
+  const config: Application = getApplicationSchemaFromRuntime({
+    version: 'x',
+    metadata: state.metadata,
+    datasets: state.datasets,
+    spec: {
+      map: state.map,
+      layers: state.layers,
+      widgets: state.widgets,
+    },
+  });
 
   return config;
 };

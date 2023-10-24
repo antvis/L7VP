@@ -16,11 +16,11 @@ const AddDataset = ({ visible, onClose }: AddDatasetProps) => {
   const { updateState } = useEditorState();
 
   // 新增 datasets
-  const onAddDatasets = (datasets: AddDatasetType[]) => {
+  const onAddDatasets = (datasets: AddDatasetType[], autoCreateLayers?: boolean) => {
     updateState((draft) => {
       datasets.forEach((dataset) => {
         const id = dataset.id ?? getUniqueId();
-        const newDataset = getAddDatasetSchema(dataset, id);
+        const newDataset = getAddDatasetSchema(dataset, id, autoCreateLayers);
         if (!draft.datasets.find((item) => item.id === dataset.id)) {
           draft.datasets.push(newDataset);
         }
@@ -42,9 +42,11 @@ const AddDataset = ({ visible, onClose }: AddDatasetProps) => {
   };
 
   const onSubmit = (datasets: AddDatasetType[], layers?: LayerSchema[]) => {
-    onAddDatasets(datasets);
     if (layers) {
+      onAddDatasets(datasets);
       onAddLayers(layers);
+    } else {
+      onAddDatasets(datasets, true);
     }
     onClose();
   };

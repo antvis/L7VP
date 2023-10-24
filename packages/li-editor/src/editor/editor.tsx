@@ -126,7 +126,6 @@ class LIEditor extends EventEmitter {
         datasets,
         layers,
         widgets,
-        serviceCache: {},
       });
 
       // 编辑器上下文状态

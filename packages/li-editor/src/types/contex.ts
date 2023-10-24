@@ -28,8 +28,6 @@ export type EditorContextState = {
   layers: LayerSchema[];
   /** 组件管理 */
   widgets: WidgetSchema[];
-  /** 请求数据缓存 */
-  serviceCache: EditorServiceCache;
 };
 
 /** LISDK 配置项  */

@@ -11,6 +11,7 @@ import type { QueryObserverOptions, QueryObserverResult } from '@tanstack/query-
 import { QueryObserver } from '@tanstack/query-core';
 import type { FieldPair, GeoField } from '../types';
 import { getGeoFields, getPointFieldPairs } from '../utils/dataset';
+import { getDatasetsByAutoCreateLayers } from '../utils/spec';
 import type AppService from './app-service';
 
 /**
@@ -256,23 +257,23 @@ class EditorDatasetManager extends Subscribable<EditorDatasetManagerListener> {
 
     const newAddDatasets: EditorDataset[] = difference(newDatasetsMap, prevDatasetsMap);
 
-    // TODO：新增数据集实现自动生成 layer
+    if (this.hasListeners()) {
+      newAddDatasets.forEach((editorDataset) => {
+        editorDataset.subscribeQuery((result) => {
+          this.onQueryStateChange(editorDataset.id, result);
+        });
+      });
 
-    if (!this.hasListeners()) {
-      return;
+      difference(prevDatasetsMap, newDatasetsMap).forEach((editorDataset) => {
+        editorDataset.unAllSubscribeQuery();
+      });
+
+      this.notify();
     }
 
-    newAddDatasets.forEach((editorDataset) => {
-      editorDataset.subscribeQuery((result) => {
-        this.onQueryStateChange(editorDataset.id, result);
-      });
-    });
-
-    difference(prevDatasetsMap, newDatasetsMap).forEach((editorDataset) => {
-      editorDataset.unAllSubscribeQuery();
-    });
-
-    this.notify();
+    // TODO：新增数据集实现自动生成 layer
+    const autoCreateLayersDatasets = getDatasetsByAutoCreateLayers(newAddDatasets);
+    console.log('autoCreateLayersDatasets: ', autoCreateLayersDatasets);
   }
 
   protected onSubscribe(): void {

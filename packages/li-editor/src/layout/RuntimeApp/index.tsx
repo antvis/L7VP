@@ -9,6 +9,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { useEditorService, useEditorState } from '../../hooks';
 import { useImmer } from '../../hooks/internal';
 import { validateDatasets, validateLayers, validWidgets } from '../../utils';
+import { getApplicationSchemaFromRuntime } from '../../utils/application';
 
 function FallbackRender({ error, resetErrorBoundary }: FallbackProps) {
   // Call resetErrorBoundary() to reset the error boundary and retry the render.
@@ -62,7 +63,7 @@ const RuntimeApp: React.FC<RuntimeAppProps> = (props) => {
 
   const publishSdkUpdateEvent = useMemoizedFn(
     debounce(() => {
-      editorService.publishEvent('change', latestAppConfigRef.current);
+      editorService.publishEvent('change', getApplicationSchemaFromRuntime(latestAppConfigRef.current));
     }, 1000),
   );
 

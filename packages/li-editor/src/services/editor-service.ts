@@ -1,7 +1,7 @@
 import type EventEmitter from '@antv/event-emitter';
 import type { ContainerSlotMap, EditorContextState } from '../types';
 import { getMenuList, resolveContainerSlotMap } from '../utils';
-import { getApplicationSchema } from '../utils/application';
+import { getApplicationSchemaFromContext } from '../utils/application';
 import type AppService from './app-service';
 import EditorDatasetManager from './editor-dataset-manager';
 import type EditorWidgetManager from './editor-widget-manager';
@@ -53,7 +53,7 @@ class EditorService {
     if (!editorState) {
       throw new Error(`The editor component has not been initialized`);
     }
-    const config = getApplicationSchema(this.editorStateRef);
+    const config = getApplicationSchemaFromContext(this.editorStateRef);
 
     return config;
   }

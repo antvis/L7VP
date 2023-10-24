@@ -1,5 +1,19 @@
 import type { LayerSchema } from '@antv/li-sdk';
-import type { EditorDataset } from '../types';
+import { isLocalDatasetSchema } from '@antv/li-sdk';
+import type { EditorDataset } from '../services/editor-dataset-manager';
+
+const isAutoCreateLayersDataset = (dataset: EditorDataset) => {
+  // TODO: 只支持 local 类型
+  if (isLocalDatasetSchema(dataset.schema) && dataset.metadata._autoCreateLayers === true) {
+    return true;
+  }
+
+  return false;
+};
+
+export const getDatasetsByAutoCreateLayers = (datasets: EditorDataset[]) => {
+  return datasets.filter(isAutoCreateLayersDataset);
+};
 
 const LayersSchema: LayerSchema[] = [
   // 点数据
