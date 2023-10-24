@@ -6,8 +6,8 @@ import {
   isRemoteDatasetSchema,
 } from '@antv/li-sdk';
 import { queryServiceClient, Subscribable } from '@antv/li-sdk/dist/esm/utils';
-import type { QueryObserverOptions } from '@tanstack/query-core';
-import { QueriesObserver } from '@tanstack/query-core';
+import type { QueryObserverOptions, QueryObserverResult } from '@tanstack/query-core';
+import { QueryObserver } from '@tanstack/query-core';
 import type { FieldPair, GeoField } from '../types';
 import { getGeoFields, getPointFieldPairs } from '../utils/dataset';
 import type AppService from './app-service';
@@ -17,7 +17,7 @@ import type AppService from './app-service';
  */
 export class EditorDataset {
   /** 数据集 Schema */
-  public schema: DatasetSchema;
+  public schema!: DatasetSchema;
   /** 数据 */
   public data: Record<string, any>[] = [];
   /** 列字段 */
@@ -26,17 +26,14 @@ export class EditorDataset {
   public fieldPairs: FieldPair[] = [];
   /** 地理数据字段 */
   public geoFields: GeoField[] = [];
-  /** 数据集是否请求中，动态数据源类型情况 */
-  public loading = false;
+  /** appService, 动态数据源类型情况 */
+  private appService: AppService;
+  /** queryObserver, 动态数据源类型情况 */
+  private queryObserver?: QueryObserver;
 
-  constructor(schema: DatasetSchema) {
-    this.schema = this.savePropertiesFromSchema(schema);
-    if (isLocalDatasetSchema(schema)) {
-      this.data = schema.data;
-      this.columns = schema.columns;
-      this.fieldPairs = getPointFieldPairs(this.columns);
-      this.geoFields = getGeoFields(this.columns, this.data);
-    }
+  constructor(schema: DatasetSchema, appService: AppService) {
+    this.appService = appService;
+    this.setSchema(schema);
   }
 
   /** 数据集 ID */
@@ -67,11 +64,81 @@ export class EditorDataset {
     return this.columns.filter((item) => item.type === 'h3');
   }
 
+  /** 数据集是否请求中，动态数据源类型情况 */
+  public get isLoading() {
+    return this.queryObserver?.getCurrentResult().isLoading ?? false;
+  }
+
+  public setSchema(schema: DatasetSchema) {
+    this.schema = this.savePropertiesFromSchema(schema);
+    if (isLocalDatasetSchema(schema)) {
+      this.data = schema.data;
+      this.columns = schema.columns;
+      this.fieldPairs = getPointFieldPairs(this.columns);
+      this.geoFields = getGeoFields(this.columns, this.data);
+    } else if (isRemoteDatasetSchema(schema)) {
+      this.data = [];
+      this.columns = [];
+      this.fieldPairs = [];
+      this.geoFields = [];
+
+      if (this.queryObserver) {
+        this.queryObserver.setOptions(this.getQueryOptions(schema), { listeners: false });
+      } else {
+        this.queryObserver = new QueryObserver(queryServiceClient, this.getQueryOptions(schema));
+      }
+    }
+
+    return this;
+  }
+
   public updateData(data: Record<string, any>[]) {
     this.data = data;
     this.columns = data.length ? getDatasetColumns(data) : [];
     this.fieldPairs = getPointFieldPairs(this.columns);
     this.geoFields = getGeoFields(this.columns, this.data);
+
+    return this;
+  }
+
+  /**
+   * 获取 QueryObserver 请求参数
+   * 动态数据源类型，异步请求数据情况使用
+   */
+  private getQueryOptions(datasetSchema: RemoteDatasetSchema) {
+    const { serviceType: serviceName, filter, properties } = datasetSchema;
+    const datasetService = this.appService.getImplementDatasetService(serviceName);
+    const service = datasetService.service;
+
+    const options: QueryObserverOptions = {
+      queryKey: [serviceName, filter, properties],
+      queryFn: (context) => {
+        const serviceParams: DatasetServiceParams = { filter, properties, signal: context.signal };
+        return service(serviceParams);
+      },
+    };
+
+    return options;
+  }
+
+  /**
+   * 订阅 QueryObserver 状态
+   * 动态数据源类型，异步请求数据情况使用
+   */
+  public subscribeQuery(listener: (result: QueryObserverResult) => void) {
+    if (this.queryObserver) {
+      return this.queryObserver.subscribe(listener);
+    }
+  }
+
+  /**
+   * 取消全部订阅 QueryObserver 状态
+   * 动态数据源类型，异步请求数据情况使用
+   */
+  public unAllSubscribeQuery() {
+    if (this.queryObserver) {
+      return this.queryObserver.destroy();
+    }
   }
 
   public savePropertiesFromSchema(datasetSchema: DatasetSchema) {
@@ -91,33 +158,26 @@ type EditorDatasetManagerListener = (data: EditorDataset[]) => void;
 class EditorDatasetManager extends Subscribable<EditorDatasetManagerListener> {
   private datasets: Map<string, EditorDataset>;
   private appService: AppService;
-  private queriesObserver: QueriesObserver;
 
   constructor(appService: AppService, datasets: DatasetSchema[] = []) {
     super();
     this.appService = appService;
     this.datasets = new Map(
       datasets.map((item) => {
-        return [item.id, new EditorDataset(item)];
+        return [item.id, new EditorDataset(item, this.appService)];
       }),
     );
-    this.queriesObserver = new QueriesObserver(queryServiceClient, this.getQueriesOptions(datasets));
-    this.queriesObserver.subscribe(this.onQueriesStoreChange);
   }
 
   /**
    * 数据集是否请求中，动态数据源类型情况
    */
   get loading() {
-    return this.queriesObserver.getCurrentResult().some((item) => item.isLoading);
+    return this.getDatasetList().some((item) => item.isLoading);
   }
 
   public getDatasetById(id: string) {
     return this.datasets.get(id);
-  }
-
-  public getDatasets() {
-    return this.datasets;
   }
 
   public getDatasetList() {
@@ -130,88 +190,107 @@ class EditorDatasetManager extends Subscribable<EditorDatasetManagerListener> {
     return Object.assign(Object.create(Object.getPrototypeOf(editorDataset)), editorDataset);
   }
 
-  private copyEditorDatasetAndUpdate(original: EditorDataset, options: Partial<EditorDataset> = {}): EditorDataset {
-    return Object.entries(options).reduce((acc, entry) => {
-      const key = entry[0];
-      const value = entry[1];
-      // @ts-ignore
-      acc[key] = value;
-      return acc;
-    }, this.copyEditorDataset(original));
+  private copyEditorDatasetAndUpdateSchema(original: EditorDataset, schema: DatasetSchema): EditorDataset {
+    return this.copyEditorDataset(original).setSchema(schema);
   }
 
   /**
    * 当 schema 更新时，更新数据集的状态
    */
   public update(datasets: DatasetSchema[] = []) {
-    for (let index = 0; index < datasets.length; index++) {
-      const datasetSchema = datasets[index];
-      const editorDataset = this.datasets.get(datasetSchema.id);
-
-      // 更新情况
-      if (editorDataset && datasetSchema !== editorDataset.schema) {
-        // 什么情况下 schema 会更新：
+    const prevDatasets = this.datasets;
+    const newDatasets = datasets.reduce((previousMap, datasetSchema) => {
+      const prevEditorDataset = prevDatasets.get(datasetSchema.id);
+      // 新增情况
+      if (!prevEditorDataset) {
+        previousMap.set(datasetSchema.id, new EditorDataset(datasetSchema, this.appService));
+      } else if (datasetSchema === prevEditorDataset.schema) {
+        // 复用情况
+        previousMap.set(datasetSchema.id, prevEditorDataset);
+      } else {
+        // 更新情况，什么情况下 schema 会更新：
         // 1. 基本元数据信息发生变更；
         // 2. 属性发生变更(columns\properties)；
         // 3. 数据发生变更；
         // 4. 类型发生变更
         // 原则：只考虑会影响数据发生更新的情况；也就是替换数据集的情况
-        this.copyEditorDatasetAndUpdate(editorDataset, { schema: datasetSchema });
-      } else {
-        // 新增情况
-        this.datasets.set(datasetSchema.id, new EditorDataset(datasetSchema));
-        // TODO：新增数据集实现自动生成 layer
+        previousMap.set(datasetSchema.id, this.copyEditorDatasetAndUpdateSchema(prevEditorDataset, datasetSchema));
       }
+
+      return previousMap;
+    }, new Map<string, EditorDataset>());
+
+    const hasIndexChange = Array.from(newDatasets.values()).some((dataset) => dataset !== prevDatasets.get(dataset.id));
+
+    if (prevDatasets.size === newDatasets.size && !hasIndexChange) {
+      return;
     }
 
-    const datasetsSchema = this.getDatasetList().map((item) => item.schema);
-    this.queriesObserver.setQueries(this.getQueriesOptions(datasetsSchema));
+    this.datasets = newDatasets;
 
-    this.notify();
-  }
-
-  /**
-   * 获取 QueriesObserver 请求参数
-   * 动态数据源类型情况，异步请求数据
-   */
-  private getQueriesOptions(datasets: DatasetSchema[]) {
-    const queriesOptions: QueryObserverOptions[] = datasets
-      .filter((item): item is RemoteDatasetSchema => isRemoteDatasetSchema(item))
-      .map((dataset) => this.getQueryOptions(dataset));
-    return queriesOptions;
-  }
-
-  /**
-   * 获取 QueryObserver 请求参数
-   * 动态数据源类型情况，异步请求数据
-   */
-  private getQueryOptions(datasetSchema: RemoteDatasetSchema) {
-    const { serviceType: serviceName, filter, properties } = datasetSchema;
-    const datasetService = this.appService.getImplementDatasetService(serviceName);
-    const service = datasetService.service;
-
-    const options: QueryObserverOptions = {
-      queryKey: [serviceName, filter, properties],
-      queryFn: (context) => {
-        const serviceParams: DatasetServiceParams = { filter, properties, signal: context.signal };
-        return service(serviceParams);
-      },
+    const difference = (map1: Map<string, EditorDataset>, map2: Map<string, EditorDataset>) => {
+      const array: EditorDataset[] = [];
+      map1.forEach((value, key) => {
+        if (!map2.has(key)) {
+          array.push(value);
+        }
+      });
+      return array;
     };
 
-    return options;
+    const newAddDatasets: EditorDataset[] = difference(newDatasets, prevDatasets);
+
+    // TODO：新增数据集实现自动生成 layer
+
+    if (!this.hasListeners()) {
+      return;
+    }
+
+    newAddDatasets.forEach((editorDataset) => {
+      editorDataset.subscribeQuery((result) => {
+        this.onQueryStateChange(editorDataset.id, result);
+      });
+    });
+
+    difference(prevDatasets, newDatasets).forEach((editorDataset) => {
+      editorDataset.unAllSubscribeQuery();
+    });
+
+    this.notify();
   }
 
   protected onSubscribe(): void {
     if (this.listeners.size === 1) {
       // 订阅时，才发起数据请求
+      this.datasets.forEach((dataset) => {
+        dataset.subscribeQuery((result) => {
+          this.onQueryStateChange(dataset.id, result);
+        });
+      });
     }
   }
 
   protected onUnsubscribe(): void {
     if (!this.listeners.size) {
       this.listeners = new Set();
+      this.datasets.forEach((dataset) => {
+        dataset.unAllSubscribeQuery();
+      });
     }
   }
+
+  /**
+   * 数据请求状态发生变更
+   */
+  private onQueryStateChange = (datasetId: string, result: QueryObserverResult) => {
+    const dataset = this.getDatasetById(datasetId);
+    if (dataset) {
+      console.log('onQueryObserverResult');
+      const data = Array.isArray(result.data) ? result.data : [];
+      this.datasets.set(datasetId, this.copyEditorDataset(dataset).updateData(data));
+      this.notify();
+    }
+  };
 
   private notify() {
     this.listeners.forEach((listener) => {
@@ -219,27 +298,13 @@ class EditorDatasetManager extends Subscribable<EditorDatasetManagerListener> {
     });
   }
 
-  /**
-   * 数据请求结构变更
-   */
-  private onQueriesStoreChange = () => {
-    console.log('onQueriesStoreChange');
-    const queriesResult = this.queriesObserver.getOptimisticResult(
-      this.getQueriesOptions(this.getDatasetList().map((item) => item.schema)),
-    );
-    console.log('queriesResult: ', queriesResult);
-    queriesResult.forEach((queriesResult) => {
-      // queriesResult
-    });
-  };
-
   public getSnapshot() {
+    // TODO: fix 每次生成新数组地址
     return this.getDatasetList();
   }
 
   destroy() {
     this.listeners = new Set();
-    this.queriesObserver.destroy();
   }
 }
 
