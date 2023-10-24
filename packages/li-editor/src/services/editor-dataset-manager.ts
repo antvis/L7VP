@@ -4,7 +4,9 @@ import {
   isLocalDatasetSchema,
   isLocalOrRemoteDatasetSchema,
   isRemoteDatasetSchema,
- queryServiceClient, Subscribable } from '@antv/li-sdk';
+  queryServiceClient,
+  Subscribable,
+} from '@antv/li-sdk';
 import type { QueryObserverOptions, QueryObserverResult } from '@tanstack/query-core';
 import { QueryObserver } from '@tanstack/query-core';
 import type { FieldPair, GeoField } from '../types';
@@ -155,34 +157,28 @@ type EditorDatasetManagerListener = (data: EditorDataset[]) => void;
  * 编辑器的数据集状态管理器
  */
 class EditorDatasetManager extends Subscribable<EditorDatasetManagerListener> {
-  private datasets: Map<string, EditorDataset>;
+  private datasets: EditorDataset[];
   private appService: AppService;
 
   constructor(appService: AppService, datasets: DatasetSchema[] = []) {
     super();
     this.appService = appService;
-    this.datasets = new Map(
-      datasets.map((item) => {
-        return [item.id, new EditorDataset(item, this.appService)];
-      }),
-    );
+    this.datasets = datasets.map((item) => new EditorDataset(item, this.appService));
   }
 
   /**
    * 数据集是否请求中，动态数据源类型情况
    */
-  get loading() {
+  get isLoading() {
     return this.getDatasetList().some((item) => item.isLoading);
   }
 
   public getDatasetById(id: string) {
-    return this.datasets.get(id);
+    return this.datasets.find((item) => item.id === id);
   }
 
   public getDatasetList() {
-    const datasets = Array.from(this.datasets.values());
-
-    return datasets;
+    return this.datasets;
   }
 
   private copyEditorDataset(editorDataset: EditorDataset): EditorDataset {
@@ -198,32 +194,32 @@ class EditorDatasetManager extends Subscribable<EditorDatasetManagerListener> {
    */
   public update(datasets: DatasetSchema[] = []) {
     const prevDatasets = this.datasets;
-    const newDatasets = datasets.reduce((previousMap, datasetSchema) => {
-      const prevEditorDataset = prevDatasets.get(datasetSchema.id);
+    const prevDatasetsMap = new Map(prevDatasets.map((item) => [item.id, item]));
+    const newDatasets = datasets.map((datasetSchema) => {
+      const prevEditorDataset = prevDatasetsMap.get(datasetSchema.id);
       // 新增情况
       if (!prevEditorDataset) {
-        previousMap.set(datasetSchema.id, new EditorDataset(datasetSchema, this.appService));
+        return new EditorDataset(datasetSchema, this.appService);
       } else if (datasetSchema === prevEditorDataset.schema) {
         // 复用情况
-        previousMap.set(datasetSchema.id, prevEditorDataset);
-      } else {
-        // 更新情况，什么情况下 schema 会更新：
-        // 1. 基本元数据信息发生变更；
-        // 2. 属性发生变更(columns\properties)；
-        // 3. 数据发生变更；
-        // 4. 类型发生变更
-        // 原则：只考虑会影响数据发生更新的情况；也就是替换数据集的情况
-        previousMap.set(datasetSchema.id, this.copyEditorDatasetAndUpdateSchema(prevEditorDataset, datasetSchema));
+        return prevEditorDataset;
       }
+      // 更新情况，什么情况下 schema 会更新：
+      // 1. 基本元数据信息发生变更；
+      // 2. 属性发生变更(columns\properties)；
+      // 3. 数据发生变更；
+      // 4. 类型发生变更
+      // 原则：只考虑会影响数据发生更新的情况；也就是替换数据集的情况
+      return this.copyEditorDatasetAndUpdateSchema(prevEditorDataset, datasetSchema);
+    });
 
-      return previousMap;
-    }, new Map<string, EditorDataset>());
+    const hasIndexChange = newDatasets.some((dataset) => dataset !== prevDatasetsMap.get(dataset.id));
 
-    const hasIndexChange = Array.from(newDatasets.values()).some((dataset) => dataset !== prevDatasets.get(dataset.id));
-
-    if (prevDatasets.size === newDatasets.size && !hasIndexChange) {
+    if (prevDatasetsMap.size === newDatasets.length && !hasIndexChange) {
       return;
     }
+
+    const newDatasetsMap = new Map(newDatasets.map((item) => [item.id, item]));
 
     this.datasets = newDatasets;
 
@@ -237,7 +233,7 @@ class EditorDatasetManager extends Subscribable<EditorDatasetManagerListener> {
       return array;
     };
 
-    const newAddDatasets: EditorDataset[] = difference(newDatasets, prevDatasets);
+    const newAddDatasets: EditorDataset[] = difference(newDatasetsMap, prevDatasetsMap);
 
     // TODO：新增数据集实现自动生成 layer
 
@@ -251,7 +247,7 @@ class EditorDatasetManager extends Subscribable<EditorDatasetManagerListener> {
       });
     });
 
-    difference(prevDatasets, newDatasets).forEach((editorDataset) => {
+    difference(prevDatasetsMap, newDatasetsMap).forEach((editorDataset) => {
       editorDataset.unAllSubscribeQuery();
     });
 
@@ -282,11 +278,13 @@ class EditorDatasetManager extends Subscribable<EditorDatasetManagerListener> {
    * 数据请求状态发生变更
    */
   private onQueryStateChange = (datasetId: string, result: QueryObserverResult) => {
-    const dataset = this.getDatasetById(datasetId);
-    if (dataset) {
-      console.log('onQueryObserverResult');
+    const index = this.datasets.findIndex((item) => item.id === datasetId);
+    if (index !== -1) {
       const data = Array.isArray(result.data) ? result.data : [];
-      this.datasets.set(datasetId, this.copyEditorDataset(dataset).updateData(data));
+      console.log('onQueryObserverResult', data);
+      const newDatasets = this.datasets.slice(0);
+      newDatasets[index] = this.copyEditorDataset(newDatasets[index]).updateData(data);
+      this.datasets = newDatasets;
       this.notify();
     }
   };
@@ -298,8 +296,7 @@ class EditorDatasetManager extends Subscribable<EditorDatasetManagerListener> {
   }
 
   public getSnapshot() {
-    // TODO: fix 每次生成新数组地址
-    return this.getDatasetList();
+    return this.datasets;
   }
 
   destroy() {

@@ -1,5 +1,5 @@
 import { isLocalDatasetSchema, isRemoteDatasetSchema } from '@antv/li-sdk';
-import { useMemo, useState, useSyncExternalStore } from 'react';
+import { useMemo, useSyncExternalStore } from 'react';
 import type { EditorDataset } from '../types';
 import { useEditorService } from './useEditor';
 import { useEditorState } from './useEditorState';
@@ -40,9 +40,11 @@ export const useEditorDatasets = (datasetIds?: string[]) => {
 export const _useEditorDatasets_ = (datasetIds?: string[]) => {
   const { editorService } = useEditorService();
   const { editorDatasetManager } = editorService;
-  const { state } = useEditorState();
 
-  const [editorDatasets, setEditorDatasets] = useState(() => {});
+  useSyncExternalStore(
+    (onStoreChange) => editorDatasetManager.subscribe(onStoreChange),
+    () => editorDatasetManager.getSnapshot(),
+  );
 
   return editorDatasetManager.getDatasetList();
 };
@@ -56,8 +58,9 @@ export const _useEditorDatasets = () => {
     () => editorDatasetManager.getSnapshot(),
   );
 
-  const editorDatasets = editorDatasetManager.getSnapshot();
-  const loading = editorDatasetManager.loading;
+  const editorDatasets = editorDatasetManager.getDatasetList();
+  console.log('editorDatasets: ', editorDatasets);
+  const isLoading = editorDatasetManager.isLoading;
 
-  return { editorDatasets, loading };
+  return { editorDatasets, isLoading };
 };

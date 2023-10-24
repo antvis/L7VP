@@ -3,7 +3,7 @@ import { useAsyncEffect } from 'ahooks';
 import { ConfigProvider, notification, Spin } from 'antd';
 import classNames from 'classnames';
 import React, { useState } from 'react';
-import { useEditorService, useEditorState } from '../hooks';
+import { useEditorService, useEditorState, _useEditorDatasets } from '../hooks';
 import type { EditorServiceCache } from '../types';
 import './index.less';
 import type { RuntimeAppProps } from './RuntimeApp';
@@ -85,6 +85,8 @@ const Layout: React.FC<LayoutProps> = (props) => {
       };
     });
   }, [datasets]);
+
+  _useEditorDatasets();
 
   return (
     <div className={classNames('li-editor', 'li-editor-layout', className)} style={style}>
