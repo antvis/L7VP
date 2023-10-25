@@ -1,15 +1,7 @@
 import type { DatasetField } from '@antv/li-sdk';
 import { isEmpty } from 'lodash-es';
+import { ALTITUDE_FIELDS, POINT_FIELDS } from '../constants';
 import type { FieldPair, GeoField } from '../types';
-
-const POINT_FIELDS: [string, string][] = [
-  ['lat', 'lng'],
-  ['lat', 'lon'],
-  ['lat', 'long'],
-  ['latitude', 'longitude'],
-  ['纬度', '经度'],
-];
-const ALTITUDE_FIELDS = ['alt', 'altitude', '海拔'];
 
 const SpecialCharacterSet = `[#_&@\\.\\-\\ ]`;
 

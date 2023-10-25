@@ -66,16 +66,16 @@ class EditorService {
    * autoCreateSchemaHandler
    */
   private autoCreateSchemaHandler = (schema: AutoCreateSchema) => {
-    const { layers, widgets } = schema;
-    if (!layers.length && widgets.length) return;
+    const { layers, layerPopup } = schema;
+    if (!layers.length) return;
 
     this.editorState.setState((draft) => {
-      if (layers.length) {
-        draft.layers.push(...layers);
-      }
+      draft.layers.push(...layers);
 
-      if (widgets.length) {
-        draft.widgets.push(...widgets);
+      const index = draft.widgets.findIndex((w) => w.type === layerPopup.type);
+      if (index !== -1) {
+        const items = layerPopup.properties.items as Record<string, any>[];
+        (draft.widgets[index].properties as Record<string, any>)?.items?.push(...items);
       }
     });
   };

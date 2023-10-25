@@ -16,5 +16,5 @@ export type GeoField = DatasetField & {
 
 export type AutoCreateSchema = {
   layers: LayerSchema[];
-  widgets: WidgetSchema[];
+  layerPopup: WidgetSchema;
 };

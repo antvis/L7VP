@@ -168,3 +168,45 @@ export const getAutoCreateLayersSchema = (datasets: EditorDataset[]) => {
 
   return layersSchema;
 };
+
+const getFieldsToLayerPopupShow = (dataset: EditorDataset, maxDefaultTooltips: number) => {
+  const ptFields = dataset.fieldPairs.map((fieldPair) => Object.values(fieldPair.pair)).flat();
+  const fieldsToShow = dataset.columns.filter(
+    ({ name, type }) => !ptFields.includes(name) && type !== 'geo' && type !== 'h3',
+  );
+
+  return fieldsToShow.slice(0, maxDefaultTooltips).map(({ name }) => ({ field: name }));
+};
+
+export const getAutoFindLayerPopup = (layers: LayerSchema[], datasets: EditorDataset[], maxDefaultTooltips = 6) => {
+  const items = layers.map((layer) => ({
+    layerId: layer.id,
+    fields: getFieldsToLayerPopupShow(
+      datasets.find((d) => d.id === layer.sourceConfig?.datasetId)!,
+      maxDefaultTooltips,
+    ),
+  }));
+
+  const layerPopupSchema = {
+    id: 'LayerPopup',
+    type: 'LayerPopup',
+    metadata: {
+      name: '信息框',
+    },
+    properties: {
+      isOpen: true,
+      trigger: 'hover',
+      items,
+    },
+    container: {
+      id: 'x',
+      slot: 'controls',
+    },
+  };
+
+  return layerPopupSchema;
+};
+
+const getDefaultColorField = (datasets: EditorDataset[]) => {};
+
+const getLayerBounds = (layers: LayerSchema[], datasets: EditorDataset[]) => {};

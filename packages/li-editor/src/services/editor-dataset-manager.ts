@@ -11,7 +11,7 @@ import type { QueryObserverOptions, QueryObserverResult } from '@tanstack/query-
 import { QueryObserver } from '@tanstack/query-core';
 import type { AutoCreateSchema, FieldPair, GeoField } from '../types';
 import { getGeoFields, getPointFieldPairs } from '../utils/dataset';
-import { getAutoCreateLayersSchema } from '../utils/spec';
+import { getAutoCreateLayersSchema, getAutoFindLayerPopup } from '../utils/spec';
 import type AppService from './app-service';
 
 /**
@@ -281,12 +281,15 @@ class EditorDatasetManager extends Subscribable<EditorDatasetManagerListener> {
       this.notify();
     }
 
-    // 自动生成 schema
+    // 从新增的数据集自动生成 schema
     if (newAddDatasets.length && autoCreateHandler) {
       autoCreateHandler(this.getAutoCreateSchema(newAddDatasets));
     }
   }
 
+  /**
+   * 从数据集生成 schema
+   */
   private getAutoCreateSchema(datasets: EditorDataset[]) {
     const layers = getAutoCreateLayersSchema(datasets)
       // 过滤未实现的图层资产
@@ -296,9 +299,11 @@ class EditorDatasetManager extends Subscribable<EditorDatasetManagerListener> {
         visConfig: { ...this.appService.getImplementLayerDefaultVis(layer.type), ...layer.visConfig },
       }));
 
+    const layerPopup = getAutoFindLayerPopup(layers, datasets);
+
     const schema: AutoCreateSchema = {
       layers: layers,
-      widgets: [],
+      layerPopup,
     };
 
     return schema;
