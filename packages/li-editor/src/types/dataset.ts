@@ -1,15 +1,13 @@
 import type { DatasetField } from '@antv/li-sdk';
 
 export type FieldPair = {
-  defaultName: string;
-  pair: Record<
-    string,
-    {
-      fieldIdx: number;
-      value: string;
-    }
-  >;
-  suffix: string[];
+  type: 'Point';
+  displayName: string;
+  pair: {
+    lat: string;
+    lng: string;
+    alt?: string;
+  };
 };
 
 export type GeoField = DatasetField & {

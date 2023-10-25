@@ -1,4 +1,4 @@
-import type { AssetPackage, ImplementService, LIRuntimeApp, WidgetSchema } from '@antv/li-sdk';
+import type { AssetPackage, ImplementService, LayerSchema, LIRuntimeApp, WidgetSchema } from '@antv/li-sdk';
 import { isEmpty } from 'lodash-es';
 import { AtomWidgetEmptyContainer, AtomWidgets } from '../constants';
 
@@ -178,6 +178,13 @@ class AppService {
     const layers = registryManager.getAllLayers();
 
     return layers;
+  }
+
+  /**
+   * 获取图层资产默认的可视化配置
+   */
+  public getImplementLayerDefaultVis(name: string): LayerSchema['visConfig'] {
+    return this.getImplementLayer(name)?.defaultVisConfig ?? {};
   }
 
   /**

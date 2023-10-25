@@ -56,29 +56,18 @@ export const getPointFieldPairs = (fields: DatasetField[]) => {
 
       if (lngIdx === -1) continue;
 
-      const trimName = fieldName.replace(re, '').trim();
-
       fieldPairs.push({
-        defaultName: trimName || 'point',
+        type: 'Point',
+        displayName: fields[idx].displayName || fieldName,
         pair: {
-          lat: {
-            fieldIdx: idx,
-            value: fields[idx].name,
-          },
-          lng: {
-            fieldIdx: lngIdx,
-            value: fields[lngIdx].name,
-          },
+          lat: fields[idx].name,
+          lng: fields[lngIdx].name,
           ...(altIdx !== -1
             ? {
-                alt: {
-                  fieldIdx: altIdx,
-                  value: fields[altIdx].name,
-                },
+                alt: fields[altIdx].name,
               }
             : {}),
         },
-        suffix: suffixPair,
       });
     }
   }

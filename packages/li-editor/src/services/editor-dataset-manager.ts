@@ -11,7 +11,7 @@ import type { QueryObserverOptions, QueryObserverResult } from '@tanstack/query-
 import { QueryObserver } from '@tanstack/query-core';
 import type { FieldPair, GeoField } from '../types';
 import { getGeoFields, getPointFieldPairs } from '../utils/dataset';
-import { getDatasetsByAutoCreateLayers } from '../utils/spec';
+import { getAutoCreateLayersSchema } from '../utils/spec';
 import type AppService from './app-service';
 
 /**
@@ -46,6 +46,11 @@ export class EditorDataset {
   /** 数据集信息 */
   public get metadata() {
     return this.schema.metadata;
+  }
+
+  /** 数据集名称 */
+  public get name() {
+    return this.schema.metadata.name;
   }
 
   /** 数据集类型 */
@@ -272,8 +277,8 @@ class EditorDatasetManager extends Subscribable<EditorDatasetManagerListener> {
     }
 
     // TODO：新增数据集实现自动生成 layer
-    const autoCreateLayersDatasets = getDatasetsByAutoCreateLayers(newAddDatasets);
-    console.log('autoCreateLayersDatasets: ', autoCreateLayersDatasets);
+    const autoCreateLayers = getAutoCreateLayersSchema(newAddDatasets);
+    console.log('autoCreateLayers: ', autoCreateLayers);
   }
 
   protected onSubscribe(): void {

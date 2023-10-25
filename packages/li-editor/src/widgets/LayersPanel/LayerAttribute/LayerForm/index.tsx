@@ -66,7 +66,7 @@ const LayerForm: React.FC<LayerFormProps> = ({ className, config, onChange }) =>
         // 可视化类型更新时，同步更新可视化图层表单
         onFieldValueChange('visType', (field) => {
           const type = field.value;
-          const defaultVisConfig = appService.getImplementLayer(type)?.defaultVisConfig ?? {};
+          const defaultVisConfig = appService.getImplementLayerDefaultVis(type);
           const values = {
             sourceConfig: {} as LayerSchema['sourceConfig'],
             visConfig: defaultVisConfig,

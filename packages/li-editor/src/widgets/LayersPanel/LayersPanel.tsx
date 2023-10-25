@@ -6,9 +6,9 @@ import React, { useState } from 'react';
 import { useEditorState } from '../../hooks';
 import type { ImplementEditorWidgetProps } from '../../types';
 import AddLayer from './AddLayer';
+import { getDefaultLayerAttr } from './helper';
 import LayerAttributes from './LayerAttribute';
 import LayerList from './LayerList';
-import { getDefaultLayerAttr } from './LayerList/helper';
 import './LayersPanel.less';
 
 interface LayersPanelProps extends ImplementEditorWidgetProps {
