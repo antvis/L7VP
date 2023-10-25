@@ -18,7 +18,7 @@ export const DefaultTheme = {
 };
 
 const Layout: React.FC<LayoutProps> = (props) => {
-  const { className, style, defaultApplication, App } = props;
+  const { className, style, App } = props;
   const [notificationApi, contextHolder] = notification.useNotification();
   const { state } = useEditorState();
   const { editorDatasets, isLoading } = useEditorDatasets();
@@ -53,7 +53,7 @@ const Layout: React.FC<LayoutProps> = (props) => {
           />
         </div>
       </ConfigProvider>
-      <RuntimeApp className="li-editor-layout__cavans" App={App} defaultApplication={defaultApplication} />
+      <RuntimeApp className="li-editor-layout__cavans" App={App} />
     </div>
   );
 };

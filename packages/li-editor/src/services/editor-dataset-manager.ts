@@ -9,7 +9,7 @@ import {
 } from '@antv/li-sdk';
 import type { QueryObserverOptions, QueryObserverResult } from '@tanstack/query-core';
 import { QueryObserver } from '@tanstack/query-core';
-import type { FieldPair, GeoField } from '../types';
+import type { AutoCreateSchema, FieldPair, GeoField } from '../types';
 import { getGeoFields, getPointFieldPairs } from '../utils/dataset';
 import { getAutoCreateLayersSchema } from '../utils/spec';
 import type AppService from './app-service';
@@ -184,12 +184,14 @@ type EditorDatasetManagerListener = (data: EditorDataset[]) => void;
  * 编辑器的数据集状态管理器
  */
 class EditorDatasetManager extends Subscribable<EditorDatasetManagerListener> {
+  private schemas: DatasetSchema[];
   private datasets: EditorDataset[];
   private appService: AppService;
 
   constructor(appService: AppService, datasets: DatasetSchema[] = []) {
     super();
     this.appService = appService;
+    this.schemas = datasets;
     this.datasets = datasets.map((item) => new EditorDataset(item, this.appService));
   }
 
@@ -219,7 +221,10 @@ class EditorDatasetManager extends Subscribable<EditorDatasetManagerListener> {
   /**
    * 当 schema 更新时，更新数据集的状态
    */
-  public update(datasets: DatasetSchema[] = []) {
+  public update(datasets: DatasetSchema[], autoCreateHandler?: (schema: AutoCreateSchema) => void) {
+    const hasChange = this.schemas !== datasets;
+    if (!hasChange) return;
+
     const prevDatasets = this.datasets;
     const prevDatasetsMap = new Map(prevDatasets.map((item) => [item.id, item]));
     const newDatasets = datasets.map((datasetSchema) => {
@@ -276,9 +281,27 @@ class EditorDatasetManager extends Subscribable<EditorDatasetManagerListener> {
       this.notify();
     }
 
-    // TODO：新增数据集实现自动生成 layer
-    const autoCreateLayers = getAutoCreateLayersSchema(newAddDatasets);
-    console.log('autoCreateLayers: ', autoCreateLayers);
+    // 自动生成 schema
+    if (newAddDatasets.length && autoCreateHandler) {
+      autoCreateHandler(this.getAutoCreateSchema(newAddDatasets));
+    }
+  }
+
+  private getAutoCreateSchema(datasets: EditorDataset[]) {
+    const layers = getAutoCreateLayersSchema(datasets)
+      // 过滤未实现的图层资产
+      .filter((layer) => this.appService.getImplementLayer(layer.type) !== undefined)
+      .map((layer) => ({
+        ...layer,
+        visConfig: { ...this.appService.getImplementLayerDefaultVis(layer.type), ...layer.visConfig },
+      }));
+
+    const schema: AutoCreateSchema = {
+      layers: layers,
+      widgets: [],
+    };
+
+    return schema;
   }
 
   protected onSubscribe(): void {

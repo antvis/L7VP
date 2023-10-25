@@ -1,7 +1,9 @@
 import type { Application } from '@antv/li-sdk';
 
+export const APP_SCHEMA_VERSION = 'v0.1';
+
 export const Empty_App_Schema: Application = {
-  version: 'example/v0.1',
+  version: APP_SCHEMA_VERSION,
   metadata: { name: 'li application', description: 'li empty application' },
   datasets: [],
   spec: {

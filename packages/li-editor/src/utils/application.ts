@@ -1,9 +1,17 @@
-import type { Application, DatasetSchema } from '@antv/li-sdk';
+import type { Application } from '@antv/li-sdk';
 import { parseVersion } from '@antv/li-sdk';
-import { omit } from 'lodash-es';
-import { Empty_App_Schema } from '../constants';
+import { APP_SCHEMA_VERSION, Empty_App_Schema } from '../constants';
 import type { EditorContextState } from '../types';
-import { validateDatasets, validateLayers, validateMap, validateMetadata, validWidgets } from './validator';
+import {
+  validateDatasets,
+  validateLayers,
+  validateMap,
+  validateMetadata,
+  validateRuntimeDatasets,
+  validRuntimeLayers,
+  validRuntimeWidgets,
+  validWidgets,
+} from './validator';
 
 export const creatEmptyApplication = (applicationName: string) => {
   const config: Application = {
@@ -18,7 +26,7 @@ export const creatEmptyApplication = (applicationName: string) => {
 };
 
 /**
- * 校验 Application Schema
+ * 校验外部传进来的 Application Schema 格式
  */
 export const validateApplicationSchema = (appSchema: Application) => {
   const version = parseVersion(appSchema.version);
@@ -27,7 +35,7 @@ export const validateApplicationSchema = (appSchema: Application) => {
 
   const config: Application = {
     ...appSchema,
-    metadata: appSchema.metadata,
+    metadata: validateMetadata(appSchema.metadata),
     datasets: validateDatasets(appSchema.datasets),
     spec: {
       map: validateMap(appSchema.spec.map),
@@ -39,33 +47,17 @@ export const validateApplicationSchema = (appSchema: Application) => {
   return config;
 };
 
-const getDatasetSchemaFromRuntime = (dataset: DatasetSchema) => {
-  const _dataset: DatasetSchema = {
-    ...dataset,
-    // 删除临时存储元数据信息
-    metadata: omit(dataset.metadata, ['_autoCreateLayers']) as DatasetSchema['metadata'],
-  };
-
-  return _dataset;
-};
-
-const getDatasetsSchemaFromRuntime = (datasets: DatasetSchema[]) => {
-  const _datasets: DatasetSchema[] = datasets.map((dataset) => getDatasetSchemaFromRuntime(dataset));
-
-  return _datasets;
-};
-
 /**
- * 通过编辑态的 Schema 生成规范的 Application Schema
+ * 编辑态 runtime 环境的 Schema 转换为规范的 Application Schema
  */
 export const getApplicationSchemaFromRuntime = (runtimeSchema: Application) => {
-  const _metadata = validateMetadata(runtimeSchema.metadata);
-  const _datasets = getDatasetsSchemaFromRuntime(runtimeSchema.datasets);
-  const _layers = validateLayers(runtimeSchema.spec.layers);
-  const _widgets = validWidgets(runtimeSchema.spec.widgets);
+  const _metadata = runtimeSchema.metadata;
+  const _datasets = validateRuntimeDatasets(runtimeSchema.datasets);
+  const _layers = validRuntimeLayers(runtimeSchema.spec.layers);
+  const _widgets = validRuntimeWidgets(runtimeSchema.spec.widgets);
 
   const config: Application = {
-    version: 'v0.1',
+    version: APP_SCHEMA_VERSION,
     metadata: _metadata,
     datasets: _datasets,
     spec: {
@@ -81,9 +73,9 @@ export const getApplicationSchemaFromRuntime = (runtimeSchema: Application) => {
 /**
  * 通过上下文状态生成 Application Schema
  */
-export const getApplicationSchemaFromContext = (state: EditorContextState) => {
+export const getApplicationSchemaFromEditorState = (state: EditorContextState) => {
   const config: Application = getApplicationSchemaFromRuntime({
-    version: 'x',
+    version: APP_SCHEMA_VERSION,
     metadata: state.metadata,
     datasets: state.datasets,
     spec: {

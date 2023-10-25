@@ -3,6 +3,7 @@ import { getUniqueId } from '@antv/li-sdk';
 import React from 'react';
 import { useEditorService, useEditorState } from '../../../hooks';
 import type { AddDataset as AddDatasetType } from '../../../types';
+import { isValidLayer } from '../../../utils';
 import AddDatasetModal from './AddDatasetModal';
 import { getAddDatasetSchema } from './helper';
 
@@ -30,8 +31,8 @@ const AddDataset = ({ visible, onClose }: AddDatasetProps) => {
 
   // 新增 layers
   const onAddLayers = (layers: LayerSchema[]) => {
-    layers.forEach((layer) => {
-      updateState((draft) => {
+    updateState((draft) => {
+      layers.filter(isValidLayer).forEach((layer) => {
         if (!draft.layers.find((item) => item.id === layer.id)) {
           const implementLayer = appService.getImplementLayer(layer.type);
           const visConfig = { ...implementLayer?.defaultVisConfig, ...layer.visConfig };

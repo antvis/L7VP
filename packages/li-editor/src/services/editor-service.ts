@@ -1,23 +1,31 @@
 import type EventEmitter from '@antv/event-emitter';
-import type { ContainerSlotMap, EditorContextState } from '../types';
+import type { AutoCreateSchema, ContainerSlotMap, EditorContextState, ImplementEditorWidget } from '../types';
 import { getMenuList, resolveContainerSlotMap } from '../utils';
-import { getApplicationSchemaFromContext } from '../utils/application';
+import { creatEmptyApplication, getApplicationSchemaFromEditorState } from '../utils/application';
 import type AppService from './app-service';
 import EditorDatasetManager from './editor-dataset-manager';
-import type EditorWidgetManager from './editor-widget-manager';
+import { EditorState } from './editor-state';
+import EditorWidgetManager from './editor-widget-manager';
 
 class EditorService {
   private eventBus: EventEmitter;
+  public editorState: EditorState;
   public containerSlotMap: ContainerSlotMap;
   public editorDatasetManager: EditorDatasetManager;
-  private editorWidgetManager: EditorWidgetManager;
+  public editorWidgetManager: EditorWidgetManager;
   public editorStateRef!: EditorContextState;
 
-  constructor(eventBus: EventEmitter, appService: AppService, editorWidgetManager: EditorWidgetManager) {
+  constructor(eventBus: EventEmitter, editorWidgets: ImplementEditorWidget[], appService: AppService) {
     this.eventBus = eventBus;
+    this.editorState = new EditorState(creatEmptyApplication('empty'));
     this.editorDatasetManager = new EditorDatasetManager(appService);
-    this.editorWidgetManager = editorWidgetManager;
+    this.editorWidgetManager = new EditorWidgetManager(editorWidgets);
     this.containerSlotMap = this.getWidgetsContainerSlotMap();
+
+    // 同步 datasetSchemas 更新到 editorDatasetManager
+    this.editorState.subscribe((result) => {
+      this.editorDatasetManager.update(result.datasets, this.autoCreateSchemaHandler);
+    });
   }
 
   /**
@@ -49,14 +57,28 @@ class EditorService {
    * 获取应用配置
    */
   public getApplicationConfig() {
-    const editorState = this.editorStateRef;
-    if (!editorState) {
-      throw new Error(`The editor component has not been initialized`);
-    }
-    const config = getApplicationSchemaFromContext(this.editorStateRef);
+    const config = getApplicationSchemaFromEditorState(this.editorState.getSnapshot());
 
     return config;
   }
+
+  /**
+   * autoCreateSchemaHandler
+   */
+  private autoCreateSchemaHandler = (schema: AutoCreateSchema) => {
+    const { layers, widgets } = schema;
+    if (!layers.length && widgets.length) return;
+
+    this.editorState.setState((draft) => {
+      if (layers.length) {
+        draft.layers.push(...layers);
+      }
+
+      if (widgets.length) {
+        draft.widgets.push(...widgets);
+      }
+    });
+  };
 }
 
 export default EditorService;

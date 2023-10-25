@@ -1,4 +1,4 @@
-import type { Application, DatasetSchema, LayerSchema, MapSchema, RemoteDataset, WidgetSchema } from '@antv/li-sdk';
+import type { Application, DatasetSchema, LayerSchema, MapSchema, WidgetSchema } from '@antv/li-sdk';
 import type AppService from '../services/app-service';
 import type EditorService from '../services/editor-service';
 import type { ContainerSlotMap } from './widget';
@@ -9,8 +9,6 @@ export type EditorContextServices = {
   editorService: EditorService;
   containerSlotMap: ContainerSlotMap;
 };
-
-export type EditorServiceCache = Record<string, Pick<RemoteDataset, 'data' | 'columns'>>;
 
 /** 编辑器数据状态 */
 export type EditorContextState = {
@@ -29,6 +27,3 @@ export type EditorContextState = {
   /** 组件管理 */
   widgets: WidgetSchema[];
 };
-
-/** LISDK 配置项  */
-export type LIConfigState = Application;

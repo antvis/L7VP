@@ -1,20 +1,19 @@
 import EventEmitter from '@antv/event-emitter';
-import type { AssetPackage } from '@antv/li-sdk';
+import type { Application, AssetPackage } from '@antv/li-sdk';
 import { LIRuntimeApp } from '@antv/li-sdk';
-import { useUpdateEffect } from 'ahooks';
 import React, { useMemo } from 'react';
 import { Registry_Default_Editor_Widgets } from '../constants';
-import { LIEditorStateContext } from '../hooks';
-import { LIEditorContext, useImmer } from '../hooks/internal';
+import { LIEditorContext } from '../hooks/internal';
 import type { LayoutProps } from '../layout';
 import Layout from '../layout';
 import AppService from '../services/app-service';
 import EditorService from '../services/editor-service';
-import EditorWidgetManager from '../services/editor-widget-manager';
-import type { EditorContextServices, EditorContextState, ImplementEditorWidget } from '../types';
-import { validateApplicationSchema } from '../utils/application';
+import type EditorWidgetManager from '../services/editor-widget-manager';
+import type { EditorContextServices, ImplementEditorWidget } from '../types';
 
 export type LIEditorProps = Omit<LayoutProps, 'App'> & {
+  /** 默认的应用配置 */
+  defaultApplication: Application;
   /** 默认打开 Navbar 菜单的 Key */
   defaultActiveNavMenuKey?: string;
 };
@@ -69,15 +68,14 @@ class LIEditor extends EventEmitter {
     const widgets = LIEditor.DefaultEditorWidgets.concat(editorWidgets);
     const runtimeApp = new LIRuntimeApp({ assets });
     const appService = new AppService(runtimeApp);
-    const editorWidgetManager = new EditorWidgetManager(widgets);
-    const editorService = new EditorService(this, appService, editorWidgetManager);
+    const editorService = new EditorService(this, widgets, appService);
 
     this.options = options;
     this.runtimeApp = runtimeApp;
-    this.registryAssetManager = runtimeApp.registryManager;
-    this.editorWidgetManager = editorWidgetManager;
     this.appService = appService;
     this.editorService = editorService;
+    this.registryAssetManager = runtimeApp.registryManager;
+    this.editorWidgetManager = editorService.editorWidgetManager;
 
     this.Editor = this.getEditor();
   }
@@ -88,7 +86,7 @@ class LIEditor extends EventEmitter {
   private getEditor() {
     const { runtimeApp, appService, editorService } = this;
     const App = runtimeApp.App;
-    const { containerSlotMap } = editorService;
+    const { editorState, containerSlotMap } = editorService;
 
     // 编辑器上下文服务
     const contextValue: EditorContextServices = {
@@ -99,14 +97,7 @@ class LIEditor extends EventEmitter {
 
     // eslint-disable-next-line @typescript-eslint/no-shadow
     return function LIEditor(props: LIEditorProps) {
-      const { defaultActiveNavMenuKey } = props;
-      // 校验 Application Schema 是否规范
-      const defaultApplication = useMemo(() => {
-        const _defaultApplication = validateApplicationSchema(props.defaultApplication);
-        editorService.editorDatasetManager.update(_defaultApplication.datasets);
-        return _defaultApplication;
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, []);
+      const { defaultApplication, defaultActiveNavMenuKey } = props;
       const activeNavMenuKey = useMemo(() => {
         const navMenuList = editorService.getNavMenuList();
         if (defaultActiveNavMenuKey && navMenuList.find((item) => item.key === defaultActiveNavMenuKey)) {
@@ -116,35 +107,12 @@ class LIEditor extends EventEmitter {
         return defaultKey;
       }, [defaultActiveNavMenuKey]);
 
-      const { metadata, datasets, spec } = defaultApplication;
-      const { map, layers, widgets } = spec;
-      const [editorState, updateEditorState] = useImmer<EditorContextState>({
-        activeNavMenuKey,
-        collapsed: false,
-        metadata,
-        map,
-        datasets,
-        layers,
-        widgets,
-      });
-
-      // 编辑器上下文状态
-      const editorContextValue = useMemo(() => {
-        return { state: editorState, updateState: updateEditorState };
-      }, [editorState, updateEditorState]);
-
-      // 同步 datasetSchemas 更新到 editorDatasetManager
-      useUpdateEffect(() => {
-        editorService.editorDatasetManager.update(editorState.datasets);
-      }, [editorState.datasets]);
-
-      editorService.editorStateRef = editorState;
+      // 初始化 editorState
+      useMemo(() => editorState.initState(defaultApplication, activeNavMenuKey), []);
 
       return (
         <LIEditorContext.Provider value={contextValue}>
-          <LIEditorStateContext.Provider value={editorContextValue}>
-            <Layout App={App} {...props} defaultApplication={defaultApplication} />
-          </LIEditorStateContext.Provider>
+          <Layout App={App} {...props} />
         </LIEditorContext.Provider>
       );
     };

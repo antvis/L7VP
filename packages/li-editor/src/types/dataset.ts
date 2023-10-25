@@ -1,4 +1,4 @@
-import type { DatasetField } from '@antv/li-sdk';
+import type { DatasetField, LayerSchema, WidgetSchema } from '@antv/li-sdk';
 
 export type FieldPair = {
   type: 'Point';
@@ -12,4 +12,9 @@ export type FieldPair = {
 
 export type GeoField = DatasetField & {
   geoType: 'Point' | 'Line' | 'Polygon';
+};
+
+export type AutoCreateSchema = {
+  layers: LayerSchema[];
+  widgets: WidgetSchema[];
 };

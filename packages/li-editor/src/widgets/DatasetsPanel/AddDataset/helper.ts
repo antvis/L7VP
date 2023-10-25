@@ -1,5 +1,4 @@
 import type { DatasetSchema } from '@antv/li-sdk';
-import { getDatasetColumns } from '@antv/li-sdk';
 import type { AddDataset } from '../../../types';
 import { validateDataset } from '../../../utils';
 
@@ -12,7 +11,7 @@ export const getAddDatasetSchema = (ddataset: AddDataset, id: string, autoCreate
       ...ddataset,
       id,
       metadata,
-      columns: ddataset.data?.length ? getDatasetColumns(ddataset.data[0]) : [],
+      columns: [],
     };
   } else {
     datasetSchema = {

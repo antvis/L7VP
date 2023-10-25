@@ -165,7 +165,6 @@ export const getAutoCreateLayersSchema = (datasets: EditorDataset[]) => {
   const layersSchema: LayerSchema[] = getDatasetsByAutoCreateLayers(datasets)
     .map((dataset) => getLayersSchemaByDataset(dataset))
     .flat();
-  console.log('layersSchema: ', layersSchema);
 
   return layersSchema;
 };
