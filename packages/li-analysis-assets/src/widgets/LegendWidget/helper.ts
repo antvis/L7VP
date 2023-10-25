@@ -72,6 +72,7 @@ export const parserLegendData = (layer: Layer) => {
   }
 
   const { items, type, field } = legendData;
+
   items.forEach((item, index) => {
     if (Array.isArray(item.value)) {
       if (index === items.length - 1) {
@@ -84,6 +85,15 @@ export const parserLegendData = (layer: Layer) => {
     }
     colors.push(item.color);
   });
+
+  if (type === 'threshold') {
+    if (labels[0] === undefined) {
+      labels.splice(0, 1, '<');
+    }
+    if (labels[labels.length - 1] === undefined) {
+      labels.splice(labels.length - 1, 1, '<');
+    }
+  }
 
   if (type === 'cat') {
     // 分类图例
@@ -105,7 +115,7 @@ export const parserLegendData = (layer: Layer) => {
     };
 
     return data;
-  } else if (['linear', 'quantile', 'quantize'].includes(type as string)) {
+  } else if (['linear', 'quantile', 'quantize', 'threshold'].includes(type as string)) {
     const data: LegendRampData = {
       type: 'LegendRamp',
       field: field,

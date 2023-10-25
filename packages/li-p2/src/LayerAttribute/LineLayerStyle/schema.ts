@@ -45,8 +45,11 @@ export default (options: AttributeSchemaOptions = {}) => {
                 'x-component': 'ScaleSelector',
                 'x-component-props': {
                   placeholder: '请选择',
-                  type:
+                  dataType:
                     '{{ $form.getFieldState("fillColorField",state=> { return state.dataSource.find((item) => item.value === state.value)?.type })}}',
+                  domain:
+                    '{{ $form.getFieldState("fillColorField",state=> { return state.dataSource.find((item) => item.value === state.value)?.domain })}}',
+                  defaultColors: '{{ $form.getFieldState("fillColorRange",state=> { return state?.value?.colors })}}',
                 },
                 'x-decorator-props': {},
                 'x-reactions': [
@@ -60,7 +63,6 @@ export default (options: AttributeSchemaOptions = {}) => {
                   },
                 ],
               },
-
               // 起点颜色选择器
               sourceColor: {
                 title: '起点颜色',
@@ -108,20 +110,21 @@ export default (options: AttributeSchemaOptions = {}) => {
                 type: 'object',
                 title: '颜色',
                 default: {
-                  colors: ['#a6cee3', '#1f78b4', '#b2df8a'],
+                  colors: ['#ffffcc', '#d9f0a3', '#addd8e', '#78c679', '#31a354', '#006837'],
                   isReversed: false,
                 },
                 'x-decorator': 'FormItem',
                 'x-component': 'ColorRangeSelector',
-                'x-component-props': {},
+                'x-component-props': {
+                  options: [...colorRanges],
+                },
                 'x-decorator-props': {},
-                enum: [...colorRanges],
                 'x-reactions': [
                   {
-                    dependencies: ['fillColorField'],
+                    dependencies: ['fillColorField', 'fillColorScale'],
                     fulfill: {
                       state: {
-                        visible: '{{ $deps[0] !== undefined }}',
+                        visible: '{{ $deps[0] !== undefined && !$deps[1].isCustom }}',
                       },
                     },
                   },

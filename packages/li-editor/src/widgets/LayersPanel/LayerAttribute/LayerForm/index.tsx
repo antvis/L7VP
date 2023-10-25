@@ -4,7 +4,7 @@ import { Form } from '@formily/antd-v5';
 import { createForm, onFieldValueChange } from '@formily/core';
 import { useMemoizedFn } from 'ahooks';
 import classNames from 'classnames';
-import { pick } from 'lodash-es';
+import { max, min, pick } from 'lodash-es';
 import React, { useMemo, useState } from 'react';
 import { useEditorDataset, useEditorService, useEditorState } from '../../../../hooks';
 import BaseFormSchemaField from '../BaseFormSchemaField';
@@ -40,6 +40,20 @@ const LayerForm: React.FC<LayerFormProps> = ({ className, config, onChange }) =>
   }, [state.datasets]);
 
   const datasetFields = useMemo(() => getDatasetFields(columns), [columns]);
+
+  const datasetFieldList = useMemo(() => {
+    return datasetFields.map((item) => {
+      // @ts-ignore
+      const itemValue = dataset.data.map((_item: Record<string, any>) => _item[item.value]);
+      const domain = item.type === 'number' ? [min(itemValue), max(itemValue)] : [...new Set(itemValue)];
+
+      return {
+        ...item,
+        domain,
+      };
+    });
+    // @ts-ignore
+  }, [datasetFields, dataset.data]);
 
   const handleFormValuesChange = useMemoizedFn((styleConfig: Pick<LayerSchema, 'sourceConfig' | 'visConfig'>) => {
     if (styleConfig.sourceConfig && datasetId) {
@@ -102,7 +116,7 @@ const LayerForm: React.FC<LayerFormProps> = ({ className, config, onChange }) =>
         <StyleForm
           initialValues={initialValues}
           implementLayer={implementLayer}
-          datasetFields={datasetFields}
+          datasetFields={datasetFieldList}
           onChange={handleFormValuesChange}
         />
       )}
