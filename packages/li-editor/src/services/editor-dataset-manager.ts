@@ -116,6 +116,26 @@ export class EditorDataset {
     return this;
   }
 
+  public getColumnDomain(columnName: string) {
+    const field = this.columns.find((c) => c.name === columnName);
+    if (!this.data.length || !field) return [];
+
+    switch (field.type) {
+      case 'boolean':
+        return [true, false];
+
+      case 'date':
+      case 'string':
+        return [];
+
+      case 'number':
+        return [];
+
+      default:
+        return [];
+    }
+  }
+
   public updateData(data: Record<string, any>[]) {
     this.data = data;
     this.columns = data.length ? getDatasetColumns(data) : [];

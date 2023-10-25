@@ -41,19 +41,15 @@ const LayerForm: React.FC<LayerFormProps> = ({ className, config, onChange }) =>
 
   const datasetFields = useMemo(() => getDatasetFields(columns), [columns]);
 
+  // TODO: 从 editorDataset 获取数据
   const datasetFieldList = useMemo(() => {
     return datasetFields.map((item) => {
-      // @ts-ignore
-      const itemValue = dataset.data.map((_item: Record<string, any>) => _item[item.value]);
+      const itemValue = editorDataset?.data.map((_item) => _item[item.value]) || [];
       const domain = item.type === 'number' ? [min(itemValue), max(itemValue)] : [...new Set(itemValue)];
 
-      return {
-        ...item,
-        domain,
-      };
+      return { ...item, domain };
     });
-    // @ts-ignore
-  }, [datasetFields, dataset.data]);
+  }, [datasetFields, editorDataset?.data]);
 
   const handleFormValuesChange = useMemoizedFn((styleConfig: Pick<LayerSchema, 'sourceConfig' | 'visConfig'>) => {
     if (styleConfig.sourceConfig && datasetId) {
