@@ -457,6 +457,7 @@ export const getLayersBounds = (layers: LayerSchema[], datasets: EditorDataset[]
     (res, b) => {
       return [Math.min(res[0], b[0]), Math.min(res[1], b[1]), Math.max(res[2], b[2]), Math.max(res[3], b[3])];
     },
+    // MAX_LONGITUDE, MAX_LATITUDE, MIN_LONGITUDE, MIN_LATITUDE
     [180, 90, -180, -90],
   );
 
