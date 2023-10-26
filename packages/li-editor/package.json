@@ -48,6 +48,7 @@
     "ahooks": "^3.7.0",
     "classnames": "^2.3.1",
     "download.js": "^1.0.0",
+    "h3-js": "^4.1.0",
     "immer": "^9.0.15",
     "jszip": "^3.10.1",
     "lodash-es": "^4.17.21",

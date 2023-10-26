@@ -17,4 +17,7 @@ export type GeoField = DatasetField & {
 export type AutoCreateSchema = {
   layers: LayerSchema[];
   layerPopup: WidgetSchema;
+  bounds?: LayerBounds;
 };
+
+export type LayerBounds = [number, number, number, number];

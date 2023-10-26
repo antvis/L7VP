@@ -219,6 +219,17 @@ class AppService {
       bounds,
     };
   }
+
+  /**
+   * 设置地图 Bounds
+   */
+  public setMapBounds(bounds: [[number, number], [number, number]]) {
+    const { mapStore } = this.runtimeApp.stateManager;
+    const sceneInstance = mapStore.getScene();
+    if (!sceneInstance) return;
+
+    sceneInstance.fitBounds(bounds);
+  }
 }
 
 export default AppService;

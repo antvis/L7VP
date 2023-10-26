@@ -1,8 +1,10 @@
 import type { DatasetField } from '@antv/li-sdk';
+import { bbox, feature } from '@turf/turf';
+import type { LineString, MultiLineString, MultiPoint, MultiPolygon, Point, Polygon } from 'geojson';
 import { isEmpty } from 'lodash-es';
 import { ALTITUDE_FIELDS, POINT_FIELDS } from '../constants';
 import type { EditorDataset } from '../services/editor-dataset-manager';
-import type { FieldPair, GeoField } from '../types';
+import type { FieldPair, GeoField, LayerBounds } from '../types';
 
 const SpecialCharacterSet = `[#_&@\\.\\-\\ ]`;
 
@@ -228,4 +230,46 @@ export const getDefaultColorField = (dataset: EditorDataset) => {
   }
   // No matches
   return undefined;
+};
+
+/**
+ * 获取经纬度数据范围
+ */
+export function getLatLngBounds(points: number[][]): LayerBounds | null {
+  const lngs = points
+    .map((d) => Number(Array.isArray(d)) && d[0])
+    .filter(Number.isFinite)
+    .sort((a, b) => a - b);
+
+  if (!lngs.length) return null;
+
+  const lats = points
+    .map((d) => Number(Array.isArray(d)) && d[1])
+    .filter(Number.isFinite)
+    .sort((a, b) => a - b);
+
+  if (!lats.length) return null;
+
+  const lngBounds = [Math.max(lngs[0], -180), Math.min(lngs[lngs.length - 1], 180)];
+  const latBounds = [Math.max(lats[0], -90), Math.min(lats[lats.length - 1], 90)];
+
+  return [lngBounds[0], latBounds[0], lngBounds[1], latBounds[1]];
+}
+
+type Geometry = Point | MultiPoint | LineString | MultiLineString | Polygon | MultiPolygon;
+
+/**
+ * 获取 features 数据范围
+ */
+export const getGeometrysBounds = (geometrys: Geometry[]): LayerBounds | null => {
+  const nonEmptyFeatures = geometrys.filter((d) => d && d.coordinates && d.coordinates.length).map((g) => feature(g));
+
+  try {
+    return bbox({
+      type: 'FeatureCollection',
+      features: nonEmptyFeatures,
+    }) as LayerBounds;
+  } catch (e) {
+    return null;
+  }
 };

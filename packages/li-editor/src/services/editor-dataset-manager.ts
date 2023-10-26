@@ -11,7 +11,7 @@ import type { QueryObserverOptions, QueryObserverResult } from '@tanstack/query-
 import { QueryObserver } from '@tanstack/query-core';
 import type { AutoCreateSchema, FieldPair, GeoField } from '../types';
 import { getGeoFields, getPointFieldPairs } from '../utils/dataset';
-import { getAutoCreateLayersSchema, getAutoFindLayerPopup } from '../utils/spec';
+import { getAutoCreateLayersSchema, getAutoFindLayerPopup, getLayersBounds } from '../utils/spec';
 import type AppService from './app-service';
 
 /**
@@ -134,6 +134,18 @@ export class EditorDataset {
       default:
         return [];
     }
+  }
+
+  public getSampleData(sampleSize = 5000) {
+    const numberOfRows = this.data.length;
+    const sampleStep = Math.max(Math.floor(numberOfRows / sampleSize), 1);
+
+    const output: Record<string, any>[] = [];
+    for (let i = 0; i < numberOfRows; i += sampleStep) {
+      output.push(this.data[i]);
+    }
+
+    return output;
   }
 
   public updateData(data: Record<string, any>[]) {
@@ -320,10 +332,12 @@ class EditorDatasetManager extends Subscribable<EditorDatasetManagerListener> {
       }));
 
     const layerPopup = getAutoFindLayerPopup(layers, datasets);
+    const bounds = getLayersBounds(layers, datasets);
 
     const schema: AutoCreateSchema = {
       layers: layers,
       layerPopup,
+      bounds,
     };
 
     return schema;

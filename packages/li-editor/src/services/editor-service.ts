@@ -9,6 +9,7 @@ import EditorWidgetManager from './editor-widget-manager';
 
 class EditorService {
   private eventBus: EventEmitter;
+  private appService: AppService;
   public editorState: EditorState;
   public containerSlotMap: ContainerSlotMap;
   public editorDatasetManager: EditorDatasetManager;
@@ -17,6 +18,7 @@ class EditorService {
 
   constructor(eventBus: EventEmitter, editorWidgets: ImplementEditorWidget[], appService: AppService) {
     this.eventBus = eventBus;
+    this.appService = appService;
     this.editorState = new EditorState(creatEmptyApplication('empty'));
     this.editorDatasetManager = new EditorDatasetManager(appService);
     this.editorWidgetManager = new EditorWidgetManager(editorWidgets);
@@ -65,8 +67,8 @@ class EditorService {
   /**
    * autoCreateSchemaHandler
    */
-  private autoCreateSchemaHandler = (schema: AutoCreateSchema) => {
-    const { layers, layerPopup } = schema;
+  private autoCreateSchemaHandler = (data: AutoCreateSchema) => {
+    const { layers, layerPopup, bounds } = data;
     if (!layers.length) return;
 
     this.editorState.setState((draft) => {
@@ -78,6 +80,10 @@ class EditorService {
         (draft.widgets[index].properties as Record<string, any>)?.items?.push(...items);
       }
     });
+
+    if (bounds) {
+      this.appService.setMapBounds(bounds);
+    }
   };
 }
 

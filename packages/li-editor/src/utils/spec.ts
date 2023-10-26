@@ -1,9 +1,11 @@
 import { COLOR_RANGES } from '@antv/li-p2';
 import type { DatasetField, LayerSchema } from '@antv/li-sdk';
 import { getUniqueId, isLocalDatasetSchema } from '@antv/li-sdk';
+import { cellToLatLng, isValidCell } from 'h3-js';
 import { last } from 'lodash-es';
 import type { EditorDataset } from '../services/editor-dataset-manager';
-import { getDefaultColorField } from './dataset';
+import type { LayerBounds } from '../types';
+import { getDefaultColorField, getGeometrysBounds, getLatLngBounds } from './dataset';
 
 const LayerColorRibbon = COLOR_RANGES.filter((i) => i.type === 'sequential' && i.colors.length === 4).map(
   (i) => i.colors,
@@ -76,7 +78,8 @@ type AutoCreateLayerParams = {
   colorField?: DatasetField;
 };
 
-const AutoCreateLayersMap = new Map<string, (dataset: AutoCreateLayerParams) => LayerSchema[]>([
+// TODO：从数据生成图层方法，需要放到图层资产上面去更加合理
+const AutoCreateLayersMap = new Map<string, (params: AutoCreateLayerParams) => LayerSchema[]>([
   // 点数据
   [
     'BubbleLayer',
@@ -277,13 +280,13 @@ const getFieldsToLayerPopupShow = (dataset: EditorDataset, maxDefaultTooltips: n
  * 通过图层生成 LayerPopup Schema
  */
 export const getAutoFindLayerPopup = (layers: LayerSchema[], datasets: EditorDataset[], maxDefaultTooltips = 6) => {
-  const items = layers.map((layer) => ({
-    layerId: layer.id,
-    fields: getFieldsToLayerPopupShow(
-      datasets.find((d) => d.id === layer.sourceConfig?.datasetId)!,
-      maxDefaultTooltips,
-    ),
-  }));
+  const items = layers.map((layer) => {
+    const dataset = datasets.find((d) => d.id === layer.sourceConfig?.datasetId);
+    return {
+      layerId: layer.id,
+      fields: dataset ? getFieldsToLayerPopupShow(dataset, maxDefaultTooltips) : [],
+    };
+  });
 
   const layerPopupSchema = {
     id: 'LayerPopup',
@@ -305,4 +308,157 @@ export const getAutoFindLayerPopup = (layers: LayerSchema[], datasets: EditorDat
   return layerPopupSchema;
 };
 
-const getLayerBounds = (layers: LayerSchema[], datasets: EditorDataset[]) => {};
+const getPointLayerBounds = (dataset: EditorDataset, layer: LayerSchema) => {
+  if (layer.sourceConfig === undefined) return null;
+  const { x, y, geometry } = layer.sourceConfig;
+  const sampleData = dataset.getSampleData();
+
+  // 经纬度情况
+  if (x & y) {
+    const points = sampleData.map((item) => [item[x], item[y]]);
+    return getLatLngBounds(points);
+    // geometry 情况
+  } else if (geometry) {
+    const geometrys = sampleData.map((item) => item[geometry]);
+    return getGeometrysBounds(geometrys);
+  }
+
+  return null;
+};
+
+// TODO：从数据生成图层边界范围，需要放到图层资产上面去更加合理
+const LayersBoundsMap = new Map<string, (dataset: EditorDataset, layer: LayerSchema) => LayerBounds | null>([
+  // 点数据
+  ['BubbleLayer', getPointLayerBounds],
+  ['GridLayer', getPointLayerBounds],
+  ['HeatmapLayer', getPointLayerBounds],
+  ['HexbinLayer', getPointLayerBounds],
+  ['IconLayer', getPointLayerBounds],
+  // 直线数据
+  [
+    'LineLayer',
+    (dataset: EditorDataset, layer: LayerSchema) => {
+      if (layer.sourceConfig === undefined) return null;
+      const { x, y, x1, y1, geometry } = layer.sourceConfig;
+      const sampleData = dataset.getSampleData();
+
+      // 起点终点情况
+      if (x & y & x1 & y1) {
+        const sBounds = getLatLngBounds(sampleData.map((item) => [item[x], item[y]]));
+        const tBounds = getLatLngBounds(sampleData.map((item) => [item[x1], item[y1]]));
+        const bounds: LayerBounds | null =
+          tBounds && sBounds
+            ? [
+                Math.min(sBounds[0], tBounds[0]),
+                Math.min(sBounds[1], tBounds[1]),
+                Math.max(sBounds[2], tBounds[2]),
+                Math.max(sBounds[3], tBounds[3]),
+              ]
+            : sBounds || tBounds;
+        return bounds;
+        // geometry 情况
+      } else if (geometry) {
+        const geometrys = sampleData.map((item) => item[geometry]);
+        return getGeometrysBounds(geometrys);
+      }
+
+      return null;
+    },
+  ],
+  // 弧线数据
+  [
+    'ArcLayer',
+    (dataset: EditorDataset, layer: LayerSchema) => {
+      if (layer.sourceConfig === undefined) return null;
+      const { x, y, x1, y1 } = layer.sourceConfig;
+      const sampleData = dataset.getSampleData();
+
+      // 起点终点情况
+      if (x & y & x1 & y1) {
+        const sBounds = getLatLngBounds(sampleData.map((item) => [item[x], item[y]]));
+        const tBounds = getLatLngBounds(sampleData.map((item) => [item[x1], item[y1]]));
+        const bounds: LayerBounds | null =
+          tBounds && sBounds
+            ? [
+                Math.min(sBounds[0], tBounds[0]),
+                Math.min(sBounds[1], tBounds[1]),
+                Math.max(sBounds[2], tBounds[2]),
+                Math.max(sBounds[3], tBounds[3]),
+              ]
+            : sBounds || tBounds;
+        return bounds;
+      }
+
+      return null;
+    },
+  ],
+  // 面数据
+  [
+    'ChoroplethLayer',
+    (dataset: EditorDataset, layer: LayerSchema) => {
+      if (layer.sourceConfig === undefined) return null;
+      const { geometry } = layer.sourceConfig;
+      const sampleData = dataset.getSampleData(10000);
+
+      // geometry 情况
+      if (geometry) {
+        const geometrys = sampleData.map((item) => item[geometry]);
+        return getGeometrysBounds(geometrys);
+      }
+
+      return null;
+    },
+  ],
+  // H3 数据
+  [
+    'H3HexagonLayer',
+    (dataset: EditorDataset, layer: LayerSchema) => {
+      if (layer.sourceConfig === undefined) return null;
+      const { hexagonId } = layer.sourceConfig;
+      const sampleData = dataset.getSampleData(10000);
+
+      if (hexagonId) {
+        const points = sampleData
+          .map((item) => {
+            const hexId = item[hexagonId];
+            if (!isValidCell(hexId)) {
+              return null;
+            }
+            // reverse it to [lng, lat]
+            return cellToLatLng(hexId).reverse();
+          })
+          .filter((item): item is [number, number] => item !== null);
+
+        return getLatLngBounds(points);
+      }
+
+      return null;
+    },
+  ],
+]);
+
+/**
+ * 通过图层获取数据范围
+ */
+export const getLayersBounds = (layers: LayerSchema[], datasets: EditorDataset[]): LayerBounds | undefined => {
+  const boundsList = layers.map((layer) => {
+    const dataset = datasets.find((d) => d.id === layer.sourceConfig?.datasetId);
+    const getLayerBounds = LayersBoundsMap.get(layer.type);
+    if (!dataset || !getLayerBounds) return null;
+
+    return getLayerBounds(dataset, layer);
+  });
+
+  const availableBounds: LayerBounds[] = boundsList.filter((bounds): bounds is LayerBounds => bounds !== null);
+
+  if (availableBounds.length === 0) return undefined;
+
+  const bounds = availableBounds.reduce(
+    (res, b) => {
+      return [Math.min(res[0], b[0]), Math.min(res[1], b[1]), Math.max(res[2], b[2]), Math.max(res[3], b[3])];
+    },
+    [180, 90, -180, -90],
+  );
+
+  return bounds;
+};
