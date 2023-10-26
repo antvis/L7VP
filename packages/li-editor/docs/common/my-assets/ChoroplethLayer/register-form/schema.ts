@@ -30,6 +30,16 @@ export default (fieldList: FieldSelectOptionType[]) => {
                 placeholder: '颜色',
               },
               'x-decorator-props': {},
+              'x-reactions': [
+                {
+                  dependencies: ['fillColor'],
+                  fulfill: {
+                    state: {
+                      visible: '{{ typeof $deps[0] === "string" }}',
+                    },
+                  },
+                },
+              ],
             },
           },
         },

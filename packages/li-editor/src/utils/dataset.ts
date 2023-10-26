@@ -1,6 +1,7 @@
 import type { DatasetField } from '@antv/li-sdk';
 import { isEmpty } from 'lodash-es';
 import { ALTITUDE_FIELDS, POINT_FIELDS } from '../constants';
+import type { EditorDataset } from '../services/editor-dataset-manager';
 import type { FieldPair, GeoField } from '../types';
 
 const SpecialCharacterSet = `[#_&@\\.\\-\\ ]`;
@@ -100,4 +101,131 @@ export const getGeoFields = (fields: DatasetField[], data: Record<string, any>[]
   }
 
   return geoFields;
+};
+
+/**
+ * 不合适做颜色字段的名称
+ * - 数值的 ID 名称
+ * - 数值的地理名称
+ */
+const EXCLUDED_DEFAULT_FIELDS = [
+  // Serial numbers and identification numbers
+  '_id',
+  'id',
+  'index',
+  'uuid',
+  'guid',
+  'uid',
+  'gid',
+  'serial',
+  // Geographic IDs are unlikely to be interesting to color
+  'zip',
+  'code',
+  'post',
+  'region',
+  'fips',
+  'cbgs',
+  'h3',
+  's2',
+  // Geographic coords (but not z/elevation/altitude
+  // since that might be a metric)
+  'lat',
+  'lon',
+  'lng',
+  'latitude',
+  'longitude',
+  '_x',
+  '_y',
+];
+
+/**
+ * 度量字段名称，按优先级顺序排列
+ */
+const METRIC_DEFAULT_FIELDS = [
+  'metric',
+  'value',
+  'sum',
+  'count',
+  'unique',
+  'mean',
+  'mode',
+  'median',
+  'max',
+  'min',
+  'deviation',
+  'variance',
+  '数量',
+  '价格',
+  // 不太常用的缩写
+  'cnt',
+  'val',
+];
+
+/**
+ * 从字段中通过名称找出合适的颜色字段，给图层颜色映射使用
+ */
+export const getDefaultColorField = (dataset: EditorDataset) => {
+  const { columns, fieldPairs } = dataset;
+  const ptFields = fieldPairs.map((fieldPair) => Object.values(fieldPair.pair)).flat();
+
+  // copy form https://github.com/keplergl/kepler.gl/blob/master/src/table/src/kepler-utils.ts#L166
+  const fieldsWithoutExcluded = columns.filter((field) => {
+    if (field.type !== 'number') {
+      // Only select numeric fields.
+      return false;
+    }
+    if (ptFields.includes(field.name)) {
+      // Do not permit lat, lon fields
+      return false;
+    }
+
+    const normalizedFieldName = field.name.toLowerCase();
+    if (normalizedFieldName === '') {
+      // Special case excluded name when the name is blank.
+      return false;
+    }
+    const hasExcluded = EXCLUDED_DEFAULT_FIELDS.find(
+      (f) => normalizedFieldName.startsWith(f) || normalizedFieldName.endsWith(f),
+    );
+    if (hasExcluded) {
+      const hasInclusion = METRIC_DEFAULT_FIELDS.find(
+        (f) => normalizedFieldName.startsWith(f) || normalizedFieldName.endsWith(f),
+      );
+      return hasInclusion;
+    }
+
+    return true;
+  });
+
+  const sortedFields = fieldsWithoutExcluded.sort((left, right) => {
+    const normalizedLeft = left.name.toLowerCase();
+    const normalizedRight = right.name.toLowerCase();
+    const leftHasInclusion = METRIC_DEFAULT_FIELDS.findIndex(
+      (f) => normalizedLeft.startsWith(f) || normalizedLeft.endsWith(f),
+    );
+    const rightHasInclusion = METRIC_DEFAULT_FIELDS.findIndex(
+      (f) => normalizedRight.startsWith(f) || normalizedRight.endsWith(f),
+    );
+    if (leftHasInclusion !== rightHasInclusion) {
+      if (leftHasInclusion === -1) {
+        // Elements that do not have the inclusion list should go after those that do.
+        return 1;
+      } else if (rightHasInclusion === -1) {
+        // Elements that do have the inclusion list should go before those that don't.
+        return -1;
+      }
+      // Compare based on order in the inclusion list
+      return leftHasInclusion - rightHasInclusion;
+    }
+
+    // Finally, order based on the order in the datasets columns
+    return 0;
+  });
+
+  if (sortedFields.length) {
+    // There was a best match
+    return sortedFields[0];
+  }
+  // No matches
+  return undefined;
 };

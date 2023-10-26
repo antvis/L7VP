@@ -1,5 +1,5 @@
 export { default as ColorPicker } from './ColorPicker';
-export { default as ColorRangeSelector } from './ColorRangeSelector';
+export { COLOR_RANGES, default as ColorRangeSelector } from './ColorRangeSelector';
 export type { ColorRange } from './ColorRangeSelector/Internal/types';
 export { default as ControlPositionSelect } from './ControlPositionSelect';
 export { default as FieldSelect } from './FieldSelect';
