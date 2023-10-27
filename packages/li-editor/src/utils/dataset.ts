@@ -66,7 +66,6 @@ export const getPointFieldPairs = (fields: DatasetField[]) => {
       });
     }
   }
-
   return fieldPairs;
 };
 
@@ -253,7 +252,10 @@ export function getLatLngBounds(points: number[][]): LayerBounds | null {
   const lngBounds = [Math.max(lngs[0], -180), Math.min(lngs[lngs.length - 1], 180)];
   const latBounds = [Math.max(lats[0], -90), Math.min(lats[lats.length - 1], 90)];
 
-  return [lngBounds[0], latBounds[0], lngBounds[1], latBounds[1]];
+  return [
+    [lngBounds[1], latBounds[1]],
+    [lngBounds[0], latBounds[0]],
+  ];
 }
 
 type Geometry = Point | MultiPoint | LineString | MultiLineString | Polygon | MultiPolygon;
@@ -265,10 +267,15 @@ export const getGeometrysBounds = (geometrys: Geometry[]): LayerBounds | null =>
   const nonEmptyFeatures = geometrys.filter((d) => d && d.coordinates && d.coordinates.length).map((g) => feature(g));
 
   try {
-    return bbox({
+    const bounds = bbox({
       type: 'FeatureCollection',
       features: nonEmptyFeatures,
-    }) as LayerBounds;
+    });
+
+    return [
+      [bounds[2], bounds[3]],
+      [bounds[0], bounds[1]],
+    ];
   } catch (e) {
     return null;
   }

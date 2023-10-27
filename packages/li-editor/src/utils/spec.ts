@@ -47,7 +47,7 @@ const isAutoCreateLayersDataset = (dataset: EditorDataset) => {
   return false;
 };
 
-const getDatasetsByAutoCreateLayers = (datasets: EditorDataset[]) => {
+export const getDatasetsByAutoCreateLayers = (datasets: EditorDataset[]) => {
   return datasets.filter(isAutoCreateLayersDataset);
 };
 
@@ -171,7 +171,7 @@ const AutoCreateLayersMap = new Map<string, (params: AutoCreateLayerParams) => L
       const { id, name } = dataset;
       const layer = getLayerSchema(
         'ArcLayer',
-        `${name}${dataset.fieldPairs[0].displayName}到${dataset.fieldPairs[1].displayName}`,
+        `${name}${dataset.fieldPairs[0].displayName} to ${dataset.fieldPairs[1].displayName}`,
         {
           datasetId: id,
           parser: {
@@ -260,9 +260,7 @@ const getLayersSchemaByDataset = (dataset: EditorDataset) => {
  * 通过数据集生成多个图层 Schema
  */
 export const getAutoCreateLayersSchema = (datasets: EditorDataset[]) => {
-  const layersSchema: LayerSchema[] = getDatasetsByAutoCreateLayers(datasets)
-    .map((dataset) => getLayersSchemaByDataset(dataset))
-    .flat();
+  const layersSchema: LayerSchema[] = datasets.map((dataset) => getLayersSchemaByDataset(dataset)).flat();
 
   return layersSchema;
 };
@@ -310,11 +308,11 @@ export const getAutoFindLayerPopup = (layers: LayerSchema[], datasets: EditorDat
 
 const getPointLayerBounds = (dataset: EditorDataset, layer: LayerSchema) => {
   if (layer.sourceConfig === undefined) return null;
-  const { x, y, geometry } = layer.sourceConfig;
+  const { x, y, geometry } = layer.sourceConfig?.parser;
   const sampleData = dataset.getSampleData();
 
   // 经纬度情况
-  if (x & y) {
+  if (x && y) {
     const points = sampleData.map((item) => [item[x], item[y]]);
     return getLatLngBounds(points);
     // geometry 情况
@@ -339,20 +337,18 @@ const LayersBoundsMap = new Map<string, (dataset: EditorDataset, layer: LayerSch
     'LineLayer',
     (dataset: EditorDataset, layer: LayerSchema) => {
       if (layer.sourceConfig === undefined) return null;
-      const { x, y, x1, y1, geometry } = layer.sourceConfig;
+      const { x, y, x1, y1, geometry } = layer.sourceConfig?.parser;
       const sampleData = dataset.getSampleData();
 
       // 起点终点情况
-      if (x & y & x1 & y1) {
+      if (x && y && x1 && y1) {
         const sBounds = getLatLngBounds(sampleData.map((item) => [item[x], item[y]]));
         const tBounds = getLatLngBounds(sampleData.map((item) => [item[x1], item[y1]]));
         const bounds: LayerBounds | null =
           tBounds && sBounds
             ? [
-                Math.min(sBounds[0], tBounds[0]),
-                Math.min(sBounds[1], tBounds[1]),
-                Math.max(sBounds[2], tBounds[2]),
-                Math.max(sBounds[3], tBounds[3]),
+                [Math.max(sBounds[0][0], tBounds[0][0]), Math.max(sBounds[0][1], tBounds[0][1])],
+                [Math.min(sBounds[1][0], tBounds[1][0]), Math.min(sBounds[1][1], tBounds[1][1])],
               ]
             : sBounds || tBounds;
         return bounds;
@@ -370,20 +366,18 @@ const LayersBoundsMap = new Map<string, (dataset: EditorDataset, layer: LayerSch
     'ArcLayer',
     (dataset: EditorDataset, layer: LayerSchema) => {
       if (layer.sourceConfig === undefined) return null;
-      const { x, y, x1, y1 } = layer.sourceConfig;
+      const { x, y, x1, y1 } = layer.sourceConfig?.parser;
       const sampleData = dataset.getSampleData();
 
       // 起点终点情况
-      if (x & y & x1 & y1) {
+      if (x && y && x1 && y1) {
         const sBounds = getLatLngBounds(sampleData.map((item) => [item[x], item[y]]));
         const tBounds = getLatLngBounds(sampleData.map((item) => [item[x1], item[y1]]));
         const bounds: LayerBounds | null =
           tBounds && sBounds
             ? [
-                Math.min(sBounds[0], tBounds[0]),
-                Math.min(sBounds[1], tBounds[1]),
-                Math.max(sBounds[2], tBounds[2]),
-                Math.max(sBounds[3], tBounds[3]),
+                [Math.max(sBounds[0][0], tBounds[0][0]), Math.max(sBounds[0][1], tBounds[0][1])],
+                [Math.min(sBounds[1][0], tBounds[1][0]), Math.min(sBounds[1][1], tBounds[1][1])],
               ]
             : sBounds || tBounds;
         return bounds;
@@ -397,7 +391,7 @@ const LayersBoundsMap = new Map<string, (dataset: EditorDataset, layer: LayerSch
     'ChoroplethLayer',
     (dataset: EditorDataset, layer: LayerSchema) => {
       if (layer.sourceConfig === undefined) return null;
-      const { geometry } = layer.sourceConfig;
+      const { geometry } = layer.sourceConfig?.parser;
       const sampleData = dataset.getSampleData(10000);
 
       // geometry 情况
@@ -414,7 +408,7 @@ const LayersBoundsMap = new Map<string, (dataset: EditorDataset, layer: LayerSch
     'H3HexagonLayer',
     (dataset: EditorDataset, layer: LayerSchema) => {
       if (layer.sourceConfig === undefined) return null;
-      const { hexagonId } = layer.sourceConfig;
+      const { hexagonId } = layer.sourceConfig?.parser;
       const sampleData = dataset.getSampleData(10000);
 
       if (hexagonId) {
@@ -440,7 +434,7 @@ const LayersBoundsMap = new Map<string, (dataset: EditorDataset, layer: LayerSch
 /**
  * 通过图层获取数据范围
  */
-export const getLayersBounds = (layers: LayerSchema[], datasets: EditorDataset[]): LayerBounds | undefined => {
+export const getLayersBounds = (layers: LayerSchema[], datasets: EditorDataset[]): LayerBounds | null => {
   const boundsList = layers.map((layer) => {
     const dataset = datasets.find((d) => d.id === layer.sourceConfig?.datasetId);
     const getLayerBounds = LayersBoundsMap.get(layer.type);
@@ -451,14 +445,20 @@ export const getLayersBounds = (layers: LayerSchema[], datasets: EditorDataset[]
 
   const availableBounds: LayerBounds[] = boundsList.filter((bounds): bounds is LayerBounds => bounds !== null);
 
-  if (availableBounds.length === 0) return undefined;
+  if (availableBounds.length === 0) return null;
 
   const bounds = availableBounds.reduce(
-    (res, b) => {
-      return [Math.min(res[0], b[0]), Math.min(res[1], b[1]), Math.max(res[2], b[2]), Math.max(res[3], b[3])];
+    (resulit, b) => {
+      return [
+        [Math.max(resulit[0][0], b[0][0]), Math.max(resulit[0][1], b[0][1])],
+        [Math.min(resulit[1][0], b[1][0]), Math.min(resulit[1][1], b[1][1])],
+      ];
     },
-    // MAX_LONGITUDE, MAX_LATITUDE, MIN_LONGITUDE, MIN_LATITUDE
-    [180, 90, -180, -90],
+    // [MIN_LONGITUDE, MIN_LATITUDE], [MAX_LONGITUDE, MAX_LATITUDE]
+    [
+      [-180, -90],
+      [180, 90],
+    ],
   );
 
   return bounds;

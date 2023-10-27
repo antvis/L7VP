@@ -222,6 +222,7 @@ class AppService {
 
   /**
    * 设置地图 Bounds
+   *  bounds [[minlng,minlat],[maxlng,maxlat]]
    */
   public setMapBounds(bounds: [[number, number], [number, number]]) {
     const { mapStore } = this.runtimeApp.stateManager;

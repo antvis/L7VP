@@ -1,6 +1,6 @@
 import type EventEmitter from '@antv/event-emitter';
 import type { AutoCreateSchema, ContainerSlotMap, EditorContextState, ImplementEditorWidget } from '../types';
-import { getMenuList, resolveContainerSlotMap } from '../utils';
+import { getMenuList, requestIdleCallback, resolveContainerSlotMap } from '../utils';
 import { creatEmptyApplication, getApplicationSchemaFromEditorState } from '../utils/application';
 import type AppService from './app-service';
 import EditorDatasetManager from './editor-dataset-manager';
@@ -82,7 +82,10 @@ class EditorService {
     });
 
     if (bounds) {
-      this.appService.setMapBounds(bounds);
+      // 放到下一帧，等图层加载到地图上
+      requestIdleCallback(() => {
+        this.appService.setMapBounds(bounds);
+      });
     }
   };
 }

@@ -10,8 +10,14 @@ import {
 import type { QueryObserverOptions, QueryObserverResult } from '@tanstack/query-core';
 import { QueryObserver } from '@tanstack/query-core';
 import type { AutoCreateSchema, FieldPair, GeoField } from '../types';
+import { requestIdleCallback } from '../utils';
 import { getGeoFields, getPointFieldPairs } from '../utils/dataset';
-import { getAutoCreateLayersSchema, getAutoFindLayerPopup, getLayersBounds } from '../utils/spec';
+import {
+  getAutoCreateLayersSchema,
+  getAutoFindLayerPopup,
+  getDatasetsByAutoCreateLayers,
+  getLayersBounds,
+} from '../utils/spec';
 import type AppService from './app-service';
 
 /**
@@ -108,8 +114,10 @@ export class EditorDataset {
 
       if (this.queryObserver) {
         this.queryObserver.setOptions(this.getQueryOptions(schema), { listeners: false });
+        this.syncQueryResult();
       } else {
         this.queryObserver = new QueryObserver(queryServiceClient, this.getQueryOptions(schema));
+        this.syncQueryResult();
       }
     }
 
@@ -150,11 +158,23 @@ export class EditorDataset {
 
   public updateData(data: Record<string, any>[]) {
     this.data = data;
-    this.columns = data.length ? getDatasetColumns(data) : [];
+    this.columns = data.length ? getDatasetColumns(data[0]) : [];
     this.fieldPairs = getPointFieldPairs(this.columns);
     this.geoFields = getGeoFields(this.columns, this.data);
 
     return this;
+  }
+
+  /**
+   * 同步已经从缓存中查询到的数据
+   */
+  private syncQueryResult() {
+    if (this.queryObserver) {
+      const result = this.queryObserver.getCurrentResult();
+      if (result.isFetched) {
+        this.updateData(Array.isArray(result.data) ? result.data : []);
+      }
+    }
   }
 
   /**
@@ -250,6 +270,16 @@ class EditorDatasetManager extends Subscribable<EditorDatasetManagerListener> {
     return this.copyEditorDataset(original).setSchema(schema);
   }
 
+  private differenceDatasets = (map1: Map<string, EditorDataset>, map2: Map<string, EditorDataset>) => {
+    const array: EditorDataset[] = [];
+    map1.forEach((value, key) => {
+      if (!map2.has(key)) {
+        array.push(value);
+      }
+    });
+    return array;
+  };
+
   /**
    * 当 schema 更新时，更新数据集的状态
    */
@@ -287,17 +317,7 @@ class EditorDatasetManager extends Subscribable<EditorDatasetManagerListener> {
 
     this.datasets = newDatasets;
 
-    const difference = (map1: Map<string, EditorDataset>, map2: Map<string, EditorDataset>) => {
-      const array: EditorDataset[] = [];
-      map1.forEach((value, key) => {
-        if (!map2.has(key)) {
-          array.push(value);
-        }
-      });
-      return array;
-    };
-
-    const newAddDatasets: EditorDataset[] = difference(newDatasetsMap, prevDatasetsMap);
+    const newAddDatasets: EditorDataset[] = this.differenceDatasets(newDatasetsMap, prevDatasetsMap);
 
     if (this.hasListeners()) {
       newAddDatasets.forEach((editorDataset) => {
@@ -306,7 +326,7 @@ class EditorDatasetManager extends Subscribable<EditorDatasetManagerListener> {
         });
       });
 
-      difference(prevDatasetsMap, newDatasetsMap).forEach((editorDataset) => {
+      this.differenceDatasets(prevDatasetsMap, newDatasetsMap).forEach((editorDataset) => {
         editorDataset.unAllSubscribeQuery();
       });
 
@@ -314,8 +334,12 @@ class EditorDatasetManager extends Subscribable<EditorDatasetManagerListener> {
     }
 
     // 从新增的数据集自动生成 schema
-    if (newAddDatasets.length && autoCreateHandler) {
-      autoCreateHandler(this.getAutoCreateSchema(newAddDatasets));
+    const newAutoDatasets = getDatasetsByAutoCreateLayers(newAddDatasets);
+    if (newAutoDatasets.length && autoCreateHandler) {
+      // 放到下一帧，避免页面卡顿
+      requestIdleCallback(() => {
+        autoCreateHandler(this.getAutoCreateSchema(newAddDatasets));
+      });
     }
   }
 
@@ -332,7 +356,7 @@ class EditorDatasetManager extends Subscribable<EditorDatasetManagerListener> {
       }));
 
     const layerPopup = getAutoFindLayerPopup(layers, datasets);
-    const bounds = getLayersBounds(layers, datasets);
+    const bounds = getLayersBounds(layers, datasets) || undefined;
 
     const schema: AutoCreateSchema = {
       layers: layers,

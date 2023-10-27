@@ -20,4 +20,5 @@ export type AutoCreateSchema = {
   bounds?: LayerBounds;
 };
 
-export type LayerBounds = [number, number, number, number];
+// [[minlng ,minlat], [maxlng, maxlat]]
+export type LayerBounds = [[number, number], [number, number]];

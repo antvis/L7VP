@@ -34,7 +34,7 @@ export const validateApplicationSchema = (appSchema: Application) => {
   }
 
   const config: Application = {
-    ...appSchema,
+    version,
     metadata: validateMetadata(appSchema.metadata),
     datasets: validateDatasets(appSchema.datasets),
     spec: {
