@@ -35,13 +35,7 @@ const fromValues = (values: Record<string, any>): LayerRegisterFormResultType<Ch
 
   return {
     sourceConfig,
-    visConfig: {
-      ...visConfig,
-      state: {
-        active: { strokeColor: 'yellow', fillColor: false },
-        select: { fillColor: false, strokeColor: 'red' },
-      },
-    },
+    visConfig,
   };
 };
 

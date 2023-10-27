@@ -28,7 +28,6 @@ export default implementLayer({
   },
   defaultVisConfig: {
     visible: true,
-    zIndex: 0,
     showAdminLabel: true,
     adminLabelColor: '#fff',
     adminLabelFontSize: 14,
@@ -46,6 +45,10 @@ export default implementLayer({
       },
     },
     showNationalBorders: true,
+    state: {
+      active: { strokeColor: 'yellow', fillColor: false },
+      select: { fillColor: false, strokeColor: 'red' },
+    },
     minZoom: 0,
     maxZoom: 24,
     blend: 'normal',

@@ -77,10 +77,6 @@ const fromValues = (style: Record<string, any>): LayerRegisterFormResultType<Cho
       minZoom: style?.zoom?.[0],
       maxZoom: style?.zoom?.[1],
       blend: style.blend,
-      state: {
-        active: { strokeColor: 'yellow', fillColor: false },
-        select: { fillColor: false, strokeColor: 'red' },
-      },
     },
   };
 };

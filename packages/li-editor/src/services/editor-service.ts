@@ -1,6 +1,6 @@
 import type EventEmitter from '@antv/event-emitter';
 import type { AutoCreateSchema, ContainerSlotMap, EditorContextState, ImplementEditorWidget } from '../types';
-import { getMenuList, requestIdleCallback, resolveContainerSlotMap } from '../utils';
+import { getMenuList, resolveContainerSlotMap } from '../utils';
 import { creatEmptyApplication, getApplicationSchemaFromEditorState } from '../utils/application';
 import type AppService from './app-service';
 import EditorDatasetManager from './editor-dataset-manager';
@@ -72,20 +72,22 @@ class EditorService {
     if (!layers.length) return;
 
     this.editorState.setState((draft) => {
-      draft.layers.push(...layers);
+      draft.layers.unshift(...layers);
 
       const index = draft.widgets.findIndex((w) => w.type === layerPopup.type);
       if (index !== -1) {
         const items = layerPopup.properties.items as Record<string, any>[];
         (draft.widgets[index].properties as Record<string, any>)?.items?.push(...items);
       }
+
+      draft.activeNavMenuKey = 'layers';
     });
 
     if (bounds) {
       // 放到下一帧，等图层加载到地图上
-      requestIdleCallback(() => {
-        this.appService.setMapBounds(bounds);
-      });
+      // requestIdleCallback(() => {
+      this.appService.setMapBounds(bounds);
+      // });
     }
   };
 }

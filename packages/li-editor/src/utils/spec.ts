@@ -89,7 +89,7 @@ const AutoCreateLayersMap = new Map<string, (params: AutoCreateLayerParams) => L
 
       const createBy_xy = dataset.fieldPairs
         .filter((pair) => pair.type === 'Point')
-        .map((pair) =>
+        .map((pair, index) =>
           getLayerSchema(
             'BubbleLayer',
             `${name}_${pair.displayName}`,
@@ -101,13 +101,16 @@ const AutoCreateLayersMap = new Map<string, (params: AutoCreateLayerParams) => L
                 y: pair.pair.lat,
               },
             },
-            { fillColor: getLayerFillColor(colorField) },
+            {
+              visible: [0, 1].includes(index),
+              fillColor: getLayerFillColor(colorField),
+            },
           ),
         );
 
       const createBy_geometry = dataset.geoFields
         .filter((geoField) => geoField.geoType === 'Point')
-        .map((geoField) =>
+        .map((geoField, index) =>
           getLayerSchema(
             'BubbleLayer',
             `${name}_${geoField.displayName || geoField.name}`,
@@ -118,7 +121,10 @@ const AutoCreateLayersMap = new Map<string, (params: AutoCreateLayerParams) => L
                 geometry: geoField.name,
               },
             },
-            { fillColor: getLayerFillColor(colorField) },
+            {
+              visible: [0, 1].includes(index),
+              fillColor: getLayerFillColor(colorField),
+            },
           ),
         );
 
@@ -136,7 +142,7 @@ const AutoCreateLayersMap = new Map<string, (params: AutoCreateLayerParams) => L
 
       const layers = dataset.geoFields
         .filter((geoField) => geoField.geoType === 'Line')
-        .map((geoField) =>
+        .map((geoField, index) =>
           getLayerSchema(
             'LineLayer',
             `${name}_${geoField.displayName || geoField.name}`,
@@ -147,7 +153,10 @@ const AutoCreateLayersMap = new Map<string, (params: AutoCreateLayerParams) => L
                 geometry: geoField.name,
               },
             },
-            { fillColor: getLayerFillColor(colorField) },
+            {
+              visible: index === 0,
+              fillColor: getLayerFillColor(colorField),
+            },
           ),
         );
 
@@ -165,7 +174,7 @@ const AutoCreateLayersMap = new Map<string, (params: AutoCreateLayerParams) => L
       const { id, name } = dataset;
       const layer = getLayerSchema(
         'ArcLayer',
-        `${name}_${dataset.fieldPairs[0].displayName} to ${dataset.fieldPairs[1].displayName}`,
+        `${name}_${dataset.fieldPairs[0].displayName} => ${dataset.fieldPairs[1].displayName}`,
         {
           datasetId: id,
           parser: {
