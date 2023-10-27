@@ -102,6 +102,7 @@ const AutoCreateLayersMap = new Map<string, (params: AutoCreateLayerParams) => L
               },
             },
             {
+              // 默认最多只显示两个图层
               visible: [0, 1].includes(index),
               fillColor: getLayerFillColor(colorField),
             },
@@ -122,6 +123,7 @@ const AutoCreateLayersMap = new Map<string, (params: AutoCreateLayerParams) => L
               },
             },
             {
+              // 默认最多只显示两个图层
               visible: [0, 1].includes(index),
               fillColor: getLayerFillColor(colorField),
             },
