@@ -87,15 +87,12 @@ const AutoCreateLayersMap = new Map<string, (params: AutoCreateLayerParams) => L
       const { dataset, colorField } = params;
       const { id, name } = dataset;
 
-      const fillColor = getLayerFillColor(colorField);
-      const visConfig = colorField ? { fillColor } : {};
-
       const createBy_xy = dataset.fieldPairs
         .filter((pair) => pair.type === 'Point')
         .map((pair) =>
           getLayerSchema(
             'BubbleLayer',
-            `${name}${pair.displayName}`,
+            `${name}_${pair.displayName}`,
             {
               datasetId: id,
               parser: {
@@ -104,7 +101,7 @@ const AutoCreateLayersMap = new Map<string, (params: AutoCreateLayerParams) => L
                 y: pair.pair.lat,
               },
             },
-            visConfig,
+            { fillColor: getLayerFillColor(colorField) },
           ),
         );
 
@@ -113,7 +110,7 @@ const AutoCreateLayersMap = new Map<string, (params: AutoCreateLayerParams) => L
         .map((geoField) =>
           getLayerSchema(
             'BubbleLayer',
-            `${name}${geoField.displayName || geoField.name}`,
+            `${name}_${geoField.displayName || geoField.name}`,
             {
               datasetId: id,
               parser: {
@@ -121,7 +118,7 @@ const AutoCreateLayersMap = new Map<string, (params: AutoCreateLayerParams) => L
                 geometry: geoField.name,
               },
             },
-            visConfig,
+            { fillColor: getLayerFillColor(colorField) },
           ),
         );
 
@@ -137,15 +134,12 @@ const AutoCreateLayersMap = new Map<string, (params: AutoCreateLayerParams) => L
       const { dataset, colorField } = params;
       const { id, name } = dataset;
 
-      const fillColor = getLayerFillColor(colorField);
-      const visConfig = colorField ? { fillColor } : {};
-
       const layers = dataset.geoFields
         .filter((geoField) => geoField.geoType === 'Line')
         .map((geoField) =>
           getLayerSchema(
             'LineLayer',
-            `${name}${geoField.displayName || geoField.name}`,
+            `${name}_${geoField.displayName || geoField.name}`,
             {
               datasetId: id,
               parser: {
@@ -153,7 +147,7 @@ const AutoCreateLayersMap = new Map<string, (params: AutoCreateLayerParams) => L
                 geometry: geoField.name,
               },
             },
-            visConfig,
+            { fillColor: getLayerFillColor(colorField) },
           ),
         );
 
@@ -171,7 +165,7 @@ const AutoCreateLayersMap = new Map<string, (params: AutoCreateLayerParams) => L
       const { id, name } = dataset;
       const layer = getLayerSchema(
         'ArcLayer',
-        `${name}${dataset.fieldPairs[0].displayName} to ${dataset.fieldPairs[1].displayName}`,
+        `${name}_${dataset.fieldPairs[0].displayName} to ${dataset.fieldPairs[1].displayName}`,
         {
           datasetId: id,
           parser: {
@@ -194,15 +188,12 @@ const AutoCreateLayersMap = new Map<string, (params: AutoCreateLayerParams) => L
       const { dataset, colorField } = params;
       const { id, name } = dataset;
 
-      const fillColor = getLayerFillColor(colorField);
-      const visConfig = colorField ? { fillColor } : {};
-
       const layers = dataset.geoFields
         .filter((geoField) => geoField.geoType === 'Polygon')
         .map((geoField) =>
           getLayerSchema(
             'ChoroplethLayer',
-            `${name}${geoField.displayName || geoField.name}`,
+            `${name}_${geoField.displayName || geoField.name}`,
             {
               datasetId: id,
               parser: {
@@ -210,7 +201,7 @@ const AutoCreateLayersMap = new Map<string, (params: AutoCreateLayerParams) => L
                 geometry: geoField.name,
               },
             },
-            visConfig,
+            { fillColor: getLayerFillColor(colorField) },
           ),
         );
 
@@ -224,13 +215,10 @@ const AutoCreateLayersMap = new Map<string, (params: AutoCreateLayerParams) => L
       const { dataset, colorField } = params;
       const { id, name } = dataset;
 
-      const fillColor = getLayerFillColor(colorField);
-      const visConfig = colorField ? { fillColor } : {};
-
       const layers = dataset.h3Fields.map((h3Field) =>
         getLayerSchema(
           'H3HexagonLayer',
-          `${name} H3`,
+          `${name}_H3_${h3Field.name}`,
           {
             datasetId: id,
             parser: {
@@ -238,7 +226,7 @@ const AutoCreateLayersMap = new Map<string, (params: AutoCreateLayerParams) => L
               hexagonId: h3Field.name,
             },
           },
-          visConfig,
+          { fillColor: getLayerFillColor(colorField) },
         ),
       );
 

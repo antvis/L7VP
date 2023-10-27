@@ -32,7 +32,7 @@ export default implementLayer({
     fillColor: 'rgb(90, 216, 166)',
     opacity: 0.8,
     strokeColor: 'rgb(146, 112, 202)',
-    lineWidth: 0,
+    lineWidth: 1,
     lineOpacity: 1,
     label: {
       style: {
