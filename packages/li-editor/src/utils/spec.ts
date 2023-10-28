@@ -249,6 +249,8 @@ const AutoCreateLayersMap = new Map<string, (params: AutoCreateLayerParams) => L
 const getLayersSchemaByDataset = (dataset: EditorDataset) => {
   const colorField = getDefaultColorField(dataset);
   const layersSchema: LayerSchema[] = Array.from(AutoCreateLayersMap.values())
+    // 反转顺序，以面线点的叠加顺序（地图上），生成可视化图层
+    .reverse()
     .map((handler) => handler({ dataset, colorField }))
     .flat();
 

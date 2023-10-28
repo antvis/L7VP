@@ -33,8 +33,7 @@ const LayersPanel: React.FC<LayersPanelProps> = (props) => {
   const handleSubmit = (name: string, datasetId: string) => {
     const config = getDefaultLayerAttr(name, datasetId);
     updateState((draft) => {
-      // 新增图层放在最上面
-      draft.layers.unshift(config);
+      draft.layers.push(config);
     });
     setAddLayerPanelOpen(false);
     onAttributesOpen(config);

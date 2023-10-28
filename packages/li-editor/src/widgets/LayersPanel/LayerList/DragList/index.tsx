@@ -1,16 +1,16 @@
-import React, { useCallback } from 'react';
 import classNames from 'classnames';
+import React, { useCallback } from 'react';
 import type { DropResult } from 'react-beautiful-dnd';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import './index.less';
 
-interface DragListProps<P> {
+interface DragListProps<P extends Record<string, any>> {
   itemStyle?: React.CSSProperties | ((dataset: P) => React.CSSProperties);
   itemClassName?: string | ((item: P) => string);
   dragIcon?: JSX.Element;
-  items: Record<string, any>[];
+  items: P[];
   onItemClick?: (item: P) => void;
-  onDrag: (newItems: any[]) => void;
+  onDrag: (newItems: P[]) => void;
   children: (item: P, icon: JSX.Element) => JSX.Element;
   keyField?: string;
 }
@@ -33,11 +33,11 @@ function DragList<P extends Record<string, any>>({ children, itemStyle, items, o
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="dropable" direction="vertical">
-        {(provided: any) => (
+        {(provided) => (
           <div className="li-drag-list" ref={provided.innerRef} {...provided.droppableProps}>
-            {items.map((item: any, index) => (
+            {items.map((item, index) => (
               <Draggable key={item.id} draggableId={item.id} index={index}>
-                {(itemProvided: any, itemSnapshot: any) => {
+                {(itemProvided, itemSnapshot) => {
                   return (
                     <div
                       {...itemProvided.draggableProps}
@@ -46,7 +46,7 @@ function DragList<P extends Record<string, any>>({ children, itemStyle, items, o
                         'li-drag-list__item': itemSnapshot.isDragging,
                       })}
                       style={{
-                        ...(itemStyle instanceof Function ? itemStyle?.(item) : {}),
+                        ...(itemStyle instanceof Function ? itemStyle(item) : itemStyle),
                         ...(itemProvided.draggableProps.style ?? {}),
                       }}
                       key={item.id}

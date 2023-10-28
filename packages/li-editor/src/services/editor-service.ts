@@ -72,7 +72,7 @@ class EditorService {
     if (!layers.length) return;
 
     this.editorState.setState((draft) => {
-      draft.layers.unshift(...layers);
+      draft.layers.push(...layers);
 
       const index = draft.widgets.findIndex((w) => w.type === layerPopup.type);
       if (index !== -1) {

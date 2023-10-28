@@ -62,10 +62,10 @@ const LayerItem = ({ layer, dragIcon, onClickLayer }: LayerItemProps) => {
     updateState((draft) => {
       const originalIndex = draft.layers.findIndex((l) => l.id === _layer.id);
       if (originalIndex !== -1) {
-        // 复制图层放在最上面
-        draft.layers.splice(originalIndex, 0, copyLayer);
+        // 复制的图层插入进去
+        draft.layers.splice(originalIndex + 1, 0, copyLayer);
       } else {
-        draft.layers.unshift(copyLayer);
+        draft.layers.push(copyLayer);
       }
     });
     messageApi.success('复制成功');

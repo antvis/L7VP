@@ -30,8 +30,7 @@ const AddDataset = ({ visible, onClose }: AddDatasetProps) => {
     updateState((draft) => {
       layers.forEach((layer) => {
         if (!draft.layers.find((item) => item.id === layer.id)) {
-          // 新增图层放在最上面
-          draft.layers.unshift(layer);
+          draft.layers.push(layer);
         }
       });
     });
