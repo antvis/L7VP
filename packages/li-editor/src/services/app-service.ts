@@ -224,10 +224,16 @@ class AppService {
    * 设置地图 Bounds
    *  bounds [[minlng,minlat],[maxlng,maxlat]]
    */
-  public setMapBounds(bounds: [[number, number], [number, number]]) {
+  public fitMapBounds(bounds: [[number, number], [number, number]]) {
     const { mapStore } = this.runtimeApp.stateManager;
     const sceneInstance = mapStore.getScene();
     if (!sceneInstance) return;
+    // 0.001 度，约 100 米
+    // const pading = 0.001;
+    // const paddingBounds: [[number, number], [number, number]] = [
+    //   [bounds[0][0] - pading, bounds[0][1] - pading],
+    //   [bounds[1][0] + pading, bounds[1][1] + pading],
+    // ];
 
     sceneInstance.fitBounds(bounds);
   }

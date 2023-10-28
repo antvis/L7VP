@@ -2,8 +2,9 @@ import type { DatasetSchema, LayerSchema } from '@antv/li-sdk';
 import React from 'react';
 import { useEditorService, useEditorState } from '../../../hooks';
 import type { AddDataset as AddDatasetType } from '../../../types';
+import { requestIdleCallback } from '../../../utils';
 import AddDatasetModal from './AddDatasetModal';
-import { getAddDatasetsSchema, getAddLayersSchema } from './helper';
+import { fitMapBoundsWithAddLayers, getAddDatasetsSchema, getAddLayersSchema } from './helper';
 
 type AddDatasetProps = {
   visible: boolean;
@@ -42,9 +43,15 @@ const AddDataset = ({ visible, onClose }: AddDatasetProps) => {
       const layersSchema = getAddLayersSchema(layers, appService);
       onAddDatasets(datasetsSchema);
       onAddLayers(layersSchema);
+
       // 自动计算图层范围，并地图定位到数据范围
+      requestIdleCallback(() => {
+        // 放到下一帧，等图层加载到地图上后
+        fitMapBoundsWithAddLayers(layersSchema, datasetsSchema, appService);
+      });
+      // TODO:异步数据情况
       // 方案一：新增数据上打标，标识数据加载完成后需要，需要查找图层，计算边界范围，getLayersBounds(layersSchema, datasets)
-      // 方案二：图层上打标识，监听数据加载完成后，计算图层边界范围
+      // 方案二：直接在现有基础上单独订阅数据
     } else {
       // 开启自动生成可视化图层
       const datasetsSchema = getAddDatasetsSchema(datasets, true);

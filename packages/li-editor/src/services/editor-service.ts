@@ -1,6 +1,6 @@
 import type EventEmitter from '@antv/event-emitter';
 import type { AutoCreateSchema, ContainerSlotMap, EditorContextState, ImplementEditorWidget } from '../types';
-import { getMenuList, resolveContainerSlotMap } from '../utils';
+import { getMenuList, requestIdleCallback, resolveContainerSlotMap } from '../utils';
 import { creatEmptyApplication, getApplicationSchemaFromEditorState } from '../utils/application';
 import type AppService from './app-service';
 import EditorDatasetManager from './editor-dataset-manager';
@@ -74,20 +74,23 @@ class EditorService {
     this.editorState.setState((draft) => {
       draft.layers.push(...layers);
 
+      // 如果 layerPopup 资产存在且开启，自动添加属性字段
       const index = draft.widgets.findIndex((w) => w.type === layerPopup.type);
       if (index !== -1) {
         const items = layerPopup.properties.items as Record<string, any>[];
-        (draft.widgets[index].properties as Record<string, any>)?.items?.push(...items);
+        if (draft.widgets[index].properties?.isOpen) {
+          (draft.widgets[index].properties as Record<string, any>)?.items?.push(...items);
+        }
       }
 
       draft.activeNavMenuKey = 'layers';
     });
 
     if (bounds) {
-      // 放到下一帧，等图层加载到地图上
-      // requestIdleCallback(() => {
-      this.appService.setMapBounds(bounds);
-      // });
+      // 放到下一帧，图层加载到地图上渲染耗时，影响 fitBounds 流程度
+      requestIdleCallback(() => {
+        this.appService.fitMapBounds(bounds);
+      });
     }
   };
 }

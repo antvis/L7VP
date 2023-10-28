@@ -58,11 +58,11 @@ const RuntimeApp: React.FC<RuntimeAppProps> = (props) => {
   const publishSdkUpdateEvent = useMemoizedFn(
     debounce(() => {
       editorService.publishEvent('change', getApplicationSchemaFromRuntime(latestAppConfigRef.current));
-    }, 1000),
+    }, 300),
   );
 
   useUpdateEffect(() => {
-    console.log('update state.map => ', state.map);
+    if (process.env.NODE_ENV === 'development') console.log('update state.map => ', state.map);
     setSdkConfig((config) => {
       return { ...config, spec: { ...config.spec, map: state.map } };
     });
@@ -70,7 +70,7 @@ const RuntimeApp: React.FC<RuntimeAppProps> = (props) => {
   }, [state.map]);
 
   useUpdateEffect(() => {
-    console.log('update state.datasets => ', state.datasets);
+    if (process.env.NODE_ENV === 'development') console.log('update state.datasets => ', state.datasets);
     setSdkConfig((config) => {
       return { ...config, datasets: validateRuntimeDatasets(state.datasets) };
     });
@@ -78,7 +78,7 @@ const RuntimeApp: React.FC<RuntimeAppProps> = (props) => {
   }, [state.datasets]);
 
   useUpdateEffect(() => {
-    console.log('update state.layers => ', state.layers);
+    if (process.env.NODE_ENV === 'development') console.log('update state.layers => ', state.layers);
     setSdkConfig((config) => {
       return { ...config, spec: { ...config.spec, layers: validRuntimeLayers(state.layers) } };
     });
@@ -86,7 +86,7 @@ const RuntimeApp: React.FC<RuntimeAppProps> = (props) => {
   }, [state.layers]);
 
   useUpdateEffect(() => {
-    console.log('update state.widgets => ', state.widgets);
+    if (process.env.NODE_ENV === 'development') console.log('update state.widgets => ', state.widgets);
     setSdkConfig((config) => {
       return { ...config, spec: { ...config.spec, widgets: validRuntimeWidgets(state.widgets) } };
     });

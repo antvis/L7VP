@@ -348,8 +348,8 @@ const LayersBoundsMap = new Map<string, (dataset: EditorDataset, layer: LayerSch
         const bounds: LayerBounds | null =
           tBounds && sBounds
             ? [
-                [Math.max(sBounds[0][0], tBounds[0][0]), Math.max(sBounds[0][1], tBounds[0][1])],
-                [Math.min(sBounds[1][0], tBounds[1][0]), Math.min(sBounds[1][1], tBounds[1][1])],
+                [Math.min(sBounds[0][0], tBounds[0][0]), Math.min(sBounds[0][1], tBounds[0][1])],
+                [Math.max(sBounds[1][0], tBounds[1][0]), Math.max(sBounds[1][1], tBounds[1][1])],
               ]
             : sBounds || tBounds;
         return bounds;
@@ -377,8 +377,8 @@ const LayersBoundsMap = new Map<string, (dataset: EditorDataset, layer: LayerSch
         const bounds: LayerBounds | null =
           tBounds && sBounds
             ? [
-                [Math.max(sBounds[0][0], tBounds[0][0]), Math.max(sBounds[0][1], tBounds[0][1])],
-                [Math.min(sBounds[1][0], tBounds[1][0]), Math.min(sBounds[1][1], tBounds[1][1])],
+                [Math.min(sBounds[0][0], tBounds[0][0]), Math.min(sBounds[0][1], tBounds[0][1])],
+                [Math.max(sBounds[1][0], tBounds[1][0]), Math.max(sBounds[1][1], tBounds[1][1])],
               ]
             : sBounds || tBounds;
         return bounds;
@@ -448,19 +448,18 @@ export const getLayersBounds = (layers: LayerSchema[], datasets: EditorDataset[]
 
   if (availableBounds.length === 0) return null;
 
-  const bounds = availableBounds.reduce(
-    (resulit, b) => {
-      return [
-        [Math.max(resulit[0][0], b[0][0]), Math.max(resulit[0][1], b[0][1])],
-        [Math.min(resulit[1][0], b[1][0]), Math.min(resulit[1][1], b[1][1])],
-      ];
-    },
-    // [MIN_LONGITUDE, MIN_LATITUDE], [MAX_LONGITUDE, MAX_LATITUDE]
-    [
-      [-180, -90],
-      [180, 90],
-    ],
-  );
+  const bounds = availableBounds.reduce((resulit, b) => {
+    return [
+      [Math.min(resulit[0][0], b[0][0]), Math.min(resulit[0][1], b[0][1])],
+      [Math.max(resulit[1][0], b[1][0]), Math.max(resulit[1][1], b[1][1])],
+    ];
+  }, availableBounds[0]);
 
-  return bounds;
+  // [MIN_LONGITUDE, MIN_LATITUDE], [MAX_LONGITUDE, MAX_LATITUDE]
+  const validBounds: LayerBounds = [
+    [Math.max(bounds[0][0], -180), Math.max(bounds[0][1], -90)],
+    [Math.min(bounds[1][0], 180), Math.min(bounds[1][1], 90)],
+  ];
+
+  return validBounds;
 };

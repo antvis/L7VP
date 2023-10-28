@@ -62,6 +62,7 @@ function DragList<P extends Record<string, any>>({ children, itemStyle, items, o
                 }}
               </Draggable>
             ))}
+            {provided.placeholder}
           </div>
         )}
       </Droppable>

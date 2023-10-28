@@ -31,7 +31,8 @@ function foundMatchingFields(re: RegExp, suffixPair: [string, string], allNames:
  * @returns fieldPairs
  */
 export const getPointFieldPairs = (fields: DatasetField[]) => {
-  const allFieldNames = fields.map((item) => item.name.toLowerCase());
+  const numberFields = fields.filter((item) => item.type === 'number');
+  const allFieldNames = numberFields.map((item) => item.name.toLowerCase());
   const fieldPairs: FieldPair[] = [];
 
   for (let idx = 0; idx < allFieldNames.length; idx++) {
@@ -53,13 +54,13 @@ export const getPointFieldPairs = (fields: DatasetField[]) => {
 
       fieldPairs.push({
         type: 'Point',
-        displayName: fields[idx].displayName || fieldName,
+        displayName: numberFields[idx].displayName || fieldName,
         pair: {
-          lat: fields[idx].name,
-          lng: fields[lngIdx].name,
+          lat: numberFields[idx].name,
+          lng: numberFields[lngIdx].name,
           ...(altIdx !== -1
             ? {
-                alt: fields[altIdx].name,
+                alt: numberFields[altIdx].name,
               }
             : {}),
         },
@@ -253,8 +254,8 @@ export function getLatLngBounds(points: number[][]): LayerBounds | null {
   const latBounds = [Math.max(lats[0], -90), Math.min(lats[lats.length - 1], 90)];
 
   return [
-    [lngBounds[1], latBounds[1]],
     [lngBounds[0], latBounds[0]],
+    [lngBounds[1], latBounds[1]],
   ];
 }
 
@@ -273,8 +274,8 @@ export const getGeometrysBounds = (geometrys: Geometry[]): LayerBounds | null =>
     });
 
     return [
-      [bounds[2], bounds[3]],
       [bounds[0], bounds[1]],
+      [bounds[2], bounds[3]],
     ];
   } catch (e) {
     return null;
