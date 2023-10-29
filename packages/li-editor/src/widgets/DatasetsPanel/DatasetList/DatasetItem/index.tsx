@@ -5,7 +5,6 @@ import type { MenuProps } from 'antd';
 import { Dropdown, message, Popconfirm, Space, Tooltip } from 'antd';
 import classnames from 'classnames';
 import { downloadText } from 'download.js';
-import type { WritableDraft } from 'immer/dist/internal';
 import React, { useState } from 'react';
 import DatasetName from '../../../../components/EditName';
 import { useEditorDataset, useEditorState } from '../../../../hooks';
@@ -40,7 +39,7 @@ const DatasetItem = (props: DatasetItemProps) => {
       id: getUniqueId(datasetSchema.id),
     };
     updateState((draft) => {
-      draft.datasets.push(copyData as WritableDraft<DatasetSchema>);
+      draft.datasets.push(copyData);
     });
     messageApi.success('复制成功');
   };
