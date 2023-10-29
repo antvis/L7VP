@@ -1,5 +1,5 @@
 import type { Draft } from 'immer';
-import produce, { freeze } from 'immer';
+import { freeze, produce } from 'immer';
 import { useCallback, useState } from 'react';
 
 export type DraftFunction<S> = (draft: Draft<S>) => void;

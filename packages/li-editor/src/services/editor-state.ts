@@ -1,7 +1,7 @@
 import type { Application } from '@antv/li-sdk';
 import { Subscribable } from '@antv/li-sdk';
 import type { Draft } from 'immer';
-import produce, { freeze } from 'immer';
+import { freeze, produce } from 'immer';
 import type { EditorContextState } from '../types';
 import { validateApplicationSchema } from '../utils/application';
 
