@@ -27,12 +27,11 @@ export default implementLayer({
     color: 'orange',
   },
   defaultVisConfig: {
-    zIndex: 0,
     radius: 10,
     fillColor: 'rgb(90, 216, 166)',
     opacity: 0.8,
     strokeColor: 'rgb(146, 112, 202)',
-    lineWidth: 0,
+    lineWidth: 1,
     lineOpacity: 1,
     label: {
       style: {
@@ -41,6 +40,10 @@ export default implementLayer({
         textAnchor: 'center' as const,
         textOffset: [0, 0] as [number, number],
       },
+    },
+    state: {
+      active: { fillColor: false, strokeColor: 'yellow' },
+      select: { fillColor: false, strokeColor: 'red' },
     },
     minZoom: 0,
     maxZoom: 24,

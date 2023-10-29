@@ -32,7 +32,6 @@ export default implementLayer({
   },
   defaultVisConfig: {
     visible: true,
-    zIndex: 0,
     size: undefined,
     style: {
       intensity: 1,

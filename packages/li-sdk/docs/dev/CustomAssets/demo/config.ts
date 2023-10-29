@@ -29,6 +29,7 @@ const config: Application = {
         pitch: 0,
         bearing: 0,
         style: 'light',
+        token: 'f0230f884bbd54e2913c890cdf45aa7e',
       },
     },
     layers: [

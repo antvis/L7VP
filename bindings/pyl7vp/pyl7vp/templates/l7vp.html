@@ -15,9 +15,9 @@
     {% endfor %}
     <script>
       // 高德或 Mapbox 的 token，默认使用内置的 token，生产环境务必自行注册 Token 确保服务稳定!
-      const MAP_TOKEN = undefined // 您申请的 token;
-      // 如果是高德，在2021年12月02日申请以后的key需要配合您的安全密钥一起使用
-      // window._AMapSecurityConfig = { securityJsCode:"「您申请的安全密钥」" }
+      const MAP_TOKEN = undefined // 替换为您申请的 token！
+      // 如果是高德，在2021年12月02日申请以后的 key 需要配合您的安全密钥一起使用
+      // window._AMapSecurityConfig = { securityJsCode: '替换为您申请的安全密钥！' }
     </script>
   </head>
   <body>
@@ -31,6 +31,12 @@
       .amap-copyright {
         left: 350px;
       }
+      {% if l7vp.read_only %}
+      /* 编辑态只预览模式 */
+      div.pyl7vp-container .li-editor .li-editor-layout__left {
+        display: none;
+      }
+      {% endif %}
     </style>
 
     <div id="{{ l7vp.instance_id }}" class="pyl7vp-container"></div>
@@ -61,7 +67,7 @@
     if (MAP_TOKEN) LI_Config.spec.map.config.token = MAP_TOKEN
     </script>
 
-    {% if l7vp.read_only %}
+    {% if l7vp.app_mode %}
     <!-- Render LI App -->
     <script>
       const { ConfigProvider, theme } = window.antd;

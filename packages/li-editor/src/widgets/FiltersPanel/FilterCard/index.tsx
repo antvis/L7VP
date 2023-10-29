@@ -1,11 +1,11 @@
 import { DatabaseOutlined, DeleteOutlined } from '@ant-design/icons';
 import { FilterList } from '@antv/li-p2';
 import type { DatasetFilter, FilterNode, LocalDatasetSchema, RemoteDatasetSchema } from '@antv/li-sdk';
-import { getDatasetFields, isLocalOrRemoteDataset } from '@antv/li-sdk';
+import { getDatasetFields } from '@antv/li-sdk';
 import { Button, Card, Popconfirm, Select, theme } from 'antd';
 import type { DefaultOptionType } from 'antd/lib/select';
 import React, { useMemo } from 'react';
-import { useEditorDatasets, useEditorState } from '../../../hooks';
+import { useEditorDataset, useEditorState } from '../../../hooks';
 import './index.less';
 
 const CLS_PREFIX = 'li-filter-widget-card';
@@ -21,17 +21,12 @@ type FilterCardProps = {
 const { useToken } = theme;
 
 const FilterCard = ({ id: datasetId, datasetOptions, selectedDatasets, onDatasetIdChange, onDel }: FilterCardProps) => {
-  const datasetIds = useMemo(() => [datasetId], [datasetId]);
   const { token } = useToken();
-  const [dataset] = useEditorDatasets(datasetIds);
-  const filter = (dataset && isLocalOrRemoteDataset(dataset) && dataset.filter) || undefined;
-  const columns = useMemo(() => (dataset && isLocalOrRemoteDataset(dataset) ? getDatasetFields(dataset.columns) : []), [
-    dataset,
-  ]);
+  const editorDataset = useEditorDataset(datasetId);
+  const filter = editorDataset?.filter;
+  const columns = useMemo(() => (editorDataset ? getDatasetFields(editorDataset.columns) : []), [editorDataset]);
   // 考虑性能，只取前 50000 条数据
-  const _data = useMemo(() => (dataset && isLocalOrRemoteDataset(dataset) ? dataset.data.slice(0, 50000) : []), [
-    dataset,
-  ]);
+  const _data = useMemo(() => (editorDataset ? editorDataset.data.slice(0, 50000) : []), [editorDataset]);
 
   const { updateState } = useEditorState();
 

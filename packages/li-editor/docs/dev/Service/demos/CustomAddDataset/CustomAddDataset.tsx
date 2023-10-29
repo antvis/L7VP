@@ -21,7 +21,7 @@ const GEO_LIST = [
 
 export default function CustomAddDataset(props: CustomAddDatasetProps) {
   const { appService } = useEditorService();
-  const implementDatasetService = appService.getImplementService('GET_CHINA_GEO_LIST');
+  const implementDatasetService = appService.getImplementDatasetService('GET_CHINA_GEO_LIST');
   const { onSubmit, onCancel } = props;
   const [selectAdcodes, setSelectAdcodes] = useState<string[]>([]);
 

@@ -3,7 +3,7 @@ import { getUniqueId } from '@antv/li-sdk';
 
 export const getDefaultLayerAttr = (name: string, datasetId: string) => {
   const config: LayerSchema = {
-    id: getUniqueId('layer_id'),
+    id: getUniqueId(),
     type: '',
     metadata: {
       name,

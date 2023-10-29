@@ -1,9 +1,16 @@
 import type { DatasetFilter, ServiceMetadata } from '../specs';
 
-export interface ServiceParams {
+export interface DatasetServiceParams<Properties extends Record<string, any> = Record<string, any>> {
   filter?: DatasetFilter;
-  properties: Record<string, any>;
+  properties: Properties;
+  signal: AbortSignal;
 }
+
+/**
+ * 兼容旧的类型名称
+ * @deprecated 不建议使用
+ */
+export type ServiceParams = DatasetServiceParams;
 
 type ImplementServiceBaseOptions = {
   /**
@@ -13,7 +20,7 @@ type ImplementServiceBaseOptions = {
 };
 
 export type ImplementServiceOptions<
-  Params extends ServiceParams = ServiceParams,
+  Params extends DatasetServiceParams = DatasetServiceParams,
   DataType extends Record<string, unknown> = Record<string, unknown>
 > =
   | (ImplementServiceBaseOptions & {

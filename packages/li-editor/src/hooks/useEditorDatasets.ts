@@ -1,33 +1,34 @@
-import type { Dataset } from '@antv/li-sdk';
-import { isRemoteDatasetSchema } from '@antv/li-sdk';
-import { useMemo } from 'react';
-import { useEditorState } from './useEditorState';
+import { useSyncExternalStore } from 'react';
+import { useEditorService } from './useEditor';
 
-export const useEditorDatasets = (datasetIds?: string[]) => {
-  const { state } = useEditorState();
-  const { serviceCache, datasets: datasetSchemas } = state;
+export const useEditorDataset = (datasetId: string) => {
+  const { editorService } = useEditorService();
+  const { editorDatasetManager } = editorService;
 
-  const datasets = useMemo(() => {
-    const newDatasets: Dataset[] = [];
+  const editorDatasets = useSyncExternalStore(
+    (onStoreChange) => editorDatasetManager.subscribe(onStoreChange),
+    () => editorDatasetManager.getSnapshot(),
+  );
 
-    datasetSchemas.forEach((datasetSchema) => {
-      if (Array.isArray(datasetIds) && !datasetIds.includes(datasetSchema.id)) {
-        return;
-      }
+  const editorDataset = editorDatasets.find((item) => item.id === datasetId);
 
-      if (isRemoteDatasetSchema(datasetSchema)) {
-        const targetCache = serviceCache[datasetSchema.id];
-        newDatasets.push({
-          ...datasetSchema,
-          data: targetCache?.data ?? [],
-          columns: targetCache?.columns ?? [],
-        });
-      } else {
-        newDatasets.push(datasetSchema);
-      }
-    });
-    return newDatasets;
-  }, [datasetIds, datasetSchemas, serviceCache]);
+  return editorDataset;
+};
 
-  return datasets;
+export const useEditorDatasets = () => {
+  const { editorService } = useEditorService();
+  const { editorDatasetManager } = editorService;
+
+  const editorDatasets = useSyncExternalStore(
+    (onStoreChange) => editorDatasetManager.subscribe(onStoreChange),
+    () => editorDatasetManager.getSnapshot(),
+  );
+
+  const isLoading = editorDatasetManager.isLoading;
+
+  // useEffect(() => {
+  //   console.log('editorDatasets: ', editorDatasets);
+  // }, [editorDatasets]);
+
+  return { editorDatasets, isLoading };
 };

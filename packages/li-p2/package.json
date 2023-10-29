@@ -1,6 +1,6 @@
 {
   "name": "@antv/li-p2",
-  "version": "1.2.0",
+  "version": "1.2.1-alpha.0",
   "description": "property panel for location insight editor",
   "keywords": [
     "li",
@@ -67,8 +67,8 @@
   "peerDependencies": {
     "@ant-design/icons": "^5.0.1",
     "antd": "^5.5.0",
-    "react": ">=16.9.0",
-    "react-dom": ">=16.9.0"
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "publishConfig": {
     "access": "public",

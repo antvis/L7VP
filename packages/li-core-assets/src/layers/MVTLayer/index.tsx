@@ -44,7 +44,6 @@ export default implementLayer({
   },
   defaultVisConfig: {
     visible: true,
-    zIndex: 0,
     radius: 6,
     fillColor: 'rgb(90, 216, 166)',
     opacity: 0.6,

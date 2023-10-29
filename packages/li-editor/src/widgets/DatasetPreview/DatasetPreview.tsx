@@ -1,9 +1,8 @@
-import { isLocalOrRemoteDataset } from '@antv/li-sdk';
 import { Modal, Table, Tooltip } from 'antd';
 import type { ColumnsType } from 'antd/lib/table';
 import { uniqueId } from 'lodash-es';
 import React, { useState } from 'react';
-import { useEditorDatasets } from '../../hooks';
+import { useEditorDataset } from '../../hooks';
 import type { ImplementEditorPreviewDatasetWidgetProps } from '../../types';
 import './DatasetPreview.less';
 import TypeTag from './TypeTag';
@@ -13,13 +12,13 @@ type DatasetPreviewProps = ImplementEditorPreviewDatasetWidgetProps;
 const DatasetPreview = (props: DatasetPreviewProps) => {
   const { datasetId, visible, onCancel } = props;
   const [pagination, setPagination] = useState({ current: 1, pageSize: 50 });
-  const [dataset] = useEditorDatasets([datasetId]);
+  const editorDataset = useEditorDataset(datasetId);
 
-  if (!isLocalOrRemoteDataset(dataset)) {
+  if (!editorDataset?.isLocalOrRemoteDataset) {
     return null;
   }
 
-  const { data: tableData = [], columns: tableColumns = [] } = dataset;
+  const { data: tableData = [], columns: tableColumns = [] } = editorDataset;
 
   const columns = () => {
     const fieldLists: ColumnsType<any> = [
@@ -73,7 +72,7 @@ const DatasetPreview = (props: DatasetPreviewProps) => {
   return (
     <Modal
       className="li-dataset-preview"
-      title={`${dataset?.metadata.name}`}
+      title={`${editorDataset.metadata.name}`}
       open={visible}
       bodyStyle={{ padding: 0 }}
       destroyOnClose

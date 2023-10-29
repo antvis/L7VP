@@ -50,17 +50,23 @@ const LayerItem = ({ layer, dragIcon, onClickLayer }: LayerItemProps) => {
     });
   };
 
-  const copyLayer = (_layer: LayerSchema) => {
-    const copyData = {
+  const handleCopyLayer = (_layer: LayerSchema) => {
+    const copyLayer = {
       ..._layer,
       metadata: {
         ..._layer.metadata,
-        name: `${_layer.metadata.name}copy`,
+        name: `复制 ${_layer.metadata.name}`,
       },
-      id: getUniqueId(_layer.id),
+      id: getUniqueId(),
     };
     updateState((draft) => {
-      draft.layers.push(copyData);
+      const originalIndex = draft.layers.findIndex((l) => l.id === _layer.id);
+      if (originalIndex !== -1) {
+        // 复制的图层插入进去
+        draft.layers.splice(originalIndex + 1, 0, copyLayer);
+      } else {
+        draft.layers.push(copyLayer);
+      }
     });
     messageApi.success('复制成功');
   };
@@ -132,7 +138,7 @@ const LayerItem = ({ layer, dragIcon, onClickLayer }: LayerItemProps) => {
           <Tooltip title="点击复制图层">
             <CopyOutlined
               className={classnames('li-layer-item__actions_hide', 'li-layer-item__actions_show')}
-              onClick={() => copyLayer(layer)}
+              onClick={() => handleCopyLayer(layer)}
             />
           </Tooltip>
 

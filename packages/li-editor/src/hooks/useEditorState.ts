@@ -1,36 +1,27 @@
-import React from 'react';
+import { useMemo, useSyncExternalStore } from 'react';
 import type { EditorContextState } from '../types';
 import type { Updater } from './internal/use-immer';
+import { useEditorService } from './useEditor';
 
 export type EditorContextStateValue = {
   state: EditorContextState;
   updateState: Updater<EditorContextState>;
 };
 
-export const initialState: EditorContextState = {
-  activeNavMenuKey: '',
-  collapsed: false,
-  //@ts-ignore
-  metadata: null,
-  //@ts-ignore
-  map: null,
-  datasets: [],
-  layers: [],
-  widgets: [],
-};
-
-const defaultValue: EditorContextStateValue = {
-  state: initialState,
-  updateState: () => {},
-};
-
-export const LIEditorStateContext = React.createContext<EditorContextStateValue>(defaultValue);
-
 export const useEditorState = () => {
-  const context = React.useContext(LIEditorStateContext);
-  if (context === undefined || Object.keys(context).length === 0) {
-    throw new Error(`useEditorState must be used within a LIEditorStateContext.Provider`);
-  }
+  const { editorService } = useEditorService();
+  const { editorState } = editorService;
+
+  const state = useSyncExternalStore(
+    (onStoreChange) => editorState.subscribe(onStoreChange),
+    () => editorState.getSnapshot(),
+  );
+  const updateState = useMemo(() => editorState.setState.bind(editorState), [editorState]);
+
+  const context: EditorContextStateValue = {
+    state,
+    updateState,
+  };
 
   return context;
 };

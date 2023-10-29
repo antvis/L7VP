@@ -1,16 +1,16 @@
 import produce from 'immer';
 import type { DatasetFilter, FilterNode } from '../specs';
 import { isLocalOrRemoteDataset } from '../utils';
-import { useStateManager } from './internal';
-import { useDataset } from './useDataset';
+import { useDatasetBase, useStateManager } from './internal';
 
 export function useDatasetFilter(datasetId: string) {
   const { datasetStore } = useStateManager();
-  const [dataset] = useDataset(datasetId);
-  const filter = (dataset && isLocalOrRemoteDataset(dataset) && dataset.filter) || undefined;
+  const dataset = useDatasetBase(datasetId);
+  const isLocalOrRemote = dataset && isLocalOrRemoteDataset(dataset);
+  const filter = (isLocalOrRemote && dataset.filter) || undefined;
 
   const addFilterNode = (filterNode: FilterNode, filterLogicalOperator?: DatasetFilter['relation']) => {
-    if (dataset && isLocalOrRemoteDataset(dataset)) {
+    if (isLocalOrRemote) {
       let _filter: DatasetFilter;
       if (dataset.filter) {
         _filter = { ...dataset.filter, children: dataset.filter.children.concat(filterNode) };
@@ -22,12 +22,7 @@ export function useDatasetFilter(datasetId: string) {
   };
 
   const updateFilterNode = (filterId: string, filterNode: Partial<Omit<FilterNode, 'id'>>) => {
-    if (
-      dataset &&
-      isLocalOrRemoteDataset(dataset) &&
-      dataset.filter &&
-      dataset.filter.children.find((item) => item.id === filterId)
-    ) {
+    if (isLocalOrRemote && dataset.filter && dataset.filter.children.find((item) => item.id === filterId)) {
       const _filter = produce(dataset.filter, (draftState) => {
         const index = draftState.children.findIndex((item) => item.id === filterId);
         if (index !== -1) draftState.children[index] = { ...draftState.children[index], ...filterNode } as FilterNode;
@@ -37,12 +32,7 @@ export function useDatasetFilter(datasetId: string) {
   };
 
   const removeFilterNode = (filterId: string) => {
-    if (
-      dataset &&
-      isLocalOrRemoteDataset(dataset) &&
-      dataset.filter &&
-      dataset.filter.children.find((item) => item.id === filterId)
-    ) {
+    if (isLocalOrRemote && dataset.filter && dataset.filter.children.find((item) => item.id === filterId)) {
       const _filter = produce(dataset.filter, (draftState) => {
         const index = draftState.children.findIndex((item) => item.id === filterId);
         if (index !== -1) draftState.children.splice(index, 1);

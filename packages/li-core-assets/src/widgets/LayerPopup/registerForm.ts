@@ -70,10 +70,9 @@ const getLayerFieldsFormSchemas = (props: WidgetRegisterFormProps) => {
       const dataset = datasets.find((items) => items.id === item.sourceConfig?.datasetId);
       if (dataset === undefined || !isLocalOrRemoteDataset(dataset)) return undefined;
 
-      const columns =
-        dataset.columns.map((v: DatasetField) => {
-          return { label: v.name, value: v.name };
-        }) || [];
+      const columns = dataset?.columns || [];
+      const options = columns.map((f: DatasetField) => ({ label: f.name, value: f.name }));
+
       return {
         [`items.${item.id}`]: {
           type: 'array',
@@ -103,7 +102,7 @@ const getLayerFieldsFormSchemas = (props: WidgetRegisterFormProps) => {
                 properties: {
                   field: {
                     type: 'string',
-                    enum: columns,
+                    enum: options,
                     'x-decorator': 'FormItem',
                     required: true,
                     'x-decorator-props': {

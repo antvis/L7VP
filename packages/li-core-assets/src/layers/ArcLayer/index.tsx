@@ -24,13 +24,13 @@ export default implementLayer({
   },
   defaultVisConfig: {
     visible: true,
-    zIndex: 0,
     size: 1.5,
     style: {
       opacity: 0.8,
       sourceColor: '#F7664E',
       targetColor: '#5B8FF9',
     },
+    state: { active: { color: 'yellow' } },
     minZoom: 0,
     maxZoom: 24,
     blend: 'normal' as const,

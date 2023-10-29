@@ -73,6 +73,21 @@ def _merge_config(sourceConfig, targetConfig: dict):
 
     return result
 
+ # if dataset not link layer, dataset add property '_autoCreateLayers' tag
+def _dataset_auto_create_layers(dataset: dict, layers: list = []):
+    dataset = dataset.copy()
+    dataset_id = dataset.get("id")
+    hasLayer = False
+
+    for layer in layers:
+      if isinstance(layer, dict) and isinstance(layer["sourceConfig"], dict) and isinstance(layer["sourceConfig"]["datasetId"], str) and layer["sourceConfig"]["datasetId"] == dataset_id:
+        hasLayer = True
+        break
+
+    if not hasLayer:
+      dataset["metadata"]["_autoCreateLayers"] = True
+
+    return dataset
 
 class L7VP():
     '''
@@ -135,7 +150,9 @@ class L7VP():
         env: Optional[Environment] = None,
         **kwargs
     ) -> str:
-        return json_dump_to_js(self.datasets)
+         # if dataset not link layer, dataset add property '_autoCreateLayers' tag
+        datasets = list(map(lambda d: _dataset_auto_create_layers(d, self.config.get("layers")), self.datasets))
+        return json_dump_to_js(datasets)
 
     '''
     get render to html string
@@ -148,10 +165,12 @@ class L7VP():
         html_template: str = "l7vp.html",
         **kwargs
     ) -> str:
+        # TODO:current only support editor mode is work
+        self.app_mode = False
         self.js_datasets = self._dump_js_datasets(env=env, **kwargs)
         self.js_app_config = self._dump_js_app_config(env=env, **kwargs)
 
-        L7VP_LIBS = L7VP_APP_LIBS if read_only else L7VP_APP_LIBS + L7VP_Editor_LIBS
+        L7VP_LIBS = L7VP_APP_LIBS if self.app_mode else L7VP_APP_LIBS + L7VP_Editor_LIBS
 
         cssAssets = []
         jsAssets = []

@@ -1,6 +1,5 @@
-import type { DatasetFilter, ServiceParams } from '@antv/li-sdk';
-import { parserDataWithGeo } from '@antv/li-sdk';
-import { applyDatasetFilter } from '@antv/li-sdk/dist/esm/utils';
+import type { DatasetFilter, DatasetServiceParams } from '@antv/li-sdk';
+import { parserDataWithGeo, applyDatasetFilter } from '@antv/li-sdk';
 
 const Chache = new Map();
 
@@ -11,11 +10,12 @@ type QueryDataParams = {
   };
 };
 
-type Params = ServiceParams & {
-  properties: QueryDataParams;
-};
+type Params = DatasetServiceParams<QueryDataParams>;
 
-const datasetFilterService = async (params: { filter?: DatasetFilter; data: Record<string, any>[] }) => {
+const datasetFilterService = async (
+  params: { filter?: DatasetFilter; data: Record<string, any>[] },
+  signal: AbortSignal,
+) => {
   const { data, filter } = params;
 
   if (!filter) {
@@ -29,7 +29,11 @@ const datasetFilterService = async (params: { filter?: DatasetFilter; data: Reco
   } catch (error) {
     const err = new Error(`applyDatasetFilter is failure, filter data: '${JSON.stringify(filter)}'.`);
     console.error(err);
-    return data;
+    return Promise.reject(err);
+  }
+
+  if (signal.aborted) {
+    return Promise.reject('Aborted the request');
   }
 
   return filterData;
@@ -39,13 +43,14 @@ const datasetFilterService = async (params: { filter?: DatasetFilter; data: Reco
  * 通过 fetch 获取的数据
  */
 export const getFetchData = (params: Params) => {
-  const { properties, filter } = params;
+  const { properties, filter, signal } = params;
   const requestkey = properties.url + properties.requestOptions.method + JSON.stringify(properties.requestOptions.body);
   const defaultRequestInit: RequestInit = {
     mode: 'cors',
     cache: 'default',
+    signal,
   };
-  const requestInit: RequestInit = Object.assign(defaultRequestInit, properties, {
+  const requestInit: RequestInit = Object.assign(defaultRequestInit, {
     body:
       typeof properties.requestOptions.body === 'object'
         ? JSON.stringify(properties.requestOptions.body)
@@ -54,7 +59,7 @@ export const getFetchData = (params: Params) => {
 
   if (Chache.has(requestkey)) {
     const data = Chache.get(requestkey);
-    return datasetFilterService({ data, filter });
+    return datasetFilterService({ data, filter }, signal);
   }
 
   return fetch(properties.url, requestInit)
@@ -65,7 +70,7 @@ export const getFetchData = (params: Params) => {
 
         Chache.set(requestkey, formatData);
 
-        return datasetFilterService({ data: formatData, filter });
+        return datasetFilterService({ data: formatData, filter }, signal);
       }
 
       return Promise.reject(new Error('数据格式不是数组对象, 请检查数据格式是否正确。'));

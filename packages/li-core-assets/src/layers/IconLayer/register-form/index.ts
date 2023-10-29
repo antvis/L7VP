@@ -32,21 +32,7 @@ const fromValues = (values: Record<string, any>): LayerRegisterFormResultType<Ic
   const visConfig = iconImageLayerStyleFlatToConfig(values);
   return {
     sourceConfig,
-    visConfig: {
-      ...visConfig,
-      state: {
-        active: false,
-        select: false,
-
-        // active: {
-        //   color: '#FFF684',
-        // },
-        // select: {
-        //   color: '#FFF684',
-        //   radius: undefined,
-        // },
-      },
-    },
+    visConfig,
   };
 };
 

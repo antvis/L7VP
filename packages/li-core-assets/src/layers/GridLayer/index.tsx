@@ -34,6 +34,7 @@ export default implementLayer({
       coverage: 0.9,
       opacity: 1,
     },
+    state: { active: { color: 'yellow' } },
     minZoom: 0,
     maxZoom: 24,
     blend: 'normal',

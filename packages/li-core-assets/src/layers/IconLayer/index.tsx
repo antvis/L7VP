@@ -27,6 +27,18 @@ export default implementLayer({
   defaultVisConfig: {
     visible: true,
     ...DefaultIconImageLayerStyle,
+    state: {
+      active: false,
+      select: false,
+
+      // active: {
+      //   color: '#FFF684',
+      // },
+      // select: {
+      //   color: '#FFF684',
+      //   radius: undefined,
+      // },
+    },
   },
   component: component,
   registerForm,

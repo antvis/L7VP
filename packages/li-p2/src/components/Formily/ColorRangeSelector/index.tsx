@@ -3,6 +3,8 @@ import { connect, mapProps } from '@formily/react';
 import type { ColorRangeSelectorProps } from './Internal';
 import Internal from './Internal';
 
+export { COLOR_RANGES } from './Internal/constants';
+
 const ColorRangeSelector: ReactFC<ColorRangeSelectorProps> = connect(
   Internal,
   mapProps({

@@ -1,6 +1,12 @@
-import type { LIRuntimeApp, WidgetSchema } from '@antv/li-sdk';
+import type { AssetPackage, ImplementService, LayerSchema, LIRuntimeApp, WidgetSchema } from '@antv/li-sdk';
 import { isEmpty } from 'lodash-es';
 import { AtomWidgetEmptyContainer, AtomWidgets } from '../constants';
+
+const NOOP_SERVICE: ImplementService = {
+  version: 'noop',
+  metadata: { name: 'noop', displayName: 'noop', type: 'Dataset' },
+  service: () => Promise.resolve([]),
+};
 
 class AppService {
   /** 运行时应用 */
@@ -8,6 +14,13 @@ class AppService {
 
   constructor(runtimeApp: LIRuntimeApp) {
     this.runtimeApp = runtimeApp;
+  }
+
+  /**
+   * 安装资产包
+   */
+  public installAssets(assets: AssetPackage[]) {
+    this.runtimeApp.installAssets(assets);
   }
 
   /**
@@ -30,7 +43,7 @@ class AppService {
   public getImplementWidget(name: string) {
     const widget = this.getImplementWidgetsMap().get(name);
     if (!widget) {
-      console.info(`组件 ${name} 未在资产中.`);
+      console.warn(`组件 ${name} 未在资产中.`);
     }
     return widget;
   }
@@ -48,7 +61,7 @@ class AppService {
   public getImplementService(name: string) {
     const service = this.getImplementServicesMap().get(name);
     if (!service) {
-      console.info(`服务 ${name} 未在资产中.`);
+      console.warn(`服务 ${name} 未在资产中.`);
     }
     return service;
   }
@@ -66,6 +79,19 @@ class AppService {
    */
   public getImplementDatasetServices() {
     return this.getImplementServices().filter((service) => service.metadata.type === 'Dataset');
+  }
+
+  /**
+   * 获取注册的数据集类型服务资产
+   */
+  public getImplementDatasetService(name: string) {
+    const service = this.getImplementServicesMap().get(name);
+    if (!service) {
+      console.error(`数据集查询服务 ${name} 未在资产中.`);
+    } else if (service.metadata.type !== 'Dataset') {
+      console.error(`${name} 不属于数据集查询服务.`);
+    }
+    return service || NOOP_SERVICE;
   }
 
   /**
@@ -139,7 +165,7 @@ class AppService {
     if (isEmpty(name)) return undefined;
     const layer = this.getImplementLayersMap().get(name);
     if (!layer) {
-      console.info(`图层 ${name} 未在资产中.`);
+      console.warn(`图层 ${name} 未在资产中.`);
     }
     return layer;
   }
@@ -152,6 +178,13 @@ class AppService {
     const layers = registryManager.getAllLayers();
 
     return layers;
+  }
+
+  /**
+   * 获取图层资产默认的可视化配置
+   */
+  public getImplementLayerDefaultVis(name: string): LayerSchema['visConfig'] {
+    return this.getImplementLayer(name)?.defaultVisConfig ?? {};
   }
 
   /**
@@ -185,6 +218,44 @@ class AppService {
       rotation,
       bounds,
     };
+  }
+
+  /**
+   * 设置地图 Bounds
+   *  bounds [[minlng,minlat],[maxlng,maxlat]]
+   */
+  public fitMapBounds(bounds: [[number, number], [number, number]]) {
+    const { mapStore } = this.runtimeApp.stateManager;
+    const sceneInstance = mapStore.getScene();
+
+    // 0.001 度，约 100 米
+    // const pading = 0.001;
+    // const paddingBounds: [[number, number], [number, number]] = [
+    //   [bounds[0][0] - pading, bounds[0][1] - pading],
+    //   [bounds[1][0] + pading, bounds[1][1] + pading],
+    // ];
+
+    sceneInstance?.fitBounds(bounds);
+  }
+
+  /**
+   * 同步地图 Bounds
+   */
+  public syncMapBounds(bounds: [[number, number], [number, number]]) {
+    const { mapStore } = this.runtimeApp.stateManager;
+    const sceneInstance = mapStore.getScene();
+
+    // 地图实例还未创建时，待实例创建完成再同步 bounds
+    // 地图还未实例化，需要同步地图情况：pyl7vp 场景会用到
+    // TODO:针对 pyl7vp 场景，解决方案：暴露出自动生成 schema API 方法，提前生成好，也可保证预览态可用，like addDatasetToMap
+    if (!sceneInstance) {
+      mapStore.once('set-scene', () => {
+        this.fitMapBounds(bounds);
+      });
+      return;
+    }
+
+    this.fitMapBounds(bounds);
   }
 }
 

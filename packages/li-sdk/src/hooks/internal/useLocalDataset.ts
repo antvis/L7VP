@@ -8,7 +8,7 @@ import { applyDatasetFilter, filterFalsyDatasetFilter } from '../../utils';
 import { useMemoDeep } from './useMemoDeep';
 
 const customizerDepsEqual = (aDeps: DependencyList = [], bDeps: DependencyList = []) => {
-  return isEqualWith(aDeps, bDeps, (a: ServiceParams, b: ServiceParams) => {
+  return isEqualWith(aDeps, bDeps, (a: DatasetServiceParams, b: DatasetServiceParams) => {
     if (a.data === b.data && isEqual(a.filter, b.filter)) {
       return true;
     }
@@ -18,7 +18,7 @@ const customizerDepsEqual = (aDeps: DependencyList = [], bDeps: DependencyList =
 
 // const Caches = new Map();
 
-type ServiceParams = Pick<LocalDatasetSchema, 'data' | 'filter'>;
+type DatasetServiceParams = Pick<LocalDatasetSchema, 'data' | 'filter'>;
 
 export const NOOP_LOCAL_DATASET: LocalDatasetSchema = {
   id: 'noop',
@@ -30,7 +30,7 @@ export const NOOP_LOCAL_DATASET: LocalDatasetSchema = {
 
 const NOOP_SERVICE = () => Promise.resolve([]);
 
-const datasetFilterService = async (params: ServiceParams) => {
+const datasetFilterService = async (params: DatasetServiceParams) => {
   const { data, filter } = params;
 
   if (!filter) {
@@ -64,10 +64,10 @@ export function useLocalDataset(datasetSchema: LocalDatasetSchema, pickFilter?: 
 
     return _filterFormat;
   }, [datasetSchema.filter, pickFilter, datasetSchema.columns]);
-  const params: ServiceParams = useMemoDeep(() => ({ data: datasetSchema.data, filter }), customizerDepsEqual);
+  const params: DatasetServiceParams = useMemoDeep(() => ({ data: datasetSchema.data, filter }), customizerDepsEqual);
 
   // 防抖
-  const [debouncedParams, setDebouncedParams] = useState<ServiceParams>(params);
+  const [debouncedParams, setDebouncedParams] = useState<DatasetServiceParams>(params);
   useThrottleEffect(() => setDebouncedParams(params), [params], { wait: 1000 });
 
   const [data, setData] = useState<Record<string, any>[]>();
@@ -75,7 +75,7 @@ export function useLocalDataset(datasetSchema: LocalDatasetSchema, pickFilter?: 
   const service = datasetSchema.id === NOOP_LOCAL_DATASET.id ? NOOP_SERVICE : datasetFilterService;
 
   // const cacheKey = datasetSchema.id + JSON.stringify(params);
-  // const { data, run } = useRequest<Record<string, unknown>[], [ServiceParams]>(service, {
+  // const { data, run } = useRequest<Record<string, unknown>[], [DatasetServiceParams]>(service, {
   //   defaultParams: params,
   //   cacheKey,
   //   manual: false,

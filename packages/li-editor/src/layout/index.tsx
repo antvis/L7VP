@@ -1,10 +1,7 @@
-import { getDatasetColumns } from '@antv/li-sdk';
-import { useAsyncEffect } from 'ahooks';
 import { ConfigProvider, notification, Spin } from 'antd';
 import classNames from 'classnames';
-import React, { useState } from 'react';
-import { useEditorService, useEditorState } from '../hooks';
-import type { EditorServiceCache } from '../types';
+import React, { useEffect } from 'react';
+import { useEditorDatasets, useEditorState } from '../hooks';
 import './index.less';
 import type { RuntimeAppProps } from './RuntimeApp';
 import RuntimeApp from './RuntimeApp';
@@ -21,75 +18,27 @@ export const DefaultTheme = {
 };
 
 const Layout: React.FC<LayoutProps> = (props) => {
-  const { className, style, defaultApplication, App } = props;
+  const { className, style, App } = props;
   const [notificationApi, contextHolder] = notification.useNotification();
-  const { state, updateState } = useEditorState();
-  const { appService } = useEditorService();
-  const { datasets, serviceCache } = state;
+  const { state } = useEditorState();
+  const { editorDatasets, isLoading } = useEditorDatasets();
 
-  const [dataLoading, setDataLoading] = useState(false);
-
-  useAsyncEffect(async () => {
-    const newServiceCache: EditorServiceCache = {};
-    const requestList: { datasetId: string; datasetName: string; promise: Promise<Record<string, any>[]> }[] = [];
-    datasets.forEach((dataset) => {
-      const {
-        id: datasetId,
-        metadata: { name: datasetName },
-      } = dataset;
-      if (dataset.type === 'remote') {
-        if (serviceCache[datasetId]) {
-          newServiceCache[datasetId] = serviceCache[datasetId];
-        } else {
-          const service = appService.getImplementService(dataset.serviceType);
-          if (service) {
-            requestList.push({
-              datasetName,
-              datasetId,
-              promise: service.service({
-                properties: dataset.properties,
-                // TODO: filters 初始值问题
-              }),
-            });
-          }
-        }
+  useEffect(() => {
+    editorDatasets.forEach((editorDataset) => {
+      if (editorDataset.isLoadingError && editorDataset.error) {
+        notificationApi.error({
+          message: `数据集"${editorDataset.metadata.name}"请求失败`,
+          description: editorDataset.error.message || editorDataset.error.message,
+        });
       }
     });
-
-    setDataLoading(true);
-
-    await Promise.all(
-      requestList.map(async ({ datasetId, datasetName, promise }) => {
-        try {
-          const data = await promise;
-          newServiceCache[datasetId] = {
-            data: data ?? [],
-            columns: data?.length ? getDatasetColumns(data[0]) : [],
-          };
-        } catch (error: any) {
-          notificationApi.error({
-            message: `数据集"${datasetName}"请求失败`,
-            description: error?.message || error,
-          });
-        }
-      }),
-    ).finally(() => {
-      setDataLoading(false);
-    });
-
-    updateState((draft) => {
-      return {
-        ...draft,
-        serviceCache: newServiceCache,
-      };
-    });
-  }, [datasets]);
+  }, [editorDatasets]);
 
   return (
     <div className={classNames('li-editor', 'li-editor-layout', className)} style={style}>
       <ConfigProvider theme={DefaultTheme}>
         {contextHolder}
-        {dataLoading && (
+        {isLoading && (
           <div className="li-editor-layout__loading">
             <Spin />
             <span>数据集加载中...</span>
@@ -104,7 +53,7 @@ const Layout: React.FC<LayoutProps> = (props) => {
           />
         </div>
       </ConfigProvider>
-      <RuntimeApp className="li-editor-layout__cavans" App={App} defaultApplication={defaultApplication} />
+      <RuntimeApp className="li-editor-layout__cavans" App={App} />
     </div>
   );
 };

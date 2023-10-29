@@ -3,7 +3,7 @@ import type { LayerSchema } from '@antv/li-sdk';
 import { Empty } from 'antd';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash-es';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useEditorState } from '../../../hooks';
 import DragList from './DragList';
 import './index.less';
@@ -18,16 +18,29 @@ const LayerList: React.FC<LayersPanelProps> = (props) => {
   const { onClickLayer } = props;
   const { state, updateState } = useEditorState();
 
+  // 以图层在地图上的层级从高到低的（地图上）排列，以方便用户从 UI 上理解图层列表。
+  // - 新增的图层，在最上面；
+  // - 最上面的图层，在地图上的层级越高；
+
+  // 从原始数据，反转顺序
+  const layers = useMemo(() => state.layers.slice().reverse(), [state.layers]);
+
   const onDragEnd = (newLayerList: LayerSchema[]) => {
-    updateState((draft) => {
-      draft.layers = newLayerList.map((item, index) => ({
+    const lastIndex = newLayerList.length - 1;
+    const newLayerListWithZindex = newLayerList
+      .map((item, index) => ({
         ...item,
-        visConfig: { ...item.visConfig, zIndex: index },
-      }));
+        // 设置 zIndex，图层的 zIndex 从大到小排列
+        visConfig: { ...item.visConfig, zIndex: lastIndex - index },
+      }))
+      // 反转顺序，反转为原始数据，
+      .reverse();
+    updateState((draft) => {
+      draft.layers = newLayerListWithZindex;
     });
   };
 
-  if (isEmpty(state.layers)) {
+  if (isEmpty(layers)) {
     return (
       <Empty
         className="li-layer-list__empty"
@@ -39,10 +52,8 @@ const LayerList: React.FC<LayersPanelProps> = (props) => {
 
   return (
     <div className={classNames('li-layer-list', props.className)}>
-      <DragList items={state.layers} onDrag={onDragEnd} dragIcon={<HolderOutlined />}>
-        {(layer: LayerSchema, icon: JSX.Element) => (
-          <LayerItem dragIcon={icon} layer={layer} onClickLayer={onClickLayer} />
-        )}
+      <DragList items={layers} onDrag={onDragEnd} dragIcon={<HolderOutlined />}>
+        {(layer, icon) => <LayerItem dragIcon={icon} layer={layer} onClickLayer={onClickLayer} />}
       </DragList>
     </div>
   );

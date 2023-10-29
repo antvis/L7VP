@@ -1,15 +1,14 @@
-import type { Application, DatasetSchema, LIRuntimeApp } from '@antv/li-sdk';
+import type { Application, LIRuntimeApp } from '@antv/li-sdk';
 import { useLatest, useMemoizedFn, useUpdateEffect } from 'ahooks';
 import classNames from 'classnames';
-import type { WritableDraft } from 'immer/dist/internal';
 import { cloneDeep, debounce } from 'lodash-es';
 import type { CSSProperties } from 'react';
-import React from 'react';
+import React, { useState } from 'react';
 import type { FallbackProps } from 'react-error-boundary';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useEditorService, useEditorState } from '../../hooks';
-import { useImmer } from '../../hooks/internal';
-import { validateDatasets, validateLayers, validWidgets } from '../../utils';
+import { validateRuntimeDatasets, validRuntimeLayers, validRuntimeWidgets } from '../../utils';
+import { getApplicationSchemaFromEditorState, getApplicationSchemaFromRuntime } from '../../utils/application';
 
 function FallbackRender({ error, resetErrorBoundary }: FallbackProps) {
   // Call resetErrorBoundary() to reset the error boundary and retry the render.
@@ -31,8 +30,6 @@ function cloneDefaultApplication(defaultApplication: Application): Application {
 }
 
 export type RuntimeAppProps = {
-  /** 默认的应用配置 */
-  defaultApplication: Application;
   /** 运行时应用 */
   App: LIRuntimeApp['App'];
   /** 类名 */
@@ -42,66 +39,63 @@ export type RuntimeAppProps = {
 };
 
 const RuntimeApp: React.FC<RuntimeAppProps> = (props) => {
-  const { className, style, defaultApplication, App: LIApp } = props;
-
+  const { className, style, App: LIApp } = props;
   // 编辑器上下文服务
   const { editorService } = useEditorService();
-
   // 编辑器上下文状态
   const { state } = useEditorState();
 
   // LISDK 配置项
-  const [sdkConfigState, updateSdkConfigState] = useImmer<Application>(
-    cloneDefaultApplication(defaultApplication),
-    false,
+  const [sdkConfig, setSdkConfig] = useState<Application>(
+    cloneDefaultApplication(getApplicationSchemaFromEditorState(state)),
   );
 
   const latestAppConfigRef = useLatest({
-    ...sdkConfigState,
+    ...sdkConfig,
     metadata: state.metadata,
   });
 
   const publishSdkUpdateEvent = useMemoizedFn(
     debounce(() => {
-      editorService.publishEvent('change', latestAppConfigRef.current);
-    }, 1000),
+      editorService.publishEvent('change', getApplicationSchemaFromRuntime(latestAppConfigRef.current));
+    }, 300),
   );
 
   useUpdateEffect(() => {
-    console.log('update state.map => ', state.map);
-    updateSdkConfigState((draft) => {
-      draft.spec.map = state.map;
+    if (process.env.NODE_ENV === 'development') console.log('update state.map => ', state.map);
+    setSdkConfig((config) => {
+      return { ...config, spec: { ...config.spec, map: state.map } };
     });
     publishSdkUpdateEvent();
   }, [state.map]);
 
   useUpdateEffect(() => {
-    console.log('update state.datasets => ', state.datasets);
-    updateSdkConfigState((draft) => {
-      draft.datasets = validateDatasets(state.datasets) as WritableDraft<DatasetSchema[]>;
+    if (process.env.NODE_ENV === 'development') console.log('update state.datasets => ', state.datasets);
+    setSdkConfig((config) => {
+      return { ...config, datasets: validateRuntimeDatasets(state.datasets) };
     });
     publishSdkUpdateEvent();
   }, [state.datasets]);
 
   useUpdateEffect(() => {
-    console.log('update state.layers => ', state.layers);
-    updateSdkConfigState((draft) => {
-      draft.spec.layers = validateLayers(state.layers);
+    if (process.env.NODE_ENV === 'development') console.log('update state.layers => ', state.layers);
+    setSdkConfig((config) => {
+      return { ...config, spec: { ...config.spec, layers: validRuntimeLayers(state.layers) } };
     });
     publishSdkUpdateEvent();
   }, [state.layers]);
 
   useUpdateEffect(() => {
-    console.log('update state.widgets => ', state.widgets);
-    updateSdkConfigState((draft) => {
-      draft.spec.widgets = validWidgets(state.widgets);
+    if (process.env.NODE_ENV === 'development') console.log('update state.widgets => ', state.widgets);
+    setSdkConfig((config) => {
+      return { ...config, spec: { ...config.spec, widgets: validRuntimeWidgets(state.widgets) } };
     });
     publishSdkUpdateEvent();
   }, [state.widgets]);
 
   return (
     <ErrorBoundary fallbackRender={FallbackRender}>
-      <LIApp className={classNames(className)} config={sdkConfigState} style={style} />
+      <LIApp className={classNames(className)} config={sdkConfig} style={style} />
     </ErrorBoundary>
   );
 };

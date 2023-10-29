@@ -46,7 +46,6 @@ export default implementLayer({
   },
   defaultVisConfig: {
     visible: true,
-    zIndex: 0,
     style: {
       opacity: 1,
     },

@@ -41,13 +41,7 @@ const fromValues = (values: Record<string, any>): LayerRegisterFormResultType<Bu
 
   return {
     sourceConfig,
-    visConfig: {
-      ...visConfig,
-      state: {
-        active: { fillColor: false, strokeColor: 'yellow' },
-        select: { fillColor: false, strokeColor: 'red' },
-      },
-    },
+    visConfig,
   };
 };
 

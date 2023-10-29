@@ -1,12 +1,12 @@
 import type { LayerSchema } from '@antv/li-sdk';
-import { getDatasetFields, isLocalOrRemoteDataset } from '@antv/li-sdk';
+import { getDatasetFields } from '@antv/li-sdk';
 import { Form } from '@formily/antd-v5';
 import { createForm, onFieldValueChange } from '@formily/core';
 import { useMemoizedFn } from 'ahooks';
 import classNames from 'classnames';
 import { max, min, pick } from 'lodash-es';
 import React, { useMemo, useState } from 'react';
-import { useEditorDatasets, useEditorService, useEditorState } from '../../../../hooks';
+import { useEditorDataset, useEditorService, useEditorState } from '../../../../hooks';
 import BaseFormSchemaField from '../BaseFormSchemaField';
 import './index.less';
 import StyleForm from './StyleForm';
@@ -21,9 +21,8 @@ const LayerForm: React.FC<LayerFormProps> = ({ className, config, onChange }) =>
   const { state } = useEditorState();
   const [visType, setVisType] = useState(config.type);
   const [datasetId, setDatasetId] = useState(config?.sourceConfig?.datasetId);
-  const datasetIds = useMemo(() => (datasetId ? [datasetId] : []), [datasetId]);
-  const [dataset] = useEditorDatasets(datasetIds);
-  const columns = useMemo(() => (dataset && isLocalOrRemoteDataset(dataset) ? dataset.columns : []), [dataset]);
+  const editorDataset = useEditorDataset(datasetId!);
+  const columns = useMemo(() => (editorDataset ? editorDataset.columns : []), [editorDataset]);
 
   const [initialValues, setInitialValues] = useState<Pick<LayerSchema, 'sourceConfig' | 'visConfig'>>(
     pick(config, ['sourceConfig', 'visConfig']),
@@ -42,19 +41,15 @@ const LayerForm: React.FC<LayerFormProps> = ({ className, config, onChange }) =>
 
   const datasetFields = useMemo(() => getDatasetFields(columns), [columns]);
 
+  // TODO: 从 editorDataset 获取数据
   const datasetFieldList = useMemo(() => {
     return datasetFields.map((item) => {
-      // @ts-ignore
-      const itemValue = dataset.data.map((_item: Record<string, any>) => _item[item.value]);
+      const itemValue = editorDataset?.data.map((_item) => _item[item.value]) || [];
       const domain = item.type === 'number' ? [min(itemValue), max(itemValue)] : [...new Set(itemValue)];
 
-      return {
-        ...item,
-        domain,
-      };
+      return { ...item, domain };
     });
-    // @ts-ignore
-  }, [datasetFields, dataset.data]);
+  }, [datasetFields, editorDataset?.data]);
 
   const handleFormValuesChange = useMemoizedFn((styleConfig: Pick<LayerSchema, 'sourceConfig' | 'visConfig'>) => {
     if (styleConfig.sourceConfig && datasetId) {
@@ -81,7 +76,7 @@ const LayerForm: React.FC<LayerFormProps> = ({ className, config, onChange }) =>
         // 可视化类型更新时，同步更新可视化图层表单
         onFieldValueChange('visType', (field) => {
           const type = field.value;
-          const defaultVisConfig = appService.getImplementLayer(type)?.defaultVisConfig ?? {};
+          const defaultVisConfig = appService.getImplementLayerDefaultVis(type);
           const values = {
             sourceConfig: {} as LayerSchema['sourceConfig'],
             visConfig: defaultVisConfig,

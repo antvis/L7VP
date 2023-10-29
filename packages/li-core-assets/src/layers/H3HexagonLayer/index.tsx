@@ -23,9 +23,12 @@ export default implementLayer({
   },
   defaultVisConfig: {
     visible: true,
-    zIndex: 0,
     fillColor: 'rgb(90, 216, 166)',
     opacity: 0.8,
+    state: {
+      active: { strokeColor: 'yellow', fillColor: false },
+      select: { fillColor: false, strokeColor: 'red' },
+    },
     minZoom: 0,
     maxZoom: 24,
     blend: 'normal',
