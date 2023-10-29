@@ -31,6 +31,12 @@
       .amap-copyright {
         left: 350px;
       }
+      {% if l7vp.read_only %}
+      /* 编辑态只预览模式 */
+      div.pyl7vp-container .li-editor .li-editor-layout__left {
+        display: none;
+      }
+      {% endif %}
     </style>
 
     <div id="{{ l7vp.instance_id }}" class="pyl7vp-container"></div>
@@ -61,7 +67,7 @@
     if (MAP_TOKEN) LI_Config.spec.map.config.token = MAP_TOKEN
     </script>
 
-    {% if l7vp.read_only %}
+    {% if l7vp.app_mode %}
     <!-- Render LI App -->
     <script>
       const { ConfigProvider, theme } = window.antd;

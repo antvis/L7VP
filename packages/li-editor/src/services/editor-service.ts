@@ -89,7 +89,7 @@ class EditorService {
     if (bounds) {
       // 放到下一帧，图层加载到地图上渲染耗时，影响 fitBounds 流程度
       requestIdleCallback(() => {
-        this.appService.fitMapBounds(bounds);
+        this.appService.syncMapBounds(bounds);
       });
     }
   };

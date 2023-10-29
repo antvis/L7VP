@@ -227,7 +227,7 @@ class AppService {
   public fitMapBounds(bounds: [[number, number], [number, number]]) {
     const { mapStore } = this.runtimeApp.stateManager;
     const sceneInstance = mapStore.getScene();
-    if (!sceneInstance) return;
+
     // 0.001 度，约 100 米
     // const pading = 0.001;
     // const paddingBounds: [[number, number], [number, number]] = [
@@ -235,7 +235,27 @@ class AppService {
     //   [bounds[1][0] + pading, bounds[1][1] + pading],
     // ];
 
-    sceneInstance.fitBounds(bounds);
+    sceneInstance?.fitBounds(bounds);
+  }
+
+  /**
+   * 同步地图 Bounds
+   */
+  public syncMapBounds(bounds: [[number, number], [number, number]]) {
+    const { mapStore } = this.runtimeApp.stateManager;
+    const sceneInstance = mapStore.getScene();
+
+    // 地图实例还未创建时，待实例创建完成再同步 bounds
+    // 地图还未实例化，需要同步地图情况：pyl7vp 场景会用到
+    // TODO:针对 pyl7vp 场景，解决方案：暴露出自动生成 schema API 方法，提前生成好，也可保证预览态可用，like addDatasetToMap
+    if (!sceneInstance) {
+      mapStore.once('set-scene', () => {
+        this.fitMapBounds(bounds);
+      });
+      return;
+    }
+
+    this.fitMapBounds(bounds);
   }
 }
 

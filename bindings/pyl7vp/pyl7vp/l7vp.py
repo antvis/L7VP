@@ -165,10 +165,12 @@ class L7VP():
         html_template: str = "l7vp.html",
         **kwargs
     ) -> str:
+        # TODO:current only support editor mode is work
+        self.app_mode = False
         self.js_datasets = self._dump_js_datasets(env=env, **kwargs)
         self.js_app_config = self._dump_js_app_config(env=env, **kwargs)
 
-        L7VP_LIBS = L7VP_APP_LIBS if read_only else L7VP_APP_LIBS + L7VP_Editor_LIBS
+        L7VP_LIBS = L7VP_APP_LIBS if self.app_mode else L7VP_APP_LIBS + L7VP_Editor_LIBS
 
         cssAssets = []
         jsAssets = []

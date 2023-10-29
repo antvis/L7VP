@@ -281,3 +281,9 @@ export const getGeometrysBounds = (geometrys: Geometry[]): LayerBounds | null =>
     return null;
   }
 };
+
+export const getBoundsCenter = (bounds: LayerBounds) => {
+  const center: [number, number] = [(bounds[0][0] + bounds[1][0]) / 2, (bounds[0][1] + bounds[1][1]) / 2];
+
+  return center;
+};
