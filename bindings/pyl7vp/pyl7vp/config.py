@@ -188,7 +188,6 @@ DEFAULT_ANALYSIS_SPEC = {
     "map": {
         "basemap": 'Gaode',
         "config": {
-            "token": "f0230f884bbd54e2913c890cdf45aa7e",
             "zoom": 3,
             "center": [120.153576, 30.287459],
             "pitch": 0,
