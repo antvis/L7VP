@@ -10,6 +10,7 @@ type NumericalInputBoxProps = {
   value: number;
   defaultValue: number;
   onChange: (value: number) => void;
+  size: 'small' | 'middle' | 'large';
 };
 
 const NumericalInputBox: React.FC<NumericalInputBoxProps> = (props) => {
@@ -21,12 +22,7 @@ const NumericalInputBox: React.FC<NumericalInputBoxProps> = (props) => {
 
   return (
     <div className={`${CLS_PREFIX}__one-way`}>
-      <InputNumber
-        {...(config as InputNumberProps)}
-        size="small"
-        value={props.value}
-        onChange={(e) => onValueChange(Number(e))}
-      />
+      <InputNumber {...(config as InputNumberProps)} value={props.value} onChange={(e) => onValueChange(Number(e))} />
     </div>
   );
 };

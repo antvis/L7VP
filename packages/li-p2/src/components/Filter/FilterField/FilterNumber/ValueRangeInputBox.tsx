@@ -5,6 +5,7 @@ import { CLS_PREFIX } from './index';
 import './index.less';
 
 type ValueRangeInputBoxProp = {
+  size: 'small' | 'middle' | 'large';
   min: number;
   max: number;
   value: [number, number];
@@ -26,14 +27,14 @@ const ValueRangeInputBox: React.FC<ValueRangeInputBoxProp> = (props) => {
         min={config.min}
         max={range[1] ?? config.max}
         style={{ marginRight: 10 }}
-        size="small"
+        size={config.size}
         value={range[0]}
         onChange={(first) => onInputChange([first ? first : 0, range[1]])}
       />
       <InputNumber
         min={range[0] ?? config.min}
         max={config.max}
-        size="small"
+        size={config.size}
         value={range[1]}
         onChange={(last) => onInputChange([range[0], last ?? range[0]])}
       />

@@ -7,6 +7,7 @@ import ValueRangeInputBox from './ValueRangeInputBox';
 export const DEFAULT_RANGE: [number, number] = [0, 100];
 
 interface FilterNumberProps {
+  size?: 'small' | 'middle' | 'large';
   field: string;
   value: FilterNumberValue;
   operator: FilterNumberOperator;
@@ -15,7 +16,7 @@ interface FilterNumberProps {
 
 export const CLS_PREFIX = 'li-filter-item-filter-field-number';
 
-export const FilterNumber: React.FC<FilterNumberProps> = ({ field, value, operator, onChange }) => {
+export const FilterNumber: React.FC<FilterNumberProps> = ({ size = 'small', field, value, operator, onChange }) => {
   const range: [number, number] = useMemo(() => {
     // const min = minBy([] as Record<string, any>[], (data) => {
     //   return data[field];
@@ -35,6 +36,7 @@ export const FilterNumber: React.FC<FilterNumberProps> = ({ field, value, operat
     <div className={`${CLS_PREFIX}`}>
       {operator !== 'BETWEEN' ? (
         <NumericalInputBox
+          size={size}
           min={-Infinity}
           max={Infinity}
           defaultValue={range[0]}
@@ -43,6 +45,7 @@ export const FilterNumber: React.FC<FilterNumberProps> = ({ field, value, operat
         />
       ) : (
         <ValueRangeInputBox
+          size={size}
           min={Infinity}
           max={Infinity}
           defaultValue={range}

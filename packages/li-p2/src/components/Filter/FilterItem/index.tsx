@@ -21,10 +21,11 @@ export type FilterItemProps = {
   selectedFields?: string[];
   onChange: (val: FilterNode) => void;
   onDelField: () => void;
+  size?: 'small' | 'middle' | 'large';
 };
 
 export const FilterItem = (props: FilterItemProps) => {
-  const { showDeleteFilter, defaultValue, data, columns, selectedFields = [], onDelField } = props;
+  const { showDeleteFilter, defaultValue, data, columns, selectedFields = [], onDelField, size = 'small' } = props;
   const [filterNode, setFilterNode] = useState(defaultValue);
   const field = isEmpty(filterNode.field) ? undefined : filterNode.field;
   const { token } = useToken();
@@ -119,7 +120,7 @@ export const FilterItem = (props: FilterItemProps) => {
           showSearch
           className={`${CLS_PREFIX}__select-field`}
           style={{ marginRight: 10 }}
-          size="small"
+          size={size}
           placeholder="请选择筛选字段"
           value={field}
           options={fieldOptions}
@@ -129,7 +130,7 @@ export const FilterItem = (props: FilterItemProps) => {
         />
         <Select
           className={`${CLS_PREFIX}__select-operator`}
-          size="small"
+          size={size}
           placeholder="请选择筛选方式"
           options={operatorsOption}
           value={filterNode.operator}
@@ -146,6 +147,7 @@ export const FilterItem = (props: FilterItemProps) => {
           {/* 数值类型筛选 */}
           {filterNode.type === 'number' && (
             <FilterNumber
+              size={size}
               field={filterNode.field}
               operator={filterNode.operator}
               value={filterNode.value}
@@ -156,6 +158,7 @@ export const FilterItem = (props: FilterItemProps) => {
           {/* 文本类型筛选 */}
           {filterNode.type === 'string' && (
             <FilterString
+              size={size}
               field={filterNode.field}
               data={data}
               operator={filterNode.operator}
@@ -167,6 +170,7 @@ export const FilterItem = (props: FilterItemProps) => {
           {/* 日期类型筛选 */}
           {filterNode.type === 'date' && (
             <FilterDate
+              size={size}
               // 当缺失格式时，默认为最小粒度的格式
               format={columns.find((item) => item.name === filterNode.field)?.format ?? 'YYYY-MM-DD HH:mm:ss'}
               defaultGranularity={filterNode.granularity}
