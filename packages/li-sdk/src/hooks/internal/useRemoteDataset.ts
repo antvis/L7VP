@@ -1,6 +1,6 @@
 import type { QueryFunctionContext } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
-import { isArray, isObject, isUndefined } from 'lodash-es';
+import { isArray, isUndefined } from 'lodash-es';
 import { useMemo } from 'react';
 import type { DatasetField, DatasetFilter, RemoteDatasetSchema } from '../../specs';
 import type { DatasetServiceParams, ImplementService, RemoteDataset } from '../../types';
@@ -90,8 +90,7 @@ export function useRemoteDataset(datasetSchema: RemoteDatasetSchema, pickFilter?
   );
 
   const dataset: RemoteDataset = useMemo(() => {
-    const columns =
-      isArray(data) && isObject(data[0]) ? mergeColumns(getDatasetColumns(data[0]), datasetSchema.columns) : [];
+    const columns = isArray(data) ? mergeColumns(getDatasetColumns(data), datasetSchema.columns) : [];
     return {
       ...datasetSchema,
       data: isArray(data) ? data : [],

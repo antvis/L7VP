@@ -158,7 +158,7 @@ export class EditorDataset {
 
   public updateData(data: Record<string, any>[]) {
     this.data = data;
-    this.columns = data.length ? getDatasetColumns(data[0]) : [];
+    this.columns = getDatasetColumns(data);
     this.fieldPairs = getPointFieldPairs(this.columns);
     this.geoFields = getGeoFields(this.columns, this.data);
 

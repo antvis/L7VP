@@ -63,21 +63,45 @@ const isBooleanField = (value: string) => {
 };
 
 const isGeoJsonGeometryObject = (value: Record<string, any>) => {
-  return value.type && Array.isArray(value.coordinates) && SupportGeometryType.includes(value.type);
+  return (
+    value.hasOwnProperty('type') &&
+    value.hasOwnProperty('coordinates') &&
+    Array.isArray(value.coordinates) &&
+    SupportGeometryType.includes(value.type)
+  );
 };
 
 const isGeoField = (value: Record<string, any>) => {
   return isGeoJsonGeometryObject(value);
 };
 
+const findFirstNonNullOrUndefinedValue = (data: Record<string, any>[], key: string, sampleCount = 50) => {
+  const numberOfRows = data.length;
+  const sampleStep = Math.max(Math.floor(numberOfRows / sampleCount), 1);
+
+  for (let i = 0; i < numberOfRows; i += sampleStep) {
+    if (data[i][key] !== null && data[i][key] !== undefined) {
+      return data[i][key];
+    }
+  }
+
+  return null;
+};
+
 /**
  *  获取数据集表头元数据信息
  */
-export const getDatasetColumns = (data: Record<string, any>) => {
+export const getDatasetColumns = (data: Record<string, any>[]) => {
+  if (data.length === 0) return [];
+
+  const fields = Object.keys(data[0]);
   const columns: DatasetField[] = [];
-  Object.keys(data).forEach((key) => {
-    const value = data[key];
-    if (typeof value === 'number') {
+
+  fields.forEach((key) => {
+    const value = findFirstNonNullOrUndefinedValue(data, key);
+    if (value === null) {
+      // 值不存在的情况，忽略掉列头
+    } else if (typeof value === 'number') {
       columns.push({
         type: 'number',
         name: key,
