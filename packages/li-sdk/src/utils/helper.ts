@@ -54,3 +54,10 @@ export const isValidUrl = (urlString: string) => {
   ); // validate fragment locator
   return !!urlPattern.test(urlString);
 };
+
+/**
+ * 推断不是 null or undefined
+ */
+export const notNullorUndefined = <T extends NonNullable<any>>(d: T | null | undefined): d is T => {
+  return d !== undefined && d !== null;
+};

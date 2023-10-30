@@ -55,7 +55,7 @@ export const validateDataset = (dataset: DatasetSchema) => {
   // defaultApplication 情况下 columns 可能为空数组
   if (isLocalDatasetSchema(dataset) && dataset.data.length && !dataset.columns.length) {
     const _dataset: LocalDatasetSchema = { ...dataset };
-    _dataset.columns = getDatasetColumns(_dataset.data[0]);
+    _dataset.columns = getDatasetColumns(_dataset.data);
     return _dataset;
   }
 
