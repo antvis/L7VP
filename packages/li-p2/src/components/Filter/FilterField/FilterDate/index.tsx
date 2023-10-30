@@ -58,7 +58,7 @@ export const FilterDate: React.FC<FilterDateProps> = ({
   const onValueChange = (_: any, dateString: FilterDateValue) => {
     // 处理时间到最小粒度
     const _timer = getTimeFormat(dateString, granularity.value, operator);
-    onChange(_timer);
+    onChange(_timer, granularity.granularity);
   };
 
   useEffect(() => {
