@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { FilterDate } from '../FilterField/FilterDate';
 import { DEFAULT_RANGE, FilterNumber } from '../FilterField/FilterNumber';
 import { FilterString } from '../FilterField/FilterString';
-import type { ColumnType, FilterNode, FilterType , Granularity } from '../types';
+import type { ColumnType, FilterNode, FilterType, Granularity } from '../types';
 import { OperatorsOption } from './constants';
 import './index.less';
 
@@ -167,7 +167,8 @@ export const FilterItem = (props: FilterItemProps) => {
           {/* 日期类型筛选 */}
           {filterNode.type === 'date' && (
             <FilterDate
-              format={columns.find((item) => item.name === filterNode.field)?.format ?? 'YYYY'}
+              // 当缺失格式时，默认为最小粒度的格式
+              format={columns.find((item) => item.name === filterNode.field)?.format ?? 'YYYY-MM-DD HH:mm:ss'}
               defaultGranularity={filterNode.granularity}
               operator={filterNode.operator}
               value={filterNode.value}
