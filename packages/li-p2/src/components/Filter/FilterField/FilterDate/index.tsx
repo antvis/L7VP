@@ -22,7 +22,7 @@ const CLS_PREFIX = 'li-filter-item-filter-field-date';
 const { RangePicker } = DatePicker;
 
 export const FilterDate: React.FC<FilterDateProps> = ({
-  size = 'small',
+  size = 'middle',
   operator,
   value: defaultValue,
   format,

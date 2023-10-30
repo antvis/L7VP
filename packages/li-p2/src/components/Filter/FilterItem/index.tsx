@@ -25,7 +25,7 @@ export type FilterItemProps = {
 };
 
 export const FilterItem = (props: FilterItemProps) => {
-  const { showDeleteFilter, defaultValue, data, columns, selectedFields = [], onDelField, size = 'small' } = props;
+  const { showDeleteFilter, defaultValue, data, columns, selectedFields = [], onDelField, size = 'middle' } = props;
   const [filterNode, setFilterNode] = useState(defaultValue);
   const field = isEmpty(filterNode.field) ? undefined : filterNode.field;
   const { token } = useToken();

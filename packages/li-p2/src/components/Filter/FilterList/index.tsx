@@ -70,6 +70,7 @@ export const FilterList = ({
             columns={columns}
             onChange={(val) => onFilterFieldChange(val, item.id)}
             onDelField={() => delFilterField(item.id)}
+            size="small"
           />
         );
       })}
