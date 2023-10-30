@@ -171,7 +171,8 @@ export const FilterItem = (props: FilterItemProps) => {
           {filterNode.type === 'date' && (
             <FilterDate
               size={size}
-              format={columns.find((item) => item.name === filterNode.field)?.format ?? 'YYYY'}
+              // 当缺失格式时，默认为最小粒度的格式
+              format={columns.find((item) => item.name === filterNode.field)?.format ?? 'YYYY-MM-DD HH:mm:ss'}
               defaultGranularity={filterNode.granularity}
               operator={filterNode.operator}
               value={filterNode.value}

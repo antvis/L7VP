@@ -29,7 +29,7 @@ export const parserGeoJsonToSource = (content: string, name: string, id?: string
     metadata: { name },
     data: formatData,
     type: 'local',
-    columns: getDatasetColumns(formatData[0]),
+    columns: getDatasetColumns(formatData),
   };
 };
 
@@ -56,7 +56,7 @@ export const parserJsonToSource = (content: string, name: string, id?: string): 
     metadata: { name },
     data: formatData,
     type: 'local',
-    columns: getDatasetColumns(formatData[0]),
+    columns: getDatasetColumns(formatData),
   };
 };
 
@@ -81,7 +81,7 @@ export const parserCSVToSource = (content: string, name: string, id?: string): D
     metadata: { name },
     data: formatData,
     type: 'local',
-    columns: getDatasetColumns(formatData[0]),
+    columns: getDatasetColumns(formatData),
   };
 };
 
@@ -115,6 +115,6 @@ export const parserExcelToSource = (content: ArrayBuffer, name: string, id?: str
     metadata: { name },
     data: formatData,
     type: 'local',
-    columns: getDatasetColumns(formatData[0]),
+    columns: getDatasetColumns(formatData),
   };
 };
