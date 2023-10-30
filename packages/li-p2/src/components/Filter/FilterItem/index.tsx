@@ -120,7 +120,7 @@ export const FilterItem = (props: FilterItemProps) => {
           showSearch
           className={`${CLS_PREFIX}__select-field`}
           style={{ marginRight: 10 }}
-          size="large"
+          size={size}
           placeholder="请选择筛选字段"
           value={field}
           options={fieldOptions}
