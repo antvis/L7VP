@@ -6,6 +6,7 @@ import type { FilterStringOperator, FilterStringValue } from '../../types';
 import './index.less';
 
 interface FilterStringProps {
+  size?: 'small' | 'middle' | 'large';
   field: string;
   data: Record<string, any>[];
   operator: FilterStringOperator;
@@ -15,7 +16,14 @@ interface FilterStringProps {
 
 const CLS_PREFIX = 'li-filter-item-filter-field-string';
 
-export const FilterString: React.FC<FilterStringProps> = ({ field, value, operator, data, onChange }) => {
+export const FilterString: React.FC<FilterStringProps> = ({
+  size = 'small',
+  field,
+  value,
+  operator,
+  data,
+  onChange,
+}) => {
   const valueOptions: DefaultOptionType[] = useMemo(() => {
     const fieldData = data.map((item) => (typeof item[field] === 'object' ? JSON.stringify(item[field]) : item[field]));
     const filterValueOptions: DefaultOptionType[] = uniq(fieldData)
@@ -40,7 +48,7 @@ export const FilterString: React.FC<FilterStringProps> = ({ field, value, operat
           showSearch
           className={`${CLS_PREFIX}__value`}
           mode={'multiple'}
-          size="small"
+          size={size}
           placeholder="请选择字段"
           value={value}
           options={valueOptions}

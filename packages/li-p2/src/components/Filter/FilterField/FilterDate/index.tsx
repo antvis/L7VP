@@ -9,6 +9,7 @@ import './index.less';
 import type { GranularityItem } from './type';
 
 interface FilterDateProps {
+  size: 'small' | 'middle' | 'large';
   operator: FilterDateOperator;
   value: FilterDateValue;
   format: string;
@@ -21,6 +22,7 @@ const CLS_PREFIX = 'li-filter-item-filter-field-date';
 const { RangePicker } = DatePicker;
 
 export const FilterDate: React.FC<FilterDateProps> = ({
+  size = 'small',
   operator,
   value: defaultValue,
   format,
@@ -79,7 +81,7 @@ export const FilterDate: React.FC<FilterDateProps> = ({
   return (
     <div className={`${CLS_PREFIX}`}>
       <Select
-        size="small"
+        size={size}
         placeholder="时间粒度"
         value={granularity.value}
         style={{ marginRight: 10 }}
@@ -92,7 +94,7 @@ export const FilterDate: React.FC<FilterDateProps> = ({
         <>
           {granularity.picker ? (
             <DatePicker
-              size="small"
+              size={size}
               className={`${CLS_PREFIX}-picker`}
               value={timer as Dayjs | null}
               picker={granularity.picker}
@@ -101,7 +103,7 @@ export const FilterDate: React.FC<FilterDateProps> = ({
             />
           ) : (
             <DatePicker
-              size="small"
+              size={size}
               className={`${CLS_PREFIX}-picker`}
               value={timer as Dayjs | null}
               showTime={{ format: granularity.value }}
@@ -116,7 +118,7 @@ export const FilterDate: React.FC<FilterDateProps> = ({
         <>
           {granularity.picker ? (
             <RangePicker
-              size="small"
+              size={size}
               className={`${CLS_PREFIX}-picker`}
               value={timer as [Dayjs, Dayjs] | null}
               picker={granularity.picker}
@@ -125,7 +127,7 @@ export const FilterDate: React.FC<FilterDateProps> = ({
             />
           ) : (
             <RangePicker
-              size="small"
+              size={size}
               className={`${CLS_PREFIX}-picker`}
               value={timer as [Dayjs, Dayjs] | null}
               showTime={{ format: granularity.value }}
