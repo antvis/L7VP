@@ -16,7 +16,7 @@ interface FilterNumberProps {
 
 export const CLS_PREFIX = 'li-filter-item-filter-field-number';
 
-export const FilterNumber: React.FC<FilterNumberProps> = ({ size = 'small', field, value, operator, onChange }) => {
+export const FilterNumber: React.FC<FilterNumberProps> = ({ size = 'middle', field, value, operator, onChange }) => {
   const range: [number, number] = useMemo(() => {
     // const min = minBy([] as Record<string, any>[], (data) => {
     //   return data[field];
