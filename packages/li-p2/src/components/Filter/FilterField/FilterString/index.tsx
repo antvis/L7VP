@@ -17,7 +17,7 @@ interface FilterStringProps {
 const CLS_PREFIX = 'li-filter-item-filter-field-string';
 
 export const FilterString: React.FC<FilterStringProps> = ({
-  size = 'small',
+  size = 'middle',
   field,
   value,
   operator,
