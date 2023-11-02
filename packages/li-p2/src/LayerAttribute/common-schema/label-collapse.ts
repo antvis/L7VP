@@ -48,7 +48,9 @@ export default (options: AttributeSchemaOptions) => {
             'x-decorator': 'FormItem',
             'x-component': 'Slider',
             'x-component-props': {
-              placeholder: '字号',
+              min: 0,
+              max: 50,
+              step: 1,
             },
             'x-decorator-props': {},
           },

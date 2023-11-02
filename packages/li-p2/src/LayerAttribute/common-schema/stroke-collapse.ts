@@ -30,7 +30,9 @@ export default () => {
             'x-decorator': 'FormItem',
             'x-component': 'Slider',
             'x-component-props': {
-              placeholder: '描边宽度',
+              min: 0,
+              max: 10,
+              step: 0.5,
             },
             'x-decorator-props': {},
           },
