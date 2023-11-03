@@ -1,4 +1,4 @@
-import produce from 'immer';
+import { produce } from 'immer';
 import type { DatasetFilter, FilterNode } from '../specs';
 import { isLocalOrRemoteDataset } from '../utils';
 import { useDatasetBase, useStateManager } from './internal';

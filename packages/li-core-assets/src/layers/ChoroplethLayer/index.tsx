@@ -47,7 +47,7 @@ export default implementLayer({
     lineOpacity: 0.7,
     label: {
       style: {
-        fill: 'red',
+        fill: '#c0c0c0',
         fontSize: 14,
         textAnchor: 'center',
         textOffset: [0, 0],
