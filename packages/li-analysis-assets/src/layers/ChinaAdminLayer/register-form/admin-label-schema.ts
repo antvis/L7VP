@@ -44,6 +44,29 @@ export default () => {
               },
               'x-decorator-props': {},
             },
+
+            adminLabelStroke: {
+              type: 'string',
+              title: '描边颜色',
+              default: '#fff',
+              'x-decorator': 'FormItem',
+              'x-component': 'ColorPicker',
+              'x-decorator-props': {},
+            },
+
+            adminLabelStrokeWidth: {
+              type: 'number',
+              title: '描边宽度',
+              default: 1,
+              'x-decorator': 'FormItem',
+              'x-component': 'Slider',
+              'x-component-props': {
+                placeholder: '描边宽度',
+                min: 0,
+                max: 5,
+              },
+              'x-decorator-props': {},
+            },
           },
         },
       },
