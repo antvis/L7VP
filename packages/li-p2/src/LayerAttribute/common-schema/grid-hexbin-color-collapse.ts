@@ -38,20 +38,15 @@ export default (options: AttributeSchemaOptions) => {
             type: 'string',
             title: '颜色划分',
             default: 'quantile',
-            enum: [
-              {
-                label: '等间距',
-                value: 'quantize',
-              },
-              {
-                label: '等分位',
-                value: 'quantile',
-              },
-            ],
             'x-decorator': 'FormItem',
-            'x-component': 'Select',
+            'x-component': 'ScaleSelector',
             'x-component-props': {
               placeholder: '请选择',
+              dataType:
+                '{{ $form.getFieldState("fillColorField",state=> { return state.dataSource.find((item) => item.value === state.value)?.type })}}',
+              domain:
+                '{{ $form.getFieldState("fillColorField",state=> { return state.dataSource.find((item) => item.value === state.value)?.domain })}}',
+              defaultColors: '{{ $form.getFieldState("fillColorRange",state=> { return state?.value?.colors })}}',
             },
             'x-decorator-props': {},
             'x-reactions': [
@@ -89,20 +84,10 @@ export default (options: AttributeSchemaOptions) => {
           },
           // 色带
           fillColorRange: {
-            type: 'string',
+            type: 'object',
             title: '颜色',
             default: {
-              colors: [
-                'rgb(247, 251, 255)',
-                'rgb(222, 235, 247)',
-                'rgb(198, 219, 239)',
-                'rgb(158, 202, 225)',
-                'rgb(107, 174, 214)',
-                'rgb(66, 146, 198)',
-                'rgb(33, 113, 181)',
-                'rgb(8, 81, 156)',
-                'rgb(8, 48, 107)',
-              ],
+              colors: ['#ffffcc', '#d9f0a3', '#addd8e', '#78c679', '#31a354', '#006837'],
               isReversed: false,
             },
             'x-decorator': 'FormItem',
@@ -113,10 +98,10 @@ export default (options: AttributeSchemaOptions) => {
             },
             'x-reactions': [
               {
-                dependencies: ['fillColorField'],
+                dependencies: ['fillColorField', 'fillColorScale'],
                 fulfill: {
                   state: {
-                    visible: '{{ $deps[0] !== undefined }}',
+                    visible: '{{ $deps[0] !== undefined && !$deps[1].isCustom }}',
                   },
                 },
               },
