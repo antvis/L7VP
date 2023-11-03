@@ -43,7 +43,7 @@ AntV [L7VP](https://locationinsight.antv.antgroup.com) 是一款地理空间智�
 - [导出分享](https://locationinsight.antv.antgroup.com/#/docs?path=export-share)
 
 <div align="center">
-  <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*prQbT40gpCUAAAAAAAAAAAAADmJ7AQ/original" width="800">
+  <img src="https://github.com/antvis/L7VP/assets/26923747/9d064849-ef9f-4999-9d98-3a704df554fc" width="800">
 </div>
 
 ## 🐍 Python 环境
