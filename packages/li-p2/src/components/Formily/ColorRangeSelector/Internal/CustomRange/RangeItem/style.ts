@@ -33,6 +33,7 @@ export default genStyleHook('color-range-selector__custom-range__range-item', (t
           margin: '0 5px',
           cursor: 'pointer',
           border: '1px solid rgba(0,0,0,0)',
+          borderRadius: '4px',
           input: {
             color: colorTextSecondary,
           },
@@ -40,6 +41,10 @@ export default genStyleHook('color-range-selector__custom-range__range-item', (t
 
         '&__input:hover': {
           borderColor: colorBorder,
+        },
+
+        '&__delete-icon': {
+          marginRight: '3px',
         },
 
         '&__delete-icon:hover': {
@@ -53,6 +58,7 @@ export default genStyleHook('color-range-selector__custom-range__range-item', (t
     },
 
     [`${componentCls}:hover`]: {
+      borderRadius: 4,
       background: controlItemBgHover,
       [`${componentCls}__drag-icon`]: {
         opacity: 1,
