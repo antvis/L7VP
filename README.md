@@ -4,13 +4,13 @@
 
 <div align="center">
 
-🌍 L7VP （<a href="https://github.com/antvis/L7">L7</a> Visualization Platform）地理空间智能可视分析工具和应用研发工具。
+🌍 L7VP （<a href="https://github.com/antvis/L7" target="_blank">L7</a> Visualization Platform）地理空间智能可视分析工具和应用研发工具。
 
 <p align="center">
-  <a href="https://locationinsight.antv.antgroup.com">网站</a> •
-  <a href="https://locationinsight.antv.antgroup.com/#/docs">文档</a> •
-  <a href="https://locationinsight.antv.antgroup.com/#/docs?path=cmp1vz2u5p07ghrt">SDK</a> •
-  <a href="https://locationinsight.antv.antgroup.com/#/case">案例</a>
+  <a href="https://locationinsight.antv.antgroup.com" target="_blank">网站</a> •
+  <a href="https://locationinsight.antv.antgroup.com/#/docs" target="_blank">文档</a> •
+  <a href="https://locationinsight.antv.antgroup.com/#/docs?path=cmp1vz2u5p07ghrt" target="_blank">SDK</a> •
+  <a href="https://locationinsight.antv.antgroup.com/#/case" target="_blank">案例</a>
 </p>
 
 [![SDK Version](https://badgen.net/npm/v/@antv/li-sdk)](https://npmjs.com/@antv/li-sdk) [![Release Status](https://github.com/antvis/L7VP/workflows/release/badge.svg)](https://github.com/antvis/L7VP/actions?query=workflow:release) [![Percentage of issues still open](http://isitmaintained.com/badge/open/antvis/l7vp.svg)](http://isitmaintained.com/project/antvis/l7vp 'Percentage of issues still open') [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/antvis/l7vp.svg)](http://isitmaintained.com/project/antvis/l7vp 'Average time to resolve an issue') ![License](https://flat-badgen.vercel.app/github/license/antvis/L7VP)
@@ -35,16 +35,16 @@ AntV [L7VP](https://locationinsight.antv.antgroup.com) 是一款地理空间智�
 
 ## 🖥 在线工具
 
-- [在线网址](https://locationinsight.antv.antgroup.com)
-- [快速入门](https://locationinsight.antv.antgroup.com/#/docs?path=get-started)
-- [数据格式](https://locationinsight.antv.antgroup.com/#/docs?path=data-formats)
-- [图层分类](https://locationinsight.antv.antgroup.com/#/docs?path=layer-category)
-- [组件分类](https://locationinsight.antv.antgroup.com/#/docs?path=widget-category)
-- [导出分享](https://locationinsight.antv.antgroup.com/#/docs?path=export-share)
+- <a href="https://locationinsight.antv.antgroup.com" target="_blank">在线网址</a>
+- <a href="https://locationinsight.antv.antgroup.com/#/docs?path=get-started" target="_blank">快速入门</a>
+- <a href="https://locationinsight.antv.antgroup.com/#/docs?path=data-formats" target="_blank">数据格式</a>
+- <a href="https://locationinsight.antv.antgroup.com/#/docs?path=layer-category" target="_blank">图层分类</a>
 
 <div align="center">
   <img src="https://github.com/antvis/L7VP/assets/26923747/9d064849-ef9f-4999-9d98-3a704df554fc" width="800">
 </div>
+
+更多了解 👉 <a href="https://locationinsight.antv.antgroup.com/#/docs" target="_blank">使用文档</a>
 
 ## 🐍 Python 环境
 
