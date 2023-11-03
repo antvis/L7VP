@@ -76,24 +76,13 @@ const Internal = (props: ScaleSelectorProp) => {
 
   // dataType 变更，引起可选类型变更，当 scale 为非自定义时自动填充当前类型
   useEffect(() => {
-    // 初始选择字段时，scale 填入默认值
-    if (!value) {
+    const isValid = selectOptions.findIndex((item) => item.value === value?.type) === -1;
+    // 初始，scale 填入默认值; 更新字段选择，判断此时的 scale 是否是有效，如果无效默认选中第一个
+    if (!value || (!value.isCustom && isValid)) {
       const val = selectOptions[0].value !== 'custom' ? selectOptions[0].value : undefined;
       setSelectedType(val);
       if (val) {
         onChange?.({ isCustom: false, type: val });
-      }
-      return;
-    }
-    // 更新字段选择，判断此时的 scale 是否是有效，如果无效默认选中第一个
-    if (!value.isCustom) {
-      const isValid = selectOptions.findIndex((item) => item.value === value.type) === -1;
-      if (isValid) {
-        const val = selectOptions[0].value !== 'custom' ? selectOptions[0].value : undefined;
-        setSelectedType(val);
-        if (val) {
-          onChange?.({ isCustom: false, type: val });
-        }
       }
     }
   }, [selectOptions]);
