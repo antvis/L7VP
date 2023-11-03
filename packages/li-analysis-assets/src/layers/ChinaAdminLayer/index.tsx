@@ -32,7 +32,7 @@ export default implementLayer({
     adminLabelColor: '#fff',
     adminLabelFontSize: 14,
     adminLabelStroke: '#fff',
-    adminLabelStrokeWidth: 1,
+    adminLabelStrokeWidth: 0,
     fillColor: 'rgb(90, 216, 166)',
     opacity: 0.8,
     strokeColor: '#a9abb1',
