@@ -46,7 +46,7 @@ AntV [L7VP](https://locationinsight.antv.antgroup.com) 是一款地理空间智�
 
 更多了解 👉 <a href="https://locationinsight.antv.antgroup.com/#/docs" target="_blank">使用文档</a>
 
-## 🐍 Python 环境
+## 🐍 PyL7VP
 
 ```py
 from pyl7vp import L7VP
