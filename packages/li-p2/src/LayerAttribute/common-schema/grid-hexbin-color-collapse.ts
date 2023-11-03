@@ -42,10 +42,8 @@ export default (options: AttributeSchemaOptions) => {
             'x-component': 'ScaleSelector',
             'x-component-props': {
               placeholder: '请选择',
-              dataType:
-                '{{ $form.getFieldState("fillColorField",state=> { return state.dataSource.find((item) => item.value === state.value)?.type })}}',
-              domain:
-                '{{ $form.getFieldState("fillColorField",state=> { return state.dataSource.find((item) => item.value === state.value)?.domain })}}',
+              dataType: 'number',
+              domain: undefined,
               defaultColors: '{{ $form.getFieldState("fillColorRange",state=> { return state?.value?.colors })}}',
             },
             'x-decorator-props': {},
