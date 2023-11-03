@@ -35,6 +35,8 @@ export const choroplethLayerStyleFlatToConfig = (style: Record<string, any>) => 
         fontSize: style.labelFontSize,
         textAnchor: style.labelTextAnchor,
         textOffset: style.labelTextOffset,
+        stroke: style.labelStroke,
+        strokeWidth: style.labelStrokeWidth,
       },
     },
     minZoom: style.zoom?.[0],
@@ -95,6 +97,8 @@ export const choroplethLayerStyleConfigToFlat = (styleConfig: ChoroplethLayerSty
     labelFontSize: label?.style?.fontSize,
     labelTextAnchor: label?.style?.textAnchor,
     labelTextOffset: label?.style?.textOffset,
+    labelStroke: label?.style?.stroke,
+    labelStrokeWidth: label?.style?.strokeWidth,
     zoom: [minZoom, maxZoom],
     blend,
   };
