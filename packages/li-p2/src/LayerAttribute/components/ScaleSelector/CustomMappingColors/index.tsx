@@ -180,6 +180,7 @@ const CustomMappingColor = (props: CustomMappingColorProps) => {
       {customRanges.map((customItem: CustomMappingColorItem, index: number) => {
         const [min, max] = domain as [number, number];
         const position = index === 0 ? 'first' : index === customRanges.length - 1 ? 'last' : null;
+        const _min = index === 0 ? min : (customRanges[index - 1].value[1] as number);
 
         return (
           <CustomItem
@@ -189,7 +190,7 @@ const CustomMappingColor = (props: CustomMappingColorProps) => {
             value={customItem.value}
             selectedOption={selectedOption}
             selectOptions={selectOptions}
-            min={min}
+            min={_min}
             max={max}
             position={position}
             onDelete={() => deletePaletteRangeItem(index, position)}

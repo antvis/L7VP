@@ -7,7 +7,7 @@ export default genStyleHook('scale-selector__custom-content__custom-item', (toke
     [componentCls]: {
       display: 'flex',
       alignItems: 'center',
-      padding: '3px 2px',
+      padding: '5px',
       borderRadius: '4px',
 
       [`${componentCls}__infor`]: {

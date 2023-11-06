@@ -17,6 +17,15 @@ export default genStyleHook('scale-selector__custom-content__custom-item__item',
 
         '&__input': {
           maxWidth: 60,
+
+          '.ant-input-number-handler-wrap': {
+            display: 'none',
+          },
+          '.ant-input-number-input-wrap': {
+            input: {
+              fontSize: '12px',
+            },
+          },
         },
       },
     },

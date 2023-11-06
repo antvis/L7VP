@@ -1,5 +1,5 @@
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
-import { InputNumber, Select } from 'antd';
+import { InputNumber, Select, Tooltip } from 'antd';
 import classnames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import useStyle from './style';
@@ -74,50 +74,58 @@ const Item = ({ customType, value, options, min, max, position, onChange }: Item
           {position === 'first' && (
             <>
               <span style={{ margin: '0 8px' }}>{`<`}</span>
-              <InputNumber
-                size="small"
-                min={min}
-                max={max}
-                value={itemVal?.[1]}
-                className={`${prefixCls}__input-group__input`}
-                onChange={(e) => onLastInputChange(e as number)}
-              />
+              <Tooltip title={itemVal?.[1]}>
+                <InputNumber
+                  size="small"
+                  min={min}
+                  max={max}
+                  value={itemVal?.[1]}
+                  className={`${prefixCls}__input-group__input`}
+                  onChange={(e) => onLastInputChange(e as number)}
+                />
+              </Tooltip>
             </>
           )}
 
           {position === 'last' && (
             <>
               <span style={{ margin: '0 8px' }}>{`>`}</span>
-              <InputNumber
-                size="small"
-                min={min}
-                max={max}
-                value={itemVal?.[0]}
-                className={`${prefixCls}__input-group__input`}
-                onChange={(e) => onLastInputChange(e as number)}
-              />
+              <Tooltip title={itemVal?.[0]}>
+                <InputNumber
+                  size="small"
+                  min={min}
+                  max={max}
+                  value={itemVal?.[0]}
+                  className={`${prefixCls}__input-group__input`}
+                  onChange={(e) => onLastInputChange(e as number)}
+                />
+              </Tooltip>
             </>
           )}
 
           {!position && (
             <>
-              <InputNumber
-                size="small"
-                min={min}
-                max={max}
-                value={itemVal?.[0]}
-                className={`${prefixCls}__input-group__input`}
-                onChange={(e) => onFirstInputChange(e as number)}
-              />
-              <span style={{ margin: '0 8px' }}>-</span>
-              <InputNumber
-                size="small"
-                min={min}
-                max={max}
-                value={itemVal?.[1]}
-                className={`${prefixCls}__input-group__input`}
-                onChange={(e) => onLastInputChange(e as number)}
-              />
+              <Tooltip title={itemVal?.[0]}>
+                <InputNumber
+                  size="small"
+                  min={min}
+                  max={max}
+                  value={itemVal?.[0]}
+                  className={`${prefixCls}__input-group__input`}
+                  onChange={(e) => onFirstInputChange(e as number)}
+                />
+              </Tooltip>
+              <span style={{ margin: '0 2px' }}>-</span>
+              <Tooltip title={itemVal?.[1]}>
+                <InputNumber
+                  size="small"
+                  min={min}
+                  max={max}
+                  value={itemVal?.[1]}
+                  className={`${prefixCls}__input-group__input`}
+                  onChange={(e) => onLastInputChange(e as number)}
+                />
+              </Tooltip>
             </>
           )}
         </div>

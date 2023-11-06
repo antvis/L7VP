@@ -26,6 +26,7 @@ export default genStyleHook('color-range-selector__custom-range', (token) => {
       [`${componentCls}__add-range-item`]: {
         cursor: 'pointer',
         color: colorTextSecondary,
+        padding: '5px',
       },
 
       [`${componentCls}__btn`]: {
