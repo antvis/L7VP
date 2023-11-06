@@ -76,9 +76,9 @@ const Internal = (props: ScaleSelectorProp) => {
 
   // dataType 变更，引起可选类型变更，当 scale 为非自定义时自动填充当前类型
   useEffect(() => {
-    const isValid = selectOptions.findIndex((item) => item.value === value?.type) === -1;
+    const isValid = selectOptions.findIndex((item) => item.value === value?.type) !== -1;
     // 初始，scale 填入默认值; 更新字段选择，判断此时的 scale 是否是有效，如果无效默认选中第一个
-    if (!value || (!value.isCustom && isValid)) {
+    if (!value || (!value.isCustom && !isValid)) {
       const val = selectOptions[0].value !== 'custom' ? selectOptions[0].value : undefined;
       setSelectedType(val);
       if (val) {
