@@ -21,8 +21,8 @@ const config: Application = {
     map: {
       basemap: 'Gaode' as const,
       config: {
-        zoom: 10,
         center: [120.153576, 30.287459] as [number, number],
+        zoom: 2.5,
         pitch: 0,
         bearing: 0,
         style: 'dark',
