@@ -42,10 +42,10 @@ export default implementLayer({
       clampLow: true,
       clampHigh: true,
       noDataValue: -9999999,
-      // rampColors: {
-      //   type: 'quantize',
-      //   colors: ['#f0f9e8', '#bae4bc', '#7bccc4', '#43a2ca', '#0868ac'],
-      // },
+      rampColors: {
+        type: 'quantize',
+        colors: ['#f0f9e8', '#bae4bc', '#7bccc4', '#43a2ca', '#0868ac'],
+      },
     },
   },
   component,

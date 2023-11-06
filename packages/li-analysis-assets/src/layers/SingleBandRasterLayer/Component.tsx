@@ -46,7 +46,7 @@ const SingleBandRasterLayerWrapper: React.FC<SingleBandRasterLayerWrapperProps> 
     });
   }, [url]);
 
-  if (!rasterSource) return;
+  if (!rasterSource) return null;
 
   return <RasterLayer {...commonAttr} style={style} source={rasterSource} />;
 };
