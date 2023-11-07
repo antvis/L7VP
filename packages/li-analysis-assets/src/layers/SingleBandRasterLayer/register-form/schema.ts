@@ -20,6 +20,43 @@ export default (fieldList: any) => {
             header: '样式',
           },
           properties: {
+            fillColorScale: {
+              type: 'string',
+              title: '颜色划分',
+              'x-decorator': 'FormItem',
+              'x-component': 'ResterScaleSelector',
+              'x-component-props': {
+                placeholder: '请选择',
+                domain: '{{ $form.getFieldState("domain",state=> { return state.value })}}',
+                defaultColors: '{{ $form.getFieldState("fillColorRange",state=> { return state?.value?.colors })}}',
+              },
+            },
+
+            fillColorRange: {
+              type: 'object',
+              title: '颜色',
+              default: {
+                colors: ['#ffffcc', '#d9f0a3', '#addd8e', '#78c679', '#31a354', '#006837'],
+                isReversed: false,
+              },
+              'x-decorator': 'FormItem',
+              'x-component': 'ColorRangeSelector',
+              'x-component-props': {
+                options: [],
+              },
+              'x-decorator-props': {},
+              'x-reactions': [
+                {
+                  dependencies: ['fillColorScale'],
+                  fulfill: {
+                    state: {
+                      visible: '{{ $deps[0] && $deps[0].type === "quantize" }}',
+                    },
+                  },
+                },
+              ],
+            },
+
             opacity: {
               type: 'number',
               title: '透明度',

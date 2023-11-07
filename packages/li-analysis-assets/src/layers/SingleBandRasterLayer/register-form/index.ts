@@ -23,6 +23,11 @@ const toValues = (config: LayerRegisterFormResultType<SingleBandRasterLayerStyle
     clampHigh: style?.clampHigh,
     domain: style?.domain,
     nodataValue: style?.nodataValue,
+    fillColorScale: style?.rampColors,
+    fillColorRange: {
+      colors: style?.rampColors?.colors,
+      isReversed: false,
+    },
   };
 };
 
@@ -36,6 +41,14 @@ const fromValues = (
     parser: { type: 'raster' },
   };
 
+  const rampColors =
+    values?.fillColorScale?.type === 'quantize'
+      ? {
+          type: values?.fillColorScale?.type,
+          colors: values?.fillColorRange?.colors,
+        }
+      : values?.fillColorScale;
+
   return {
     sourceConfig,
     visConfig: {
@@ -44,7 +57,9 @@ const fromValues = (
         clampLow: values?.clampLow,
         clampHigh: values?.clampHigh,
         domain: values?.domain,
+        // @ts-ignore
         nodataValue: values?.nodataValue,
+        rampColors,
       },
       minZoom: values?.zoom?.[0],
       maxZoom: values?.zoom?.[1],

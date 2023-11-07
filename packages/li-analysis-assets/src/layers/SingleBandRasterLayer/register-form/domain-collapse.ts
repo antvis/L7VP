@@ -24,8 +24,6 @@ export default (fieldList: FieldSelectOptionType[]) => {
             'x-decorator': 'FormItem',
             'x-component': 'SliderRange',
             'x-component-props': {
-              dots: false,
-              range: true,
               min: -Infinity,
               max: Infinity,
               sliderVisible: false,
@@ -53,7 +51,7 @@ export default (fieldList: FieldSelectOptionType[]) => {
           clampLow: {
             title: '低于映射区间',
             type: 'boolean',
-            default: false,
+            default: true,
             'x-decorator': 'FormItem',
             'x-component': 'Switch',
             'x-decorator-props': {
@@ -67,7 +65,7 @@ export default (fieldList: FieldSelectOptionType[]) => {
           clampHigh: {
             title: '高于映射区间',
             type: 'boolean',
-            default: false,
+            default: true,
             'x-decorator': 'FormItem',
             'x-component': 'Switch',
             'x-decorator-props': {
