@@ -1,6 +1,6 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
-export default genStyleHook('scale-selector__custom-content__custom-item', (token) => {
+export default genStyleHook('rester-scale-selector__custom-content__custom-item', (token) => {
   const { componentCls, antCls, colorInfoTextHover, controlItemBgHover } = token;
 
   return {

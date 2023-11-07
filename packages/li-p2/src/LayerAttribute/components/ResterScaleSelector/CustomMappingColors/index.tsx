@@ -17,7 +17,7 @@ type CustomMappingColorProps = {
 
 const CustomMappingColor = (props: CustomMappingColorProps) => {
   const { type = 'cat', domain, value, onChange, className } = props;
-  const prefixCls = usePrefixCls('formily-color-range-selector__custom-range');
+  const prefixCls = usePrefixCls('formily-rester-color-range-selector__custom-range');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const [customRanges, setCustomRanges] = useState<CustomMappingColorItem[]>([]);
 

@@ -1,6 +1,6 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
-export default genStyleHook('color-range-selector__custom-range', (token) => {
+export default genStyleHook('rester-color-range-selector__custom-range', (token) => {
   const { componentCls, lineWidth, lineType, colorTextSecondary, colorBorder, colorInfoTextHover } = token;
 
   return {

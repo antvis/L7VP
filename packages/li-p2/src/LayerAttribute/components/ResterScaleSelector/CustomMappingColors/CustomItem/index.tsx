@@ -28,7 +28,7 @@ const RangeItem = ({
   onDelete,
   onChange,
 }: RangeItemProps) => {
-  const prefixCls = usePrefixCls('formily-scale-selector__custom-content__custom-item');
+  const prefixCls = usePrefixCls('formily-rester--scale-selector__custom-content__custom-item');
   const [wrapSSR, hashId] = useStyle(prefixCls);
 
   const colorChange = (color: Color) => {
