@@ -45,6 +45,7 @@ export default implementLayer({
       rampColors: {
         type: 'quantize',
         colors: ['#f0f9e8', '#bae4bc', '#7bccc4', '#43a2ca', '#0868ac'],
+        positions: [],
       },
     },
   },
