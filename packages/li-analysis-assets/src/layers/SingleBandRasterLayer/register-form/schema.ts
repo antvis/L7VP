@@ -1,7 +1,9 @@
 import otherAttributesCollapse from '@antv/li-p2/dist/esm/LayerAttribute/common-schema/other-attributes-collapse';
+import domainCollapse from './domain-collapse';
 
-export default () => {
+export default (fieldList: any) => {
   return {
+    collapseItem_domain: domainCollapse(fieldList),
     collapseItem_style: {
       type: 'void',
       'x-component': 'FormCollapse',

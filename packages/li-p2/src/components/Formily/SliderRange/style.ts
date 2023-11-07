@@ -8,7 +8,7 @@ export default genStyleHook('slider-range', (token) => {
       [`${componentCls}__input-number`]: {
         display: 'flex',
         justifyContent: 'space-between',
-        marginTop: '10px',
+        marginTop: '5px',
       },
 
       [`${antCls}-slider`]: {

@@ -19,6 +19,10 @@ const toValues = (config: LayerRegisterFormResultType<SingleBandRasterLayerStyle
     opacity: style?.opacity,
     zoom: [minZoom, maxZoom],
     blend,
+    clampLow: style?.clampLow,
+    clampHigh: style?.clampHigh,
+    domain: style?.domain,
+    nodataValue: style?.nodataValue,
   };
 };
 
@@ -37,6 +41,10 @@ const fromValues = (
     visConfig: {
       style: {
         opacity: values?.opacity,
+        clampLow: values?.clampLow,
+        clampHigh: values?.clampHigh,
+        domain: values?.domain,
+        nodataValue: values?.nodataValue,
       },
       minZoom: values?.zoom?.[0],
       maxZoom: values?.zoom?.[1],
@@ -47,7 +55,7 @@ const fromValues = (
 
 export default (props: LayerRegisterFormProps): LayerRegisterForm<SingleBandRasterLayerStyleAttributeValue> => {
   // 属性面板表单的 Schema 定义，来自表单库 formily 的 Schema
-  const schema = getSchema();
+  const schema = getSchema(props.datasetFields);
   return {
     schema,
     toValues,

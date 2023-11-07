@@ -13,10 +13,15 @@ const defaultConfig = {
   step: 1,
 };
 
-const InternalSliderRange: React.FC<SliderRangeProps> = (props) => {
+type InternalSliderRangeProps = SliderRangeProps & {
+  sliderVisible: boolean;
+};
+
+const InternalSliderRange: React.FC<InternalSliderRangeProps> = (props) => {
   const prefixCls = usePrefixCls('formily-slider-range', props);
+  const { sliderVisible = true, ...otherProps } = props;
   const [wrapSSR, hashId] = useStyle(prefixCls);
-  const config = { ...defaultConfig, ...props };
+  const config = { ...defaultConfig, ...otherProps };
   const range = isArray(props.value) ? props.value : props.defaultValue || [0, 100];
 
   const onValueChange = (val: [number, number]) => {
@@ -25,13 +30,15 @@ const InternalSliderRange: React.FC<SliderRangeProps> = (props) => {
 
   return wrapSSR(
     <div className={cls(`${prefixCls}`, hashId)}>
-      <AntdSlider
-        {...config}
-        range={true}
-        onChange={(val) => {
-          props.onChange?.(val);
-        }}
-      />
+      {sliderVisible && (
+        <AntdSlider
+          {...config}
+          range={true}
+          onChange={(val) => {
+            props.onChange?.(val);
+          }}
+        />
+      )}
       <div className={`${prefixCls}__input-number`}>
         <InputNumber
           min={config.min}
