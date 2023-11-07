@@ -1,4 +1,5 @@
 import type { RasterLayerProps } from '@antv/larkmap';
+// @ts-ignore
 import type { LayerRegisterForm, LayerRegisterFormProps, LayerRegisterFormResultType } from '@antv/li-sdk';
 import getSchema from './schema';
 
@@ -13,19 +14,21 @@ export type SingleBandRasterLayerStyleAttributeValue = Omit<RasterLayerProps, 's
 const toValues = (config: LayerRegisterFormResultType<SingleBandRasterLayerStyleAttributeValue>) => {
   const { sourceConfig, visConfig } = config;
   const { parser } = sourceConfig;
-  const { style, minZoom = 0, maxZoom = 24, blend } = visConfig;
+  const { style = {}, minZoom = 0, maxZoom = 24, blend } = visConfig;
+  // @ts-ignore
+  const { opacity, domain, clampLow, clampHigh, nodataValue, rampColors } = style;
 
   return {
-    opacity: style?.opacity,
+    opacity: opacity,
     zoom: [minZoom, maxZoom],
     blend,
-    clampLow: style?.clampLow,
-    clampHigh: style?.clampHigh,
-    domain: style?.domain,
-    nodataValue: style?.nodataValue,
-    fillColorScale: style?.rampColors,
+    clampLow: clampLow,
+    clampHigh: clampHigh,
+    domain: domain,
+    nodataValue: nodataValue,
+    fillColorScale: rampColors,
     fillColorRange: {
-      colors: style?.rampColors?.colors,
+      colors: rampColors?.colors,
       isReversed: false,
     },
   };

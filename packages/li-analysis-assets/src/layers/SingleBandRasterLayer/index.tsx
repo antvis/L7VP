@@ -1,3 +1,4 @@
+// @ts-ignore
 import { implementLayer } from '@antv/li-sdk';
 import React from 'react';
 import component from './Component';
@@ -35,18 +36,6 @@ export default implementLayer({
     type: 'Layer',
     icon: ICON,
     color: 'purple',
-  },
-  defaultVisConfig: {
-    blend: 'normal',
-    style: {
-      clampLow: true,
-      clampHigh: true,
-      noDataValue: -9999999,
-      // rampColors: {
-      //   type: 'quantize',
-      //   colors: ['#f0f9e8', '#bae4bc', '#7bccc4', '#43a2ca', '#0868ac'],
-      // },
-    },
   },
   component,
   registerForm,
