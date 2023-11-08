@@ -6,6 +6,8 @@ export default genStyleHook('color-range-selector', (token) => {
   return {
     [componentCls]: {
       maxWidth: 260,
+      display: 'inline-block',
+      verticalAlign: 'middle',
 
       [`${componentCls}__selection-item`]: {
         display: 'flex',

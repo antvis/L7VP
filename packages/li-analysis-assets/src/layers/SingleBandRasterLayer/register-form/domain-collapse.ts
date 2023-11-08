@@ -19,6 +19,7 @@ export default () => {
             type: 'number',
             title: '数据映射区间',
             default: [0, 100],
+            required: true,
             'x-decorator': 'FormItem',
             'x-component': 'SliderRange',
             'x-component-props': {
@@ -41,7 +42,7 @@ export default () => {
               size: 'small',
               style: {
                 width: 60,
-                marginTop: 5,
+                verticalAlign: 'middle',
               },
             },
           },

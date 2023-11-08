@@ -7,6 +7,7 @@ export default genStyleHook('slider', (token) => {
     [componentCls]: {
       display: 'flex',
       justifyItems: 'center',
+      alignItems: 'center',
 
       [`${antCls}-slider`]: {
         flex: 1,
@@ -14,9 +15,8 @@ export default genStyleHook('slider', (token) => {
 
       [`${antCls}-input-number`]: {
         width: '60px !important',
-        marginLeft: '5px',
-        marginTop: '5px',
         height: '100% !important',
+        marginLeft: '5px',
       },
     },
   };
