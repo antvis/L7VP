@@ -90,7 +90,7 @@ const Internal = (props: ScaleSelectorProp) => {
       }
     }
 
-    // 设置默认选中类型 当前传入类型除却 custom ；因图层样式类型中无 custom
+    // 设置默认选中类型；因类型推断问题，当前传入类型去除 custom
     if (defaultSelectType && defaultSelectType !== 'custom') {
       setSelectedType(defaultSelectType);
       onChange?.({ isCustom: false, type: defaultSelectType });
