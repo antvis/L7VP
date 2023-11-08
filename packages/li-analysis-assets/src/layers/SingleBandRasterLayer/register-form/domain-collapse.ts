@@ -1,6 +1,4 @@
-import type { FieldSelectOptionType } from '@antv/li-p2';
-
-export default (fieldList: FieldSelectOptionType[]) => {
+export default () => {
   return {
     type: 'void',
     'x-component': 'FormCollapse',
@@ -26,7 +24,7 @@ export default (fieldList: FieldSelectOptionType[]) => {
             'x-component-props': {
               min: -Infinity,
               max: Infinity,
-              sliderVisible: false,
+              showSlider: false,
             },
           },
 

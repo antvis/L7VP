@@ -14,12 +14,12 @@ const defaultConfig = {
 };
 
 type InternalSliderRangeProps = SliderRangeProps & {
-  sliderVisible: boolean;
+  showSlider?: boolean;
 };
 
 const InternalSliderRange: React.FC<InternalSliderRangeProps> = (props) => {
   const prefixCls = usePrefixCls('formily-slider-range', props);
-  const { sliderVisible = true, ...otherProps } = props;
+  const { showSlider = true, ...otherProps } = props;
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const config = { ...defaultConfig, ...otherProps };
   const range = isArray(props.value) ? props.value : props.defaultValue || [0, 100];
@@ -30,7 +30,7 @@ const InternalSliderRange: React.FC<InternalSliderRangeProps> = (props) => {
 
   return wrapSSR(
     <div className={cls(`${prefixCls}`, hashId)}>
-      {sliderVisible && (
+      {showSlider && (
         <AntdSlider
           {...config}
           range={true}

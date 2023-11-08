@@ -1,5 +1,4 @@
 import type { RasterLayerProps } from '@antv/larkmap';
-// @ts-ignore
 import type { LayerRegisterForm, LayerRegisterFormProps, LayerRegisterFormResultType } from '@antv/li-sdk';
 import getSchema from './schema';
 
@@ -73,7 +72,7 @@ const fromValues = (
 
 export default (props: LayerRegisterFormProps): LayerRegisterForm<SingleBandRasterLayerStyleAttributeValue> => {
   // 属性面板表单的 Schema 定义，来自表单库 formily 的 Schema
-  const schema = getSchema(props.datasetFields);
+  const schema = getSchema();
   return {
     schema,
     toValues,

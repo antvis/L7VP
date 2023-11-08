@@ -1,4 +1,3 @@
-// @ts-ignore
 import { implementLayer } from '@antv/li-sdk';
 import React from 'react';
 import component from './Component';
