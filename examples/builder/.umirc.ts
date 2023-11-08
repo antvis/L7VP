@@ -5,6 +5,7 @@ export default defineConfig({
   history: {
     type: 'hash',
   },
+  esbuildMinifyIIFE: true,
   codeSplitting: {jsStrategy: 'granularChunks'},
   routes: [
     { path: '/', component: 'Project' },
