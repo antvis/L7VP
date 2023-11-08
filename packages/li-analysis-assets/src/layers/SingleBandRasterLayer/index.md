@@ -5,4 +5,4 @@ mobile: false
 
 ## SingleBandRasterLayer
 
-<code src="./demos/index.tsx" iframe="70vh"></code>
+<!-- <code src="./demos/index.tsx" iframe="70vh"></code> -->

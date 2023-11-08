@@ -1,11 +1,13 @@
 import { Source } from '@antv/l7';
-import type { RasterLayerProps } from '@antv/larkmap';
 import { RasterLayer } from '@antv/larkmap';
 import type { ImplementLayerProps } from '@antv/li-sdk';
 import { fromArrayBuffer } from 'geotiff';
 import React, { useEffect, useState } from 'react';
+import type { SingleBandRasterLayerStyleAttributeValue } from './register-form';
 
-export interface SingleBandRasterLayerWrapperProps extends Omit<RasterLayerProps, 'source'>, ImplementLayerProps {
+export interface SingleBandRasterLayerWrapperProps
+  extends SingleBandRasterLayerStyleAttributeValue,
+    ImplementLayerProps {
   source: { data: string; parser: { minZoom?: number; maxZoom?: number; extent?: [number, number, number, number] } };
 }
 

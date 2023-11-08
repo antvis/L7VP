@@ -1,3 +1,4 @@
+import type { RasterDataTileLayerStyleOptions } from '@antv/l7-composite-layers/dist/esm/core-layers/raster-layer/types';
 import type { RasterLayerProps } from '@antv/larkmap';
 import type { LayerRegisterForm, LayerRegisterFormProps, LayerRegisterFormResultType } from '@antv/li-sdk';
 import getSchema from './schema';
@@ -5,7 +6,9 @@ import getSchema from './schema';
 /**
  * 单波段栅格图层样式属性值
  */
-export type SingleBandRasterLayerStyleAttributeValue = Omit<RasterLayerProps, 'source'>;
+export type SingleBandRasterLayerStyleAttributeValue = Omit<RasterLayerProps, 'source' | 'style'> & {
+  style: RasterDataTileLayerStyleOptions;
+};
 
 /**
  * 表单数据格式转换，将结构化数据转换为表单的平铺结构
@@ -13,9 +16,8 @@ export type SingleBandRasterLayerStyleAttributeValue = Omit<RasterLayerProps, 's
 const toValues = (config: LayerRegisterFormResultType<SingleBandRasterLayerStyleAttributeValue>) => {
   const { sourceConfig, visConfig } = config;
   const { parser } = sourceConfig;
-  const { style = {}, minZoom = 0, maxZoom = 24, blend } = visConfig;
-  // @ts-ignore
-  const { opacity, domain, clampLow, clampHigh, nodataValue, rampColors } = style;
+  const { style, minZoom = 0, maxZoom = 24, blend } = visConfig;
+  const { opacity, domain, clampLow, clampHigh, noDataValue, rampColors } = style;
 
   return {
     opacity: opacity,
@@ -24,7 +26,7 @@ const toValues = (config: LayerRegisterFormResultType<SingleBandRasterLayerStyle
     clampLow: clampLow,
     clampHigh: clampHigh,
     domain: domain,
-    nodataValue: nodataValue,
+    nodataValue: noDataValue,
     fillColorScale: rampColors,
     fillColorRange: {
       colors: rampColors?.colors,
@@ -59,8 +61,7 @@ const fromValues = (
         clampLow: values?.clampLow,
         clampHigh: values?.clampHigh,
         domain: values?.domain,
-        // @ts-ignore
-        nodataValue: values?.nodataValue,
+        noDataValue: values?.noDataValue,
         rampColors,
       },
       minZoom: values?.zoom?.[0],
