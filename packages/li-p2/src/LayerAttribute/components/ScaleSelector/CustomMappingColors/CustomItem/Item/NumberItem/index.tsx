@@ -15,7 +15,7 @@ type ItemProps = {
   onChange: (val: (string | number)[]) => void;
 };
 
-const Item = ({ size = 'middle', customType, value, options, min, max, position, onChange }: ItemProps) => {
+const NumberItem = ({ size = 'middle', customType, value, options, min, max, position, onChange }: ItemProps) => {
   const prefixCls = usePrefixCls('formily-scale-selector__custom-content__custom-item__item');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const [itemVal, setItemVal] = useState<(string | number)[]>(value);
@@ -139,4 +139,4 @@ const Item = ({ size = 'middle', customType, value, options, min, max, position,
   );
 };
 
-export default Item;
+export default NumberItem;

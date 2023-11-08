@@ -68,6 +68,7 @@ const RangeItem = ({
 
         <div className={`${prefixCls}__infor__content`}>
           <Item
+            size="small"
             customType={customType}
             value={defaultValue}
             options={options}
