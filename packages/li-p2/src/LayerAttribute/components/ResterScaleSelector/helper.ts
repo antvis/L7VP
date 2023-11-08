@@ -24,7 +24,7 @@ export const getDefaultValue = (type: 'custom' | 'cat', defaultDomain: number[],
   } else {
     // 数值类型为 cat 时 ，计算默认positions  positions.length 等于 colors.length
     const positions = fill(Array(_length), undefined).map((_, index) => {
-      const _value = Number(min) + _interval * (index + 1);
+      const _value = _interval > index ? Number(min) + index : +Number(min) + _interval * index;
       return _value % 1 === 0 ? Number(_value) : Number(_value.toFixed(2));
     });
 
