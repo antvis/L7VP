@@ -47,7 +47,7 @@ const config: Application = {
             domain: [0, 90],
             nodataValue: 0,
             rampColors: {
-              positions: [0, 0.05, 0.1, 0.25, 0.5, 1.0],
+              type: 'quantize',
               colors: ['#5C3A1000', '#5C3A1000', '#fabd08', '#f1e93f', '#f1ff8f', '#fcfff7'],
             },
             opacity: 1,

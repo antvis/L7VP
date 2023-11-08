@@ -13,12 +13,23 @@ export type SingleBandRasterLayerStyleAttributeValue = Omit<RasterLayerProps, 's
 const toValues = (config: LayerRegisterFormResultType<SingleBandRasterLayerStyleAttributeValue>) => {
   const { sourceConfig, visConfig } = config;
   const { parser } = sourceConfig;
-  const { style, minZoom = 0, maxZoom = 24, blend } = visConfig;
+  const { style = {}, minZoom = 0, maxZoom = 24, blend } = visConfig;
+  // @ts-ignore
+  const { opacity, domain, clampLow, clampHigh, nodataValue, rampColors } = style;
 
   return {
-    opacity: style?.opacity,
+    opacity: opacity,
     zoom: [minZoom, maxZoom],
     blend,
+    clampLow: clampLow,
+    clampHigh: clampHigh,
+    domain: domain,
+    nodataValue: nodataValue,
+    fillColorScale: rampColors,
+    fillColorRange: {
+      colors: rampColors?.colors,
+      isReversed: false,
+    },
   };
 };
 
@@ -32,11 +43,25 @@ const fromValues = (
     parser: { type: 'raster' },
   };
 
+  const rampColors =
+    values?.fillColorScale?.type === 'quantize'
+      ? {
+          type: values?.fillColorScale?.type,
+          colors: values?.fillColorRange?.colors,
+        }
+      : values?.fillColorScale;
+
   return {
     sourceConfig,
     visConfig: {
       style: {
         opacity: values?.opacity,
+        clampLow: values?.clampLow,
+        clampHigh: values?.clampHigh,
+        domain: values?.domain,
+        // @ts-ignore
+        nodataValue: values?.nodataValue,
+        rampColors,
       },
       minZoom: values?.zoom?.[0],
       maxZoom: values?.zoom?.[1],
