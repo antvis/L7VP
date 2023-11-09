@@ -133,6 +133,7 @@ export type XYZRasterTileProperties = {
   tileSize?: number;
   zoomOffset?: number;
   extent?: [number, number, number, number];
+  dataType?: 'image' | 'terrainRGB';
 };
 
 /**
