@@ -1,7 +1,7 @@
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { connect } from '@formily/react';
 import { useUpdateEffect } from 'ahooks';
-import { Select } from 'antd';
+import { Select, Divider } from 'antd';
 import cls from 'classnames';
 import React, { useEffect, useMemo, useState } from 'react';
 import { DEHAULT_OPTIONS } from './constants';
@@ -133,13 +133,17 @@ const Internal = (props: ScaleSelectorProp) => {
             })}
 
             {selectedType === 'custom' && customMappingData && (
-              <CustomMappingColor
-                className={`${prefixCls}-customcontent`}
-                dataType={dataType}
-                domain={domain}
-                value={customMappingData}
-                onChange={(ranges: CustomMappingData) => onValueChange(ranges)}
-              />
+              <>
+                <Divider style={{ margin: '10px 0' }} />
+
+                <CustomMappingColor
+                  className={`${prefixCls}-customcontent`}
+                  dataType={dataType}
+                  domain={domain}
+                  value={customMappingData}
+                  onChange={(ranges: CustomMappingData) => onValueChange(ranges)}
+                />
+              </>
             )}
           </div>
         );

@@ -6,34 +6,7 @@ export default genStyleHook('scale-selector__custom-content__custom-item__item',
   return {
     [componentCls]: {
       flex: 1,
-      margin: '0 5px',
-
-      '&__input-group': {
-        width: '100%',
-        textAlign: 'right',
-        display: 'flex',
-        flex: 1,
-        justifyContent: 'space-between',
-
-        '&__input': {
-          width: 50,
-
-          '&-desc': {
-            width: 50,
-            fontSize: '12px !important',
-            textAlign: 'center',
-          },
-
-          '.ant-input-number-handler-wrap': {
-            display: 'none',
-          },
-          '.ant-input-number-input-wrap': {
-            input: {
-              fontSize: '12px',
-            },
-          },
-        },
-      },
+      margin: '0 3px',
     },
   };
 });

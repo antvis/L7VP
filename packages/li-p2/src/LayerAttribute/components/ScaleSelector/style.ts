@@ -5,8 +5,6 @@ export default genStyleHook('scale-selector', (token) => {
 
   return {
     [`${componentCls}-dropdown`]: {
-      padding: '4px',
-
       [`${componentCls}-custom`]: {
         display: 'flex',
         justifyContent: 'space-between',
