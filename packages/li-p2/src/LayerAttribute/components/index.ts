@@ -10,3 +10,4 @@ export {
 export { default as IconList } from './IconList';
 export { default as IconSelector } from './IconSelector';
 export { default as ScaleSelector } from './ScaleSelector';
+export { default as ResterScaleSelector } from './ResterScaleSelector';

@@ -49,6 +49,7 @@
     "ahooks": "^3.7.0",
     "classnames": "^2.3.1",
     "dayjs": "^1.11.7",
+    "geotiff": "^2.1.0",
     "lodash-es": "^4.17.21"
   },
   "devDependencies": {

@@ -5,12 +5,17 @@ export default genStyleHook('offset', (token) => {
 
   return {
     [componentCls]: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      marginTop: '5px',
+      display: 'inline-block',
+      verticalAlign: 'middle',
+      width: '100%',
 
-      [`${antCls}-input-number`]: {
-        width: '70px !important',
+      [`${componentCls}__input-group`]: {
+        display: 'flex ',
+        justifyContent: 'space-between',
+
+        [`${antCls}-input-number`]: {
+          width: '70px !important',
+        },
       },
     },
   };
