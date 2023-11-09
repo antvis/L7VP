@@ -55,6 +55,7 @@ const RangeItem = ({
 
         <div className={`${prefixCls}__infor__content`}>
           <Item
+            size="middle"
             type={customType}
             value={defaultValue}
             onChange={onValueChange}

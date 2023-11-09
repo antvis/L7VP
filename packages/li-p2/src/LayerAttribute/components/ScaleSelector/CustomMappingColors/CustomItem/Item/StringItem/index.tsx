@@ -4,14 +4,14 @@ import React, { useEffect, useState } from 'react';
 
 type ItemProps = {
   size: 'small' | 'middle' | 'large';
-  value: (string | number)[];
+  value: string[];
   options: { label: string; value: string }[];
-  onChange: (val: (string | number)[]) => void;
+  onChange: (val: string[]) => void;
 };
 
 const StringItem = ({ size = 'middle', value, options, onChange }: ItemProps) => {
   const prefixCls = usePrefixCls('formily-scale-selector__custom-content__custom-item__item-string');
-  const [itemVal, setItemVal] = useState<(string | number)[]>(value);
+  const [itemVal, setItemVal] = useState(value);
 
   const onSelectChange = (val: string[]) => {
     setItemVal(val);
@@ -32,7 +32,7 @@ const StringItem = ({ size = 'middle', value, options, onChange }: ItemProps) =>
         allowClear
         style={{ width: '100%' }}
         placeholder="请选择"
-        value={itemVal as string[]}
+        value={itemVal}
         onChange={onSelectChange}
         options={options}
         onMouseDown={(e) => {

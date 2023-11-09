@@ -6,35 +6,35 @@ import useStyle from './style';
 
 type ItemProps = {
   size: 'small' | 'middle' | 'large';
-  value: (string | number)[];
+  value: [number, number];
   min: number;
   max: number;
   position: string | null;
-  onChange: (val: (string | number)[]) => void;
+  onChange: (val: [number, number]) => void;
 };
 
 const NumberItem = ({ size = 'middle', value, min, max, position, onChange }: ItemProps) => {
   const prefixCls = usePrefixCls('formily-scale-selector__custom-content__custom-item__item-number');
   const [wrapSSR, hashId] = useStyle(prefixCls);
-  const [itemVal, setItemVal] = useState<(string | number)[]>(value);
+  const [itemVal, setItemVal] = useState<[number, number]>(value);
 
   const onFirstInputChange = (e: number) => {
-    const val = itemVal?.length === 2 ? [e, itemVal[1]] : [e, Infinity];
+    const val: [number, number] = itemVal?.length === 2 ? [e, itemVal[1]] : [e, Infinity];
     onChange(val);
     setItemVal(val);
   };
 
   const onLastInputChange = (e: number) => {
     if (position === 'first') {
-      const val = [-Infinity, e];
+      const val: [number, number] = [-Infinity, e];
       onChange(val);
       setItemVal(val);
     } else if (position === 'last') {
-      const val = [e, Infinity];
+      const val: [number, number] = [e, Infinity];
       onChange(val);
       setItemVal(val);
     } else {
-      const val = itemVal?.length > 0 ? [itemVal[0], e] : [-Infinity, e];
+      const val: [number, number] = itemVal?.length > 0 ? [itemVal[0], e] : [-Infinity, e];
       onChange(val);
       setItemVal(val);
     }

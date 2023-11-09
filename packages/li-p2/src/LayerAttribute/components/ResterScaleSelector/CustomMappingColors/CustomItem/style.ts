@@ -7,7 +7,7 @@ export default genStyleHook('rester-scale-selector__custom-content__custom-item'
     [componentCls]: {
       display: 'flex',
       alignItems: 'center',
-      padding: '3px 2px',
+      padding: '5px 0',
       borderRadius: '4px',
 
       [`${componentCls}__infor`]: {
@@ -18,7 +18,7 @@ export default genStyleHook('rester-scale-selector__custom-content__custom-item'
         cursor: 'pointer',
 
         '&__color': {
-          width: '32px',
+          width: '18px',
           height: '18px',
         },
 
@@ -40,13 +40,6 @@ export default genStyleHook('rester-scale-selector__custom-content__custom-item'
 
     [`${antCls}-select-dropdown`]: {
       zIndex: 1,
-    },
-
-    [`${componentCls}:hover`]: {
-      background: controlItemBgHover,
-      [`${componentCls}__drag-icon`]: {
-        opacity: 1,
-      },
     },
 
     '.ant-popover': {

@@ -6,19 +6,7 @@ export default genStyleHook('rester-scale-selector__custom-content__custom-item_
   return {
     [componentCls]: {
       flex: 1,
-      margin: '0 5px',
-
-      '&__input-group': {
-        width: '100%',
-        textAlign: 'right',
-        display: 'flex',
-        flex: 1,
-        justifyContent: 'space-between',
-
-        '&__input': {
-          maxWidth: 60,
-        },
-      },
+      margin: '0 3px',
     },
   };
 });

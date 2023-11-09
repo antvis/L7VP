@@ -14,7 +14,7 @@ export default genStyleHook('scale-selector__custom-content__custom-item__item-n
       '&__input': {
         '&-desc': {
           fontSize: '12px !important',
-          maxWidth: '40px',
+          width: '50px',
         },
 
         '.ant-input-number-input-wrap': {

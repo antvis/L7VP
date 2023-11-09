@@ -22,10 +22,19 @@ const Item = ({ size = 'middle', customType, value, options, min, max, position,
 
   return wrapSSR(
     <div className={classnames(`${prefixCls}`, hashId)}>
-      {customType === 'string' && <StringItem size={size} value={value} onChange={onChange} options={options} />}
+      {customType === 'string' && (
+        <StringItem size={size} value={value as string[]} onChange={onChange} options={options} />
+      )}
 
       {customType === 'number' && (
-        <NumberItem size={size} value={value} min={min} max={max} position={position} onChange={onChange} />
+        <NumberItem
+          size={size}
+          value={value as [number, number]}
+          min={min}
+          max={max}
+          position={position}
+          onChange={onChange}
+        />
       )}
     </div>,
   );
