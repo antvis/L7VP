@@ -1,5 +1,5 @@
 import type { Scene } from '@antv/l7';
-import produce from 'immer';
+import { produce } from 'immer';
 import type { MapSchema } from '../specs';
 import BaseStore from './base-store';
 import { MapStoreEvent } from './constants';
