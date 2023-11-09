@@ -65,24 +65,27 @@ const RangeItem = ({ index, id, color: defaultValue, onDelete, onChange, onChang
         <HolderOutlined />
       </div>
       <div className={`${prefixCls}__infor`}>
-        <div
-          onMouseDown={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-        >
-          <ColorPicker
-            value={defaultValue ? defaultValue : Preset_Colors[0]}
-            onChange={colorChange}
-            presets={[{ label: '推荐', colors: Preset_Colors }]}
+        <div className={`${prefixCls}__infor__color-content`}>
+          <div
+            onMouseDown={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
           >
-            <div className={`${prefixCls}__infor__color`} style={{ background: defaultValue }} />
-          </ColorPicker>
+            <ColorPicker
+              value={defaultValue ? defaultValue : Preset_Colors[0]}
+              onChange={colorChange}
+              presets={[{ label: '推荐', colors: Preset_Colors }]}
+            >
+              <div className={`${prefixCls}__infor__color`} style={{ background: defaultValue }} />
+            </ColorPicker>
+          </div>
+
+          <div className={`${prefixCls}__infor__input`}>
+            <Input bordered={false} value={defaultValue} size="small" onChange={(e) => onChange(e.target.value)} />
+          </div>
         </div>
 
-        <div className={`${prefixCls}__infor__input`}>
-          <Input bordered={false} value={defaultValue} size="small" onChange={(e) => onChange(e.target.value)} />
-        </div>
         <div className={`${prefixCls}__infor__delete-icon`} onClick={onDelete}>
           <DeleteOutlined />
         </div>

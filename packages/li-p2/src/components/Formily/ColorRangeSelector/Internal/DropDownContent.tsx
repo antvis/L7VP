@@ -196,7 +196,7 @@ const DropDownContent = (props: DropDownContentProps) => {
   }
 
   return (
-    <div style={{ padding: '0 16px' }}>
+    <div style={{ padding: '0 10px' }}>
       {paletteConfigList.map((item) => (
         <PaletteConfig key={item.id} {...item} />
       ))}
