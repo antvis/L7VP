@@ -7,6 +7,7 @@ import {
   IconSelector,
   Offset,
   ScaleSelector,
+  ResterScaleSelector,
   Slider,
   SliderRange,
 } from '@antv/li-p2';
@@ -57,6 +58,7 @@ const StyleForm: React.FC<StyleFormProps> = (props) => {
           FieldSelect,
           SliderRange,
           ScaleSelector,
+          ResterScaleSelector,
           IconList,
           IconSelector,
           ...registerForm.components,

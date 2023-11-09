@@ -76,18 +76,24 @@ const Internal = (props: ScaleSelectorProp) => {
 
   // dataType 变更，引起可选类型变更，当 scale 为非自定义时自动填充当前类型
   useEffect(() => {
-    if (!value) return;
-    // 非自定义数据
-    if (!value.isCustom) {
+    let defaultSelectType: SelectType | undefined;
+
+    // 初始，scale 填入默认值
+    if (!value) {
+      defaultSelectType = selectOptions[0].value;
+      // 非自定义数据情况
+    } else if (!value.isCustom) {
       // 判断 value 类型是否有效
-      const isValid = selectOptions.findIndex((item) => item.value === value.type) === -1;
-      if (isValid) {
-        const val = selectOptions[0].value !== 'custom' ? selectOptions[0].value : undefined;
-        setSelectedType(val);
-        if (val) {
-          onChange?.({ isCustom: false, type: val });
-        }
+      const isValid = selectOptions.some((item) => item.value === value.type);
+      if (!isValid) {
+        defaultSelectType = selectOptions[0].value;
       }
+    }
+
+    // 设置默认选中类型；因类型推断问题，当前传入类型去除 custom
+    if (defaultSelectType && defaultSelectType !== 'custom') {
+      setSelectedType(defaultSelectType);
+      onChange?.({ isCustom: false, type: defaultSelectType });
     }
   }, [selectOptions]);
 

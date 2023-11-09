@@ -33,20 +33,22 @@ const InternalOffset: React.FC<OffsetProps> = (props) => {
 
   return wrapSSR(
     <div className={cls(`${prefixCls}`, hashId)}>
-      <InputNumber
-        size="small"
-        value={sliderVal[0]}
-        onChange={(val) => {
-          onOffsetValueChange([val, sliderVal[1]]);
-        }}
-      />
-      <InputNumber
-        size="small"
-        value={sliderVal[1]}
-        onChange={(val) => {
-          onOffsetValueChange([sliderVal[0], val]);
-        }}
-      />
+      <div className={`${prefixCls}__input-group`}>
+        <InputNumber
+          size="small"
+          value={sliderVal[0]}
+          onChange={(val) => {
+            onOffsetValueChange([val, sliderVal[1]]);
+          }}
+        />
+        <InputNumber
+          size="small"
+          value={sliderVal[1]}
+          onChange={(val) => {
+            onOffsetValueChange([sliderVal[0], val]);
+          }}
+        />
+      </div>
     </div>,
   );
 };

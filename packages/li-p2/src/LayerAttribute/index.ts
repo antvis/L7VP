@@ -3,7 +3,7 @@
 /**
  * 自定义 formily 图层组件
  */
-export { IconList, IconSelector, ScaleSelector } from './components';
+export { IconList, IconSelector, ScaleSelector, ResterScaleSelector } from './components';
 
 /**
  * 图层属性面板
