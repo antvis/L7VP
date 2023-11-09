@@ -7,10 +7,11 @@ export default genStyleHook('color-range-selector__custom-range__range-item', (t
     [componentCls]: {
       display: 'flex',
       alignItems: 'center',
-      padding: '3px 0',
+      margin: '5px 0',
+      marginLeft: '-14px',
+      height: '32px',
 
       [`${componentCls}__drag-icon`]: {
-        margin: '3px',
         cursor: 'move',
         opacity: 0,
       },
@@ -20,11 +21,23 @@ export default genStyleHook('color-range-selector__custom-range__range-item', (t
         alignItems: 'center',
         justifyContent: 'space-between',
         width: '100%',
-        height: '24px',
         cursor: 'pointer',
 
+        '&__color-content': {
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          height: '32px',
+          paddingLeft: '3px',
+
+          '&:hover': {
+            borderRadius: 4,
+            background: controlItemBgHover,
+          },
+        },
+
         '&__color': {
-          width: '32px',
+          width: '18px',
           height: '18px',
         },
 
@@ -33,6 +46,7 @@ export default genStyleHook('color-range-selector__custom-range__range-item', (t
           margin: '0 5px',
           cursor: 'pointer',
           border: '1px solid rgba(0,0,0,0)',
+          borderRadius: '4px',
           input: {
             color: colorTextSecondary,
           },
@@ -40,6 +54,10 @@ export default genStyleHook('color-range-selector__custom-range__range-item', (t
 
         '&__input:hover': {
           borderColor: colorBorder,
+        },
+
+        '&__delete-icon': {
+          fontSize: '12px',
         },
 
         '&__delete-icon:hover': {
@@ -53,7 +71,6 @@ export default genStyleHook('color-range-selector__custom-range__range-item', (t
     },
 
     [`${componentCls}:hover`]: {
-      background: controlItemBgHover,
       [`${componentCls}__drag-icon`]: {
         opacity: 1,
       },

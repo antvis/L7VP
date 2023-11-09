@@ -10,16 +10,20 @@ export default genStyleHook('formily-color-range-selector__color-palette-group',
         alignItems: 'center',
         justifyContent: 'space-between',
         height: '20px',
-        padding: 4,
+        padding: '10px 4px',
         cursor: 'pointer',
+        margin: '5px 0',
+
         span: {
           height: '10px',
           border: 0,
         },
+
         'span:first-child': {
           borderTopLeftRadius: '4px',
           borderBottomLeftRadius: '4px',
         },
+
         'span:last-child': {
           borderTopRightRadius: '4px',
           borderBottomRightRadius: '4px',
