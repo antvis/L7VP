@@ -5,6 +5,7 @@ import { useScene } from '@antv/li-sdk';
 import { Button, message, Popover, Select, Spin, Tabs } from 'antd';
 import cls from 'classnames';
 import React, { useEffect, useMemo, useState } from 'react';
+import { includeCell } from '@antv/s2';
 import { BoundsUrl, CityUrl, CLS_PREFIX, POPOVER_PLACEMENT_LEGEND } from '../constant';
 import { parserCityData, treeToArr } from '../helper';
 import type { Properties } from '../registerForm';
@@ -59,8 +60,9 @@ export default (props: AreaWidgetProps) => {
         }
 
         if (scene && cityData) {
-          const _name = value.anotherName || value.name;
-          const data = treeToArr([cityData.cities]).find((item: ICity) => item.name === _name);
+          const data = treeToArr([cityData.cities]).find((item: ICity) =>
+            [value.anotherName, value.name].includes(item.name),
+          );
           if (data) {
             scene.setZoomAndCenter(11, [data.lng, data.lat]);
           }
