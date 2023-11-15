@@ -6,7 +6,7 @@ export const CLS_PREFIX = 'li-administrative-select';
 export const CityUrl = 'https://npm.elemecdn.com/static-geo-atlas@latest/geo-data/administrative-data/area-tree.json';
 
 // 边界数据
-export const BoundsUrl = 'https://npm.elemecdn.com/static-geo-atlas@latest/geo-data/choropleth-data/';
+export const BoundsUrl = 'https://unpkg.com/static-geo-atlas@latest/geo-data/choropleth-data/';
 
 export const POPOVER_PLACEMENT_LEGEND = new Map<string | undefined, TooltipPlacement>([
   ['topleft', 'bottomLeft'],

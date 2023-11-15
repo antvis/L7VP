@@ -45,30 +45,29 @@ export default (props: AreaWidgetProps) => {
   };
 
   const getBoundsData = (value: ICity) => {
+    if (value.level === 'country') return;
     setLoading(true);
-    try {
-      if (value.level === 'country') return;
-      const code = value.adcode;
-      const level = value.level;
-      fetch(`${BoundsUrl}${level}/${code}_${level}_${level}.json`)
-        .then((item) => item.json())
-        .then((res) => {
-          setLoading(false);
-          if (showBounds) {
-            setBoundBorder(res);
-            return;
+    const code = value.adcode;
+    const level = value.level;
+    fetch(`${BoundsUrl}${level}/${code}_${level}_${level}.json`)
+      .then((item) => item.json())
+      .then((res) => {
+        setLoading(false);
+        if (showBounds) {
+          setBoundBorder(res);
+          return;
+        }
+        if (scene && cityData) {
+          const data = treeToArr([cityData.cities]).find((item: ICity) => item.name === value.name);
+          if (data) {
+            scene.setZoomAndCenter(11, [data.lng, data.lat]);
           }
-          if (scene && cityData) {
-            const data = treeToArr([cityData.cities]).find((item: ICity) => item.name === value.name);
-            if (data) {
-              scene.setZoomAndCenter(11, [data.lng, data.lat]);
-            }
-          }
-        });
-    } catch {
-      setLoading(false);
-      message.error('围栏数据请求失败');
-    }
+        }
+      })
+      .catch(() => {
+        setLoading(false);
+        message.error('围栏数据请求失败');
+      });
   };
 
   const onSelectChange = (value: string) => {
