@@ -39,6 +39,6 @@ export const HotCityList = [
   { adcode: '500000', name: '重庆市', level: 'province' },
   { adcode: '510100', name: '成都市', level: 'city' },
   { adcode: '610100', name: '西安市', level: 'city' },
-  { adcode: '810000', name: '香港市', level: 'province' },
-  { adcode: '820000', name: '澳门市', level: 'province' },
+  { adcode: '810000', name: '香港市', anotherName: '香港特别行政区', level: 'province' },
+  { adcode: '820000', name: '澳门市', anotherName: '澳门特别行政区', level: 'province' },
 ];
