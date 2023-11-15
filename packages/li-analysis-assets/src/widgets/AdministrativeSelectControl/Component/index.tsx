@@ -57,8 +57,9 @@ export default (props: AreaWidgetProps) => {
           setBoundBorder(res);
           return;
         }
-        const _name = value.anotherName || value.name;
+
         if (scene && cityData) {
+          const _name = value.anotherName || value.name;
           const data = treeToArr([cityData.cities]).find((item: ICity) => item.name === _name);
           if (data) {
             scene.setZoomAndCenter(11, [data.lng, data.lat]);
