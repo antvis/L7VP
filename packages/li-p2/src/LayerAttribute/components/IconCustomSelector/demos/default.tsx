@@ -24,7 +24,7 @@ const SchemaField = createSchemaField({
 const schema = {
   type: 'object',
   properties: {
-    fillColorScale: {
+    iconAtlas: {
       type: 'number',
       title: 'icon 图标',
       default: {

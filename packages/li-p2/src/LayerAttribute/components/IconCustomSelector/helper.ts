@@ -16,7 +16,7 @@ export const getLayerByIconSelectorData = (value: Record<string, string>): IconL
 export const getIconSelectorData = (iconList: IconListItem[]): Record<string, string> => {
   const _val = {};
   iconList.forEach((item) => {
-    Object.assign({}, _val, { [item.value]: item.icon });
+    Object.assign(_val, { [item.value]: item.icon });
   });
 
   return _val;
