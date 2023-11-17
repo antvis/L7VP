@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import { uniqueId } from 'lodash-es';
 import React, { useEffect, useMemo, useState } from 'react';
 import type { CustomMappingColorItem, CustomMappingData } from '../type';
-import CustomItem from './CustomItem';
+import CustomInput from './CustomInput';
 import useStyle from './style';
 
 type CustomMappingColorProps = {
@@ -180,16 +180,17 @@ const CustomMappingColor = (props: CustomMappingColorProps) => {
       {customRanges.map((customItem: CustomMappingColorItem, index: number) => {
         const [min, max] = domain as [number, number];
         const position = index === 0 ? 'first' : index === customRanges.length - 1 ? 'last' : null;
+        const _min = index === 0 ? min : (customRanges[index - 1].value[1] as number);
 
         return (
-          <CustomItem
-            customType={dataType}
+          <CustomInput
+            dataType={dataType}
             key={`drag_card${index}`}
             color={customItem.color}
             value={customItem.value}
             selectedOption={selectedOption}
             selectOptions={selectOptions}
-            min={min}
+            min={_min}
             max={max}
             position={position}
             onDelete={() => deletePaletteRangeItem(index, position)}
