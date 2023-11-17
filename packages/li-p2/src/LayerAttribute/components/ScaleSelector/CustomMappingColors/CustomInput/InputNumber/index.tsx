@@ -14,7 +14,7 @@ type ItemProps = {
 };
 
 const NumberItem = ({ size = 'middle', value, min, max, position, onChange }: ItemProps) => {
-  const prefixCls = usePrefixCls('formily-scale-selector__custom-content__custom-item__item-number');
+  const prefixCls = usePrefixCls('formily-scale-selector__custom-input__number');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const [itemVal, setItemVal] = useState<[number, number]>(value);
 

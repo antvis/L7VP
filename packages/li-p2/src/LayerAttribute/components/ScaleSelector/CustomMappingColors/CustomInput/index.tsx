@@ -3,24 +3,29 @@ import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { ColorPicker } from 'antd';
 import type { Color } from 'antd/es/color-picker';
 import classnames from 'classnames';
-import React from 'react';
-import Item from './Item';
+import React, { useMemo } from 'react';
+import InputNumber from './InputNumber';
+import InputString from './InputString';
 import useStyle from './style';
 
 type RangeItemProps = {
-  customType: 'cat' | 'custom';
+  dataType: 'string' | 'number';
   position: string | null;
+  selectedOption: (string | number)[];
+  selectOptions: { label: string; value: string }[];
   min?: number;
   max?: number;
   color: string;
-  value: number[];
+  value: (string | number)[];
   onDelete: () => void;
-  onChange: (value: number[], color: string) => void;
+  onChange: (value: (string | number)[], color: string) => void;
 };
 
 const RangeItem = ({
-  customType,
+  dataType,
   position,
+  selectedOption,
+  selectOptions,
   color: defaultColor,
   value: defaultValue,
   min = 0,
@@ -28,14 +33,23 @@ const RangeItem = ({
   onDelete,
   onChange,
 }: RangeItemProps) => {
-  const prefixCls = usePrefixCls('formily-rester--scale-selector__custom-content__custom-item');
+  const prefixCls = usePrefixCls('formily-scale-selector__custom-content__custom-item');
   const [wrapSSR, hashId] = useStyle(prefixCls);
+
+  const options = useMemo(() => {
+    if (!selectedOption.length && !defaultValue.length) {
+      return selectOptions;
+    }
+
+    const selected = selectedOption.filter((item) => item && !defaultValue.includes(item));
+    return selectOptions.filter((item) => !selected.includes(item.value));
+  }, [selectedOption, selectOptions, defaultValue]);
 
   const colorChange = (color: Color) => {
     onChange?.(defaultValue, color.toHexString());
   };
 
-  const onValueChange = (_value: number[]) => {
+  const onValueChange = (_value: (string | number)[]) => {
     onChange?.(_value, defaultColor);
   };
 
@@ -54,15 +68,20 @@ const RangeItem = ({
         </div>
 
         <div className={`${prefixCls}__infor__content`}>
-          <Item
-            size="middle"
-            type={customType}
-            value={defaultValue}
-            onChange={onValueChange}
-            min={min}
-            max={max}
-            position={position}
-          />
+          {dataType === 'string' && (
+            <InputString size="small" value={defaultValue as string[]} onChange={onValueChange} options={options} />
+          )}
+
+          {dataType === 'number' && (
+            <InputNumber
+              size="small"
+              value={defaultValue as [number, number]}
+              min={min}
+              max={max}
+              position={position}
+              onChange={onValueChange}
+            />
+          )}
         </div>
 
         <div className={`${prefixCls}__infor__delete-icon`} onClick={onDelete}>

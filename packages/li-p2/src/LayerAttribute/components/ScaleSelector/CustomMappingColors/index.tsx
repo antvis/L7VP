@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import { uniqueId } from 'lodash-es';
 import React, { useEffect, useMemo, useState } from 'react';
 import type { CustomMappingColorItem, CustomMappingData } from '../type';
-import CustomItem from './CustomItem';
+import CustomInput from './CustomInput';
 import useStyle from './style';
 
 type CustomMappingColorProps = {
@@ -183,7 +183,7 @@ const CustomMappingColor = (props: CustomMappingColorProps) => {
         const _min = index === 0 ? min : (customRanges[index - 1].value[1] as number);
 
         return (
-          <CustomItem
+          <CustomInput
             dataType={dataType}
             key={`drag_card${index}`}
             color={customItem.color}
