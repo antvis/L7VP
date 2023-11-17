@@ -8,7 +8,7 @@ import Item from './Item';
 import useStyle from './style';
 
 type RangeItemProps = {
-  customType: 'string' | 'number';
+  dataType: 'string' | 'number';
   position: string | null;
   selectedOption: (string | number)[];
   selectOptions: { label: string; value: string }[];
@@ -21,7 +21,7 @@ type RangeItemProps = {
 };
 
 const RangeItem = ({
-  customType,
+  dataType,
   position,
   selectedOption,
   selectOptions,
@@ -69,7 +69,7 @@ const RangeItem = ({
         <div className={`${prefixCls}__infor__content`}>
           <Item
             size="small"
-            customType={customType}
+            customType={dataType}
             value={defaultValue}
             options={options}
             onChange={onValueChange}

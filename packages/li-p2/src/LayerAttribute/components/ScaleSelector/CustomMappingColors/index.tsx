@@ -184,7 +184,7 @@ const CustomMappingColor = (props: CustomMappingColorProps) => {
 
         return (
           <CustomItem
-            customType={dataType}
+            dataType={dataType}
             key={`drag_card${index}`}
             color={customItem.color}
             value={customItem.value}
