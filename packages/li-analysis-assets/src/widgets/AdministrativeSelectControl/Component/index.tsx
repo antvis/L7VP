@@ -59,7 +59,7 @@ export default (props: AreaWidgetProps) => {
         }
 
         if (scene && cityData) {
-          const data = treeToArr([cityData.cities]).find((item: ICity) => item.name === value.name);
+          const data = treeToArr([cityData.cities]).find((item: ICity) => item.name.indexOf(value.name) === 0);
           if (data) {
             scene.setZoomAndCenter(11, [data.lng, data.lat]);
           }
@@ -80,7 +80,7 @@ export default (props: AreaWidgetProps) => {
 
   const onClickItem = (v: ICity) => {
     setOpen(false);
-    setRegionName(v.shortName || v.name);
+    setRegionName(v.name);
     if (v) getBoundsData(v);
   };
 
@@ -122,7 +122,7 @@ export default (props: AreaWidgetProps) => {
                 onClick={() => onClickItem(hot as ICity)}
                 className={cls(`${CLS_PREFIX}__content-header-item`, style.tabContentItem)}
               >
-                {hot.shortName}
+                {hot.name}
               </div>
             );
           })}
