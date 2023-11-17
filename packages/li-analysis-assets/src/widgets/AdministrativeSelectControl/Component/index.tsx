@@ -59,9 +59,7 @@ export default (props: AreaWidgetProps) => {
         }
 
         if (scene && cityData) {
-          const data = treeToArr([cityData.cities]).find((item: ICity) =>
-            [value.anotherName, value.name].includes(item.name),
-          );
+          const data = treeToArr([cityData.cities]).find((item: ICity) => item.name.includes(value.name));
           if (data) {
             scene.setZoomAndCenter(11, [data.lng, data.lat]);
           }
@@ -124,7 +122,7 @@ export default (props: AreaWidgetProps) => {
                 onClick={() => onClickItem(hot as ICity)}
                 className={cls(`${CLS_PREFIX}__content-header-item`, style.tabContentItem)}
               >
-                {hot.name.replace('市', '')}
+                {hot.name}
               </div>
             );
           })}
@@ -172,9 +170,7 @@ export default (props: AreaWidgetProps) => {
         <Spin spinning={loading}>
           <div className={cls(`${CLS_PREFIX}`, style.popoverContent)}>
             <div className={cls(`${CLS_PREFIX}__title`, style.popoverTitle)}>
-              <div className={cls(`${CLS_PREFIX}__title-name`, style.popoverTitleName)}>
-                {cityName.replace('市', '').replace('省', '')}
-              </div>
+              <div className={cls(`${CLS_PREFIX}__title-name`, style.popoverTitleName)}>{cityName}</div>
               <CaretDownOutlined rotate={open ? 180 : 0} />
             </div>
           </div>

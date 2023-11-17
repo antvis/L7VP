@@ -1,4 +1,4 @@
-export type HotCities = { adcode: string; name: string; anotherName?: string; level: string };
+export type HotCities = { adcode: string; name: string; level: string };
 
 export type ICity = {
   lng: number;
