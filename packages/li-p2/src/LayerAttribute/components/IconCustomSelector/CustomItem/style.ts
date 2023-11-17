@@ -18,6 +18,7 @@ export default genStyleHook('icon-custom-selector-icon-item', (token) => {
       display: 'flex',
       alignItems: 'center',
       margin: '10px 0',
+      height: '28px',
 
       '&__select': {
         width: '100%',
@@ -73,6 +74,7 @@ export default genStyleHook('icon-custom-selector-icon-item', (token) => {
 
       '&__delete': {
         width: '14px',
+        marginLeft: '5px',
 
         '&:hover': {
           cursor: 'pointer',

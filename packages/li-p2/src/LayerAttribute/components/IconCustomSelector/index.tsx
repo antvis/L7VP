@@ -65,12 +65,16 @@ const Internal = (props: IconSelector) => {
 
   return wrapSSR(
     <Select
-      open={open}
+      open={true}
       className={cls(`${prefixCls}`, hashId)}
       onDropdownVisibleChange={(visible) => setOpen(visible)}
       dropdownRender={() => {
         return (
           <div>
+            <div className={cls(`${prefixCls}__header`, hashId)}>
+              <div className={cls(`${prefixCls}__header-icon`, hashId)}>符号</div>
+              <div className={cls(`${prefixCls}__header-field`, hashId)}>类型</div>
+            </div>
             {iconList?.map((item) => {
               return (
                 <CustomItem
@@ -85,7 +89,7 @@ const Internal = (props: IconSelector) => {
               );
             })}
             <div className={cls(`${prefixCls}__add-item`, hashId)}>
-              <PlusCircleOutlined onClick={onAddItem} />
+              <PlusCircleOutlined onClick={onAddItem} /> 添加
             </div>
           </div>
         );
