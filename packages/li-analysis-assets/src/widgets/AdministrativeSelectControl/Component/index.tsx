@@ -19,7 +19,7 @@ export default (props: AreaWidgetProps) => {
   const [scene] = useScene();
   const { position, showBounds } = props;
   const style = useStyle();
-  const [cityName, setCityName] = useState('全国');
+  const [regionName, setRegionName] = useState('全国');
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -59,7 +59,7 @@ export default (props: AreaWidgetProps) => {
         }
 
         if (scene && cityData) {
-          const data = treeToArr([cityData.cities]).find((item: ICity) => item.name.includes(value.name));
+          const data = treeToArr([cityData.cities]).find((item: ICity) => item.name === value.name);
           if (data) {
             scene.setZoomAndCenter(11, [data.lng, data.lat]);
           }
@@ -74,13 +74,13 @@ export default (props: AreaWidgetProps) => {
   const onSelectChange = (value: string) => {
     const newValue = JSON.parse(value || '');
     setOpen(false);
-    setCityName(newValue.name);
+    setRegionName(newValue.name);
     if (newValue) getBoundsData(newValue);
   };
 
   const onClickItem = (v: ICity) => {
     setOpen(false);
-    setCityName(v.name);
+    setRegionName(v.shortName || v.name);
     if (v) getBoundsData(v);
   };
 
@@ -122,7 +122,7 @@ export default (props: AreaWidgetProps) => {
                 onClick={() => onClickItem(hot as ICity)}
                 className={cls(`${CLS_PREFIX}__content-header-item`, style.tabContentItem)}
               >
-                {hot.name}
+                {hot.shortName}
               </div>
             );
           })}
@@ -142,14 +142,14 @@ export default (props: AreaWidgetProps) => {
   }, [position]);
 
   const onRest = () => {
-    setCityName('全国');
+    setRegionName('全国');
     setBoundBorder(undefined);
   };
 
   const getTitle = () => {
     return (
       <div className={style.popoverName}>
-        <div>所在区域:{cityName.replace('市', '').replace('省', '')}</div>
+        <div>所在区域:{regionName.replace('市', '').replace('省', '')}</div>
         <Button type="text" size="small" icon={<CloseOutlined />} onClick={() => onRest()} style={{ marginLeft: 8 }} />
       </div>
     );
@@ -170,7 +170,9 @@ export default (props: AreaWidgetProps) => {
         <Spin spinning={loading}>
           <div className={cls(`${CLS_PREFIX}`, style.popoverContent)}>
             <div className={cls(`${CLS_PREFIX}__title`, style.popoverTitle)}>
-              <div className={cls(`${CLS_PREFIX}__title-name`, style.popoverTitleName)}>{cityName}</div>
+              <div className={cls(`${CLS_PREFIX}__title-name`, style.popoverTitleName)}>
+                {regionName.replace('市', '').replace('省', '')}
+              </div>
               <CaretDownOutlined rotate={open ? 180 : 0} />
             </div>
           </div>
