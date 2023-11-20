@@ -5,10 +5,8 @@ export default genStyleHook('icon-custom-selector-icon-item', (token) => {
     componentCls,
     controlItemBgHover,
     controlItemBgActive,
-    colorTextBase,
     borderRadius,
     colorPrimaryActive,
-    colorBgElevated,
     zIndexPopupBase,
   } = token;
 
@@ -17,7 +15,6 @@ export default genStyleHook('icon-custom-selector-icon-item', (token) => {
       width: '100%',
       display: 'flex',
       alignItems: 'center',
-      margin: '10px 0',
       height: '28px',
 
       '&__select': {
@@ -43,27 +40,8 @@ export default genStyleHook('icon-custom-selector-icon-item', (token) => {
 
       '&__icon-popover': {
         width: '250px',
-        height: '300px',
+        mixHeight: '300px',
         overflowY: 'auto',
-
-        '&__icon-content': {
-          marginBottom: '10px',
-
-          '&__header': {
-            fontWeight: 500,
-          },
-
-          '&__img': {
-            display: 'flex',
-            flexWrap: 'wrap',
-
-            img: {
-              width: '20px',
-              height: '20px',
-              margin: '10px',
-            },
-          },
-        },
       },
 
       '&__value': {

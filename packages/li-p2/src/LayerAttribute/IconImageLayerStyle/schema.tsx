@@ -5,7 +5,7 @@ import type { AttributeSchemaOptions } from '../types';
 import type { IconSelectOptionType } from './types';
 
 export default (options: AttributeSchemaOptions & { iconList?: IconSelectOptionType[] }) => {
-  const { fieldList = [], iconList = [] } = options;
+  const { fieldList = [] } = options;
   return {
     type: 'object',
     properties: {
@@ -49,34 +49,42 @@ export default (options: AttributeSchemaOptions & { iconList?: IconSelectOptionT
                   },
                 ],
               },
+
               iconAtlasList: {
                 type: 'array',
-                title: '图标列表',
+                title: '图标映射',
                 'x-decorator': 'FormItem',
-                'x-component': 'IconList',
+                'x-component': 'IconSelector',
+                'x-component-props': {
+                  options:
+                    '{{ $form.getFieldState("iconField",state=> { return state.dataSource.find((item) => item.value === state.value)?.domain })}}',
+                },
                 'x-decorator-props': {
                   tooltip: '点击可添加查看图标',
                 },
-                enum: [...iconList],
                 'x-reactions': [
                   {
+                    dependencies: ['iconField'],
                     fulfill: {
-                      run: "$form.setFieldState('iconImg',state=>{state.dataSource = $self.value })",
+                      state: {
+                        visible: '{{ $deps[0] !== undefined }}',
+                      },
                     },
                   },
                 ],
               },
+
               iconImg: {
                 type: 'string',
                 title: '图标形状',
                 'x-decorator': 'FormItem',
-                'x-component': 'IconSelector',
+                'x-component': 'IconList',
                 'x-decorator-props': {
                   tooltip: '选中一个图标作为填充图标',
                   allowClear: true,
                 },
                 'x-component-props': {
-                  placeholder: '请选择字段',
+                  placeholder: '请选择图标',
                 },
               },
 
@@ -90,6 +98,7 @@ export default (options: AttributeSchemaOptions & { iconList?: IconSelectOptionT
               //   },
               //   'x-decorator-props': {},
               // },
+
               fillOpacity: {
                 type: 'number',
                 title: '透明度',

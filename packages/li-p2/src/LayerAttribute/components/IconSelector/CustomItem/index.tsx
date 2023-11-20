@@ -2,27 +2,30 @@ import { DeleteOutlined } from '@ant-design/icons';
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { Popover, Select } from 'antd';
 import cls from 'classnames';
-import React from 'react';
+import React, { useState } from 'react';
 import type { IconListItem } from '../type';
 import useStyle from './style';
+import IconListContent from './IconListContent';
 
-type IconSelector = {
+type CustomItemProps = {
   value: IconListItem;
   size?: 'small' | 'middle' | 'large';
-  iconList: { type: string; icons: string[] }[];
+  iconList: { type: string; icons: { title: string; img: string }[] }[];
   fieldList: { label: string; value: string }[];
   onChange: (val: IconListItem) => void;
   onDelete: () => void;
 };
 
-const CustomItem = (props: IconSelector) => {
+const CustomItem = (props: CustomItemProps) => {
   const prefixCls = usePrefixCls('formily-icon-custom-selector-icon-item');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const { value: defaultValue, iconList = [], fieldList = [], size = 'middle', onChange, onDelete } = props;
+  const [open, setOpen] = useState(false);
 
   const onIconChange = (icon: string) => {
     const _itemValue = { ...defaultValue, icon };
     onChange(_itemValue);
+    setOpen(false);
   };
 
   const onFieldChange = (field: string) => {
@@ -39,18 +42,7 @@ const CustomItem = (props: IconSelector) => {
           e.stopPropagation();
         }}
       >
-        {iconList.map((item) => {
-          return (
-            <div className={cls(`${prefixCls}__icon-popover__icon-content`, hashId)}>
-              <div className={cls(`${prefixCls}__icon-popover__icon-content__header`, hashId)}>{item.type}</div>
-              <div className={cls(`${prefixCls}__icon-popover__icon-content__img`, hashId)}>
-                {item.icons.map((icon) => (
-                  <img key={icon} src={icon} onClick={() => onIconChange(icon)} />
-                ))}
-              </div>
-            </div>
-          );
-        })}
+        <IconListContent iconList={iconList} onChange={onIconChange} />
       </div>
     );
   };
@@ -58,13 +50,27 @@ const CustomItem = (props: IconSelector) => {
   return wrapSSR(
     <div className={cls(prefixCls, hashId)}>
       <div className={cls(`${prefixCls}__icon`, hashId)}>
-        <Popover arrow={false} content={content} trigger="click" overlayClassName={cls(`${prefixCls}__icon`, hashId)}>
-          <img className={cls(`${prefixCls}__icon__img`, hashId)} src={defaultValue.icon} />
+        <Popover
+          open={open}
+          arrow={false}
+          content={content}
+          trigger="click"
+          overlayClassName={cls(`${prefixCls}__icon`, hashId)}
+          onOpenChange={(_open) => {
+            setOpen(_open);
+          }}
+        >
+          <img
+            className={cls(`${prefixCls}__icon__img`, hashId)}
+            src={defaultValue.icon}
+            onClick={() => setOpen(true)}
+          />
         </Popover>
       </div>
       <div className={cls(`${prefixCls}__value`, hashId)}>
         <Select
           className={cls(`${prefixCls}__select`, hashId)}
+          placeholder="请选择类型"
           size={size}
           value={defaultValue.value}
           popupMatchSelectWidth={false}

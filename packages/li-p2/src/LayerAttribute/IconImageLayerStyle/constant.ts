@@ -1,10 +1,9 @@
-import type { IconSelectOptionType } from '../components/IconList/type';
 import type { IconImageLayerStyleAttributeValue } from './types';
 
 /** 组件名称, 前缀 */
 export const CLS_PREFIX = 'li-p2-icon-image-layer-style-attribute';
 
-export const BuiltInImageList: IconSelectOptionType[] = [
+export const BuiltInImageList: { id: string; image: string }[] = [
   {
     id: 'location',
     image: 'https://gw.alipayobjects.com/zos/bmw-prod/2f98d307-b93f-442b-a1bf-c693ea8652be.svg',
@@ -33,7 +32,7 @@ export const BuiltInImage = BuiltInImageList.reduce(
 
 /** 默认值样式属性 */
 export const DefaultIconImageLayerStyle: IconImageLayerStyleAttributeValue = {
-  iconAtlas: BuiltInImage,
+  iconAtlas: {},
   icon: 'location',
   radius: 30,
   iconStyle: {
