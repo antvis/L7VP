@@ -7,7 +7,7 @@ import type { CommonProps } from '../types/common';
  */
 export type IconImageLayerStyleAttributeValue = Omit<IconImageLayerOptions, 'source'>;
 
-export type IconSelectOptionType = { id: string; icon: string; value: string };
+export type IconSelectOptionType = { id: string; icon: string; value: string; title: string };
 /**
  * 组件类型定义
  */

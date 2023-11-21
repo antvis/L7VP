@@ -5,6 +5,7 @@ import { Button, Select } from 'antd';
 import cls from 'classnames';
 import React, { useMemo, useState } from 'react';
 import { getUId } from '../../../utils';
+import { BuiltInImageList } from '../../IconImageLayerStyle/constant';
 import { DEFAULTICONOPTIONS } from './constant';
 import CustomItem from './CustomItem';
 import useStyle from './style';
@@ -13,8 +14,8 @@ import type { IconListItem } from './type';
 type IconSelectorProps = {
   // 可选择字段
   options: string[];
-  value: { id: string; icon: string; value: string }[];
-  onChange: (val: { id: string; icon: string; value: string }[]) => void;
+  value: IconListItem[];
+  onChange: (val: IconListItem[]) => void;
 };
 
 const Internal = (props: IconSelectorProps) => {
@@ -22,7 +23,22 @@ const Internal = (props: IconSelectorProps) => {
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const { options = [], value: defaultValue, onChange } = props;
   const [open, setOpen] = useState(false);
-  const DefaultIconList = defaultValue.length ? defaultValue : [{ id: getUId(), icon: '', value: '' }];
+  const DefaultIconList = useMemo(() => {
+    if (defaultValue.length) {
+      return defaultValue;
+    } else {
+      const _list = options.map((item, index) => {
+        return {
+          id: getUId(),
+          icon: BuiltInImageList[index].img,
+          value: item,
+          title: BuiltInImageList[index].title,
+        };
+      });
+      onChange(_list);
+      return _list;
+    }
+  }, [options]);
   const [iconList, setIconList] = useState<IconListItem[]>(DefaultIconList);
 
   const fieldList = useMemo(() => {
@@ -33,7 +49,10 @@ const Internal = (props: IconSelectorProps) => {
   }, [options]);
 
   const onAddItem = () => {
-    setIconList([...iconList, { id: getUId(), icon: '', value: '' }]);
+    setIconList([
+      ...iconList,
+      { id: getUId(), icon: BuiltInImageList[0].img, value: '', title: BuiltInImageList[0].title },
+    ]);
   };
 
   const onItemChange = (val: IconListItem) => {

@@ -1,5 +1,7 @@
 import { getUId } from '../../utils';
+import { BuiltInImage, BuiltInImageList } from './constant';
 import type { IconImageLayerStyleAttributeValue, IconSelectOptionType } from './types';
+
 /**
  * 平铺数据转图层样式数据
  * 将表单的平铺数据转为图层样式的数据结构
@@ -7,25 +9,22 @@ import type { IconImageLayerStyleAttributeValue, IconSelectOptionType } from './
 export const iconImageLayerStyleFlatToConfig = (style: Record<string, any>) => {
   const { iconAtlasList, iconField, iconImg } = style;
 
-  let iconAtlas = {};
-  if (iconField) {
-    iconAtlas = (iconAtlasList || []).reduce(
-      (pre: {}, item: IconSelectOptionType) => ({
-        ...pre,
-        [item.value]: item.icon,
-      }),
-      {},
-    );
-  } else {
-    iconAtlas = { [getUId()]: iconImg };
-  }
+  const icon = iconField
+    ? {
+        field: style.iconField,
+        value: iconAtlasList.map((item: IconSelectOptionType) => item.title),
+        scale: {
+          type: 'cat',
+          domain: iconAtlasList.map((item: IconSelectOptionType) => item.value),
+          unknown: '',
+        },
+      }
+    : iconImg;
 
   const styleConfig: IconImageLayerStyleAttributeValue = {
-    iconAtlas,
-    icon: style.iconField
-      ? { field: style.iconField, value: iconAtlasList.map((item: IconSelectOptionType) => item.value) }
-      : Object.keys(iconAtlas)[0],
-    // fillColor: style.fillColor,
+    iconAtlas: BuiltInImage,
+    icon,
+    fillColor: style.fillColor,
     radius: style.radiusField
       ? {
           field: style.radiusField,
@@ -59,11 +58,25 @@ export const iconImageLayerStyleFlatToConfig = (style: Record<string, any>) => {
  * 将图层样式的数据结构转为表单的平铺数据
  * */
 export const iconImageLayerStyleConfigToFlat = (styleConfig: Partial<IconImageLayerStyleAttributeValue>) => {
-  const { radius, label, icon, iconStyle, iconAtlas = {}, minZoom = 0, maxZoom = 24, blend } = styleConfig || {};
+  const { radius, label, icon, iconStyle, minZoom = 0, maxZoom = 24, blend } = styleConfig || {};
+
+  let iconAtlasList = undefined;
+  if (typeof icon === 'object' && icon.value) {
+    // @ts-ignore
+    iconAtlasList = icon.value.map((_item: string, index: number) => {
+      const _icon = BuiltInImageList.find((item) => item.title === _item);
+      return {
+        id: getUId(),
+        icon: _icon?.img,
+        title: _icon?.title,
+        value: icon.scale?.domain?.[index],
+      };
+    });
+  }
 
   const config = {
-    iconAtlasList: Object.entries(iconAtlas).map(([key, value]) => ({ id: getUId(), icon: value, value: key })),
-    iconImg: typeof icon === 'object' ? undefined : Object.values(iconAtlas)[0],
+    iconAtlasList,
+    iconImg: typeof icon === 'object' ? undefined : icon,
     iconField: typeof icon === 'object' ? icon.field : undefined,
     fillOpacity: iconStyle?.opacity,
     // fillColor,

@@ -22,8 +22,8 @@ const CustomItem = (props: CustomItemProps) => {
   const { value: defaultValue, iconList = [], fieldList = [], size = 'middle', onChange, onDelete } = props;
   const [open, setOpen] = useState(false);
 
-  const onIconChange = (icon: string) => {
-    const _itemValue = { ...defaultValue, icon };
+  const onIconChange = (icon: { title: string; img: string }) => {
+    const _itemValue = { ...defaultValue, icon: icon.img, title: icon.title };
     onChange(_itemValue);
     setOpen(false);
   };
@@ -82,6 +82,7 @@ const CustomItem = (props: CustomItemProps) => {
           onChange={(field: string) => onFieldChange(field)}
         />
       </div>
+
       <div className={cls(`${prefixCls}__delete`, hashId)}>
         <DeleteOutlined onClick={onDelete} />
       </div>

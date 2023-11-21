@@ -22,11 +22,14 @@ const Internal: React.FC<IconListProps> = (props) => {
     if (!defaultValue) {
       return [];
     }
-    return [{ value: defaultValue, label: defaultValue }];
+    const img = (DEFAULTICONOPTIONS.map((item) => item.icons).flat() || []).find(
+      (_item) => _item?.title === defaultValue,
+    )?.img;
+    return [{ value: defaultValue, label: img }];
   }, [defaultValue]);
 
-  const onIconChange = (icon: string) => {
-    onChange(icon);
+  const onIconChange = (icon: { title: string; img: string }) => {
+    onChange(icon.title);
     setOpen(false);
   };
 

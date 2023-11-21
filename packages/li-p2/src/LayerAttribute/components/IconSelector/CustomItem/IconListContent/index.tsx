@@ -6,7 +6,7 @@ import useStyle from './style';
 
 type IconSelector = {
   iconList: { type: string; icons: { title: string; img: string }[] }[];
-  onChange: (val: string) => void;
+  onChange: (val: { title: string; img: string }) => void;
 };
 
 const IconListContent = (props: IconSelector) => {
@@ -14,7 +14,7 @@ const IconListContent = (props: IconSelector) => {
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const { iconList = [], onChange } = props;
 
-  const onIconChange = (icon: string) => {
+  const onIconChange = (icon: { title: string; img: string }) => {
     onChange(icon);
   };
 
@@ -31,7 +31,7 @@ const IconListContent = (props: IconSelector) => {
             <div className={cls(`${prefixCls}__icon-content__img`, hashId)}>
               {item.icons.map((icon) => (
                 <Tooltip title={icon.title} key={icon.img}>
-                  <img key={icon.img} src={icon.img} onClick={() => onIconChange(icon.img)} />
+                  <img key={icon.img} src={icon.img} onClick={() => onIconChange(icon)} />
                 </Tooltip>
               ))}
             </div>
