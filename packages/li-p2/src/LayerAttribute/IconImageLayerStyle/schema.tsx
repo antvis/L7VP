@@ -47,6 +47,13 @@ export default (options: AttributeSchemaOptions & { iconList?: IconSelectOptionT
                         "$form.setFieldState('iconImg',state=>{state.visible = $self.value? false : true ;state.required=true})",
                     },
                   },
+                  {
+                    target: 'iconAtlasList',
+                    effects: ['onFieldValueChange'],
+                    fulfill: {
+                      run: "$form.setFieldState('iconAtlasList',state=>{ state.value=[] })",
+                    },
+                  },
                 ],
               },
 

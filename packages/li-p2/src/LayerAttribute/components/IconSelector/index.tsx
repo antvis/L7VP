@@ -3,7 +3,7 @@ import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { connect } from '@formily/react';
 import { Button, Select } from 'antd';
 import cls from 'classnames';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { getUId } from '../../../utils';
 import { BuiltInImageList } from '../../IconImageLayerStyle/constant';
 import { DEFAULTICONOPTIONS } from './constant';
@@ -23,11 +23,13 @@ const Internal = (props: IconSelectorProps) => {
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const { options = [], value: defaultValue, onChange } = props;
   const [open, setOpen] = useState(false);
+
   const DefaultIconList = useMemo(() => {
     if (defaultValue.length) {
       return defaultValue;
     } else {
-      const _list = options.map((item, index) => {
+      const _options = options.length > 5 ? options.slice(0, 4) : options;
+      const _list = _options.map((item, index) => {
         return {
           id: getUId(),
           icon: BuiltInImageList[index].img,
@@ -39,7 +41,12 @@ const Internal = (props: IconSelectorProps) => {
       return _list;
     }
   }, [options]);
+
   const [iconList, setIconList] = useState<IconListItem[]>(DefaultIconList);
+
+  useEffect(() => {
+    setIconList(DefaultIconList);
+  }, [DefaultIconList]);
 
   const fieldList = useMemo(() => {
     if (options.length) {
