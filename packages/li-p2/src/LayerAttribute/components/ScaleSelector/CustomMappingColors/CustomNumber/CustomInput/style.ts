@@ -1,6 +1,6 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
-export default genStyleHook('scale-selector__custom-content__custom-item', (token) => {
+export default genStyleHook('scale-selector__custom-content__custom-number__input', (token) => {
   const { componentCls, antCls, colorInfoTextHover } = token;
 
   return {
