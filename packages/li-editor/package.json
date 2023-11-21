@@ -1,6 +1,6 @@
 {
   "name": "@antv/li-editor",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "editor for location insight",
   "keywords": [
     "editor",
@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@antv/event-emitter": "^0.1.3",
-    "@antv/li-p2": "^1.3.1",
+    "@antv/li-p2": "^1.3.2",
     "@antv/li-sdk": "^1.1.4",
     "@formily/antd-v5": "^1.1.2",
     "@formily/core": "^2.2.24",
