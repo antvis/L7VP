@@ -9,17 +9,19 @@ import type { IconImageLayerStyleAttributeValue, IconSelectOptionType } from './
 export const iconImageLayerStyleFlatToConfig = (style: Record<string, any>) => {
   const { iconAtlasList, iconField, iconImg } = style;
 
-  const icon = iconField
-    ? {
-        field: style.iconField,
-        value: iconAtlasList.map((item: IconSelectOptionType) => item.title),
-        scale: {
-          type: 'cat',
-          domain: iconAtlasList.map((item: IconSelectOptionType) => item.value),
-          unknown: '',
-        },
-      }
-    : iconImg;
+  let icon = iconImg;
+  if (iconField) {
+    const { iconList, unknownIcon } = iconAtlasList;
+    icon = {
+      field: style.iconField,
+      value: iconList.map((item: IconSelectOptionType) => item.title),
+      scale: {
+        type: 'cat',
+        domain: iconList.map((item: IconSelectOptionType) => item.value),
+        unknown: unknownIcon?.title,
+      },
+    };
+  }
 
   const styleConfig: IconImageLayerStyleAttributeValue = {
     iconAtlas: BuiltInImage,
@@ -62,16 +64,21 @@ export const iconImageLayerStyleConfigToFlat = (styleConfig: Partial<IconImageLa
 
   let iconAtlasList = undefined;
   if (typeof icon === 'object' && icon.value) {
-    // @ts-ignore
-    iconAtlasList = icon.value.map((_item: string, index: number) => {
-      const _icon = BuiltInImageList.find((item) => item.title === _item);
-      return {
-        id: getUId(),
-        icon: _icon?.img,
-        title: _icon?.title,
-        value: icon.scale?.domain?.[index],
-      };
-    });
+    const _unknown = BuiltInImageList.find((item) => item.title === icon.scale?.unknown);
+
+    iconAtlasList = {
+      // @ts-ignore
+      iconList: icon.value.map((_item: string, index: number) => {
+        const _icon = BuiltInImageList.find((item) => item.title === _item);
+        return {
+          id: getUId(),
+          icon: _icon?.icon,
+          title: _icon?.title,
+          value: icon.scale?.domain?.[index],
+        };
+      }),
+      unknownIcon: { title: _unknown?.title, icon: _unknown?.icon },
+    };
   }
 
   const config = {

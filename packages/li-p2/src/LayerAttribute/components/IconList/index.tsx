@@ -5,6 +5,7 @@ import cls from 'classnames';
 import React, { useMemo, useState } from 'react';
 import { DEFAULTICONOPTIONS } from '../IconSelector/constant';
 import IconListContent from '../IconSelector/CustomItem/IconListContent';
+import type { IconItem } from '../IconSelector/type';
 import useStyle from './style';
 
 export type IconListProps = {
@@ -24,11 +25,11 @@ const Internal: React.FC<IconListProps> = (props) => {
     }
     const img = (DEFAULTICONOPTIONS.map((item) => item.icons).flat() || []).find(
       (_item) => _item?.title === defaultValue,
-    )?.img;
+    )?.icon;
     return [{ value: defaultValue, label: img }];
   }, [defaultValue]);
 
-  const onIconChange = (icon: { title: string; img: string }) => {
+  const onIconChange = (icon: IconItem) => {
     onChange(icon.title);
     setOpen(false);
   };
@@ -40,11 +41,7 @@ const Internal: React.FC<IconListProps> = (props) => {
       className={cls(`${prefixCls}`, hashId)}
       onDropdownVisibleChange={(visible) => setOpen(visible)}
       dropdownRender={() => {
-        return (
-          <div>
-            <IconListContent iconList={DEFAULTICONOPTIONS} onChange={onIconChange} />
-          </div>
-        );
+        return <IconListContent iconList={DEFAULTICONOPTIONS} onChange={onIconChange} />;
       }}
       value={selectOptions[0]?.value}
     >

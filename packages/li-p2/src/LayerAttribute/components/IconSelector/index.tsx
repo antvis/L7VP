@@ -9,13 +9,19 @@ import { BuiltInImageList } from '../../IconImageLayerStyle/constant';
 import { DEFAULTICONOPTIONS } from './constant';
 import CustomItem from './CustomItem';
 import useStyle from './style';
-import type { IconListItem } from './type';
+import type { IconItem, IconListItem } from './type';
+import UnknownIcon from './UnknownIcon';
+
+type IconSelectorValue = {
+  iconList: IconListItem[];
+  unknownIcon: IconItem;
+};
 
 type IconSelectorProps = {
   // 可选择字段
   options: string[];
-  value: IconListItem[];
-  onChange: (val: IconListItem[]) => void;
+  value: IconSelectorValue;
+  onChange: (val: IconSelectorValue) => void;
 };
 
 const Internal = (props: IconSelectorProps) => {
@@ -23,21 +29,22 @@ const Internal = (props: IconSelectorProps) => {
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const { options = [], value: defaultValue, onChange } = props;
   const [open, setOpen] = useState(false);
+  const [unknownIcon, setUnknownIcon] = useState<IconItem>(defaultValue.unknownIcon);
 
   const DefaultIconList = useMemo(() => {
-    if (defaultValue.length) {
-      return defaultValue;
+    if (defaultValue?.iconList && defaultValue.iconList.length) {
+      return defaultValue.iconList;
     } else {
-      const _options = options.length > 3 ? options.slice(0, 3) : options;
+      const _options = options.length > 2 ? options.slice(0, 2) : options;
       const _list = _options.map((item, index) => {
         return {
           id: getUId(),
-          icon: BuiltInImageList[index].img,
+          icon: BuiltInImageList[index].icon,
           value: item,
           title: BuiltInImageList[index].title,
         };
       });
-      onChange(_list);
+      onChange({ iconList: _list, unknownIcon });
       return _list;
     }
   }, [options]);
@@ -48,17 +55,10 @@ const Internal = (props: IconSelectorProps) => {
     setIconList(DefaultIconList);
   }, [DefaultIconList]);
 
-  const fieldList = useMemo(() => {
-    if (options.length) {
-      return options.map((item) => ({ label: item, value: item }));
-    }
-    return [];
-  }, [options]);
-
   const onAddItem = () => {
     setIconList([
       ...iconList,
-      { id: getUId(), icon: BuiltInImageList[0].img, value: '', title: BuiltInImageList[0].title },
+      { id: getUId(), icon: BuiltInImageList[0].icon, value: undefined, title: BuiltInImageList[0].title },
     ]);
   };
 
@@ -73,21 +73,30 @@ const Internal = (props: IconSelectorProps) => {
   };
 
   const onSubmit = () => {
-    onChange(iconList);
+    onChange({ iconList, unknownIcon });
     setOpen(false);
   };
 
-  const selectOptions = useMemo(() => {
-    if (!defaultValue) {
+  const fieldList = useMemo(() => {
+    if (!options.length) {
       return [];
     }
-    return [{ value: 'selectedIcon', label: defaultValue.map((item) => item.icon) }];
+
+    return options.map((item) => ({ label: item, value: item }));
+  }, [options]);
+
+  const selectOptions = useMemo(() => {
+    if (!defaultValue.iconList) {
+      return [];
+    }
+
+    return [{ value: 'selectedIcon', label: defaultValue.iconList.map((item) => item.icon) }];
   }, [defaultValue]);
 
   return wrapSSR(
     <Select
-      open={open}
       className={cls(`${prefixCls}`, hashId)}
+      open={open}
       onDropdownVisibleChange={(visible) => setOpen(visible)}
       dropdownRender={() => {
         return (
@@ -110,21 +119,29 @@ const Internal = (props: IconSelectorProps) => {
                     key={item.id}
                     size="small"
                     value={item}
+                    disabled={iconList.length <= 1}
                     iconList={DEFAULTICONOPTIONS}
                     fieldList={_options}
-                    disabled={iconList.length <= 1}
                     onChange={(val: IconListItem) => onItemChange(val)}
                     onDelete={() => onItemDelete(item.id)}
                   />
                 </div>
               );
             })}
+
+            <UnknownIcon
+              size="small"
+              value={unknownIcon}
+              iconList={DEFAULTICONOPTIONS}
+              onChange={({ title, icon }) => setUnknownIcon({ title, icon })}
+            />
+
             <Button
               className={cls(`${prefixCls}__add-item`, hashId)}
               size="small"
-              onClick={onAddItem}
               type="link"
               disabled={fieldList.length === iconList.length}
+              onClick={onAddItem}
             >
               <PlusCircleOutlined /> 添加
             </Button>

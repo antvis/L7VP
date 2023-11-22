@@ -3,7 +3,7 @@ import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { Button, Popover, Select } from 'antd';
 import cls from 'classnames';
 import React, { useState } from 'react';
-import type { IconListItem } from '../type';
+import type { IconItem, IconListItem, IconOptionsType } from '../type';
 import IconListContent from './IconListContent';
 import useStyle from './style';
 
@@ -11,7 +11,7 @@ type CustomItemProps = {
   value: IconListItem;
   size?: 'small' | 'middle' | 'large';
   disabled: boolean;
-  iconList: { type: string; icons: { title: string; img: string }[] }[];
+  iconList: IconOptionsType;
   fieldList: { label: string; value: string }[];
   onChange: (val: IconListItem) => void;
   onDelete: () => void;
@@ -31,8 +31,8 @@ const CustomItem = (props: CustomItemProps) => {
   } = props;
   const [open, setOpen] = useState(false);
 
-  const onIconChange = (icon: { title: string; img: string }) => {
-    const _itemValue = { ...defaultValue, icon: icon.img, title: icon.title };
+  const onIconChange = (icon: IconItem) => {
+    const _itemValue = { ...defaultValue, ...icon };
     onChange(_itemValue);
     setOpen(false);
   };

@@ -2,11 +2,12 @@ import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { Tooltip } from 'antd';
 import cls from 'classnames';
 import React from 'react';
+import type { IconItem, IconOptionsType } from '../../type';
 import useStyle from './style';
 
 type IconSelector = {
-  iconList: { type: string; icons: { title: string; img: string }[] }[];
-  onChange: (val: { title: string; img: string }) => void;
+  iconList: IconOptionsType;
+  onChange: (val: IconItem) => void;
 };
 
 const IconListContent = (props: IconSelector) => {
@@ -14,7 +15,7 @@ const IconListContent = (props: IconSelector) => {
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const { iconList = [], onChange } = props;
 
-  const onIconChange = (icon: { title: string; img: string }) => {
+  const onIconChange = (icon: IconItem) => {
     onChange(icon);
   };
 
@@ -30,8 +31,8 @@ const IconListContent = (props: IconSelector) => {
             <div className={cls(`${prefixCls}__icon-content__header`, hashId)}>{item.type}</div>
             <div className={cls(`${prefixCls}__icon-content__img`, hashId)}>
               {item.icons.map((icon) => (
-                <Tooltip title={icon.title} key={icon.img}>
-                  <img key={icon.img} src={icon.img} onClick={() => onIconChange(icon)} />
+                <Tooltip title={icon.title} key={icon.icon}>
+                  <img key={icon.icon} src={icon.icon} onClick={() => onIconChange(icon)} />
                 </Tooltip>
               ))}
             </div>

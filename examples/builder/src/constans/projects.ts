@@ -1140,7 +1140,7 @@ const MARINE_PROTECTED_AREA: Application = {
         },
         properties: {
           position: 'topright',
-          open: true,
+          open: false,
         },
         container: {
           id: 'AnalysisLayout',

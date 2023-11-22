@@ -4,12 +4,12 @@ import type { IconImageLayerStyleAttributeValue } from './types';
 export const CLS_PREFIX = 'li-p2-icon-image-layer-style-attribute';
 import { DEFAULTICONOPTIONS } from '../components/IconSelector/constant';
 
-export const BuiltInImageList: { title: string; img: string }[] = DEFAULTICONOPTIONS.map((item) => item.icons).flat();
+export const BuiltInImageList: { title: string; icon: string }[] = DEFAULTICONOPTIONS.map((item) => item.icons).flat();
 
 export const BuiltInImage = BuiltInImageList.reduce(
-  (pre, { title, img }) => ({
+  (pre, { title, icon }) => ({
     ...pre,
-    [title]: img,
+    [title]: icon,
   }),
   {},
 );
