@@ -9,7 +9,7 @@ nav:
   path: /components
 ---
 
-# icon list
+# icon 列表
 
 ## 介绍
 
