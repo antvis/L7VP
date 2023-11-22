@@ -21,23 +21,28 @@ const CustomNumber = (props: CustomNumberProps) => {
   const [wrapSSR, hashId] = useStyle(prefixCls);
 
   const addPaletteRangeItem = () => {
-    const _item = customRanges[customRanges.length - 1];
+    const _item = customRanges[customRanges.length - 2];
     const min = Number(_item.value[0]);
-    const _interval = Number(((Number(domain[1]) - min) / 2).toFixed(2)) + min;
+    const _interval = Number(((Number(_item.value[1]) - Number(_item.value[0])) / 2).toFixed(2));
 
     const addList: CustomMappingColorItem[] = [
       {
         id: _item.id,
-        value: [min, _interval],
+        value: [min, _interval + min],
         color: _item.color ?? '#5B8FF9',
       },
       {
+        id: customRanges[customRanges.length - 1].id,
+        value: [_interval + min, Number(_interval * 2) + min],
+        color: customRanges[customRanges.length - 1].color ?? '#5B8FF9',
+      },
+      {
         id: uniqueId(),
-        value: [_interval, Infinity],
-        color: _item.color ?? '#5B8FF9',
+        value: [Number(_interval * 2) + min, Infinity],
+        color: customRanges[customRanges.length - 1].color ?? '#5B8FF9',
       },
     ];
-    const list = [...customRanges.slice(0, -1), ...addList];
+    const list = [...customRanges.slice(0, -2), ...addList];
     onChange(list);
   };
 

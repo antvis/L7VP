@@ -34,14 +34,15 @@ const CustomString = (props: CustomStringProps) => {
     onChange(_ranges);
   };
 
-  const onChangePaletteRangeItem = (value: (string | number)[], color: string, index: number) => {
-    const list: CustomMappingColorItem[] = customRanges.map((item, _index) => {
+  const onChangePaletteRangeItem = (value: number[], color: string, index: number) => {
+    const list = customRanges.map((item, _index) => {
       if (index === _index) {
-        return {
+        const _item: CustomMappingColorItem = {
           ...item,
           value,
           color,
         };
+        return _item;
       }
 
       return item;
@@ -59,7 +60,7 @@ const CustomString = (props: CustomStringProps) => {
             color={customItem.color}
             value={customItem.value}
             onDelete={() => deletePaletteRangeItem(index)}
-            onChange={(value: (string | number)[], color: string) => onChangePaletteRangeItem(value, color, index)}
+            onChange={(value: number[], color: string) => onChangePaletteRangeItem(value, color, index)}
           />
         );
       })}
