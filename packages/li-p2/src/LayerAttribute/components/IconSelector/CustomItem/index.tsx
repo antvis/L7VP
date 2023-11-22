@@ -1,15 +1,16 @@
 import { DeleteOutlined } from '@ant-design/icons';
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
-import { Popover, Select } from 'antd';
+import { Button, Popover, Select } from 'antd';
 import cls from 'classnames';
 import React, { useState } from 'react';
 import type { IconListItem } from '../type';
-import useStyle from './style';
 import IconListContent from './IconListContent';
+import useStyle from './style';
 
 type CustomItemProps = {
   value: IconListItem;
   size?: 'small' | 'middle' | 'large';
+  disabled: boolean;
   iconList: { type: string; icons: { title: string; img: string }[] }[];
   fieldList: { label: string; value: string }[];
   onChange: (val: IconListItem) => void;
@@ -19,7 +20,15 @@ type CustomItemProps = {
 const CustomItem = (props: CustomItemProps) => {
   const prefixCls = usePrefixCls('formily-icon-custom-selector-icon-item');
   const [wrapSSR, hashId] = useStyle(prefixCls);
-  const { value: defaultValue, iconList = [], fieldList = [], size = 'middle', onChange, onDelete } = props;
+  const {
+    value: defaultValue,
+    disabled = false,
+    iconList = [],
+    fieldList = [],
+    size = 'middle',
+    onChange,
+    onDelete,
+  } = props;
   const [open, setOpen] = useState(false);
 
   const onIconChange = (icon: { title: string; img: string }) => {
@@ -83,9 +92,9 @@ const CustomItem = (props: CustomItemProps) => {
         />
       </div>
 
-      <div className={cls(`${prefixCls}__delete`, hashId)}>
+      <Button type="link" disabled={disabled} className={cls(`${prefixCls}__delete`, hashId)}>
         <DeleteOutlined onClick={onDelete} />
-      </div>
+      </Button>
     </div>,
   );
 };

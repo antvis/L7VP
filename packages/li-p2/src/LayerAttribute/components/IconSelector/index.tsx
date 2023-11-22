@@ -28,7 +28,7 @@ const Internal = (props: IconSelectorProps) => {
     if (defaultValue.length) {
       return defaultValue;
     } else {
-      const _options = options.length > 5 ? options.slice(0, 4) : options;
+      const _options = options.length > 3 ? options.slice(0, 3) : options;
       const _list = _options.map((item, index) => {
         return {
           id: getUId(),
@@ -112,6 +112,7 @@ const Internal = (props: IconSelectorProps) => {
                     value={item}
                     iconList={DEFAULTICONOPTIONS}
                     fieldList={_options}
+                    disabled={iconList.length <= 1}
                     onChange={(val: IconListItem) => onItemChange(val)}
                     onDelete={() => onItemDelete(item.id)}
                   />

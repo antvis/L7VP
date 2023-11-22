@@ -6,7 +6,7 @@ export default genStyleHook('icon-custom-selector-icon-item', (token) => {
     controlItemBgHover,
     controlItemBgActive,
     borderRadius,
-    colorPrimaryActive,
+    colorTextDescription,
     zIndexPopupBase,
   } = token;
 
@@ -52,12 +52,8 @@ export default genStyleHook('icon-custom-selector-icon-item', (token) => {
 
       '&__delete': {
         width: '14px',
-        marginLeft: '5px',
-
-        '&:hover': {
-          cursor: 'pointer',
-          color: colorPrimaryActive,
-        },
+        padding: 0,
+        color: colorTextDescription,
       },
     },
   };

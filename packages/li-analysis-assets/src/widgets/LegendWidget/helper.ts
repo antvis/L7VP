@@ -43,7 +43,7 @@ export const parserLegendData = (layer: Layer) => {
       layer,
       visible: true,
       data: {
-        labels: layer.options.icon.value,
+        labels: layer.options.icon.scale.domain,
         icons: Object.values(iconAtlas),
       },
     };
