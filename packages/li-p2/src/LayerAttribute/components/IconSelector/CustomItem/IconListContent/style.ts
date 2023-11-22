@@ -16,10 +16,14 @@ export default genStyleHook('icon-custom-selector-icon-list-content', (token) =>
           display: 'flex',
           flexWrap: 'wrap',
 
+          '&:hover': {
+            cursor: 'pointer',
+          },
+
           img: {
             width: '20px',
             height: '20px',
-            margin: '10px',
+            margin: '5px',
           },
         },
       },
