@@ -1,16 +1,7 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
 export default genStyleHook('icon-selector', (token) => {
-  const {
-    antCls,
-    componentCls,
-    lineWidth,
-    lineType,
-    colorBorder,
-    colorTextSecondary,
-    colorInfoTextHover,
-    colorTextDescription,
-  } = token;
+  const { antCls, componentCls, lineWidth, lineType, colorBorder, colorTextSecondary, colorInfoTextHover } = token;
 
   return {
     [componentCls]: {
@@ -24,23 +15,19 @@ export default genStyleHook('icon-selector', (token) => {
       },
     },
 
-    [`${componentCls}__header`]: {
-      display: 'flex',
-
-      '&-icon,&-field': {
-        width: '25px',
-        fontSize: '12px',
-        color: colorTextDescription,
-      },
-    },
-
     [`${componentCls}__customItem`]: {
       margin: '10px 0',
     },
 
     [`${componentCls}__add-item`]: {
-      fontSize: '12px !important',
       paddingLeft: '0 !important',
+      cursor: 'pointer',
+      color: colorTextSecondary,
+      marginTop: '10px',
+
+      '&:hover': {
+        color: `${colorInfoTextHover} !important`,
+      },
     },
 
     [`${componentCls}__btn`]: {

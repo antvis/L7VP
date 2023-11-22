@@ -1,4 +1,4 @@
-import { PlusCircleOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { connect } from '@formily/react';
 import { Button, Select } from 'antd';
@@ -101,10 +101,6 @@ const Internal = (props: IconSelectorProps) => {
       dropdownRender={() => {
         return (
           <>
-            <div className={cls(`${prefixCls}__header`, hashId)}>
-              <div className={cls(`${prefixCls}__header-icon`, hashId)}>符号</div>
-              <div className={cls(`${prefixCls}__header-field`, hashId)}>类型</div>
-            </div>
             {iconList?.map((item) => {
               const selected = iconList.map((icon) => {
                 if (icon.value !== item.value) {
@@ -143,7 +139,7 @@ const Internal = (props: IconSelectorProps) => {
               disabled={fieldList.length === iconList.length}
               onClick={onAddItem}
             >
-              <PlusCircleOutlined /> 添加
+              <PlusOutlined /> 添加
             </Button>
 
             <div className={cls(`${prefixCls}__btn`, hashId)}>

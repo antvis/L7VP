@@ -60,7 +60,7 @@ const UnknownIcon = (props: UnknownIconProps) => {
               onClick={() => setOpen(true)}
             />
           ) : (
-            <PictureOutlined className={cls(`${prefixCls}__icon__img`, hashId)} />
+            <div className={cls(`${prefixCls}__icon__img`, hashId)} />
           )}
         </Popover>
       </div>
