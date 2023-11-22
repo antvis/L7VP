@@ -1,7 +1,7 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
 export default genStyleHook('color-range-selector__custom-string', (token) => {
-  const { componentCls, colorTextSecondary } = token;
+  const { componentCls, colorTextSecondary, colorPrimaryActive } = token;
 
   return {
     [componentCls]: {
@@ -9,6 +9,10 @@ export default genStyleHook('color-range-selector__custom-string', (token) => {
         cursor: 'pointer',
         color: colorTextSecondary,
         padding: '5px',
+
+        '&:hover': {
+          color: colorPrimaryActive,
+        },
       },
     },
   };

@@ -33,7 +33,7 @@ const CustomMappingColor = (props: CustomMappingColorProps) => {
     }
   }, [value]);
 
-  const onCustomRangesChange = (list: any) => {
+  const onCustomRangesChange = (list: CustomMappingColorItem[]) => {
     setCustomRanges(list);
   };
 

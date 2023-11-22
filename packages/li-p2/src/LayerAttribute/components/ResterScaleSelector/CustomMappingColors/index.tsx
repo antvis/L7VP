@@ -48,7 +48,11 @@ const CustomMappingColor = (props: CustomMappingColorProps) => {
     <div className={classnames(`${prefixCls}`, hashId, className)}>
       {type === 'cat' && <CustomCat customRanges={customRanges} onChange={onCustomRangesChange} />}
       {type === 'custom' && (
-        <CustomNumber domain={domain} customRanges={customRanges} onChange={onCustomRangesChange} />
+        <CustomNumber
+          domain={domain}
+          customRanges={customRanges}
+          onChange={(list) => onCustomRangesChange(list as CustomMappingColorItem[])}
+        />
       )}
 
       <div className={`${prefixCls}__btn`}>
