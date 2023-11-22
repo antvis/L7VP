@@ -1,7 +1,7 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
 export default genStyleHook('color-range-selector__custom-number', (token) => {
-  const { componentCls, colorTextSecondary, colorPrimaryActive } = token;
+  const { componentCls, colorTextSecondary, colorInfoTextHover } = token;
 
   return {
     [componentCls]: {
@@ -11,7 +11,7 @@ export default genStyleHook('color-range-selector__custom-number', (token) => {
         padding: '5px',
 
         '&:hover': {
-          color: colorPrimaryActive,
+          color: colorInfoTextHover,
         },
       },
     },
