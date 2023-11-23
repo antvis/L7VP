@@ -23,6 +23,11 @@ export default genStyleHook('color-range-selector__custom-range', (token) => {
         },
       },
 
+      [`${componentCls}__custon-item`]: {
+        maxHeight: '200px',
+        overflowY: 'auto',
+      },
+
       [`${componentCls}__add-range-item`]: {
         paddingLeft: '12px',
         cursor: 'pointer',
