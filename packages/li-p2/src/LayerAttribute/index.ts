@@ -36,7 +36,7 @@ export { hexbinLayerStyleConfigToFlat, hexbinLayerStyleFlatToConfig } from './He
 export type { HexbinLayerStyleAttributeValue } from './HexbinLayerStyle/types';
 
 export { IconImageLayerStyleAttribute, IconImageLayerStyleAttributeSchemaField } from './IconImageLayerStyle';
-export { DefaultIconImageLayerStyle } from './IconImageLayerStyle/constant';
+export { DefaultIconImageLayerStyle, BuiltInImage as DefaultIconList } from './IconImageLayerStyle/constant';
 export { iconImageLayerStyleConfigToFlat, iconImageLayerStyleFlatToConfig } from './IconImageLayerStyle/helper';
 export type { IconImageLayerStyleAttributeValue } from './IconImageLayerStyle/types';
 

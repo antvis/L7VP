@@ -1032,18 +1032,41 @@ const MARINE_PROTECTED_AREA: Application = {
             }
           },
           iconAtlas: {
-            'Aquatic Germplasm Reserve'
-              :
-              "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sSbCRKP1RsgAAAAAAAAAAAAADmJ7AQ/original",
-            'Marine Nature Reserves'
-              :
-              "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*dPoYQoBq4f0AAAAAAAAAAAAADmJ7AQ/original",
-            '003'
-              :
-              "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ojViTp4h4x8AAAAAAAAAAAAADmJ7AQ/original",
-            '004'
-              :
-              "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*DulySrR5zuwAAAAAAAAAAAAADmJ7AQ/original"
+            'Aquatic Germplasm Reserve': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sSbCRKP1RsgAAAAAAAAAAAAADmJ7AQ/original",
+            'Marine Nature Reserves': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*dPoYQoBq4f0AAAAAAAAAAAAADmJ7AQ/original",
+            'Marine Park': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*on7pR5VRjHsAAAAAAAAAAAAADmJ7AQ/original",
+            'Special Marine Protected Areas': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*DulySrR5zuwAAAAAAAAAAAAADmJ7AQ/original",
+            '中雨': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*4yRYRI3AwowAAAAAAAAAAAAADmJ7AQ/original",
+            '中雪': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*GHisS4y9ynMAAAAAAAAAAAAADmJ7AQ/original",
+            '公交车站': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*LrCnSr8FeToAAAAAAAAAAAAADmJ7AQ/original",
+            '公园': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*JZf9T6psSzkAAAAAAAAAAAAADmJ7AQ/original",
+            '动物园': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ElxdRIYcsS0AAAAAAAAAAAAADmJ7AQ/original",
+            '医院': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*weuqSamNRnUAAAAAAAAAAAAADmJ7AQ/original",
+            '咖啡馆': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*uHYERpUeZ_MAAAAAAAAAAAAADmJ7AQ/original",
+            '商场': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*p2rgTYaHGdkAAAAAAAAAAAAADmJ7AQ/original",
+            '商城': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*jjynQJDfKigAAAAAAAAAAAAADmJ7AQ/original",
+            '图书馆': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*XB8vR7azNvgAAAAAAAAAAAAADmJ7AQ/original",
+            '多云': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*xOD4SIwHAMcAAAAAAAAAAAAADmJ7AQ/original",
+            '大雨': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*UeChTbbwvloAAAAAAAAAAAAADmJ7AQ/original",
+            '小区': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*oxcETa4MKgwAAAAAAAAAAAAADmJ7AQ/original",
+            '小雨': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*nxwXSo_PR2sAAAAAAAAAAAAADmJ7AQ/original",
+            '小雪': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*F-w5Qas4Np4AAAAAAAAAAAAADmJ7AQ/original",
+            '扬沙': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*4nNTRYMV-iwAAAAAAAAAAAAADmJ7AQ/original",
+            '晴天': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*polsQa3R6UgAAAAAAAAAAAAADmJ7AQ/original",
+            '消防拴': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*iI5fSpCQWp0AAAAAAAAAAAAADmJ7AQ/original",
+            '消防水泵': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*TFzHSLnqc9gAAAAAAAAAAAAADmJ7AQ/original",
+            '消防泵房': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*bWYLQqc8sTIAAAAAAAAAAAAADmJ7AQ/original",
+            '消防站': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*lKIITZAG_PcAAAAAAAAAAAAADmJ7AQ/original",
+            '消防车': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*zUjqQYt67SgAAAAAAAAAAAAADmJ7AQ/original",
+            '游乐园': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*SIU-R7jDaLAAAAAAAAAAAAAADmJ7AQ/original",
+            '火车站': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*5Wg1TIbcCcYAAAAAAAAAAAAADmJ7AQ/original",
+            '灭火器': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*vIadR56-pKMAAAAAAAAAAAAADmJ7AQ/original",
+            '电影院': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*uCdPTZrfSqIAAAAAAAAAAAAADmJ7AQ/original",
+            '银行': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sWHeRrJvTesAAAAAAAAAAAAADmJ7AQ/original",
+            '阴天': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*wMJISZvc_1EAAAAAAAAAAAAADmJ7AQ/original",
+            '雨夹雪': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*zi53Rp5hWMIAAAAAAAAAAAAADmJ7AQ/original",
+            '雷雨': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*E5JkRLtSzZYAAAAAAAAAAAAADmJ7AQ/original",
+            '龙卷风': "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ldyiQpgiJlYAAAAAAAAAAAAADmJ7AQ/original",
           },
           iconStyle: {
             opacity: 0.9,
@@ -1236,17 +1259,17 @@ export const DEFAULT_PROJECTS: Project[] = [
     applicationConfig: cloneDeep(DEFAULT_ANALYSIS_APP),
   },
   {
-    projectName: 'Empty 可视分析项目',
-    description: '空项目的可视分析模版',
-    projectId: '0002',
-    creatTime: '2022-09-19 16:30:09',
-    applicationConfig: cloneDeep(EMPTY__ANALYSIS_APP),
-  },
-  {
     projectName: '海洋保区区在线地图',
     description: '海洋保区区在线地图',
     projectId: '0003',
     creatTime: '2022-09-19 16:30:09',
     applicationConfig: cloneDeep(MARINE_PROTECTED_AREA),
+  },
+  {
+    projectName: 'Empty 可视分析项目',
+    description: '空项目的可视分析模版',
+    projectId: '0002',
+    creatTime: '2022-09-19 16:30:09',
+    applicationConfig: cloneDeep(EMPTY__ANALYSIS_APP),
   },
 ];
