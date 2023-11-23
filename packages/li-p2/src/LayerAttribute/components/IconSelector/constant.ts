@@ -152,19 +152,19 @@ export const DEFAULTICONOPTIONS: IconOptionsType = [
     type: '其他',
     icons: [
       {
-        title: '001',
+        title: 'Aquatic Germplasm Reserve',
         icon: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sSbCRKP1RsgAAAAAAAAAAAAADmJ7AQ/original',
       },
       {
-        title: '002',
+        title: 'Marine Nature Reserves',
         icon: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*dPoYQoBq4f0AAAAAAAAAAAAADmJ7AQ/original',
       },
       {
-        title: '003',
-        icon: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ojViTp4h4x8AAAAAAAAAAAAADmJ7AQ/original',
+        title: 'Marine Park',
+        icon: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*on7pR5VRjHsAAAAAAAAAAAAADmJ7AQ/original',
       },
       {
-        title: '004',
+        title: 'Special Marine Protected Areas',
         icon: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*DulySrR5zuwAAAAAAAAAAAAADmJ7AQ/original',
       },
     ],

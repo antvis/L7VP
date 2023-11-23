@@ -125,12 +125,13 @@ const Internal = (props: IconSelectorProps) => {
               );
             })}
 
-            <UnknownIcon
+            {/* 由于 unknow 变化更新不及时，其他暂时隐藏 */}
+            {/* <UnknownIcon
               size="small"
               value={unknownIcon}
               iconList={DEFAULTICONOPTIONS}
               onChange={({ title, icon }) => setUnknownIcon({ title, icon })}
-            />
+            /> */}
 
             <Button
               className={cls(`${prefixCls}__add-item`, hashId)}

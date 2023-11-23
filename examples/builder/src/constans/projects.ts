@@ -1024,18 +1024,18 @@ const MARINE_PROTECTED_AREA: Application = {
           blend: 'normal',
           icon: {
             field: 'Type',
-            value: ['001', '002'],
+            value: ['Aquatic Germplasm Reserve', 'Marine Nature Reserves'],
             scale: {
               type: 'cat',
               domain: ['Aquatic Germplasm Reserve', 'Marine Nature Reserves'],
-              unknown: ''
+              unknown: 'no-icon'
             }
           },
           iconAtlas: {
-            '001'
+            'Aquatic Germplasm Reserve'
               :
               "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sSbCRKP1RsgAAAAAAAAAAAAADmJ7AQ/original",
-            '002'
+            'Marine Nature Reserves'
               :
               "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*dPoYQoBq4f0AAAAAAAAAAAAADmJ7AQ/original",
             '003'

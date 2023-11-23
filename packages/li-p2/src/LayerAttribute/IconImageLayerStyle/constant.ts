@@ -17,7 +17,7 @@ export const BuiltInImage = BuiltInImageList.reduce(
 /** 默认值样式属性 */
 export const DefaultIconImageLayerStyle: IconImageLayerStyleAttributeValue = {
   iconAtlas: BuiltInImage,
-  icon: '001',
+  icon: BuiltInImageList[0].title,
   radius: 30,
   iconStyle: {
     opacity: 1,

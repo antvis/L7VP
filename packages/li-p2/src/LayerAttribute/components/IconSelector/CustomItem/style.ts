@@ -34,6 +34,7 @@ export default genStyleHook('icon-custom-selector-icon-item', (token) => {
           background: controlItemBgHover,
           verticalAlign: 'middle',
           borderRadius: borderRadius,
+          border: 0,
           '&:hover': {
             background: controlItemBgActive,
           },

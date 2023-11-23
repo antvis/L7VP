@@ -23,7 +23,6 @@ export default genStyleHook('icon-selector', (token) => {
       paddingLeft: '0 !important',
       cursor: 'pointer',
       color: colorTextSecondary,
-      marginTop: '10px',
 
       '&:hover': {
         color: `${colorInfoTextHover} !important`,
