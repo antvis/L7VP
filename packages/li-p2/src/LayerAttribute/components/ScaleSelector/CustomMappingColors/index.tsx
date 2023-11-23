@@ -46,13 +46,15 @@ const CustomMappingColor = (props: CustomMappingColorProps) => {
 
   return wrapSSR(
     <div className={classnames(`${prefixCls}`, hashId, className)}>
-      {dataType === 'number' && (
-        <CustomNumber domain={domain} customRanges={customRanges} onChange={onCustomRangesChange} />
-      )}
+      <div className={classnames(`${prefixCls}_custom-content`, hashId, className)}>
+        {dataType === 'number' && (
+          <CustomNumber domain={domain} customRanges={customRanges} onChange={onCustomRangesChange} />
+        )}
 
-      {dataType === 'string' && (
-        <CustomString domain={domain} customRanges={customRanges} onChange={onCustomRangesChange} />
-      )}
+        {dataType === 'string' && (
+          <CustomString domain={domain} customRanges={customRanges} onChange={onCustomRangesChange} />
+        )}
+      </div>
 
       <div className={`${prefixCls}__btn`}>
         <span onClick={onSubmit}>应用</span>

@@ -5,10 +5,9 @@ export default genStyleHook('color-range-selector__custom-range', (token) => {
 
   return {
     [componentCls]: {
-      [`${componentCls}__add-range-item`]: {
-        cursor: 'pointer',
-        color: colorTextSecondary,
-        padding: '5px',
+      [`${componentCls}_custom-content`]: {
+        maxHeight: '200px',
+        overflowY: 'auto',
       },
 
       [`${componentCls}__btn`]: {
