@@ -24,11 +24,7 @@ const CustomNumber = (props: CustomNumberProps) => {
     const _item = customRanges[customRanges.length - 2];
     const min = Number(_item.value[0]);
     const _interval = Number(((Number(_item.value[1]) - Number(_item.value[0])) / 2).toFixed(2));
-    const _range = [
-      Number(min.toFixed(2)),
-      Number((_interval + min).toFixed(2)),
-      Number((_interval * 2 + min).toFixed(2)),
-    ];
+    const _range = [min, Number((_interval + min).toFixed(2)), Number(_item.value[1])];
 
     const addList: CustomMappingColorItem[] = [
       {
