@@ -32,6 +32,9 @@ export default genStyleHook('color-range-selector__custom-range', (token) => {
         paddingLeft: '12px',
         cursor: 'pointer',
         color: colorTextSecondary,
+        '&:hover': {
+          color: colorInfoTextHover,
+        },
       },
 
       [`${componentCls}__btn`]: {
