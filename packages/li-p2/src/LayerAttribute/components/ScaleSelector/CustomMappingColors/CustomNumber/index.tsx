@@ -24,21 +24,26 @@ const CustomNumber = (props: CustomNumberProps) => {
     const _item = customRanges[customRanges.length - 2];
     const min = Number(_item.value[0]);
     const _interval = Number(((Number(_item.value[1]) - Number(_item.value[0])) / 2).toFixed(2));
+    const _range = [
+      Number(min.toFixed(2)),
+      Number((_interval + min).toFixed(2)),
+      Number((_interval * 2 + min).toFixed(2)),
+    ];
 
     const addList: CustomMappingColorItem[] = [
       {
         id: _item.id,
-        value: [min, _interval + min],
+        value: [_range[0], _range[1]],
         color: _item.color ?? '#5B8FF9',
       },
       {
         id: customRanges[customRanges.length - 1].id,
-        value: [_interval + min, Number(_interval * 2) + min],
+        value: [_range[1], _range[2]],
         color: customRanges[customRanges.length - 1].color ?? '#5B8FF9',
       },
       {
         id: uniqueId(),
-        value: [Number(_interval * 2) + min, Infinity],
+        value: [_range[2], Infinity],
         color: customRanges[customRanges.length - 1].color ?? '#5B8FF9',
       },
     ];
