@@ -3,35 +3,44 @@ import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { ColorPicker } from 'antd';
 import type { Color } from 'antd/es/color-picker';
 import classnames from 'classnames';
-import React from 'react';
-import InputCat from './InputCat';
+import React, { useMemo } from 'react';
+import InputString from './InputString';
 import useStyle from './style';
 
-type RangeItemProps = {
-  min?: number;
-  max?: number;
+type CustomItemProps = {
+  selectedOption: (string | number)[];
+  selectOptions: { label: string; value: string }[];
   color: string;
-  value: number[];
+  value: (string | number)[];
   onDelete: () => void;
-  onChange: (value: number[], color: string) => void;
+  onChange: (value: (string | number)[], color: string) => void;
 };
 
-const RangeItem = ({
+const CustomItem = ({
+  selectedOption,
+  selectOptions,
   color: defaultColor,
   value: defaultValue,
-  min = 0,
-  max = 100,
   onDelete,
   onChange,
-}: RangeItemProps) => {
-  const prefixCls = usePrefixCls('formily-rester--scale-selector__custom-input');
+}: CustomItemProps) => {
+  const prefixCls = usePrefixCls('formily-scale-selector__custom-string');
   const [wrapSSR, hashId] = useStyle(prefixCls);
+
+  const options = useMemo(() => {
+    if (!selectedOption.length && !defaultValue.length) {
+      return selectOptions;
+    }
+
+    const selected = selectedOption.filter((item) => item && !defaultValue.includes(item));
+    return selectOptions.filter((item) => !selected.includes(item.value));
+  }, [selectedOption, selectOptions, defaultValue]);
 
   const colorChange = (color: Color) => {
     onChange?.(defaultValue, color.toHexString());
   };
 
-  const onValueChange = (_value: number[]) => {
+  const onValueChange = (_value: (string | number)[]) => {
     onChange?.(_value, defaultColor);
   };
 
@@ -50,7 +59,7 @@ const RangeItem = ({
         </div>
 
         <div className={`${prefixCls}__infor__content`}>
-          <InputCat size="small" min={min} max={max} value={defaultValue as [number]} onChange={onValueChange} />
+          <InputString size="small" value={defaultValue as string[]} onChange={onValueChange} options={options} />
         </div>
 
         <div className={`${prefixCls}__infor__delete-icon`} onClick={onDelete}>
@@ -61,4 +70,4 @@ const RangeItem = ({
   );
 };
 
-export default RangeItem;
+export default CustomItem;

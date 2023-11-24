@@ -4,24 +4,23 @@ import classnames from 'classnames';
 import { uniqueId } from 'lodash-es';
 import React from 'react';
 import type { CustomMappingColorItem } from '../../type';
-import CustomInput from './CustomInput';
+import CustomItem from './CustomItem';
 import useStyle from './style';
 
 type CustomNumberProps = {
   domain: string[] | [number, number];
-  value?: CustomMappingColorItem[];
-  customRanges: CustomMappingColorItem[];
+  value: CustomMappingColorItem[];
   onChange: (value: CustomMappingColorItem[]) => void;
   className?: string;
 };
 
 const CustomNumber = (props: CustomNumberProps) => {
-  const { customRanges = [], domain, onChange, className } = props;
+  const { value: defaultValue = [], domain, onChange, className } = props;
   const prefixCls = usePrefixCls('formily-color-range-selector__custom-number');
   const [wrapSSR, hashId] = useStyle(prefixCls);
 
   const addPaletteRangeItem = () => {
-    const _item = customRanges[customRanges.length - 2];
+    const _item = defaultValue[defaultValue.length - 2];
     const min = Number(_item.value[0]);
     const _interval = Number(((Number(_item.value[1]) - Number(_item.value[0])) / 2).toFixed(2));
     const _range = [min, Number((_interval + min).toFixed(2)), Number(_item.value[1])];
@@ -33,24 +32,24 @@ const CustomNumber = (props: CustomNumberProps) => {
         color: _item.color ?? '#5B8FF9',
       },
       {
-        id: customRanges[customRanges.length - 1].id,
+        id: defaultValue[defaultValue.length - 1].id,
         value: [_range[1], _range[2]],
-        color: customRanges[customRanges.length - 1].color ?? '#5B8FF9',
+        color: defaultValue[defaultValue.length - 1].color ?? '#5B8FF9',
       },
       {
         id: uniqueId(),
         value: [_range[2], Infinity],
-        color: customRanges[customRanges.length - 1].color ?? '#5B8FF9',
+        color: defaultValue[defaultValue.length - 1].color ?? '#5B8FF9',
       },
     ];
-    const list = [...customRanges.slice(0, -2), ...addList];
+    const list = [...defaultValue.slice(0, -2), ...addList];
     onChange(list);
   };
 
   const deletePaletteRangeItem = (index: number, position: string | null) => {
-    const _value = customRanges[index];
+    const _value = defaultValue[index];
 
-    const list: CustomMappingColorItem[] = customRanges
+    const list: CustomMappingColorItem[] = defaultValue
       .map((item, _index) => {
         if (index === _index) {
           return item;
@@ -84,7 +83,7 @@ const CustomNumber = (props: CustomNumberProps) => {
   };
 
   const onChangePaletteRangeItem = (value: (string | number)[], color: string, index: number) => {
-    const list: CustomMappingColorItem[] = customRanges.map((item, _index) => {
+    const list: CustomMappingColorItem[] = defaultValue.map((item, _index) => {
       if (index === _index) {
         return {
           ...item,
@@ -115,19 +114,20 @@ const CustomNumber = (props: CustomNumberProps) => {
 
   return wrapSSR(
     <div className={classnames(`${prefixCls}`, hashId, className)}>
-      {customRanges.map((customItem: CustomMappingColorItem, index: number) => {
+      {defaultValue.map((customItem: CustomMappingColorItem, index: number) => {
         const [min, max] = domain as [number, number];
-        const position = index === 0 ? 'first' : index === customRanges.length - 1 ? 'last' : null;
-        const _min = index === 0 ? min : (customRanges[index - 1].value[1] as number);
+        const position = index === 0 ? 'first' : index === defaultValue.length - 1 ? 'last' : null;
+        const _min = index === 0 ? min : (defaultValue[index - 1].value[1] as number);
 
         return (
-          <CustomInput
+          <CustomItem
             key={`custom-input-number${index}`}
             color={customItem.color}
             value={customItem.value}
             min={_min}
             max={max}
             position={position}
+            delDisable={defaultValue.length <= 3}
             onDelete={() => deletePaletteRangeItem(index, position)}
             onChange={(value: (string | number)[], color: string) => onChangePaletteRangeItem(value, color, index)}
           />

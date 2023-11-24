@@ -7,6 +7,7 @@ export default genStyleHook('color-range-selector__custom-range', (token) => {
     [componentCls]: {
       [`${componentCls}_custom-content`]: {
         maxHeight: '200px',
+        overflow: 'hidden',
         overflowY: 'auto',
       },
 

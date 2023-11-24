@@ -47,11 +47,11 @@ const CustomMappingColor = (props: CustomMappingColorProps) => {
   return wrapSSR(
     <div className={classnames(`${prefixCls}`, hashId, className)}>
       <div className={classnames(`${prefixCls}_custom-content`, hashId, className)}>
-        {type === 'cat' && <CustomCat customRanges={customRanges} onChange={onCustomRangesChange} />}
+        {type === 'cat' && <CustomCat value={customRanges} onChange={onCustomRangesChange} />}
         {type === 'custom' && (
           <CustomNumber
             domain={domain}
-            customRanges={customRanges}
+            value={customRanges}
             onChange={(list) => onCustomRangesChange(list as CustomMappingColorItem[])}
           />
         )}
