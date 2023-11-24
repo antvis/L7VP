@@ -37,6 +37,10 @@ export const parserLegendData = (layer: Layer) => {
   if (layer.options?.icon?.field && layer.options?.iconAtlas) {
     const iconAtlas = layer.options.iconAtlas;
 
+    const icons = layer.options.icon.value.map((item: string) => {
+      return iconAtlas[item];
+    });
+
     const data: LegendIconData = {
       type: 'LegendIcon',
       name,
@@ -44,7 +48,7 @@ export const parserLegendData = (layer: Layer) => {
       visible: true,
       data: {
         labels: layer.options.icon.scale.domain,
-        icons: Object.values(iconAtlas),
+        icons,
       },
     };
 
