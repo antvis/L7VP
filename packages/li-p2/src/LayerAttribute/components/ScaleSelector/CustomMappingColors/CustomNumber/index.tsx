@@ -115,12 +115,16 @@ const CustomNumber = (props: CustomNumberProps) => {
     <div className={classnames(`${prefixCls}`, hashId, className)}>
       {defaultValue.map((customItem: CustomMappingColorItem, index: number) => {
         const position = index === 0 ? 'first' : index === defaultValue.length - 1 ? 'last' : null;
+        const _min = position === 'first' ? -Infinity : (defaultValue[index - 1].value[1] as number);
+        const _max = position === 'last' ? Infinity : defaultValue[index + 1].value[1];
 
         return (
           <CustomItem
             key={`custom-input-number${index}`}
             color={customItem.color}
             value={customItem.value}
+            min={_min as number}
+            max={_max as number}
             position={position}
             delDisable={defaultValue.length <= 3}
             onDelete={() => deletePaletteRangeItem(index, position)}

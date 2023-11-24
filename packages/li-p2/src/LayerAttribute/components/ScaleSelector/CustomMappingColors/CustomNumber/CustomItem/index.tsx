@@ -9,6 +9,8 @@ import useStyle from './style';
 
 type CustomItemProps = {
   position: string | null;
+  min: number;
+  max: number;
   color: string;
   delDisable: boolean;
   value: (string | number)[];
@@ -21,6 +23,8 @@ const CustomItem = ({
   color: defaultColor,
   value: defaultValue,
   delDisable = false,
+  min = -Infinity,
+  max = Infinity,
   onDelete,
   onChange,
 }: CustomItemProps) => {
@@ -52,6 +56,8 @@ const CustomItem = ({
         <div className={`${prefixCls}__infor__content`}>
           <InputNumber
             size="small"
+            min={min}
+            max={max}
             value={defaultValue as [number, number]}
             position={position}
             onChange={onValueChange}
