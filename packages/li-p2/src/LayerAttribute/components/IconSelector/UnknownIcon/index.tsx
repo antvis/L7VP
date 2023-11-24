@@ -1,9 +1,8 @@
-import { PictureOutlined } from '@ant-design/icons';
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { Popover, Select } from 'antd';
 import cls from 'classnames';
 import React, { useState } from 'react';
-import IconListContent from '../CustomItem/IconListContent';
+import IconPanel from '../CustomItem/IconPanel';
 import type { IconItem, IconOptionsType } from '../type';
 import useStyle from './style';
 
@@ -21,8 +20,7 @@ const UnknownIcon = (props: UnknownIconProps) => {
   const [open, setOpen] = useState(false);
 
   const onIconChange = (icon: IconItem) => {
-    const _itemValue = { icon: icon.icon, title: icon.title };
-    onChange(_itemValue);
+    onChange(icon);
     setOpen(false);
   };
 
@@ -35,7 +33,7 @@ const UnknownIcon = (props: UnknownIconProps) => {
           e.stopPropagation();
         }}
       >
-        <IconListContent iconList={iconList} onChange={onIconChange} />
+        <IconPanel iconList={iconList} onChange={onIconChange} />
       </div>
     );
   };
@@ -53,10 +51,10 @@ const UnknownIcon = (props: UnknownIconProps) => {
             setOpen(_open);
           }}
         >
-          {defaultValue?.icon ? (
+          {defaultValue?.image ? (
             <img
               className={cls(`${prefixCls}__icon__img`, hashId)}
-              src={defaultValue.icon}
+              src={defaultValue.image}
               onClick={() => setOpen(true)}
             />
           ) : (

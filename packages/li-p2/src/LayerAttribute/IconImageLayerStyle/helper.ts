@@ -10,13 +10,12 @@ export const iconImageLayerStyleFlatToConfig = (style: Record<string, any>) => {
   const { iconAtlasList, iconField, iconImg } = style;
 
   let icon = iconImg;
-
   if (iconField) {
     const { iconList, unknownIcon } = iconAtlasList;
-    const unknown = unknownIcon?.title ? unknownIcon.title : 'no-icon';
+    const unknown = unknownIcon?.id ? unknownIcon.id : 'no-icon';
     icon = {
       field: style.iconField,
-      value: iconList.map((item: IconSelectOptionType) => item.title),
+      value: iconList.map((item: IconSelectOptionType) => item.imageId),
       scale: {
         type: 'cat',
         domain: iconList.map((item: IconSelectOptionType) => item.value),
@@ -66,20 +65,20 @@ export const iconImageLayerStyleConfigToFlat = (styleConfig: Partial<IconImageLa
 
   let iconAtlasList = undefined;
   if (typeof icon === 'object' && icon.value) {
-    const _unknown = BuiltInImageList.find((item) => item.title === icon.scale?.unknown);
+    const _unknown = BuiltInImageList.find((item) => item.id === icon.scale?.unknown);
 
     iconAtlasList = {
       // @ts-ignore
       iconList: icon.value.map((_item: string, index: number) => {
-        const _icon = BuiltInImageList.find((item) => item.title === _item);
+        const _icon = BuiltInImageList.find((item) => item.id === _item);
         return {
           id: getUId(),
-          icon: _icon?.icon,
-          title: _icon?.title,
+          image: _icon?.image,
+          imageId: _icon?.id,
           value: icon.scale?.domain?.[index],
         };
       }),
-      unknownIcon: { title: _unknown?.title, icon: _unknown?.icon },
+      unknownIcon: { id: _unknown?.id, image: _unknown?.image },
     };
   }
 

@@ -35,13 +35,13 @@ const Internal = (props: IconSelectorProps) => {
     if (defaultValue?.iconList && defaultValue.iconList.length) {
       return defaultValue.iconList;
     } else {
-      const _options = options.length > 2 ? options.slice(0, 2) : options;
+      const _options = options.length > 4 ? options.slice(0, 4) : options;
       const _list = _options.map((item, index) => {
         return {
           id: getUId(),
-          icon: BuiltInImageList[index].icon,
           value: item,
-          title: BuiltInImageList[index].title,
+          imageId: BuiltInImageList[index].id,
+          image: BuiltInImageList[index].image,
         };
       });
       onChange({ iconList: _list, unknownIcon });
@@ -56,9 +56,16 @@ const Internal = (props: IconSelectorProps) => {
   }, [DefaultIconList]);
 
   const onAddItem = () => {
+    const selectedIcon = iconList.map((item) => item.imageId);
+    const _filterBuiltInImageList = BuiltInImageList.filter((item) => !selectedIcon.includes(item.id));
     setIconList([
       ...iconList,
-      { id: getUId(), icon: BuiltInImageList[0].icon, value: undefined, title: BuiltInImageList[0].title },
+      {
+        id: getUId(),
+        image: _filterBuiltInImageList[0].image,
+        value: undefined,
+        imageId: _filterBuiltInImageList[0].id,
+      },
     ]);
   };
 
@@ -90,7 +97,7 @@ const Internal = (props: IconSelectorProps) => {
       return [];
     }
 
-    return [{ value: 'selectedIcon', label: defaultValue.iconList.map((item) => item.icon) }];
+    return [{ value: 'selectedIcon', label: defaultValue.iconList.map((item) => item.image) }];
   }, [defaultValue]);
 
   return wrapSSR(

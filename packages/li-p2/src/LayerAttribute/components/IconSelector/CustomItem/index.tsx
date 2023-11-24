@@ -4,7 +4,7 @@ import { Button, Popover, Select } from 'antd';
 import cls from 'classnames';
 import React, { useState } from 'react';
 import type { IconItem, IconListItem, IconOptionsType } from '../type';
-import IconListContent from './IconListContent';
+import IconPanel from './IconPanel';
 import useStyle from './style';
 
 type CustomItemProps = {
@@ -32,7 +32,7 @@ const CustomItem = (props: CustomItemProps) => {
   const [open, setOpen] = useState(false);
 
   const onIconChange = (icon: IconItem) => {
-    const _itemValue = { ...defaultValue, ...icon };
+    const _itemValue = { ...defaultValue, image: icon.image, imageId: icon.id };
     onChange(_itemValue);
     setOpen(false);
   };
@@ -51,7 +51,7 @@ const CustomItem = (props: CustomItemProps) => {
           e.stopPropagation();
         }}
       >
-        <IconListContent iconList={iconList} onChange={onIconChange} />
+        <IconPanel iconList={iconList} onChange={onIconChange} />
       </div>
     );
   };
@@ -71,7 +71,7 @@ const CustomItem = (props: CustomItemProps) => {
         >
           <img
             className={cls(`${prefixCls}__icon__img`, hashId)}
-            src={defaultValue.icon}
+            src={defaultValue.image}
             onClick={() => setOpen(true)}
           />
         </Popover>

@@ -27,18 +27,23 @@ const schema = {
     iconAtlas: {
       type: 'number',
       title: 'icon 图标',
-      default: [
-        {
-          id: '001',
-          icon: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sSbCRKP1RsgAAAAAAAAAAAAADmJ7AQ/original',
-          value: 'Aquatic Germplasm Reserve',
-        },
-        {
-          id: '002',
-          icon: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*dPoYQoBq4f0AAAAAAAAAAAAADmJ7AQ/original',
-          value: 'Marine Nature Reserves',
-        },
-      ],
+      default: {
+        iconList: [
+          {
+            id: 'other_aquatic-germplasm-reserve',
+            imageId: 'other_aquatic-germplasm-reserve',
+            image: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sSbCRKP1RsgAAAAAAAAAAAAADmJ7AQ/original',
+            value: 'Aquatic Germplasm Reserve',
+          },
+          {
+            id: 'other_marine-nature-reserves',
+            imageId: 'other_marine-nature-reserves',
+            image: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*dPoYQoBq4f0AAAAAAAAAAAAADmJ7AQ/original',
+            value: 'Marine Nature Reserves',
+          },
+        ],
+        unknown: 'no-icon',
+      },
       'x-decorator': 'FormItem',
       'x-component': 'IconSelector',
       'x-component-props': {

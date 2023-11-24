@@ -4,12 +4,12 @@ import type { IconImageLayerStyleAttributeValue } from './types';
 export const CLS_PREFIX = 'li-p2-icon-image-layer-style-attribute';
 import { DEFAULTICONOPTIONS } from '../components/IconSelector/constant';
 
-export const BuiltInImageList: { title: string; icon: string }[] = DEFAULTICONOPTIONS.map((item) => item.icons).flat();
+export const BuiltInImageList: { id: string; image: string }[] = DEFAULTICONOPTIONS.map((item) => item.icons).flat();
 
 export const BuiltInImage = BuiltInImageList.reduce(
-  (pre, { title, icon }) => ({
+  (pre, { id, image }) => ({
     ...pre,
-    [title]: icon,
+    [id]: image,
   }),
   {},
 );
@@ -17,8 +17,8 @@ export const BuiltInImage = BuiltInImageList.reduce(
 /** 默认值样式属性 */
 export const DefaultIconImageLayerStyle: IconImageLayerStyleAttributeValue = {
   iconAtlas: BuiltInImage,
-  icon: BuiltInImageList[0].title,
-  radius: 30,
+  icon: BuiltInImageList[0].id,
+  radius: 20,
   iconStyle: {
     opacity: 1,
   },

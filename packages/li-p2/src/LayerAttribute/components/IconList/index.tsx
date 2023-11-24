@@ -4,7 +4,7 @@ import { Select } from 'antd';
 import cls from 'classnames';
 import React, { useMemo, useState } from 'react';
 import { DEFAULTICONOPTIONS } from '../IconSelector/constant';
-import IconListContent from '../IconSelector/CustomItem/IconListContent';
+import IconPanel from '../IconSelector/CustomItem/IconPanel';
 import type { IconItem } from '../IconSelector/type';
 import useStyle from './style';
 
@@ -23,14 +23,13 @@ const Internal: React.FC<IconListProps> = (props) => {
     if (!defaultValue) {
       return [];
     }
-    const img = (DEFAULTICONOPTIONS.map((item) => item.icons).flat() || []).find(
-      (_item) => _item?.title === defaultValue,
-    )?.icon;
+    const img = (DEFAULTICONOPTIONS.map((item) => item.icons).flat() || []).find((_item) => _item?.id === defaultValue)
+      ?.image;
     return [{ value: defaultValue, label: img }];
   }, [defaultValue]);
 
   const onIconChange = (icon: IconItem) => {
-    onChange(icon.title);
+    onChange(icon.id);
     setOpen(false);
   };
 
@@ -41,7 +40,7 @@ const Internal: React.FC<IconListProps> = (props) => {
       className={cls(`${prefixCls}`, hashId)}
       onDropdownVisibleChange={(visible) => setOpen(visible)}
       dropdownRender={() => {
-        return <IconListContent iconList={DEFAULTICONOPTIONS} onChange={onIconChange} />;
+        return <IconPanel iconList={DEFAULTICONOPTIONS} onChange={onIconChange} />;
       }}
       value={selectOptions[0]?.value}
     >

@@ -6,8 +6,10 @@ export default genStyleHook('icon-selector', (token) => {
   return {
     [componentCls]: {
       [`${antCls}-select-selection-item`]: {
-        display: 'flex',
-        justifyContent: 'left',
+        display: 'block',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+
         img: {
           width: '20px',
           marginRight: '10px',

@@ -5,13 +5,13 @@ import React from 'react';
 import type { IconItem, IconOptionsType } from '../../type';
 import useStyle from './style';
 
-type IconSelector = {
+type IconPanelProps = {
   iconList: IconOptionsType;
   onChange: (val: IconItem) => void;
 };
 
-const IconListContent = (props: IconSelector) => {
-  const prefixCls = usePrefixCls('formily-icon-custom-selector-icon-list-content');
+const IconPanel = (props: IconPanelProps) => {
+  const prefixCls = usePrefixCls('formily-icon-custom-selector-icon-panel');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const { iconList = [], onChange } = props;
 
@@ -31,8 +31,8 @@ const IconListContent = (props: IconSelector) => {
             <div className={cls(`${prefixCls}__icon-content__header`, hashId)}>{item.type}</div>
             <div className={cls(`${prefixCls}__icon-content__img`, hashId)}>
               {item.icons.map((icon) => (
-                <Tooltip title={icon.title} key={icon.icon}>
-                  <img key={icon.icon} src={icon.icon} onClick={() => onIconChange(icon)} />
+                <Tooltip title={icon.name} key={icon.id}>
+                  <img key={icon.id} src={icon.image} onClick={() => onIconChange(icon)} />
                 </Tooltip>
               ))}
             </div>
@@ -43,4 +43,4 @@ const IconListContent = (props: IconSelector) => {
   );
 };
 
-export default IconListContent;
+export default IconPanel;

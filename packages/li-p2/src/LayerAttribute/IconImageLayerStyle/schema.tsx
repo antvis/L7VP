@@ -6,6 +6,8 @@ import type { IconSelectOptionType } from './types';
 
 export default (options: AttributeSchemaOptions & { iconList?: IconSelectOptionType[] }) => {
   const { fieldList = [] } = options;
+  const iconFieldList = fieldList.filter((item) => item.type === 'string');
+
   return {
     type: 'object',
     properties: {
@@ -37,7 +39,7 @@ export default (options: AttributeSchemaOptions & { iconList?: IconSelectOptionT
                   placeholder: '请选择字段',
                   allowClear: true,
                 },
-                enum: [...fieldList],
+                enum: [...iconFieldList],
                 'x-reactions': [
                   {
                     target: 'iconImg',

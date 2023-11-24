@@ -1,13 +1,14 @@
 export type IconListItem = {
-  icon: string;
-  title: string;
-  value?: string;
   id: string;
+  value?: string;
+  imageId: string;
+  image: string;
 };
 
 export type IconItem = {
-  title: string;
-  icon: string;
+  id: string;
+  name: string;
+  image: string;
 };
 
 export type IconOptionsType = { type: string; icons: IconItem[] }[];

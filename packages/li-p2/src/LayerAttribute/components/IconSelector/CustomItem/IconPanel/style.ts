@@ -1,6 +1,6 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
-export default genStyleHook('icon-custom-selector-icon-list-content', (token) => {
+export default genStyleHook('icon-custom-selector-icon-panel', (token) => {
   const { componentCls } = token;
 
   return {
