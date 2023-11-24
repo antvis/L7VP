@@ -7,13 +7,11 @@ import useStyle from './style';
 type ItemProps = {
   size: 'small' | 'middle' | 'large';
   value: [number, number];
-  min: number;
-  max: number;
   position: string | null;
   onChange: (val: [number, number]) => void;
 };
 
-const NumberItem = ({ size = 'middle', value, min, max, position, onChange }: ItemProps) => {
+const NumberItem = ({ size = 'middle', value, position, onChange }: ItemProps) => {
   const prefixCls = usePrefixCls('formily-scale-selector__custom-input__number');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const [itemVal, setItemVal] = useState<[number, number]>(value);
@@ -54,8 +52,6 @@ const NumberItem = ({ size = 'middle', value, min, max, position, onChange }: It
             <InputNumber
               controls={false}
               size={size}
-              min={min}
-              max={max}
               value={itemVal?.[1]}
               className={`${prefixCls}__input`}
               onChange={(e) => onLastInputChange(e as number)}
@@ -70,8 +66,6 @@ const NumberItem = ({ size = 'middle', value, min, max, position, onChange }: It
             <InputNumber
               controls={false}
               size={size}
-              min={min}
-              max={max}
               value={itemVal?.[0]}
               className={`${prefixCls}__input`}
               onChange={(e) => onLastInputChange(e as number)}
@@ -88,8 +82,6 @@ const NumberItem = ({ size = 'middle', value, min, max, position, onChange }: It
             <InputNumber
               controls={false}
               size={size}
-              min={min}
-              max={max}
               value={itemVal?.[0]}
               className={`${prefixCls}__input`}
               onChange={(e) => onFirstInputChange(e as number)}
@@ -100,8 +92,6 @@ const NumberItem = ({ size = 'middle', value, min, max, position, onChange }: It
             <InputNumber
               controls={false}
               size={size}
-              min={min}
-              max={max}
               value={itemVal?.[1]}
               className={`${prefixCls}__input`}
               onChange={(e) => onLastInputChange(e as number)}

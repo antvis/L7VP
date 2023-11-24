@@ -8,14 +8,13 @@ import CustomItem from './CustomItem';
 import useStyle from './style';
 
 type CustomNumberProps = {
-  domain: string[] | [number, number];
   value: CustomMappingColorItem[];
   onChange: (value: CustomMappingColorItem[]) => void;
   className?: string;
 };
 
 const CustomNumber = (props: CustomNumberProps) => {
-  const { value: defaultValue = [], domain, onChange, className } = props;
+  const { value: defaultValue = [], onChange, className } = props;
   const prefixCls = usePrefixCls('formily-color-range-selector__custom-number');
   const [wrapSSR, hashId] = useStyle(prefixCls);
 
@@ -115,17 +114,13 @@ const CustomNumber = (props: CustomNumberProps) => {
   return wrapSSR(
     <div className={classnames(`${prefixCls}`, hashId, className)}>
       {defaultValue.map((customItem: CustomMappingColorItem, index: number) => {
-        const [min, max] = domain as [number, number];
         const position = index === 0 ? 'first' : index === defaultValue.length - 1 ? 'last' : null;
-        const _min = index === 0 ? min : (defaultValue[index - 1].value[1] as number);
 
         return (
           <CustomItem
             key={`custom-input-number${index}`}
             color={customItem.color}
             value={customItem.value}
-            min={_min}
-            max={max}
             position={position}
             delDisable={defaultValue.length <= 3}
             onDelete={() => deletePaletteRangeItem(index, position)}
