@@ -73,12 +73,12 @@ export const iconImageLayerStyleConfigToFlat = (styleConfig: Partial<IconImageLa
         const _icon = BuiltInImageList.find((item) => item.id === _item);
         return {
           id: getUId(),
-          image: _icon?.image,
+          image: _icon?.url,
           imageId: _icon?.id,
           value: icon.scale?.domain?.[index],
         };
       }),
-      unknownIcon: { id: _unknown?.id, image: _unknown?.image },
+      unknownIcon: { id: _unknown?.id, image: _unknown?.url },
     };
   }
 

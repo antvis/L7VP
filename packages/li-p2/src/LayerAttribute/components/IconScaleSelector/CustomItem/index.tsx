@@ -32,7 +32,7 @@ const CustomItem = (props: CustomItemProps) => {
   const [open, setOpen] = useState(false);
 
   const onIconChange = (icon: IconItem) => {
-    const _itemValue = { ...defaultValue, image: icon.image, imageId: icon.id };
+    const _itemValue = { ...defaultValue, image: icon.url, imageId: icon.id };
     onChange(_itemValue);
     setOpen(false);
   };

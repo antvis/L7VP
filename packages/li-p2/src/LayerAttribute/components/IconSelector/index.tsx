@@ -1,170 +1,61 @@
-import { PlusOutlined } from '@ant-design/icons';
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { connect } from '@formily/react';
-import { Button, Select } from 'antd';
+import { Select } from 'antd';
 import cls from 'classnames';
-import React, { useEffect, useMemo, useState } from 'react';
-import { getUId } from '../../../utils';
-import { BuiltInImageList } from '../../IconImageLayerStyle/constant';
-import { DEFAULTICONOPTIONS } from './constant';
-import CustomItem from './CustomItem';
+import React, { useMemo, useState } from 'react';
+import { DEFAULT_ICON_CATEGORY } from '../IconScaleSelector/constant';
+import IconPanel from '../IconScaleSelector/CustomItem/IconPanel';
+import type { IconItem } from '../IconScaleSelector/type';
 import useStyle from './style';
-import type { IconItem, IconListItem } from './type';
-import UnknownIcon from './UnknownIcon';
 
-type IconSelectorValue = {
-  iconList: IconListItem[];
-  unknownIcon: IconItem;
+export type IconListProps = {
+  onChange: (icon: string) => void;
+  value?: string;
 };
 
-type IconSelectorProps = {
-  // 可选择字段
-  options: string[];
-  value: IconSelectorValue;
-  onChange: (val: IconSelectorValue) => void;
-};
-
-const Internal = (props: IconSelectorProps) => {
-  const prefixCls = usePrefixCls('formily-icon-selector');
+const Internal: React.FC<IconListProps> = (props) => {
+  const { value: defaultValue, onChange } = props;
+  const prefixCls = usePrefixCls('formily-icon-list');
   const [wrapSSR, hashId] = useStyle(prefixCls);
-  const { options = [], value: defaultValue, onChange } = props;
   const [open, setOpen] = useState(false);
-  const [unknownIcon, setUnknownIcon] = useState<IconItem>(defaultValue.unknownIcon);
 
-  const DefaultIconList = useMemo(() => {
-    if (defaultValue?.iconList && defaultValue.iconList.length) {
-      return defaultValue.iconList;
-    } else {
-      const _options = options.length > 5 ? options.slice(0, 5) : options;
-      const _list = _options.map((item, index) => {
-        return {
-          id: getUId(),
-          value: item,
-          imageId: BuiltInImageList[index].id,
-          image: BuiltInImageList[index].image,
-        };
-      });
-      onChange({ iconList: _list, unknownIcon });
-      return _list;
+  const selectOptions = useMemo(() => {
+    if (!defaultValue) {
+      return [];
     }
-  }, [options]);
+    const img = (DEFAULT_ICON_CATEGORY.map((item) => item.icons).flat() || []).find(
+      (_item) => _item?.id === defaultValue,
+    )?.url;
+    return [{ value: defaultValue, label: img }];
+  }, [defaultValue]);
 
-  const [iconList, setIconList] = useState<IconListItem[]>(DefaultIconList);
-
-  useEffect(() => {
-    setIconList(DefaultIconList);
-  }, [DefaultIconList]);
-
-  const onAddItem = () => {
-    const selectedIcon = iconList.map((item) => item.imageId);
-    const _filterBuiltInImageList = BuiltInImageList.filter((item) => !selectedIcon.includes(item.id));
-    setIconList([
-      ...iconList,
-      {
-        id: getUId(),
-        image: _filterBuiltInImageList[0].image,
-        value: undefined,
-        imageId: _filterBuiltInImageList[0].id,
-      },
-    ]);
-  };
-
-  const onItemChange = (val: IconListItem) => {
-    const _iconList = iconList.map((item) => (item.id === val.id ? val : item));
-    setIconList(_iconList);
-  };
-
-  const onItemDelete = (id: string) => {
-    const _iconList = iconList.filter((item: IconListItem) => item.id !== id);
-    setIconList(_iconList);
-  };
-
-  const onSubmit = () => {
-    onChange({ iconList, unknownIcon });
+  const onIconChange = (icon: IconItem) => {
+    onChange(icon.id);
     setOpen(false);
   };
 
-  const fieldList = useMemo(() => {
-    if (!options.length) {
-      return [];
-    }
-
-    return options.map((item) => ({ label: item, value: item }));
-  }, [options]);
-
-  const selectOptions = useMemo(() => {
-    if (!defaultValue.iconList) {
-      return [];
-    }
-
-    return [{ value: 'selectedIcon', label: defaultValue.iconList.map((item) => item.image) }];
-  }, [defaultValue]);
-
   return wrapSSR(
     <Select
-      className={cls(`${prefixCls}`, hashId)}
+      placeholder="请选择图标"
       open={open}
+      className={cls(`${prefixCls}`, hashId)}
       onDropdownVisibleChange={(visible) => setOpen(visible)}
       dropdownRender={() => {
-        return (
-          <>
-            {iconList?.map((item) => {
-              const selected = iconList.map((icon) => {
-                if (icon.value !== item.value) {
-                  return icon.value;
-                }
-              });
-              const _options = fieldList.filter((_item) => !selected.includes(_item.value));
-
-              return (
-                <div className={cls(`${prefixCls}__customItem`, hashId)} key={item.id}>
-                  <CustomItem
-                    key={item.id}
-                    size="small"
-                    value={item}
-                    disabled={iconList.length <= 1}
-                    iconList={DEFAULTICONOPTIONS}
-                    fieldList={_options}
-                    onChange={(val: IconListItem) => onItemChange(val)}
-                    onDelete={() => onItemDelete(item.id)}
-                  />
-                </div>
-              );
-            })}
-
-            {/* 由于 unknow 变化更新不及时，其他暂时隐藏 */}
-            {/* <UnknownIcon
-              size="small"
-              value={unknownIcon}
-              iconList={DEFAULTICONOPTIONS}
-              onChange={({ title, icon }) => setUnknownIcon({ title, icon })}
-            /> */}
-
-            <Button className={cls(`${prefixCls}__add-item`, hashId)} size="small" type="link" onClick={onAddItem}>
-              <PlusOutlined /> 添加
-            </Button>
-
-            <div className={cls(`${prefixCls}__btn`, hashId)}>
-              <span onClick={onSubmit}>应用</span>
-            </div>
-          </>
-        );
+        return <IconPanel iconList={DEFAULT_ICON_CATEGORY} onChange={onIconChange} />;
       }}
       value={selectOptions[0]?.value}
     >
-      {selectOptions.map((item) => {
-        return (
-          <Select.Option key={item.value} value={item.value}>
-            {item.label.map((icon) => (
-              <img src={icon} />
-            ))}
-          </Select.Option>
-        );
-      })}
+      {selectOptions.length &&
+        selectOptions.map((item) => {
+          return (
+            <Select.Option key={item.toString()} value={item.value}>
+              <img src={item.label} />
+            </Select.Option>
+          );
+        })}
     </Select>,
   );
 };
 
 const IconSelector = connect(Internal);
-
 export default IconSelector;

@@ -32,7 +32,7 @@ const IconPanel = (props: IconPanelProps) => {
             <div className={cls(`${prefixCls}__icon-content__img`, hashId)}>
               {item.icons.map((icon) => (
                 <Tooltip title={icon.name} key={icon.id}>
-                  <img key={icon.id} src={icon.image} onClick={() => onIconChange(icon)} />
+                  <img key={icon.id} src={icon.url} onClick={() => onIconChange(icon)} />
                 </Tooltip>
               ))}
             </div>

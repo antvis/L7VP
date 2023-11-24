@@ -3,7 +3,7 @@ import type { Form as FormInstance } from '@formily/core';
 import { createForm, onFormValuesChange } from '@formily/core';
 import { createSchemaField, FormConsumer } from '@formily/react';
 import React from 'react';
-import { IconList } from '../../index';
+import { IconScaleSelector } from '../../index';
 
 const form = createForm({
   initialValues: {},
@@ -17,7 +17,7 @@ const form = createForm({
 const SchemaField = createSchemaField({
   components: {
     FormItem,
-    IconList,
+    IconScaleSelector,
   },
 });
 
@@ -25,12 +25,36 @@ const schema = {
   type: 'object',
   properties: {
     iconAtlas: {
-      type: 'string',
+      type: 'number',
       title: 'icon 图标',
+      default: {
+        iconList: [
+          {
+            id: 'other_aquatic-germplasm-reserve',
+            imageId: 'other_aquatic-germplasm-reserve',
+            image: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sSbCRKP1RsgAAAAAAAAAAAAADmJ7AQ/original',
+            value: 'Aquatic Germplasm Reserve',
+          },
+          {
+            id: 'other_marine-nature-reserves',
+            imageId: 'other_marine-nature-reserves',
+            image: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*dPoYQoBq4f0AAAAAAAAAAAAADmJ7AQ/original',
+            value: 'Marine Nature Reserves',
+          },
+        ],
+        unknown: 'no-icon',
+      },
       'x-decorator': 'FormItem',
-      'x-component': 'IconList',
+      'x-component': 'IconScaleSelector',
       'x-component-props': {
         placeholder: '请选择',
+        options: [
+          'Aquatic Germplasm Reserve',
+          'Marine Nature Reserves',
+          'Marine Park',
+          'Special Marine Protected Areas',
+          '005',
+        ],
       },
     },
   },

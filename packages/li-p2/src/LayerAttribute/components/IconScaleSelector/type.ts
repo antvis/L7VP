@@ -8,7 +8,7 @@ export type IconListItem = {
 export type IconItem = {
   id: string;
   name: string;
-  image: string;
+  url: string;
 };
 
 export type IconOptionsType = { type: string; icons: IconItem[] }[];

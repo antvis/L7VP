@@ -25,36 +25,12 @@ const schema = {
   type: 'object',
   properties: {
     iconAtlas: {
-      type: 'number',
+      type: 'string',
       title: 'icon 图标',
-      default: {
-        iconList: [
-          {
-            id: 'other_aquatic-germplasm-reserve',
-            imageId: 'other_aquatic-germplasm-reserve',
-            image: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sSbCRKP1RsgAAAAAAAAAAAAADmJ7AQ/original',
-            value: 'Aquatic Germplasm Reserve',
-          },
-          {
-            id: 'other_marine-nature-reserves',
-            imageId: 'other_marine-nature-reserves',
-            image: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*dPoYQoBq4f0AAAAAAAAAAAAADmJ7AQ/original',
-            value: 'Marine Nature Reserves',
-          },
-        ],
-        unknown: 'no-icon',
-      },
       'x-decorator': 'FormItem',
       'x-component': 'IconSelector',
       'x-component-props': {
         placeholder: '请选择',
-        options: [
-          'Aquatic Germplasm Reserve',
-          'Marine Nature Reserves',
-          'Marine Park',
-          'Special Marine Protected Areas',
-          '005',
-        ],
       },
     },
   },

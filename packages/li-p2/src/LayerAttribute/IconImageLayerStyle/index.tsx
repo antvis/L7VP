@@ -6,8 +6,8 @@ import classNames from 'classnames';
 import { debounce } from 'lodash-es';
 import React, { memo, useMemo } from 'react';
 import { ColorPicker, FieldSelect, FormCollapse, Offset, Slider, SliderRange } from '../components';
-import IconList from '../components/IconList';
 import IconSelector from '../components/IconSelector';
+import IconScaleSelector from '../components/IconScaleSelector';
 import { CLS_PREFIX } from './constant';
 import { iconImageLayerStyleConfigToFlat, iconImageLayerStyleFlatToConfig } from './helper';
 import schema from './schema';
@@ -29,8 +29,8 @@ export const IconImageLayerStyleAttributeSchemaField: React.FC<
           Switch,
           Select,
           Radio,
+          IconScaleSelector,
           IconSelector,
-          IconList,
           Offset,
         },
       }),

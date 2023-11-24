@@ -63,7 +63,7 @@ export default (options: AttributeSchemaOptions & { iconList?: IconSelectOptionT
                 type: 'array',
                 title: '图标映射',
                 'x-decorator': 'FormItem',
-                'x-component': 'IconSelector',
+                'x-component': 'IconScaleSelector',
                 'x-component-props': {
                   options:
                     '{{ $form.getFieldState("iconField",state=> { return state.dataSource.find((item) => item.value === state.value)?.domain })}}',
@@ -87,7 +87,7 @@ export default (options: AttributeSchemaOptions & { iconList?: IconSelectOptionT
                 type: 'string',
                 title: '图标形状',
                 'x-decorator': 'FormItem',
-                'x-component': 'IconList',
+                'x-component': 'IconSelector',
                 'x-decorator-props': {
                   tooltip: '选中一个图标作为填充图标',
                   allowClear: true,
