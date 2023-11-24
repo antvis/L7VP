@@ -47,7 +47,7 @@ const CustomMappingColor = (props: CustomMappingColorProps) => {
   return wrapSSR(
     <div className={classnames(`${prefixCls}`, hashId, className)}>
       <div className={classnames(`${prefixCls}_custom-content`, hashId, className)}>
-        {dataType === 'number' && <CustomNumber domain={domain} value={customRanges} onChange={onCustomRangesChange} />}
+        {dataType === 'number' && <CustomNumber value={customRanges} onChange={onCustomRangesChange} />}
 
         {dataType === 'string' && <CustomString domain={domain} value={customRanges} onChange={onCustomRangesChange} />}
       </div>
