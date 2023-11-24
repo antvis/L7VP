@@ -35,7 +35,7 @@ const Internal = (props: IconSelectorProps) => {
     if (defaultValue?.iconList && defaultValue.iconList.length) {
       return defaultValue.iconList;
     } else {
-      const _options = options.length > 4 ? options.slice(0, 4) : options;
+      const _options = options.length > 5 ? options.slice(0, 5) : options;
       const _list = _options.map((item, index) => {
         return {
           id: getUId(),
