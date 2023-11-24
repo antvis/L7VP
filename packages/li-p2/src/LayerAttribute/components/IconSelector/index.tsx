@@ -140,13 +140,7 @@ const Internal = (props: IconSelectorProps) => {
               onChange={({ title, icon }) => setUnknownIcon({ title, icon })}
             /> */}
 
-            <Button
-              className={cls(`${prefixCls}__add-item`, hashId)}
-              size="small"
-              type="link"
-              disabled={fieldList.length === iconList.length}
-              onClick={onAddItem}
-            >
+            <Button className={cls(`${prefixCls}__add-item`, hashId)} size="small" type="link" onClick={onAddItem}>
               <PlusOutlined /> 添加
             </Button>
 
