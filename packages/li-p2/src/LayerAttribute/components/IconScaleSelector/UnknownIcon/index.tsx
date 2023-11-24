@@ -51,10 +51,10 @@ const UnknownIcon = (props: UnknownIconProps) => {
             setOpen(_open);
           }}
         >
-          {defaultValue?.image ? (
+          {defaultValue?.url ? (
             <img
               className={cls(`${prefixCls}__icon__img`, hashId)}
-              src={defaultValue.image}
+              src={defaultValue.url}
               onClick={() => setOpen(true)}
             />
           ) : (
