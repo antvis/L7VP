@@ -137,7 +137,6 @@ const Internal = (props: ScaleSelectorProp) => {
                 <Divider style={{ margin: '10px 0' }} />
 
                 <CustomMappingColor
-                  className={`${prefixCls}-customcontent`}
                   dataType={dataType}
                   domain={domain}
                   value={customMappingData}

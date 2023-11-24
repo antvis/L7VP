@@ -4,13 +4,10 @@ import { ColorPicker } from 'antd';
 import type { Color } from 'antd/es/color-picker';
 import classnames from 'classnames';
 import React from 'react';
-import InputNumber from '../../../ScaleSelector/CustomMappingColors/CustomInput/InputNumber';
 import InputCat from './InputCat';
 import useStyle from './style';
 
-type RangeItemProps = {
-  customType: 'cat' | 'custom';
-  position: string | null;
+type CustomItemProps = {
   min?: number;
   max?: number;
   color: string;
@@ -19,16 +16,14 @@ type RangeItemProps = {
   onChange: (value: number[], color: string) => void;
 };
 
-const RangeItem = ({
-  customType,
-  position,
+const CustomItem = ({
   color: defaultColor,
   value: defaultValue,
   min = 0,
   max = 100,
   onDelete,
   onChange,
-}: RangeItemProps) => {
+}: CustomItemProps) => {
   const prefixCls = usePrefixCls('formily-rester--scale-selector__custom-input');
   const [wrapSSR, hashId] = useStyle(prefixCls);
 
@@ -55,20 +50,7 @@ const RangeItem = ({
         </div>
 
         <div className={`${prefixCls}__infor__content`}>
-          {customType === 'cat' && (
-            <InputCat size="small" min={min} max={max} value={defaultValue as [number]} onChange={onValueChange} />
-          )}
-
-          {customType === 'custom' && (
-            <InputNumber
-              size="small"
-              value={defaultValue as [number, number]}
-              min={min}
-              max={max}
-              position={position}
-              onChange={onValueChange}
-            />
-          )}
+          <InputCat size="small" min={min} max={max} value={defaultValue as [number]} onChange={onValueChange} />
         </div>
 
         <div className={`${prefixCls}__infor__delete-icon`} onClick={onDelete}>
@@ -79,4 +61,4 @@ const RangeItem = ({
   );
 };
 
-export default RangeItem;
+export default CustomItem;

@@ -6,14 +6,14 @@ import useStyle from './style';
 
 type ItemProps = {
   size: 'small' | 'middle' | 'large';
-  value: [number, number];
   min: number;
   max: number;
+  value: [number, number];
   position: string | null;
   onChange: (val: [number, number]) => void;
 };
 
-const NumberItem = ({ size = 'middle', value, min, max, position, onChange }: ItemProps) => {
+const NumberItem = ({ size = 'middle', value, min = -Infinity, max = Infinity, position, onChange }: ItemProps) => {
   const prefixCls = usePrefixCls('formily-scale-selector__custom-input__number');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const [itemVal, setItemVal] = useState<[number, number]>(value);

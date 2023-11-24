@@ -4,14 +4,6 @@ export default genStyleHook('scale-selector', (token) => {
   const { componentCls, controlItemBgHover, controlItemBgActive, colorTextBase } = token;
 
   return {
-    [`${componentCls}-dropdown`]: {
-      [`${componentCls}-custom`]: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      },
-    },
-
     [`${componentCls}-select-option`]: {
       cursor: 'pointer',
       height: '32px',

@@ -4,36 +4,27 @@ import { ColorPicker } from 'antd';
 import type { Color } from 'antd/es/color-picker';
 import classnames from 'classnames';
 import React, { useMemo } from 'react';
-import InputNumber from './InputNumber';
 import InputString from './InputString';
 import useStyle from './style';
 
-type RangeItemProps = {
-  dataType: 'string' | 'number';
-  position: string | null;
+type CustomItemProps = {
   selectedOption: (string | number)[];
   selectOptions: { label: string; value: string }[];
-  min?: number;
-  max?: number;
   color: string;
   value: (string | number)[];
   onDelete: () => void;
   onChange: (value: (string | number)[], color: string) => void;
 };
 
-const RangeItem = ({
-  dataType,
-  position,
+const CustomItem = ({
   selectedOption,
   selectOptions,
   color: defaultColor,
   value: defaultValue,
-  min = 0,
-  max = 100,
   onDelete,
   onChange,
-}: RangeItemProps) => {
-  const prefixCls = usePrefixCls('formily-scale-selector__custom-content__custom-item');
+}: CustomItemProps) => {
+  const prefixCls = usePrefixCls('formily-scale-selector__custom-string');
   const [wrapSSR, hashId] = useStyle(prefixCls);
 
   const options = useMemo(() => {
@@ -68,20 +59,7 @@ const RangeItem = ({
         </div>
 
         <div className={`${prefixCls}__infor__content`}>
-          {dataType === 'string' && (
-            <InputString size="small" value={defaultValue as string[]} onChange={onValueChange} options={options} />
-          )}
-
-          {dataType === 'number' && (
-            <InputNumber
-              size="small"
-              value={defaultValue as [number, number]}
-              min={min}
-              max={max}
-              position={position}
-              onChange={onValueChange}
-            />
-          )}
+          <InputString size="small" value={defaultValue as string[]} onChange={onValueChange} options={options} />
         </div>
 
         <div className={`${prefixCls}__infor__delete-icon`} onClick={onDelete}>
@@ -92,4 +70,4 @@ const RangeItem = ({
   );
 };
 
-export default RangeItem;
+export default CustomItem;
