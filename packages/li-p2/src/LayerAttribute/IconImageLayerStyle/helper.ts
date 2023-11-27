@@ -12,14 +12,14 @@ export const iconImageLayerStyleFlatToConfig = (style: Record<string, any>) => {
   let icon = iconImg;
   if (iconField) {
     const { iconList, unknownIcon } = iconAtlasList;
-    const unknown = unknownIcon?.id ? unknownIcon.id : 'no-icon';
+    // const unknown = unknownIcon.id;
     icon = {
       field: style.iconField,
       value: iconList.map((item: IconSelectOptionType) => item.imageId),
       scale: {
         type: 'cat',
         domain: iconList.map((item: IconSelectOptionType) => item.value),
-        unknown: unknown,
+        unknown: 'unknown',
       },
     };
   }

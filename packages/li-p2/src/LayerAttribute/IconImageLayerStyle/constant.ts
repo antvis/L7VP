@@ -11,7 +11,7 @@ export const BuiltInImage = BuiltInImageList.reduce(
     ...pre,
     [id]: url,
   }),
-  {},
+  { unknown: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*EcQZS6JM69EAAAAAAAAAAAAADmJ7AQ/original' },
 );
 
 /** 默认值样式属性 */
