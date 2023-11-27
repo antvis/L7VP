@@ -1,6 +1,6 @@
-import type { IconOptionsType } from './type';
+import type { IconList } from './type';
 
-export const DEFAULT_ICON_CATEGORY: IconOptionsType = [
+export const DEFAULT_ICON_CATEGORY: IconList = [
   {
     type: '地标',
     icons: [
@@ -206,3 +206,7 @@ export const DEFAULT_ICON_CATEGORY: IconOptionsType = [
     ],
   },
 ];
+
+export const BuiltInImageList: { id: string; url: string; name: string }[] = DEFAULT_ICON_CATEGORY.map(
+  (item) => item.icons,
+).flat();

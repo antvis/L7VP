@@ -2,9 +2,8 @@ import lableCollapse from '../common-schema/label-collapse';
 import otherAttributesCollapse from '../common-schema/other-attributes-collapse';
 import radiusCollapse from '../common-schema/point-radius-collapse';
 import type { AttributeSchemaOptions } from '../types';
-import type { IconSelectOptionType } from './types';
 
-export default (options: AttributeSchemaOptions & { iconList?: IconSelectOptionType[] }) => {
+export default (options: AttributeSchemaOptions) => {
   const { fieldList = [] } = options;
   const iconFieldList = fieldList.filter((item) => item.type === 'string');
 
@@ -39,33 +38,25 @@ export default (options: AttributeSchemaOptions & { iconList?: IconSelectOptionT
                   placeholder: '请选择字段',
                   allowClear: true,
                 },
-                enum: [...iconFieldList],
+                enum: iconFieldList,
                 'x-reactions': [
                   {
-                    target: 'iconImg',
-                    effects: ['onFieldValueChange', 'onFieldInit'],
-                    fulfill: {
-                      run:
-                        "$form.setFieldState('iconImg',state=>{state.visible = $self.value? false : true ;state.required=true})",
-                    },
-                  },
-                  {
-                    target: 'iconAtlasList',
+                    target: 'iconImgScale',
                     effects: ['onFieldValueChange'],
                     fulfill: {
-                      run: "$form.setFieldState('iconAtlasList',state=>{ state.value=[] })",
+                      run: "$form.setFieldState('iconImgScale',state=>{ state.value = undefined })",
                     },
                   },
                 ],
               },
 
-              iconAtlasList: {
+              iconImgScale: {
                 type: 'array',
                 title: '图标映射',
                 'x-decorator': 'FormItem',
                 'x-component': 'IconScaleSelector',
                 'x-component-props': {
-                  options:
+                  domain:
                     '{{ $form.getFieldState("iconField",state=> { return state.dataSource.find((item) => item.value === state.value)?.domain })}}',
                 },
                 'x-decorator-props': {
@@ -86,6 +77,7 @@ export default (options: AttributeSchemaOptions & { iconList?: IconSelectOptionT
               iconImg: {
                 type: 'string',
                 title: '图标形状',
+                required: true,
                 'x-decorator': 'FormItem',
                 'x-component': 'IconSelector',
                 'x-decorator-props': {
@@ -95,6 +87,16 @@ export default (options: AttributeSchemaOptions & { iconList?: IconSelectOptionT
                 'x-component-props': {
                   placeholder: '请选择图标',
                 },
+                'x-reactions': [
+                  {
+                    dependencies: ['iconField'],
+                    fulfill: {
+                      state: {
+                        visible: '{{ $deps[0] === undefined }}',
+                      },
+                    },
+                  },
+                ],
               },
 
               // fillColor: {

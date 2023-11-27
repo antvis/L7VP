@@ -2,16 +2,14 @@ import type { IconImageLayerStyleAttributeValue } from './types';
 
 /** 组件名称, 前缀 */
 export const CLS_PREFIX = 'li-p2-icon-image-layer-style-attribute';
-import { DEFAULT_ICON_CATEGORY } from '../components/IconScaleSelector/constant';
-
-export const BuiltInImageList: { id: string; url: string }[] = DEFAULT_ICON_CATEGORY.map((item) => item.icons).flat();
+import { BuiltInImageList } from '../components/IconScaleSelector/constant';
 
 export const BuiltInImage = BuiltInImageList.reduce(
   (pre, { id, url }) => ({
     ...pre,
     [id]: url,
   }),
-  { unknown: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*EcQZS6JM69EAAAAAAAAAAAAADmJ7AQ/original' },
+  { unknown_icon: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*EcQZS6JM69EAAAAAAAAAAAAADmJ7AQ/original' },
 );
 
 /** 默认值样式属性 */

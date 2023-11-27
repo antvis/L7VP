@@ -4,101 +4,92 @@ import { connect } from '@formily/react';
 import { Button, Select } from 'antd';
 import cls from 'classnames';
 import React, { useEffect, useMemo, useState } from 'react';
-import { getUId } from '../../../utils';
-import { BuiltInImageList } from '../../IconImageLayerStyle/constant';
-import { DEFAULT_ICON_CATEGORY } from './constant';
+import { BuiltInImageList, DEFAULT_ICON_CATEGORY } from './constant';
 import CustomItem from './CustomItem';
+import { getCustomMappingData, getDefaultValue, getScaleByCustomMappingData } from './helper';
 import useStyle from './style';
-import type { IconItem, IconListItem } from './type';
-import UnknownIcon from './UnknownIcon';
-
-type IconSelectorValue = {
-  iconList: IconListItem[];
-  unknownIcon: IconItem;
-};
+import type { CustomMappingDataItem, IconScaleSelectorValue } from './type';
 
 type IconScaleSelectorProps = {
-  // 可选择字段
-  options: string[];
-  value: IconSelectorValue;
-  onChange: (val: IconSelectorValue) => void;
+  /**
+   * 自定义参数值
+   */
+  domain: string[];
+  value: IconScaleSelectorValue;
+  onChange: (val: IconScaleSelectorValue) => void;
 };
 
+const DEfAULT_UNKONW_ICON = 'unknown_icon';
+
 const Internal = (props: IconScaleSelectorProps) => {
-  const prefixCls = usePrefixCls('formily-icon-selector');
+  const prefixCls = usePrefixCls('formily-icon-scale-selector');
   const [wrapSSR, hashId] = useStyle(prefixCls);
-  const { options = [], value: defaultValue, onChange } = props;
+  const { domain = [], value: defaultValue, onChange } = props;
   const [open, setOpen] = useState(false);
-  const [unknownIcon, setUnknownIcon] = useState<IconItem>(defaultValue.unknownIcon);
+  const [unknownIcon, setUnknownIcon] = useState<string>(DEfAULT_UNKONW_ICON);
 
-  const DefaultIconList = useMemo(() => {
-    if (defaultValue?.iconList && defaultValue.iconList.length) {
-      return defaultValue.iconList;
-    } else {
-      const _options = options.length > 5 ? options.slice(0, 5) : options;
-      const _list = _options.map((item, index) => {
-        return {
-          id: getUId(),
-          value: item,
-          imageId: BuiltInImageList[index].id,
-          image: BuiltInImageList[index].url,
-        };
-      });
-      onChange({ iconList: _list, unknownIcon });
-      return _list;
+  const defaultCustomMappingData = useMemo(() => {
+    if (defaultValue && defaultValue.range) {
+      return getCustomMappingData(defaultValue);
     }
-  }, [options]);
+  }, [defaultValue]);
 
-  const [iconList, setIconList] = useState<IconListItem[]>(DefaultIconList);
+  const [scaleList, setScaleList] = useState(defaultCustomMappingData || []);
 
+  // 是否存在初始值，如果没有进行默认赋值
   useEffect(() => {
-    setIconList(DefaultIconList);
-  }, [DefaultIconList]);
+    if (!defaultValue || !defaultValue.range) {
+      const _defaultVal = getDefaultValue(domain);
+      setScaleList(_defaultVal);
+      const scaleValue: IconScaleSelectorValue = getScaleByCustomMappingData(_defaultVal, unknownIcon);
+      onChange(scaleValue);
+    }
+  }, [defaultCustomMappingData, defaultValue]);
 
   const onAddItem = () => {
-    const selectedIcon = iconList.map((item) => item.imageId);
+    const selectedIcon = scaleList.map((item) => item.id);
     const _filterBuiltInImageList = BuiltInImageList.filter((item) => !selectedIcon.includes(item.id));
-    setIconList([
-      ...iconList,
+    setScaleList([
+      ...scaleList,
       {
-        id: getUId(),
-        image: _filterBuiltInImageList[0].url,
-        value: undefined,
-        imageId: _filterBuiltInImageList[0].id,
+        id: _filterBuiltInImageList[0].id,
+        url: _filterBuiltInImageList[0].url,
+        value: '',
+        name: _filterBuiltInImageList[0].id,
       },
     ]);
   };
 
-  const onItemChange = (val: IconListItem) => {
-    const _iconList = iconList.map((item) => (item.id === val.id ? val : item));
-    setIconList(_iconList);
+  const onItemChange = (val: CustomMappingDataItem, index: number) => {
+    const _scaleList = scaleList.map((item, _index) => (_index === index ? val : item));
+    setScaleList(_scaleList);
   };
 
-  const onItemDelete = (id: string) => {
-    const _iconList = iconList.filter((item: IconListItem) => item.id !== id);
-    setIconList(_iconList);
+  const onItemDelete = (index: number) => {
+    const _scaleList = scaleList.filter((_, _index) => _index !== index);
+    setScaleList(_scaleList);
   };
 
   const onSubmit = () => {
-    onChange({ iconList, unknownIcon });
+    const scaleValue: IconScaleSelectorValue = getScaleByCustomMappingData(scaleList, unknownIcon);
+    onChange(scaleValue);
     setOpen(false);
   };
 
   const fieldList = useMemo(() => {
-    if (!options.length) {
+    if (!domain.length) {
       return [];
     }
 
-    return options.map((item) => ({ label: item, value: item }));
-  }, [options]);
+    return domain.map((item) => ({ label: item, value: item }));
+  }, [domain]);
 
-  const selectOptions = useMemo(() => {
-    if (!defaultValue.iconList) {
+  const selectedIconList = useMemo(() => {
+    if (!scaleList) {
       return [];
     }
-
-    return [{ value: 'selectedIcon', label: defaultValue.iconList.map((item) => item.image) }];
-  }, [defaultValue]);
+    return [{ value: 'selectedIcon', label: scaleList.map((item) => item.url) }];
+  }, [scaleList]);
 
   return wrapSSR(
     <Select
@@ -108,8 +99,8 @@ const Internal = (props: IconScaleSelectorProps) => {
       dropdownRender={() => {
         return (
           <>
-            {iconList?.map((item) => {
-              const selected = iconList.map((icon) => {
+            {scaleList?.map((item: CustomMappingDataItem, index: number) => {
+              const selected = scaleList.map((icon) => {
                 if (icon.value !== item.value) {
                   return icon.value;
                 }
@@ -122,18 +113,18 @@ const Internal = (props: IconScaleSelectorProps) => {
                     key={item.id}
                     size="small"
                     value={item}
-                    disabled={iconList.length <= 1}
+                    disabled={scaleList.length <= 1}
                     iconList={DEFAULT_ICON_CATEGORY}
                     fieldList={_options}
-                    onChange={(val: IconListItem) => onItemChange(val)}
-                    onDelete={() => onItemDelete(item.id)}
+                    onChange={(val: CustomMappingDataItem) => onItemChange(val, index)}
+                    onDelete={() => onItemDelete(index)}
                   />
                 </div>
               );
             })}
 
             {/* 由于 unknow 变化更新不及时，其他暂时隐藏 */}
-            {/* <UnknownIcon
+            {/* <UnknownIconItem
               size="small"
               value={unknownIcon}
               iconList={DEFAULTICONOPTIONS}
@@ -150,9 +141,9 @@ const Internal = (props: IconScaleSelectorProps) => {
           </>
         );
       }}
-      value={selectOptions[0]?.value}
+      value={selectedIconList[0]?.value}
     >
-      {selectOptions.map((item) => {
+      {selectedIconList.map((item) => {
         return (
           <Select.Option key={item.value} value={item.value}>
             {item.label.map((icon) => (

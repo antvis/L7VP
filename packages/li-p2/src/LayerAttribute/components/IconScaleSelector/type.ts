@@ -1,14 +1,20 @@
-export type IconListItem = {
-  id: string;
-  value?: string;
-  imageId: string;
-  image: string;
-};
-
 export type IconItem = {
   id: string;
   name: string;
   url: string;
 };
 
-export type IconOptionsType = { type: string; icons: IconItem[] }[];
+export type IconList = { type: string; icons: IconItem[] }[];
+
+export type IconScaleSelectorValue = {
+  domain: string[];
+  range: string[];
+  unknown: string;
+};
+
+export type CustomMappingDataItem = {
+  id: string;
+  name: string;
+  url: string;
+  value: string;
+};

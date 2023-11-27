@@ -1,25 +1,23 @@
-import { getUId } from '../../utils';
-import { BuiltInImage, BuiltInImageList } from './constant';
-import type { IconImageLayerStyleAttributeValue, IconSelectOptionType } from './types';
+import { BuiltInImage } from './constant';
+import type { IconImageLayerStyleAttributeValue } from './types';
 
 /**
  * 平铺数据转图层样式数据
  * 将表单的平铺数据转为图层样式的数据结构
  * */
 export const iconImageLayerStyleFlatToConfig = (style: Record<string, any>) => {
-  const { iconAtlasList, iconField, iconImg } = style;
+  const { iconImgScale, iconField, iconImg } = style;
 
   let icon = iconImg;
   if (iconField) {
-    const { iconList, unknownIcon } = iconAtlasList;
-    // const unknown = unknownIcon.id;
+    const { domain, range, unknown } = iconImgScale;
     icon = {
       field: style.iconField,
-      value: iconList.map((item: IconSelectOptionType) => item.imageId),
+      value: range,
       scale: {
         type: 'cat',
-        domain: iconList.map((item: IconSelectOptionType) => item.value),
-        unknown: 'unknown',
+        domain: domain,
+        unknown,
       },
     };
   }
@@ -63,27 +61,17 @@ export const iconImageLayerStyleFlatToConfig = (style: Record<string, any>) => {
 export const iconImageLayerStyleConfigToFlat = (styleConfig: Partial<IconImageLayerStyleAttributeValue>) => {
   const { radius, label, icon, iconStyle, minZoom = 0, maxZoom = 24, blend } = styleConfig || {};
 
-  let iconAtlasList = undefined;
+  let iconImgScale = undefined;
   if (typeof icon === 'object' && icon.value) {
-    const _unknown = BuiltInImageList.find((item) => item.id === icon.scale?.unknown);
-
-    iconAtlasList = {
-      // @ts-ignore
-      iconList: icon.value.map((_item: string, index: number) => {
-        const _icon = BuiltInImageList.find((item) => item.id === _item);
-        return {
-          id: getUId(),
-          image: _icon?.url,
-          imageId: _icon?.id,
-          value: icon.scale?.domain?.[index],
-        };
-      }),
-      unknownIcon: { id: _unknown?.id, image: _unknown?.url },
+    iconImgScale = {
+      range: icon.value,
+      domain: icon.scale?.domain,
+      unknownIcon: icon.scale?.unknown,
     };
   }
 
   const config = {
-    iconAtlasList,
+    iconImgScale,
     iconImg: typeof icon === 'object' ? undefined : icon,
     iconField: typeof icon === 'object' ? icon.field : undefined,
     fillOpacity: iconStyle?.opacity,

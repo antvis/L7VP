@@ -28,27 +28,16 @@ const schema = {
       type: 'number',
       title: 'icon 图标',
       default: {
-        iconList: [
-          {
-            id: 'other_aquatic-germplasm-reserve',
-            imageId: 'other_aquatic-germplasm-reserve',
-            image: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sSbCRKP1RsgAAAAAAAAAAAAADmJ7AQ/original',
-            value: 'Aquatic Germplasm Reserve',
-          },
-          {
-            id: 'other_marine-nature-reserves',
-            imageId: 'other_marine-nature-reserves',
-            image: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*dPoYQoBq4f0AAAAAAAAAAAAADmJ7AQ/original',
-            value: 'Marine Nature Reserves',
-          },
-        ],
+        range: ['other_aquatic-germplasm-reserve', 'other_marine-nature-reserves'],
+        // 图片
+        domain: ['other_aquatic-germplasm-reserve', 'other_marine-nature-reserves'],
         unknown: 'no-icon',
       },
       'x-decorator': 'FormItem',
       'x-component': 'IconScaleSelector',
       'x-component-props': {
         placeholder: '请选择',
-        options: [
+        domain: [
           'Aquatic Germplasm Reserve',
           'Marine Nature Reserves',
           'Marine Park',

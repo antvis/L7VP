@@ -3,22 +3,22 @@ import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { Button, Popover, Select } from 'antd';
 import cls from 'classnames';
 import React, { useState } from 'react';
-import type { IconItem, IconListItem, IconOptionsType } from '../type';
-import IconPanel from './IconPanel';
+import type { CustomMappingDataItem, IconItem, IconList } from '../type';
+import IconPanel from '../IconPanel';
 import useStyle from './style';
 
 type CustomItemProps = {
-  value: IconListItem;
+  value: CustomMappingDataItem;
   size?: 'small' | 'middle' | 'large';
   disabled: boolean;
-  iconList: IconOptionsType;
+  iconList: IconList;
   fieldList: { label: string; value: string }[];
-  onChange: (val: IconListItem) => void;
+  onChange: (val: CustomMappingDataItem) => void;
   onDelete: () => void;
 };
 
 const CustomItem = (props: CustomItemProps) => {
-  const prefixCls = usePrefixCls('formily-icon-custom-selector-icon-item');
+  const prefixCls = usePrefixCls('formily-icon-scale-selector-icon-item');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const {
     value: defaultValue,
@@ -32,7 +32,7 @@ const CustomItem = (props: CustomItemProps) => {
   const [open, setOpen] = useState(false);
 
   const onIconChange = (icon: IconItem) => {
-    const _itemValue = { ...defaultValue, image: icon.url, imageId: icon.id };
+    const _itemValue = { ...defaultValue, ...icon };
     onChange(_itemValue);
     setOpen(false);
   };
@@ -71,7 +71,7 @@ const CustomItem = (props: CustomItemProps) => {
         >
           <img
             className={cls(`${prefixCls}__icon__img`, hashId)}
-            src={defaultValue.image}
+            src={defaultValue.url}
             onClick={() => setOpen(true)}
           />
         </Popover>

@@ -3,8 +3,8 @@ import { connect } from '@formily/react';
 import { Select } from 'antd';
 import cls from 'classnames';
 import React, { useMemo, useState } from 'react';
-import { DEFAULT_ICON_CATEGORY } from '../IconScaleSelector/constant';
-import IconPanel from '../IconScaleSelector/CustomItem/IconPanel';
+import { BuiltInImageList, DEFAULT_ICON_CATEGORY } from '../IconScaleSelector/constant';
+import IconPanel from '../IconScaleSelector/IconPanel';
 import type { IconItem } from '../IconScaleSelector/type';
 import useStyle from './style';
 
@@ -15,17 +15,15 @@ export type IconListProps = {
 
 const Internal: React.FC<IconListProps> = (props) => {
   const { value: defaultValue, onChange } = props;
-  const prefixCls = usePrefixCls('formily-icon-list');
+  const prefixCls = usePrefixCls('formily-icon-selector');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const [open, setOpen] = useState(false);
 
-  const selectOptions = useMemo(() => {
+  const selectedIcon = useMemo(() => {
     if (!defaultValue) {
       return [];
     }
-    const img = (DEFAULT_ICON_CATEGORY.map((item) => item.icons).flat() || []).find(
-      (_item) => _item?.id === defaultValue,
-    )?.url;
+    const img = BuiltInImageList.find((_item) => _item?.id === defaultValue)?.url;
     return [{ value: defaultValue, label: img }];
   }, [defaultValue]);
 
@@ -43,10 +41,10 @@ const Internal: React.FC<IconListProps> = (props) => {
       dropdownRender={() => {
         return <IconPanel iconList={DEFAULT_ICON_CATEGORY} onChange={onIconChange} />;
       }}
-      value={selectOptions[0]?.value}
+      value={selectedIcon[0]?.value}
     >
-      {selectOptions.length &&
-        selectOptions.map((item) => {
+      {selectedIcon.length &&
+        selectedIcon.map((item) => {
           return (
             <Select.Option key={item.toString()} value={item.value}>
               <img src={item.label} />

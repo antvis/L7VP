@@ -7,7 +7,6 @@ import type { CommonProps } from '../types/common';
  */
 export type IconImageLayerStyleAttributeValue = Omit<IconImageLayerOptions, 'source'>;
 
-export type IconSelectOptionType = { id: string; image: string; value: string; imageId: string };
 /**
  * 组件类型定义
  */
@@ -16,10 +15,6 @@ export interface IconImageLayerStyleAttributeProps extends CommonProps {
    * 数据字段
    */
   fieldList: FieldSelectOptionType[];
-  /**
-   * 图标配置
-   */
-  iconList?: IconSelectOptionType;
   /**
    * 初始值
    */

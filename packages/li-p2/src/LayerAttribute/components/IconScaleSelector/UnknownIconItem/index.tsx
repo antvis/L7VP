@@ -1,26 +1,33 @@
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { Popover, Select } from 'antd';
 import cls from 'classnames';
-import React, { useState } from 'react';
-import IconPanel from '../CustomItem/IconPanel';
-import type { IconItem, IconOptionsType } from '../type';
+import React, { useMemo, useState } from 'react';
+import IconPanel from '../IconPanel';
+import type { IconItem, IconList } from '../type';
+import { BuiltInImageList } from '../constant';
 import useStyle from './style';
 
 type UnknownIconProps = {
   size?: 'small' | 'middle' | 'large';
-  value: IconItem;
-  iconList: IconOptionsType;
-  onChange: (val: IconItem) => void;
+  value: string;
+  iconList: IconList;
+  onChange: (val: string) => void;
 };
 
 const UnknownIcon = (props: UnknownIconProps) => {
-  const prefixCls = usePrefixCls('formily-icon-custom-selector-unknown-item');
+  const prefixCls = usePrefixCls('formily-icon-scale-selector-unknown-item');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const { value: defaultValue, size = 'middle', iconList = [], onChange } = props;
   const [open, setOpen] = useState(false);
 
+  const defaultUrl = useMemo(() => {
+    if (defaultValue) {
+      return BuiltInImageList.find((item) => item.id === defaultValue)?.url;
+    }
+  }, [defaultValue]);
+
   const onIconChange = (icon: IconItem) => {
-    onChange(icon);
+    onChange(icon.id);
     setOpen(false);
   };
 
@@ -51,12 +58,8 @@ const UnknownIcon = (props: UnknownIconProps) => {
             setOpen(_open);
           }}
         >
-          {defaultValue?.url ? (
-            <img
-              className={cls(`${prefixCls}__icon__img`, hashId)}
-              src={defaultValue.url}
-              onClick={() => setOpen(true)}
-            />
+          {defaultUrl ? (
+            <img className={cls(`${prefixCls}__icon__img`, hashId)} src={defaultUrl} onClick={() => setOpen(true)} />
           ) : (
             <div className={cls(`${prefixCls}__icon__img`, hashId)} />
           )}

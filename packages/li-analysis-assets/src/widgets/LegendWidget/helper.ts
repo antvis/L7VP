@@ -34,7 +34,7 @@ export const parserLegendData = (layer: Layer) => {
   }
 
   // 如果是图标图层
-  if (layer.options?.icon?.field && layer.options?.iconAtlas) {
+  if (layer.options?.icon?.field && layer.options?.iconAtlas && layer.options?.icon?.value) {
     const iconAtlas = layer.options.iconAtlas;
 
     const icons = layer.options.icon.value.map((item: string) => {

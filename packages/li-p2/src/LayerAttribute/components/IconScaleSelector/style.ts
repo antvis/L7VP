@@ -1,6 +1,6 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
-export default genStyleHook('icon-selector', (token) => {
+export default genStyleHook('icon-scale-selector', (token) => {
   const { antCls, componentCls, lineWidth, lineType, colorBorder, colorTextSecondary, colorInfoTextHover } = token;
 
   return {

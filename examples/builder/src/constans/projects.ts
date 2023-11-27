@@ -1028,7 +1028,7 @@ const MARINE_PROTECTED_AREA: Application = {
             scale: {
               type: 'cat',
               domain: ['Aquatic Germplasm Reserve', 'Marine Nature Reserves'],
-              unknown: 'no-icon'
+              unknown: 'unknown_icon'
             }
           },
           iconAtlas: {
@@ -1067,7 +1067,8 @@ const MARINE_PROTECTED_AREA: Application = {
             "other_aquatic-germplasm-reserve": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sSbCRKP1RsgAAAAAAAAAAAAADmJ7AQ/original",
             "other_marine-nature-reserves": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*dPoYQoBq4f0AAAAAAAAAAAAADmJ7AQ/original",
             "other_marine-park": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*on7pR5VRjHsAAAAAAAAAAAAADmJ7AQ/original",
-            "other_special-marinep-protected-areas": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*DulySrR5zuwAAAAAAAAAAAAADmJ7AQ/original"
+            "other_special-marinep-protected-areas": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*DulySrR5zuwAAAAAAAAAAAAADmJ7AQ/original",
+            'unknown_icon': 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*EcQZS6JM69EAAAAAAAAAAAAADmJ7AQ/original'
           },
           iconStyle: {
             opacity: 0.9,

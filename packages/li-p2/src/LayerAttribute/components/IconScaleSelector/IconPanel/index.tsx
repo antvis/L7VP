@@ -2,16 +2,16 @@ import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { Tooltip } from 'antd';
 import cls from 'classnames';
 import React from 'react';
-import type { IconItem, IconOptionsType } from '../../type';
+import type { IconItem, IconList } from '../type';
 import useStyle from './style';
 
 type IconPanelProps = {
-  iconList: IconOptionsType;
+  iconList: IconList;
   onChange: (val: IconItem) => void;
 };
 
 const IconPanel = (props: IconPanelProps) => {
-  const prefixCls = usePrefixCls('formily-icon-custom-selector-icon-panel');
+  const prefixCls = usePrefixCls('formily-icon-scale-selector-icon-panel');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const { iconList = [], onChange } = props;
 
