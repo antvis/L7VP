@@ -105,9 +105,6 @@ MapCenterModal.defaultProps = {
   cancelText: '取消',
   maskClosable: false,
   destroyOnClose: false,
-  bodyStyle: {
-    padding: 0,
-  },
   larkMap: {
     mapType: 'Gaode',
     mapOptions: {

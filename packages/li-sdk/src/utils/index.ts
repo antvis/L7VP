@@ -1,5 +1,6 @@
 export * from './dataset';
 export * from './dataset-parser';
+export * from './expression';
 export * from './filters';
 export * from './helper';
 export * from './layer';

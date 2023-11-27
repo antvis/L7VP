@@ -32,7 +32,6 @@ const AddDatasetModal = ({ title, visible, onClose, onSubmit }: AddDatasetModalP
       destroyOnClose
       open={visible}
       footer={null}
-      bodyStyle={{ paddingBottom: 0 }}
       onCancel={onClose}
     >
       {segmentedOptions.length > 1 && (
