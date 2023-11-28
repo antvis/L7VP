@@ -8,6 +8,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import LayerName from '../../../components/EditName';
 import { useEditorService, useEditorState } from '../../../hooks';
 import './index.less';
+import type { LayerFormValue } from './LayerForm';
 import LayerForm from './LayerForm';
 
 type LayerAttributeProps = {
@@ -49,7 +50,7 @@ const LayerAttribute: React.FC<LayerAttributeProps> = (props) => {
     onBack();
   };
 
-  const handleValuesChange = useCallback((layerConfig: Pick<LayerSchema, 'type' | 'sourceConfig' | 'visConfig'>) => {
+  const handleValuesChange = useCallback((layerConfig: LayerFormValue) => {
     updateState((draft) => {
       const index = draft.layers.findIndex((item) => item.id === layerIdRef.current);
       if (index !== -1) {

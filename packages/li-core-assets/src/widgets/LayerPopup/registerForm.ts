@@ -67,7 +67,7 @@ const getLayerFieldsFormSchemas = (props: WidgetRegisterFormProps) => {
   const layerSchemaList = layers
     .filter((item) => !['GridLayer', 'HexbinLayer', 'HeatmapLayer'].includes(item.type))
     .map((item) => {
-      const dataset = datasets.find((items) => items.id === item.sourceConfig?.datasetId);
+      const dataset = datasets.find((items) => items.id === item.sourceConfig.datasetId);
       if (dataset === undefined || !isLocalOrRemoteDataset(dataset)) return undefined;
 
       const columns = dataset?.columns || [];

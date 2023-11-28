@@ -45,7 +45,6 @@ const toValues = (config: LayerRegisterFormResultType<ChinaAdminLayerStyleAttrib
  */
 const fromValues = (values: Record<string, any>): LayerRegisterFormResultType<ChinaAdminLayerStyleAttributeValue> => {
   const sourceConfig = {
-    parser: { type: 'json' },
     countryAdConfig: {
       countryGranularity: values.countryGranularity,
       countryAdType: values.countryAdType,

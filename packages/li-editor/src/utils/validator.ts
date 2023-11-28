@@ -83,11 +83,6 @@ export const isValidLayer = (layer: LayerSchema) => {
     return false;
   }
 
-  const resetSourceConfig = omit(layer.sourceConfig, 'datasetId');
-  if (isEmpty(resetSourceConfig)) {
-    return false;
-  }
-
   return true;
 };
 

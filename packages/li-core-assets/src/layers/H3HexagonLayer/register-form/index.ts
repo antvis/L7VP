@@ -47,7 +47,6 @@ const toValues = (config: LayerRegisterFormResultType<ChoroplethLayerStyleAttrib
 const fromValues = (style: Record<string, any>): LayerRegisterFormResultType<ChoroplethLayerStyleAttributeValue> => {
   const sourceConfig = {
     parser: {
-      type: 'json',
       hexagonId: style.hexagonId,
     },
   };

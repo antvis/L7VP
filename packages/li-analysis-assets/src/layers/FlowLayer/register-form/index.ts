@@ -30,7 +30,6 @@ const toValues = (config: LayerRegisterFormResultType<FlowLayerStyleAttributeVal
 const fromValues = (values: Record<string, any>): LayerRegisterFormResultType<FlowLayerStyleAttributeValue> => {
   const sourceConfig = {
     parser: {
-      type: 'json',
       x: values.longitude,
       y: values.latitude,
       x1: values.targetLongitude,

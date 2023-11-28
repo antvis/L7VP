@@ -56,7 +56,7 @@ const getPropertiesFieldsFormSchemas = (props: WidgetRegisterFormProps) => {
   const { layers } = props;
   const layerSchemaList = layers.map((item) => {
     return {
-      [`items.${item.id}.${item.sourceConfig?.datasetId}`]: {
+      [`items.${item.id}.${item.sourceConfig.datasetId}`]: {
         title: item.metadata.name,
         type: 'boolean',
         'x-decorator': 'FormItem',

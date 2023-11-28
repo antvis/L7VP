@@ -27,11 +27,11 @@ const getLayerSource = (dataset: Dataset, sourceConfig: LayerSourceConfig) => {
 };
 
 export const useLayerProps = (visConfig: LayerSchema['visConfig'], sourceConfig: LayerSchema['sourceConfig']) => {
-  const datasetId = sourceConfig?.datasetId || '';
+  const datasetId = sourceConfig.datasetId;
   const [dataset] = useDataset(datasetId);
 
   const layerProps = useMemo(() => {
-    if (sourceConfig?.datasetId && dataset) {
+    if (sourceConfig.datasetId && dataset) {
       const source = getLayerSource(dataset, sourceConfig);
       return {
         ...visConfig,
