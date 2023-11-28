@@ -50,12 +50,16 @@ const ProcessingFunction = (props: ProcessingFunctionProps) => {
       val.key === 'success-func'
         ? {
             name: val.label,
-            value: 'function(res) { return res.data }',
+            value: `function onComplete(res) {
+  return res.data;
+}`,
             key: val.key,
           }
         : {
             name: val.label,
-            value: 'function(err) {}',
+            value: `function onError(err) {
+
+}`,
             key: val.key,
           };
 
@@ -80,7 +84,10 @@ const ProcessingFunction = (props: ProcessingFunctionProps) => {
   return (
     <div className="li-provessing-function">
       <div className="li-provessing-function__btn">
-        <Dropdown menu={{ items: menus.map((item) => ({ ...item, onClick: () => onAddFunc(item) })) }}>
+        <Dropdown
+          menu={{ items: menus.map((item) => ({ ...item, onClick: () => onAddFunc(item) })) }}
+          disabled={menus.length === 0}
+        >
           <Button>
             选择添加 <DownOutlined />
           </Button>
@@ -92,13 +99,12 @@ const ProcessingFunction = (props: ProcessingFunctionProps) => {
           <div className="li-provessing-function__success-and-err" key={item.key}>
             <p>{item.name}:</p>
             <div className="li-provessing-function__success-and-err__content">
-              <div className="li-provessing-function__success-and-err__content-json">
+              <div className="li-provessing-function__success-and-err__content-js">
                 <MonacoEditor
-                  language="json"
+                  language="javascript"
                   options={{
-                    readOnly: false,
-                    minimap: { enabled: false },
                     lineNumbers: 'off',
+                    minimap: { enabled: false },
                     overviewRulerBorder: false,
                   }}
                   onChange={(fun) => handleEditorChange(fun, item.key)}

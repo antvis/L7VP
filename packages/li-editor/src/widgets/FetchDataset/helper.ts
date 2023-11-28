@@ -25,7 +25,8 @@ export const arrayConversionObject = (initialVal?: { field: string; value: value
 };
 
 export const getProperties = (datasetConfig: DatasetConfig): DatasetProperties => {
-  const { url, method, body, headers, onComplete, onError } = datasetConfig;
+  const { url, method, body, headers, processingFunction } = datasetConfig;
+  const { onComplete, onError } = processingFunction || {};
   const new_headers = arrayConversionObject(headers);
   const new_body = arrayConversionObject(body);
 
