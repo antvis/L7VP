@@ -4,8 +4,10 @@ export type FetchDatasetConfig = {
   method: 'GET' | 'POST';
   body?: Record<string, any>;
   headers?: HeadersInit;
-  onComplete?: { type: 'JSFunction'; value: string };
-  onError?: { type: 'JSFunction'; value: string };
+  processingFunction?: {
+    onComplete?: { type: 'JSFunction'; value: string };
+    onError?: { type: 'JSFunction'; value: string };
+  };
 };
 
 export type DatasetProperties = {

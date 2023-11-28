@@ -6,6 +6,7 @@ import type { ImplementEditorAddDatasetWidgetProps } from '../../types';
 import DynamicFormItem from './DynamicFormItem';
 import './FetchDataset.less';
 import { getProperties } from './helper';
+import ProcessingFunction from './ProcessingFunction';
 import type { FetchDatasetConfig } from './types';
 
 type FetchDatasetProps = ImplementEditorAddDatasetWidgetProps;
@@ -83,6 +84,10 @@ export default function FetchDataset(props: FetchDatasetProps) {
 
           <Form.Item label="请求头信息" name="headers">
             <DynamicFormItem fieldName="headers" />
+          </Form.Item>
+
+          <Form.Item label="数据处理函数" name="processingFunction">
+            <ProcessingFunction />
           </Form.Item>
         </Form>
       </div>
