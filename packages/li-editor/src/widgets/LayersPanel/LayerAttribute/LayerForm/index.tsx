@@ -11,20 +11,23 @@ import BaseFormSchemaField from '../BaseFormSchemaField';
 import './index.less';
 import StyleForm from './StyleForm';
 
+export type LayerFormValue = Pick<LayerSchema, 'type' | 'sourceConfig' | 'visConfig'>;
+type LayerStyleFormValue = Pick<LayerSchema, 'sourceConfig' | 'visConfig'>;
+
 type LayerFormProps = {
   className?: string;
   config: LayerSchema;
-  onChange: (config: Pick<LayerSchema, 'type' | 'sourceConfig' | 'visConfig'>) => void;
+  onChange: (config: LayerFormValue) => void;
 };
 
 const LayerForm: React.FC<LayerFormProps> = ({ className, config, onChange }) => {
   const { state } = useEditorState();
   const [visType, setVisType] = useState(config.type);
-  const [datasetId, setDatasetId] = useState(config?.sourceConfig?.datasetId);
-  const editorDataset = useEditorDataset(datasetId!);
+  const [datasetId, setDatasetId] = useState(config.sourceConfig.datasetId);
+  const editorDataset = useEditorDataset(datasetId);
   const columns = useMemo(() => (editorDataset ? editorDataset.columns : []), [editorDataset]);
 
-  const [initialValues, setInitialValues] = useState<Pick<LayerSchema, 'sourceConfig' | 'visConfig'>>(
+  const [initialStyleValue, setInitialStyleValue] = useState<LayerStyleFormValue>(
     pick(config, ['sourceConfig', 'visConfig']),
   );
 
@@ -51,17 +54,34 @@ const LayerForm: React.FC<LayerFormProps> = ({ className, config, onChange }) =>
     });
   }, [datasetFields, editorDataset?.data]);
 
-  const handleFormValuesChange = useMemoizedFn((styleConfig: Pick<LayerSchema, 'sourceConfig' | 'visConfig'>) => {
-    if (styleConfig.sourceConfig && datasetId) {
-      styleConfig.sourceConfig.datasetId = datasetId;
+  const onFormValuesChange = (visType_: string, datasetId_: string, styleConfig: LayerStyleFormValue) => {
+    if (styleConfig.sourceConfig && datasetId_) {
+      styleConfig.sourceConfig.datasetId = datasetId_;
     }
 
-    const layerConfig: Pick<LayerSchema, 'type' | 'sourceConfig' | 'visConfig'> = {
-      type: visType,
+    const layerConfig: LayerFormValue = {
+      type: visType_,
       ...styleConfig,
     };
 
     onChange(layerConfig);
+  };
+
+  const handleVisTypeChange = useMemoizedFn((type: string) => {
+    const defaultVisConfig = appService.getImplementLayerDefaultVis(type);
+    const _initialStyleValue: LayerStyleFormValue = {
+      sourceConfig: { datasetId },
+      visConfig: defaultVisConfig,
+    };
+
+    // 更新可视化类型
+    setVisType(type);
+    // 设置表单默认值
+    setInitialStyleValue(_initialStyleValue);
+  });
+
+  const handleStyleFormValuesChange = useMemoizedFn((styleConfig: LayerStyleFormValue) => {
+    onFormValuesChange(visType, datasetId, styleConfig);
   });
 
   // 基础配置表单
@@ -71,20 +91,13 @@ const LayerForm: React.FC<LayerFormProps> = ({ className, config, onChange }) =>
       effects() {
         // 数据集更新时，同步更新表数据字段
         onFieldValueChange('datasetId', (field) => {
-          setDatasetId(field?.value);
+          const id = field?.value;
+          setDatasetId(id);
         });
         // 可视化类型更新时，同步更新可视化图层表单
         onFieldValueChange('visType', (field) => {
           const type = field.value;
-          const defaultVisConfig = appService.getImplementLayerDefaultVis(type);
-          const values = {
-            sourceConfig: {} as LayerSchema['sourceConfig'],
-            visConfig: defaultVisConfig,
-          };
-          // 更新可视化类型
-          setVisType(type);
-          // 设置表单默认值
-          setInitialValues(values);
+          handleVisTypeChange(type);
         });
       },
     });
@@ -110,10 +123,10 @@ const LayerForm: React.FC<LayerFormProps> = ({ className, config, onChange }) =>
       {/* 坐标配置和样式配置 */}
       {implementLayer && (
         <StyleForm
-          initialValues={initialValues}
+          initialValues={initialStyleValue}
           implementLayer={implementLayer}
           datasetFields={datasetFieldList}
-          onChange={handleFormValuesChange}
+          onChange={handleStyleFormValuesChange}
         />
       )}
     </div>

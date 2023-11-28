@@ -4,7 +4,7 @@ import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { InputNumber, Slider as AntdSlider } from 'antd';
 import type { SliderSingleProps } from 'antd/lib/slider';
 import cls from 'classnames';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import useStyle from './style';
 
 const defaultConfig = {
@@ -20,9 +20,10 @@ const InternalSlider: React.FC<SliderSingleProps> = (props) => {
 
   const [sliderVal, setSliderVal] = useState<number>(config.value ?? 0);
 
-  useEffect(() => {
-    props.onChange?.(sliderVal);
-  }, [sliderVal]);
+  const onValueChange = (value: number) => {
+    setSliderVal(value);
+    props.onChange?.(value);
+  };
 
   return wrapSSR(
     <div className={cls(`${prefixCls}`, hashId)}>
@@ -31,7 +32,7 @@ const InternalSlider: React.FC<SliderSingleProps> = (props) => {
         {...config}
         value={sliderVal}
         onChange={(val) => {
-          setSliderVal(val);
+          onValueChange(val);
         }}
       />
       <InputNumber
@@ -41,11 +42,11 @@ const InternalSlider: React.FC<SliderSingleProps> = (props) => {
         step={config.step || 1}
         value={sliderVal}
         onChange={(val) => {
-          setSliderVal(Number(val));
+          onValueChange(Number(val));
         }}
         onBlur={() => {
           if (!props.value) {
-            setSliderVal(0);
+            onValueChange(0);
           }
         }}
       />
