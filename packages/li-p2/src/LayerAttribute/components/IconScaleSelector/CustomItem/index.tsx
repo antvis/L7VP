@@ -3,8 +3,8 @@ import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { Button, Popover, Select } from 'antd';
 import cls from 'classnames';
 import React, { useState } from 'react';
-import type { CustomMappingDataItem, IconItem, IconList } from '../type';
 import IconPanel from '../IconPanel';
+import type { CustomMappingDataItem, IconItem, IconList } from '../type';
 import useStyle from './style';
 
 type CustomItemProps = {
@@ -69,11 +69,7 @@ const CustomItem = (props: CustomItemProps) => {
             setOpen(_open);
           }}
         >
-          <img
-            className={cls(`${prefixCls}__icon__img`, hashId)}
-            src={defaultValue.url}
-            onClick={() => setOpen(true)}
-          />
+          <img className={cls(`${prefixCls}__icon__img`, hashId)} src={defaultValue.url} />
         </Popover>
       </div>
       <div className={cls(`${prefixCls}__value`, hashId)}>
