@@ -2,14 +2,14 @@
 toc: content
 order: 9
 group:
-  title: formily 组件
-  order: 1
+  title: 图层属性组件
+  order: 2
 nav:
   title: 组件
   path: /components
 ---
 
-# icon 自定义
+# 图标划分组件 - IconScaleSelector
 
 ## 介绍
 

@@ -9,7 +9,7 @@ nav:
   path: /components
 ---
 
-# Control 放置位置 - ControlPositionSelect
+# 控件选择器 - ControlPositionSelect
 
 ## 介绍
 

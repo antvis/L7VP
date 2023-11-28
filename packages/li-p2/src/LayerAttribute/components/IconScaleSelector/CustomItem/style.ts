@@ -45,7 +45,7 @@ export default genStyleHook('icon-scale-selector-icon-item', (token) => {
 
       '&__icon-popover': {
         width: '250px',
-        maxHeight: '300px',
+        maxHeight: '350px',
         overflowY: 'auto',
       },
 

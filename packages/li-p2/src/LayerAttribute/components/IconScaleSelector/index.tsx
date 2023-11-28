@@ -32,46 +32,48 @@ const Internal = (props: IconScaleSelectorProps) => {
     if (defaultValue && defaultValue.range) {
       return getCustomMappingData(defaultValue);
     }
+    return [];
   }, [defaultValue]);
 
-  const [scaleList, setScaleList] = useState(defaultCustomMappingData || []);
+  const [customMappingIcons, setCustomMappingIcons] = useState(defaultCustomMappingData);
 
   // 是否存在初始值，如果没有进行默认赋值
   useEffect(() => {
     if (!defaultValue || !defaultValue.range) {
       const _defaultVal = getDefaultValue(domain);
-      setScaleList(_defaultVal);
+      setCustomMappingIcons(_defaultVal);
       const scaleValue: IconScaleSelectorValue = getScaleByCustomMappingData(_defaultVal, unknownIcon);
       onChange(scaleValue);
     }
   }, [defaultCustomMappingData, defaultValue]);
 
   const onAddItem = () => {
-    const selectedIcon = scaleList.map((item) => item.id);
-    const _filterBuiltInImageList = BuiltInImageList.filter((item) => !selectedIcon.includes(item.id));
-    setScaleList([
-      ...scaleList,
-      {
-        id: _filterBuiltInImageList[0].id,
-        url: _filterBuiltInImageList[0].url,
+    const selectedIcon = customMappingIcons.map((item) => item.id);
+    const unselectedIcon = BuiltInImageList.filter((item) => !selectedIcon.includes(item.id));
+    const defaultIcon = unselectedIcon[0] || BuiltInImageList[0];
+
+    setCustomMappingIcons((pre) =>
+      pre.concat({
+        id: defaultIcon.id,
+        url: defaultIcon.url,
         value: '',
-        name: _filterBuiltInImageList[0].id,
-      },
-    ]);
+        name: defaultIcon.id,
+      }),
+    );
   };
 
   const onItemChange = (val: CustomMappingDataItem, index: number) => {
-    const _scaleList = scaleList.map((item, _index) => (_index === index ? val : item));
-    setScaleList(_scaleList);
+    const _scaleList = customMappingIcons.map((item, _index) => (_index === index ? val : item));
+    setCustomMappingIcons(_scaleList);
   };
 
   const onItemDelete = (index: number) => {
-    const _scaleList = scaleList.filter((_, _index) => _index !== index);
-    setScaleList(_scaleList);
+    const _scaleList = customMappingIcons.filter((_, _index) => _index !== index);
+    setCustomMappingIcons(_scaleList);
   };
 
   const onSubmit = () => {
-    const scaleValue: IconScaleSelectorValue = getScaleByCustomMappingData(scaleList, unknownIcon);
+    const scaleValue = getScaleByCustomMappingData(customMappingIcons, unknownIcon);
     onChange(scaleValue);
     setOpen(false);
   };
@@ -85,11 +87,11 @@ const Internal = (props: IconScaleSelectorProps) => {
   }, [domain]);
 
   const selectedIconList = useMemo(() => {
-    if (!scaleList) {
+    if (!customMappingIcons) {
       return [];
     }
-    return [{ value: 'selectedIcon', label: scaleList.map((item) => item.url) }];
-  }, [scaleList]);
+    return [{ value: 'selectedIcon', label: customMappingIcons.map((item) => item.url) }];
+  }, [customMappingIcons]);
 
   return wrapSSR(
     <Select
@@ -99,8 +101,8 @@ const Internal = (props: IconScaleSelectorProps) => {
       dropdownRender={() => {
         return (
           <>
-            {scaleList?.map((item: CustomMappingDataItem, index: number) => {
-              const selected = scaleList.map((icon) => {
+            {customMappingIcons?.map((item: CustomMappingDataItem, index: number) => {
+              const selected = customMappingIcons.map((icon) => {
                 if (icon.value !== item.value) {
                   return icon.value;
                 }
@@ -113,7 +115,7 @@ const Internal = (props: IconScaleSelectorProps) => {
                     key={item.id}
                     size="small"
                     value={item}
-                    disabled={scaleList.length <= 1}
+                    disabled={customMappingIcons.length <= 1}
                     iconList={DEFAULT_ICON_CATEGORY}
                     fieldList={_options}
                     onChange={(val: CustomMappingDataItem) => onItemChange(val, index)}
@@ -146,8 +148,8 @@ const Internal = (props: IconScaleSelectorProps) => {
       {selectedIconList.map((item) => {
         return (
           <Select.Option key={item.value} value={item.value}>
-            {item.label.map((icon) => (
-              <img src={icon} />
+            {item.label.map((icon, index) => (
+              <img src={icon} key={index} />
             ))}
           </Select.Option>
         );
