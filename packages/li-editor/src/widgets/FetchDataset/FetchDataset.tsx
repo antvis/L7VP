@@ -7,6 +7,7 @@ import DynamicFormItem from './DynamicFormItem';
 import './FetchDataset.less';
 import { getProperties } from './helper';
 import type { FetchDatasetConfig } from './types';
+import ProcessingFunction from './ProcessingFunction';
 
 type FetchDatasetProps = ImplementEditorAddDatasetWidgetProps;
 
@@ -18,8 +19,18 @@ export default function FetchDataset(props: FetchDatasetProps) {
   const implementDatasetService = appService.getImplementService('GET_FETCH_DATA_LIST');
   const canAddDataset = datasetConfig && datasetConfig.name && datasetConfig.url && datasetConfig.method;
 
-  const onFormChange = (_: any, allValues: FetchDatasetConfig) => {
-    setDatasetConfig(allValues);
+  const onFormChange = (
+    _: any,
+    allValues: FetchDatasetConfig & {
+      processingFunction: {
+        onComplete?: { type: 'JSFunction'; value: string };
+        onError?: { type: 'JSFunction'; value: string };
+      };
+    },
+  ) => {
+    const { processingFunction, ...others } = allValues;
+    const { onComplete, onError } = processingFunction;
+    setDatasetConfig({ ...others, onComplete, onError });
   };
 
   const onAddTileset = async () => {
@@ -83,6 +94,10 @@ export default function FetchDataset(props: FetchDatasetProps) {
 
           <Form.Item label="请求头信息" name="headers">
             <DynamicFormItem fieldName="headers" />
+          </Form.Item>
+
+          <Form.Item label="数据处理函数" name="processingFunction" style={{ height: 200 }}>
+            <ProcessingFunction />
           </Form.Item>
         </Form>
       </div>
