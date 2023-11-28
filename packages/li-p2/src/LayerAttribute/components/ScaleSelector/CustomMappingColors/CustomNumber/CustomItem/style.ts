@@ -1,13 +1,13 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
-export default genStyleHook('scale-selector__custom-content__custom-item', (token) => {
-  const { componentCls, antCls, colorInfoTextHover, controlItemBgHover } = token;
+export default genStyleHook('scale-selector__custom-content__custom-number__input', (token) => {
+  const { componentCls, antCls, colorTextDescription } = token;
 
   return {
     [componentCls]: {
       display: 'flex',
       alignItems: 'center',
-      padding: '3px 2px',
+      padding: '5px 0',
       borderRadius: '4px',
 
       [`${componentCls}__infor`]: {
@@ -18,7 +18,7 @@ export default genStyleHook('scale-selector__custom-content__custom-item', (toke
         cursor: 'pointer',
 
         '&__color': {
-          width: '32px',
+          width: '18px',
           height: '18px',
         },
 
@@ -26,27 +26,19 @@ export default genStyleHook('scale-selector__custom-content__custom-item', (toke
           flex: 1,
           width: '100%',
           overflow: 'hidden',
+          margin: '0 3px',
         },
 
         '&__delete-icon': {
           width: '14px',
-        },
-
-        '&__delete-icon:hover': {
-          color: colorInfoTextHover,
+          padding: 0,
+          color: colorTextDescription,
         },
       },
     },
 
     [`${antCls}-select-dropdown`]: {
       zIndex: 1,
-    },
-
-    [`${componentCls}:hover`]: {
-      background: controlItemBgHover,
-      [`${componentCls}__drag-icon`]: {
-        opacity: 1,
-      },
     },
 
     '.ant-popover': {

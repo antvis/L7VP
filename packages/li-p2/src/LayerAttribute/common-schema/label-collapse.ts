@@ -58,7 +58,7 @@ export default (options: AttributeSchemaOptions) => {
           labelStroke: {
             type: 'string',
             title: '描边颜色',
-            default: '#fff',
+            default: '#606060',
             'x-decorator': 'FormItem',
             'x-component': 'ColorPicker',
             'x-decorator-props': {},
@@ -67,13 +67,14 @@ export default (options: AttributeSchemaOptions) => {
           labelStrokeWidth: {
             type: 'number',
             title: '描边宽度',
-            default: 1,
+            default: 0.5,
             'x-decorator': 'FormItem',
             'x-component': 'Slider',
             'x-component-props': {
               placeholder: '描边宽度',
               min: 0,
               max: 5,
+              step: 0.5,
             },
             'x-decorator-props': {},
           },

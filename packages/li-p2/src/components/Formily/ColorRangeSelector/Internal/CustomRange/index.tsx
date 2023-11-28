@@ -88,19 +88,21 @@ const CustomRange = (props: CustomRangeProps) => {
         ))}
       </div>
 
-      <DndProvider backend={HTML5Backend}>
-        {ranges.map((rangeItem: RangeItemType, index: string | number) => (
-          <RangeItem
-            onChangeSort={onChangeSort}
-            index={index}
-            id={rangeItem.id}
-            key={`drag_card${index}`}
-            color={rangeItem.value}
-            onDelete={() => deletePaletteRangeItem(rangeItem.id)}
-            onChange={(color: string) => onChangePaletteRangeItem({ id: rangeItem.id, value: color })}
-          />
-        ))}
-      </DndProvider>
+      <div className={`${prefixCls}__custon-item`}>
+        <DndProvider backend={HTML5Backend}>
+          {ranges.map((rangeItem: RangeItemType, index: string | number) => (
+            <RangeItem
+              onChangeSort={onChangeSort}
+              index={index}
+              id={rangeItem.id}
+              key={`drag_card${index}`}
+              color={rangeItem.value}
+              onDelete={() => deletePaletteRangeItem(rangeItem.id)}
+              onChange={(color: string) => onChangePaletteRangeItem({ id: rangeItem.id, value: color })}
+            />
+          ))}
+        </DndProvider>
+      </div>
 
       <div onClick={addPaletteRangeItem} className={`${prefixCls}__add-range-item`}>
         <PlusOutlined /> 添加

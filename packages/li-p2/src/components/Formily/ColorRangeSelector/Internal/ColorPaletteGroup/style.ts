@@ -5,6 +5,9 @@ export default genStyleHook('formily-color-range-selector__color-palette-group',
 
   return {
     [componentCls]: {
+      maxHeight: '200px',
+      overflowY: 'auto',
+
       '&__item': {
         display: 'flex',
         alignItems: 'center',

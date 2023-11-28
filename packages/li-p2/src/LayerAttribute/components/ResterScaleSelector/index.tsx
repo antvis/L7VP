@@ -1,6 +1,6 @@
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { connect } from '@formily/react';
-import { Select } from 'antd';
+import { Divider, Select } from 'antd';
 import cls from 'classnames';
 import React, { useMemo, useState } from 'react';
 import { DEHAULT_OPTIONS } from './constants';
@@ -89,13 +89,16 @@ const Internal = (props: ScaleSelectorProp) => {
             })}
 
             {selectedType !== 'quantize' && customMappingData && (
-              <CustomMappingColor
-                className={`${prefixCls}-customcontent`}
-                type={selectedType}
-                domain={domain}
-                value={customMappingData}
-                onChange={(ranges: CustomMappingData) => onValueChange(ranges)}
-              />
+              <>
+                <Divider style={{ margin: '10px 0' }} />
+                <CustomMappingColor
+                  className={`${prefixCls}-customcontent`}
+                  type={selectedType}
+                  domain={domain}
+                  value={customMappingData}
+                  onChange={(ranges: CustomMappingData) => onValueChange(ranges)}
+                />
+              </>
             )}
           </div>
         );
