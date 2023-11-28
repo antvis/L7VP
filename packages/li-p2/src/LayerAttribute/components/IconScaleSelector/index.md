@@ -1,22 +1,22 @@
 ---
 toc: content
-order: 3
+order: 9
 group:
-  title: formily 组件
-  order: 1
+  title: 图层属性组件
+  order: 2
 nav:
   title: 组件
   path: /components
 ---
 
-# 控件选择器 - ControlPositionSelect
+# 图标划分组件 - IconScaleSelector
 
 ## 介绍
-
-用于地图上的控件组件的显示位置选择
 
 ## 代码演示
 
 ### 默认示例
 
 <code src="./demos/default.tsx"></code>
+
+<API></API>

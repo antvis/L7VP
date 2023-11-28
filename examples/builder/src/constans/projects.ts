@@ -961,6 +961,297 @@ const EMPTY__ANALYSIS_APP: Application = {
   },
 };
 
+const MARINE_PROTECTED_AREA: Application = {
+  version: 'v0.1',
+  metadata: {
+    name: '海洋保护区分布',
+    creatTime: '2022-12-16 16:04:51',
+    description:
+      '可视化中国海洋保护区地域分布，海洋保护区分类为：水产种质资源保护区、海洋自然保护区、海洋公园、特别海洋保护区的。',
+  },
+  datasets: [
+    {
+      id: 'online-map-of-Marine-protected-areas',
+      type: 'remote',
+      metadata: {
+        name: '海洋保护区分布',
+      },
+      serviceType: 'GET_FETCH_DATA_LIST',
+      properties: {
+        url: 'https://mdn.alipayobjects.com/afts/file/A*h9yGTqniQlIAAAAAAAAAAAAADrd2AQ/china',
+        requestOptions: {
+          method: 'GET',
+          headers: {},
+        },
+      },
+    },
+  ],
+  spec: {
+    map: {
+      basemap: 'Gaode',
+      config: {
+        zoom: 4,
+        center: [120.328893, 30.795482],
+        pitch: 15,
+        bearing: 0,
+        style: 'dark',
+        WebGLParams: {
+          preserveDrawingBuffer: true,
+        },
+        rotation: 0,
+        viewMode: '2D',
+        dragRotate: true,
+        pitchWithRotate: true,
+      },
+      logoPosition: 'leftbottom',
+    },
+    layers: [
+      {
+        id: 'IconLayer_online-map-of-Marine-protected-areas',
+        type: 'IconLayer',
+        metadata: {
+          name: '海洋保护区图层',
+        },
+        sourceConfig: {
+          parser: {
+            type: 'json',
+            x: 'Longitude',
+            y: 'Latitude',
+          },
+          datasetId: 'online-map-of-Marine-protected-areas',
+        },
+        visConfig: {
+          blend: 'normal',
+          icon: {
+            field: 'Type',
+            value: ['other_aquatic-germplasm-reserve', 'other_marine-nature-reserves'],
+            scale: {
+              type: 'cat',
+              domain: ['Aquatic Germplasm Reserve', 'Marine Nature Reserves'],
+              unknown: 'unknown_icon'
+            }
+          },
+          iconAtlas: {
+            "landmark_park": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*JZf9T6psSzkAAAAAAAAAAAAADmJ7AQ/original",
+            "landmark_fire-station": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*lKIITZAG_PcAAAAAAAAAAAAADmJ7AQ/original",
+            "landmark-coffee": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*uHYERpUeZ_MAAAAAAAAAAAAADmJ7AQ/original",
+            "landmark_supermarket": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*p2rgTYaHGdkAAAAAAAAAAAAADmJ7AQ/original",
+            "landmark_zoo": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ElxdRIYcsS0AAAAAAAAAAAAADmJ7AQ/original",
+            "landmark_railway-station": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*5Wg1TIbcCcYAAAAAAAAAAAAADmJ7AQ/original",
+            "landmark-mall": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*jjynQJDfKigAAAAAAAAAAAAADmJ7AQ/original",
+            "landmark_nosocomium": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*weuqSamNRnUAAAAAAAAAAAAADmJ7AQ/original",
+            "landmark_library": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*XB8vR7azNvgAAAAAAAAAAAAADmJ7AQ/original",
+            "landmark_bus-stop": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*LrCnSr8FeToAAAAAAAAAAAAADmJ7AQ/original",
+            "landmark_cinemas": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*OGFDT4Vyoz4AAAAAAAAAAAAADmJ7AQ/original",
+            "landmark_dwelling": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*oxcETa4MKgwAAAAAAAAAAAAADmJ7AQ/original",
+            "landmark_bank": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sWHeRrJvTesAAAAAAAAAAAAADmJ7AQ/original",
+            "landmark_cinema": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*uCdPTZrfSqIAAAAAAAAAAAAADmJ7AQ/original",
+            "landmark_amusement-park": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*SIU-R7jDaLAAAAAAAAAAAAAADmJ7AQ/original",
+            "weather_sunny": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*polsQa3R6UgAAAAAAAAAAAAADmJ7AQ/original",
+            "weather_cloudy": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*xOD4SIwHAMcAAAAAAAAAAAAADmJ7AQ/original",
+            "weather_cloudy-day": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*wMJISZvc_1EAAAAAAAAAAAAADmJ7AQ/original",
+            "weather_sand": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*4nNTRYMV-iwAAAAAAAAAAAAADmJ7AQ/original",
+            "weather_tornado": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ldyiQpgiJlYAAAAAAAAAAAAADmJ7AQ/original",
+            "weather_rainstorm": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*E5JkRLtSzZYAAAAAAAAAAAAADmJ7AQ/original",
+            "weather_spit": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*nxwXSo_PR2sAAAAAAAAAAAAADmJ7AQ/original",
+            "weather_moderate-rain": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*4yRYRI3AwowAAAAAAAAAAAAADmJ7AQ/original",
+            "weather_heavy-rain": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*UeChTbbwvloAAAAAAAAAAAAADmJ7AQ/original",
+            "weather_sleet": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*zi53Rp5hWMIAAAAAAAAAAAAADmJ7AQ/original",
+            "weather_light-snow": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*F-w5Qas4Np4AAAAAAAAAAAAADmJ7AQ/original",
+            "weather_moderate-snow": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*GHisS4y9ynMAAAAAAAAAAAAADmJ7AQ/original",
+            "fire_fighting-car": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*zUjqQYt67SgAAAAAAAAAAAAADmJ7AQ/original",
+            "fire_fighting-tied": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*iI5fSpCQWp0AAAAAAAAAAAAADmJ7AQ/original",
+            "fire_fighting-extinguisher": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*vIadR56-pKMAAAAAAAAAAAAADmJ7AQ/original",
+            "fire_fighting-water-pump": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*TFzHSLnqc9gAAAAAAAAAAAAADmJ7AQ/original",
+            "fire_fighting-pump-room": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*bWYLQqc8sTIAAAAAAAAAAAAADmJ7AQ/original",
+            "other_aquatic-germplasm-reserve": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sSbCRKP1RsgAAAAAAAAAAAAADmJ7AQ/original",
+            "other_marine-nature-reserves": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*dPoYQoBq4f0AAAAAAAAAAAAADmJ7AQ/original",
+            "other_marine-park": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*on7pR5VRjHsAAAAAAAAAAAAADmJ7AQ/original",
+            "other_special-marinep-protected-areas": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*DulySrR5zuwAAAAAAAAAAAAADmJ7AQ/original",
+            'unknown_icon': 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*EcQZS6JM69EAAAAAAAAAAAAADmJ7AQ/original'
+          },
+          iconStyle: {
+            opacity: 0.9,
+          },
+          label: {
+            field: undefined,
+            style: { fill: '#ff0025', fontSize: 12, textAnchor: 'center', textOffset: [0, 0] },
+            visible: false,
+          },
+          maxZoom: 24,
+          minZoom: 0,
+          radius: 10,
+          state: {
+            active: false,
+          },
+          visible: true,
+        },
+      },
+    ],
+    widgets: [
+      {
+        id: 'AnalysisLayout',
+        type: 'AnalysisLayout',
+        metadata: {
+          name: '布局组件',
+        },
+        properties: {
+          showFloatPanel: false,
+          showSidePanel: false,
+          showBottomPanel: false,
+        },
+      },
+      {
+        id: 'LocationSearchControl1',
+        type: 'LocationSearchControl',
+        metadata: {
+          name: '位置查询',
+        },
+        properties: {
+          position: 'lefttop',
+        },
+        container: {
+          id: 'AnalysisLayout',
+          slot: 'controls',
+        },
+      },
+      {
+        id: 'ZoomControl1',
+        type: 'ZoomControl',
+        metadata: {
+          name: '缩放器',
+        },
+        properties: {
+          position: 'bottomright',
+        },
+        container: {
+          id: 'AnalysisLayout',
+          slot: 'controls',
+        },
+      },
+      {
+        id: 'FullscreenControl1',
+        type: 'FullscreenControl',
+        metadata: {
+          name: '地图全屏',
+        },
+        properties: {
+          position: 'topright',
+        },
+        container: {
+          id: 'AnalysisLayout',
+          slot: 'controls',
+        },
+      },
+      {
+        id: 'MapViewSettingControl1',
+        type: 'MapViewSettingControl',
+        metadata: {
+          name: '地图倾角',
+        },
+        properties: {
+          position: 'topright',
+        },
+        container: {
+          id: 'AnalysisLayout',
+          slot: 'controls',
+        },
+      },
+      {
+        id: 'LegendWidget1',
+        type: 'LegendWidget',
+        metadata: {
+          name: '图例组件',
+        },
+        properties: {
+          position: 'topright',
+          open: false,
+        },
+        container: {
+          id: 'AnalysisLayout',
+          slot: 'controls',
+        },
+      },
+      {
+        id: 'MapThemeControl2',
+        type: 'MapThemeControl',
+        metadata: {
+          name: '地图主题',
+        },
+        properties: {
+          position: 'bottomright',
+        },
+        container: {
+          id: 'AnalysisLayout',
+          slot: 'controls',
+        },
+      },
+      {
+        id: 'MouseLocationControl4',
+        type: 'MouseLocationControl',
+        metadata: {
+          name: '光标经纬度',
+        },
+        properties: {
+          position: 'bottomleft',
+        },
+        container: {
+          id: 'AnalysisLayout',
+          slot: 'controls',
+        },
+      },
+      {
+        id: 'ScaleControl3',
+        type: 'ScaleControl',
+        metadata: {
+          name: '比例尺',
+        },
+        properties: {
+          position: 'bottomleft',
+        },
+        container: {
+          id: 'AnalysisLayout',
+          slot: 'controls',
+        },
+      },
+      {
+        id: 'LayerPopup',
+        type: 'LayerPopup',
+        metadata: {
+          name: '图层信息框',
+        },
+        properties: {
+          isOpen: true,
+          trigger: 'hover',
+          items: [
+            {
+              layerId: 'IconLayer_online-map-of-Marine-protected-areas',
+              fields: [
+                {
+                  field: 'ChineseName',
+                },
+                {
+                  field: 'Type',
+                },
+                {
+                  field: 'Province',
+                },
+                {
+                  field: 'Sea',
+                },
+              ],
+            },
+          ],
+        },
+        container: {
+          id: 'AnalysisLayout',
+          slot: 'controls',
+        },
+      },
+    ],
+  },
+}
+
 export const DEFAULT_PROJECTS: Project[] = [
   {
     projectName: '地震等级与震深可视化',
@@ -968,6 +1259,13 @@ export const DEFAULT_PROJECTS: Project[] = [
     projectId: '0001',
     creatTime: '2022-09-19 16:29:09',
     applicationConfig: cloneDeep(DEFAULT_ANALYSIS_APP),
+  },
+  {
+    projectName: '海洋保区区在线地图',
+    description: '海洋保区区在线地图',
+    projectId: '0003',
+    creatTime: '2022-09-19 16:30:09',
+    applicationConfig: cloneDeep(MARINE_PROTECTED_AREA),
   },
   {
     projectName: 'Empty 可视分析项目',

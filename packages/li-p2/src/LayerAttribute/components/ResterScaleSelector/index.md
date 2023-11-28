@@ -2,14 +2,14 @@
 toc: content
 order: 9
 group:
-  title: formily 组件
-  order: 1
+  title: 图层属性组件
+  order: 2
 nav:
   title: 组件
   path: /components
 ---
 
-# 栅格图层颜色划分组件
+# 删格颜色划分组件 - ResterScaleSelector
 
 ## 介绍
 
