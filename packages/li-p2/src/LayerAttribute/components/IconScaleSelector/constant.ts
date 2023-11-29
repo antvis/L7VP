@@ -82,6 +82,41 @@ export const DEFAULT_ICON_CATEGORY: IconList = [
     ],
   },
   {
+    type: '标记',
+    icons: [
+      {
+        id: 'flag_red',
+        name: '红色旗帜',
+        url: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*CHCXT7F_3YkAAAAAAAAAAAAADmJ7AQ/original',
+      },
+      {
+        id: 'flag_yellow',
+        name: '黄色旗帜',
+        url: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*8yZhRYZ-PpAAAAAAAAAAAAAADmJ7AQ/original',
+      },
+      {
+        id: 'flag_green',
+        name: '绿色旗帜',
+        url: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*e58jSpHWmr0AAAAAAAAAAAAADmJ7AQ/original',
+      },
+      {
+        id: 'flag_blue',
+        name: '蓝色旗帜',
+        url: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*vPCVQazLoUcAAAAAAAAAAAAADmJ7AQ/original',
+      },
+      {
+        id: 'markers_warn',
+        name: '警告',
+        url: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*MxBbQZx5byoAAAAAAAAAAAAADmJ7AQ/original',
+      },
+      {
+        id: 'markers_query',
+        name: '疑问',
+        url: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*QfWGQ7fzkrcAAAAAAAAAAAAADmJ7AQ/original',
+      },
+    ],
+  },
+  {
     type: '天气',
     icons: [
       {
@@ -177,41 +212,6 @@ export const DEFAULT_ICON_CATEGORY: IconList = [
         id: 'fire_fighting-pump-room',
         name: '消防泵房',
         url: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*bWYLQqc8sTIAAAAAAAAAAAAADmJ7AQ/original',
-      },
-    ],
-  },
-  {
-    type: '标记',
-    icons: [
-      {
-        id: 'flag_red',
-        name: '红色',
-        url: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*CHCXT7F_3YkAAAAAAAAAAAAADmJ7AQ/original',
-      },
-      {
-        id: 'flag_yellow',
-        name: '黄色',
-        url: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*8yZhRYZ-PpAAAAAAAAAAAAAADmJ7AQ/original',
-      },
-      {
-        id: 'flag_green',
-        name: '绿色',
-        url: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*e58jSpHWmr0AAAAAAAAAAAAADmJ7AQ/original',
-      },
-      {
-        id: 'flag_blue',
-        name: '蓝色',
-        url: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*vPCVQazLoUcAAAAAAAAAAAAADmJ7AQ/original',
-      },
-      {
-        id: 'markers_warn',
-        name: '警告',
-        url: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*MxBbQZx5byoAAAAAAAAAAAAADmJ7AQ/original',
-      },
-      {
-        id: 'markers_query',
-        name: '疑问',
-        url: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*QfWGQ7fzkrcAAAAAAAAAAAAADmJ7AQ/original',
       },
     ],
   },
