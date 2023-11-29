@@ -181,7 +181,7 @@ export const DEFAULT_ICON_CATEGORY: IconList = [
     ],
   },
   {
-    type: '旗帜',
+    type: '标记',
     icons: [
       {
         id: 'flag_red',
@@ -203,12 +203,6 @@ export const DEFAULT_ICON_CATEGORY: IconList = [
         name: '蓝色',
         url: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*vPCVQazLoUcAAAAAAAAAAAAADmJ7AQ/original',
       },
-    ],
-  },
-
-  {
-    type: '标记',
-    icons: [
       {
         id: 'markers_warn',
         name: '警告',
