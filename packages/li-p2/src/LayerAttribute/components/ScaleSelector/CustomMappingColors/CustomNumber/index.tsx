@@ -9,39 +9,53 @@ import useStyle from './style';
 
 type CustomNumberProps = {
   value: CustomMappingColorItem[];
+  domain: [number, number];
   onChange: (value: CustomMappingColorItem[]) => void;
   className?: string;
 };
 
 const CustomNumber = (props: CustomNumberProps) => {
-  const { value: defaultValue = [], onChange, className } = props;
+  const { value: defaultValue = [], domain, onChange, className } = props;
   const prefixCls = usePrefixCls('formily-color-range-selector__custom-number');
   const [wrapSSR, hashId] = useStyle(prefixCls);
 
   const addPaletteRangeItem = () => {
-    const _item = defaultValue[defaultValue.length - 2];
-    const min = Number(_item.value[0]);
-    const _interval = Number(((Number(_item.value[1]) - Number(_item.value[0])) / 2).toFixed(2));
-    const _range = [min, Number((_interval + min).toFixed(2)), Number(_item.value[1])];
+    // 初始为0
+    if (defaultValue.length === 0) {
+      const _medianValue = Number(((Number(domain[1]) - Number(domain[0])) / 2).toFixed(2));
+      const addList: CustomMappingColorItem[] = [
+        {
+          id: uniqueId(),
+          value: [-Infinity, _medianValue],
+          color: '#5B8FF9',
+        },
+        {
+          id: uniqueId(),
+          value: [_medianValue, Infinity],
+          color: '#5B8FF9',
+        },
+      ];
+      return onChange(addList);
+    }
+
+    const _domain: [number, number] = [Number(defaultValue[defaultValue.length - 1].value[0]), domain[1]];
+    const _medianValue: number = Number(((Number(_domain[1]) - Number(_domain[0])) / 2).toFixed(2));
+    const ranges = [Number((_medianValue + _domain[0]).toFixed(2)), Number(_domain[1])];
 
     const addList: CustomMappingColorItem[] = [
       {
-        id: _item.id,
-        value: [_range[0], _range[1]],
-        color: _item.color ?? '#5B8FF9',
-      },
-      {
         id: defaultValue[defaultValue.length - 1].id,
-        value: [_range[1], _range[2]],
+        value: [_domain[0], ranges[1]],
         color: defaultValue[defaultValue.length - 1].color ?? '#5B8FF9',
       },
       {
         id: uniqueId(),
-        value: [_range[2], Infinity],
+        value: [ranges[1], Infinity],
         color: defaultValue[defaultValue.length - 1].color ?? '#5B8FF9',
       },
     ];
-    const list = [...defaultValue.slice(0, -2), ...addList];
+
+    const list = [...defaultValue.slice(0, -1), ...addList];
     onChange(list);
   };
 
@@ -115,8 +129,9 @@ const CustomNumber = (props: CustomNumberProps) => {
     <div className={classnames(`${prefixCls}`, hashId, className)}>
       {defaultValue.map((customItem: CustomMappingColorItem, index: number) => {
         const position = index === 0 ? 'first' : index === defaultValue.length - 1 ? 'last' : null;
+        console.log(position, 'position');
         const _min = position === 'first' ? -Infinity : (defaultValue[index - 1].value[1] as number);
-        const _max = position === 'last' ? Infinity : defaultValue[index + 1].value[1];
+        const _max = position === 'last' ? Infinity : defaultValue[index + 1]?.value?.[1];
 
         return (
           <CustomItem
@@ -126,7 +141,7 @@ const CustomNumber = (props: CustomNumberProps) => {
             min={_min as number}
             max={_max as number}
             position={position}
-            delDisable={defaultValue.length <= 3}
+            delDisable={defaultValue.length <= 2}
             onDelete={() => deletePaletteRangeItem(index, position)}
             onChange={(value: (string | number)[], color: string) => onChangePaletteRangeItem(value, color, index)}
           />

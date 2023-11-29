@@ -34,28 +34,42 @@ export const parserLegendData = (layer: Layer) => {
   }
 
   // 如果是图标图层
-  if (
-    layer.type === 'iconImageLayer' &&
-    layer.options?.icon?.field &&
-    layer.options?.iconAtlas &&
-    layer.options?.icon?.value
-  ) {
-    const iconAtlas = layer.options.iconAtlas;
+  if (layer.type === 'iconImageLayer') {
+    if (layer.options?.icon?.field && layer.options?.iconAtlas && layer.options?.icon?.value) {
+      const iconAtlas = layer.options.iconAtlas;
 
-    const icons = layer.options.icon.value.map((item: string) => iconAtlas[item]);
+      const icons = layer.options.icon.value.map((item: string) => iconAtlas[item]);
 
-    const data: LegendIconData = {
-      type: 'LegendIcon',
-      name,
-      layer,
-      visible: true,
-      data: {
-        labels: layer.options.icon.scale.domain,
-        icons,
-      },
-    };
+      const data: LegendIconData = {
+        type: 'LegendIcon',
+        name,
+        layer,
+        visible: true,
+        data: {
+          labels: layer.options.icon.scale.domain,
+          icons,
+        },
+      };
 
-    return data;
+      return data;
+    } else {
+      const iconAtlas = layer.options.iconAtlas;
+
+      const icons = [iconAtlas[layer.options.icon]];
+
+      const data: LegendIconData = {
+        type: 'LegendIcon',
+        name,
+        layer,
+        visible: true,
+        data: {
+          labels: [''],
+          icons,
+        },
+      };
+
+      return data;
+    }
   }
 
   let legendData: ILegend;
