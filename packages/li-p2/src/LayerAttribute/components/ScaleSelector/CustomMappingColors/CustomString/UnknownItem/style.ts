@@ -1,7 +1,7 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
-export default genStyleHook('scale-selector__custom-string', (token) => {
-  const { componentCls, antCls, colorInfoTextHover } = token;
+export default genStyleHook('scale-selector__custom-string-unknown', (token) => {
+  const { componentCls, antCls, colorBorder, lineType, borderRadius } = token;
 
   return {
     [componentCls]: {
@@ -20,7 +20,8 @@ export default genStyleHook('scale-selector__custom-string', (token) => {
         '&__color': {
           width: '18px',
           height: '18px',
-          borderRadius: '4px',
+          border: `1px ${colorBorder} ${lineType}`,
+          borderRadius: `${borderRadius}px`,
         },
 
         '&__content': {
@@ -32,10 +33,6 @@ export default genStyleHook('scale-selector__custom-string', (token) => {
 
         '&__delete-icon': {
           width: '14px',
-        },
-
-        '&__delete-icon:hover': {
-          color: colorInfoTextHover,
         },
       },
     },

@@ -140,6 +140,7 @@ const Internal = (props: ScaleSelectorProp) => {
                   dataType={dataType}
                   domain={domain}
                   value={customMappingData}
+                  unknown={value?.unknown}
                   onChange={(ranges: CustomMappingData) => onValueChange(ranges)}
                 />
               </>

@@ -13,6 +13,7 @@ export const lineLayerStyleFlatToConfig = (style: Record<string, any>) => {
           ? {
               type: style.fillColorScale.type,
               domain: style.fillColorScale.domain,
+              unknown: style.fillColorScale.unknown,
             }
           : {
               type: style.fillColorScale.type,
@@ -66,6 +67,7 @@ export const lineLayerStyleConfigToFlat = (styleConfig: LineLayerStyleAttributeV
           type: color?.scale?.type,
           domain: color?.scale?.domain,
           range: color?.value,
+          unknown: color?.scale?.unknown,
           isCustom,
         }
       : undefined;

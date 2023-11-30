@@ -38,9 +38,10 @@ const CustomNumber = (props: CustomNumberProps) => {
       return onChange(addList);
     }
 
-    const _domain: [number, number] = [Number(defaultValue[defaultValue.length - 1].value[0]), domain[1]];
+    const _domain: [number, number] =
+      defaultValue.length === 1 ? domain : [Number(defaultValue[defaultValue.length - 1].value[0]), domain[1]];
     const _medianValue: number = Number(((Number(_domain[1]) - Number(_domain[0])) / 2).toFixed(2));
-    const ranges = [Number((_medianValue + _domain[0]).toFixed(2)), Number(_domain[1])];
+    const ranges = [Number(_domain[0]), Number((_medianValue + _domain[0]).toFixed(2))];
 
     const addList: CustomMappingColorItem[] = [
       {
@@ -56,6 +57,7 @@ const CustomNumber = (props: CustomNumberProps) => {
     ];
 
     const list = [...defaultValue.slice(0, -1), ...addList];
+
     onChange(list);
   };
 
@@ -129,8 +131,7 @@ const CustomNumber = (props: CustomNumberProps) => {
     <div className={classnames(`${prefixCls}`, hashId, className)}>
       {defaultValue.map((customItem: CustomMappingColorItem, index: number) => {
         const position = index === 0 ? 'first' : index === defaultValue.length - 1 ? 'last' : null;
-        console.log(position, 'position');
-        const _min = position === 'first' ? -Infinity : (defaultValue[index - 1].value[1] as number);
+        const _min = position === 'first' ? -Infinity : (defaultValue[index - 1].value[0] as number);
         const _max = position === 'last' ? Infinity : defaultValue[index + 1]?.value?.[1];
 
         return (

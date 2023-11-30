@@ -68,7 +68,7 @@ export const getDefaultValue = (
 
 // 通过自定义颜色映射转换为 Scale 的数据格式
 export const getScaleByCustomMappingData = (val: CustomMappingData) => {
-  const { type, list } = val;
+  const { type, list, unknown = '#f000' } = val;
 
   if (type === 'number') {
     const range = list.map((item) => item.color);
@@ -90,6 +90,7 @@ export const getScaleByCustomMappingData = (val: CustomMappingData) => {
     type: 'cat',
     domain,
     range,
+    unknown,
   };
 
   return scaleValue;

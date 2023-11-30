@@ -6,16 +6,19 @@ import React, { useMemo } from 'react';
 import type { CustomMappingColorItem } from '../../type';
 import CustomItem from './CustomItem';
 import useStyle from './style';
+import UnknownItem from './UnknownItem';
 
 type CustomStringProps = {
-  domain: string[] | [number, number];
+  domain: string[];
+  unknown: string;
   value: CustomMappingColorItem[];
   onChange: (value: CustomMappingColorItem[]) => void;
+  onUnknownColorChange: (color: string) => void;
   className?: string;
 };
 
 const CustomString = (props: CustomStringProps) => {
-  const { value: defaultValue = [], domain, onChange, className } = props;
+  const { value: defaultValue = [], unknown = '#f000', domain, onChange, onUnknownColorChange, className } = props;
   const prefixCls = usePrefixCls('formily-color-range-selector__custom-string');
   const [wrapSSR, hashId] = useStyle(prefixCls);
 
@@ -79,6 +82,8 @@ const CustomString = (props: CustomStringProps) => {
           />
         );
       })}
+
+      <UnknownItem color={unknown} onChange={onUnknownColorChange} />
 
       <div onClick={addPaletteRangeItem} className={`${prefixCls}__add-range-item`}>
         <PlusOutlined /> 添加

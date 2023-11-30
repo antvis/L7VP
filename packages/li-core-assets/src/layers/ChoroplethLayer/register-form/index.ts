@@ -27,11 +27,6 @@ const fromValues = (values: Record<string, any>): LayerRegisterFormResultType<Ch
   };
   const visConfig = choroplethLayerStyleFlatToConfig(values);
 
-  // TODO: 没有值时置灰
-  if (typeof visConfig.fillColor === 'object' && visConfig.fillColor.scale) {
-    visConfig.fillColor.scale.unknown = '#c0c0c0';
-  }
-
   return {
     sourceConfig,
     visConfig,
