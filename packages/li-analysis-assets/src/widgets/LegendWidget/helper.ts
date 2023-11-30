@@ -122,6 +122,15 @@ export const parserLegendData = (layer: Layer) => {
     const catData = labels
       .map((label, index) => ({ label, color: colors[index] }))
       .sort((a, b) => a.label.localeCompare(b.label, 'zh-CN'));
+    // string 文本自定义的情况，需要展示出其他分类
+    const unknownItem = { label: '其他', color: layer.options.fillColor.scale.unknown };
+    const _labels = unknownItem.color
+      ? [...catData.map((item) => item.label), unknownItem.label]
+      : catData.map((item) => item.label);
+    const _colors = unknownItem.color
+      ? [...catData.map((item) => item.color).filter(Boolean), unknownItem.color]
+      : catData.map((item) => item.color).filter(Boolean);
+
     const data: LegendCategoriesData = {
       type: 'LegendCategories',
       field: field,
@@ -130,8 +139,8 @@ export const parserLegendData = (layer: Layer) => {
       visible: true,
       data: {
         geometryType: 'square',
-        labels: catData.map((item) => item.label),
-        colors: catData.map((item) => item.color).filter(Boolean),
+        labels: _labels,
+        colors: _colors,
       },
     };
 
