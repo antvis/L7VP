@@ -1,7 +1,7 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
 export default genStyleHook('scale-selector__custom-string-unknown', (token) => {
-  const { componentCls, antCls, colorBorder, lineType, borderRadius } = token;
+  const { componentCls, antCls, colorBorder, lineType } = token;
 
   return {
     [componentCls]: {
@@ -21,7 +21,7 @@ export default genStyleHook('scale-selector__custom-string-unknown', (token) => 
           width: '18px',
           height: '18px',
           border: `1px ${colorBorder} ${lineType}`,
-          borderRadius: `${borderRadius}px`,
+          borderRadius: '4px',
         },
 
         '&__content': {

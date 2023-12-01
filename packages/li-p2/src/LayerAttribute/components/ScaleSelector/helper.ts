@@ -79,6 +79,7 @@ export const getScaleByCustomMappingData = (val: CustomMappingData) => {
       type: 'threshold',
       domain: _val,
       range,
+      unknown,
     };
 
     return scaleValue;

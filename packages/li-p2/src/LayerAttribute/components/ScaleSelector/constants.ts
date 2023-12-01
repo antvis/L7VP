@@ -33,3 +33,8 @@ export const DEHAULT_OPTIONS: {
     type: 'number',
   },
 ];
+
+export const DEHAULT_COLORS = {
+  string: ['#bdd7e7', '#6baed6', '#3182bd'],
+  number: ['#ffeda0', '#feb24c', '#f03b20'],
+};

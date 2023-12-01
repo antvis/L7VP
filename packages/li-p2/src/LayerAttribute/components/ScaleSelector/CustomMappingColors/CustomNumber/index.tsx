@@ -28,13 +28,12 @@ const CustomNumber = (props: CustomNumberProps) => {
         {
           id: uniqueId(),
           value: [-Infinity, _medianValue],
-          // TODO 换一个颜色
-          color: '#5B8FF9',
+          color: '#bdd7e7',
         },
         {
           id: uniqueId(),
           value: [_medianValue, Infinity],
-          color: '#5B8FF9',
+          color: '#6baed6',
         },
       ];
 

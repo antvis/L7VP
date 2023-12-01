@@ -4,7 +4,7 @@ import { useUpdateEffect } from 'ahooks';
 import { Divider, Select } from 'antd';
 import cls from 'classnames';
 import React, { useEffect, useMemo, useState } from 'react';
-import { DEHAULT_OPTIONS } from './constants';
+import { DEHAULT_OPTIONS, DEHAULT_COLORS } from './constants';
 import CustomMappingColor from './CustomMappingColors';
 import { getCustomMappingData, getDefaultValue, getScaleByCustomMappingData } from './helper';
 import useStyle from './style';
@@ -35,9 +35,16 @@ type ScaleSelectorProp = {
 
 const Internal = (props: ScaleSelectorProp) => {
   const prefixCls = usePrefixCls('formily-scale-selector');
-  // TODO: dataType string 或 number 设置不同的  defaultColors
-  const { dataType, value, domain = [], defaultColors = ['#f00', '#ff0', '#00f', '#faa'], onChange } = props;
+  const { dataType, value, domain = [], onChange } = props;
   const [wrapSSR, hashId] = useStyle(prefixCls);
+
+  const defaultColors = useMemo(() => {
+    if (props.defaultColors) {
+      return props.defaultColors;
+    }
+
+    return DEHAULT_COLORS[dataType];
+  }, [dataType]);
 
   const customMappingData = useMemo(() => {
     if (value) {
@@ -101,8 +108,7 @@ const Internal = (props: ScaleSelectorProp) => {
   // 自定义 scale 且数据 domain 发生更新时，自动计算默认值
   useUpdateEffect(() => {
     if (selectedType === 'custom' && value?.domain && value.domain.length !== 0) {
-      // TODO value.range 空数组情况
-      const range = value.range ? [...new Set(value.range)] : defaultColors;
+      const range = value.range && value.range.length ? [...new Set(value.range)] : defaultColors;
       const _defaultValue = getDefaultValue(dataType, domain, range);
       if (onChange)
         onChange({
