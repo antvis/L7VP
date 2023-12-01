@@ -20,13 +20,15 @@ const CustomNumber = (props: CustomNumberProps) => {
   const [wrapSSR, hashId] = useStyle(prefixCls);
 
   const addPaletteRangeItem = () => {
-    // 初始为0
+    // 初始为空数组
     if (defaultValue.length === 0) {
+      // 取最大最小值的平均数
       const _medianValue = Number(((Number(domain[1]) - Number(domain[0])) / 2).toFixed(2));
       const addList: CustomMappingColorItem[] = [
         {
           id: uniqueId(),
           value: [-Infinity, _medianValue],
+          // TODO 换一个颜色
           color: '#5B8FF9',
         },
         {
@@ -35,11 +37,14 @@ const CustomNumber = (props: CustomNumberProps) => {
           color: '#5B8FF9',
         },
       ];
-      return onChange(addList);
+
+      onChange(addList);
+      return;
     }
 
     const _domain: [number, number] =
       defaultValue.length === 1 ? domain : [Number(defaultValue[defaultValue.length - 1].value[0]), domain[1]];
+
     const _medianValue: number = Number(((Number(_domain[1]) - Number(_domain[0])) / 2).toFixed(2));
     const ranges = [Number(_domain[0]), Number((_medianValue + _domain[0]).toFixed(2))];
 

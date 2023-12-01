@@ -1,7 +1,7 @@
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { connect } from '@formily/react';
 import { useUpdateEffect } from 'ahooks';
-import { Select, Divider } from 'antd';
+import { Divider, Select } from 'antd';
 import cls from 'classnames';
 import React, { useEffect, useMemo, useState } from 'react';
 import { DEHAULT_OPTIONS } from './constants';
@@ -35,6 +35,7 @@ type ScaleSelectorProp = {
 
 const Internal = (props: ScaleSelectorProp) => {
   const prefixCls = usePrefixCls('formily-scale-selector');
+  // TODO: dataType string 或 number 设置不同的  defaultColors
   const { dataType, value, domain = [], defaultColors = ['#f00', '#ff0', '#00f', '#faa'], onChange } = props;
   const [wrapSSR, hashId] = useStyle(prefixCls);
 
@@ -100,6 +101,7 @@ const Internal = (props: ScaleSelectorProp) => {
   // 自定义 scale 且数据 domain 发生更新时，自动计算默认值
   useUpdateEffect(() => {
     if (selectedType === 'custom' && value?.domain && value.domain.length !== 0) {
+      // TODO value.range 空数组情况
       const range = value.range ? [...new Set(value.range)] : defaultColors;
       const _defaultValue = getDefaultValue(dataType, domain, range);
       if (onChange)
