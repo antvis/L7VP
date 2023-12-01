@@ -41,6 +41,7 @@ export const getDefaultValue = (
       type: 'threshold',
       domain: _domain,
       range,
+      unknown: '#f000',
     };
 
     return defaultValue;
@@ -60,6 +61,7 @@ export const getDefaultValue = (
       type: 'cat',
       domain,
       range: colors,
+      unknown: '#f000',
     };
 
     return defaultValue;
@@ -84,6 +86,8 @@ export const getScaleByCustomMappingData = (val: CustomMappingData) => {
 
     return scaleValue;
   }
+
+  console.log(unknown, 'unknown');
 
   const { domain, range } = getScaleDataByMappingColors(list);
   const scaleValue: SelectorValue = {

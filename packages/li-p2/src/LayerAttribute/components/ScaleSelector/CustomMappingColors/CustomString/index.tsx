@@ -13,12 +13,12 @@ type CustomStringProps = {
   unknown: string;
   value: CustomMappingColorItem[];
   onChange: (value: CustomMappingColorItem[]) => void;
-  onUnknownColorChange: (color: string) => void;
+  onUnknownChange: (color: string) => void;
   className?: string;
 };
 
 const CustomString = (props: CustomStringProps) => {
-  const { value: defaultValue = [], unknown = '#f000', domain, onChange, onUnknownColorChange, className } = props;
+  const { value: defaultValue = [], unknown = '#f000', domain, onChange, onUnknownChange, className } = props;
   const prefixCls = usePrefixCls('formily-color-range-selector__custom-string');
   const [wrapSSR, hashId] = useStyle(prefixCls);
 
@@ -83,7 +83,7 @@ const CustomString = (props: CustomStringProps) => {
         );
       })}
 
-      <UnknownItem color={unknown} onChange={onUnknownColorChange} />
+      <UnknownItem color={unknown} onChange={onUnknownChange} />
 
       <div onClick={addPaletteRangeItem} className={`${prefixCls}__add-range-item`}>
         <PlusOutlined /> 添加
