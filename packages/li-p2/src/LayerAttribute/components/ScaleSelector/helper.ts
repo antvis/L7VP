@@ -87,8 +87,6 @@ export const getScaleByCustomMappingData = (val: CustomMappingData) => {
     return scaleValue;
   }
 
-  console.log(unknown, 'unknown');
-
   const { domain, range } = getScaleDataByMappingColors(list);
   const scaleValue: SelectorValue = {
     isCustom: true,
