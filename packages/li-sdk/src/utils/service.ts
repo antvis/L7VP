@@ -18,7 +18,7 @@ export function implementService<
 const queryClientConfig: QueryClientConfig = {
   defaultOptions: {
     queries: {
-      //  Defaults is  0 milliseconds
+      //  Defaults is 0 milliseconds
       staleTime: 0,
       // Defaults is 5 * 60 * 1000 (5 minutes)
       gcTime: 5 * 60 * 1000,
@@ -26,6 +26,8 @@ const queryClientConfig: QueryClientConfig = {
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       retryOnMount: false,
+      //  Defaults is 3
+      retry: 0,
     },
   },
 };

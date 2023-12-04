@@ -28,7 +28,7 @@ const Layout: React.FC<LayoutProps> = (props) => {
       if (editorDataset.isLoadingError && editorDataset.error) {
         notificationApi.error({
           message: `数据集"${editorDataset.metadata.name}"请求失败`,
-          description: editorDataset.error.message || editorDataset.error.message,
+          description: editorDataset.error.message,
         });
       }
     });
