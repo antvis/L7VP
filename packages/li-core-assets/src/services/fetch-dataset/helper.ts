@@ -96,6 +96,7 @@ export const getFetchData = (params: Params) => {
     .catch((err) => {
       if (err.name == 'AbortError') {
         // 取消发起的请求不做任何处理
+        return [];
       } else {
         const _onError = onError && isJSFunction(onError) ? parseFunction(onError.value) : undefined;
         if (_onError) {
