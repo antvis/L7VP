@@ -5,9 +5,9 @@ import dayjs from 'dayjs';
 import React, { useEffect, useMemo, useState } from 'react';
 import type { FilterDate, OptionType } from '../../../type';
 import { DEFAULT_OPTIONS } from './contants';
-import type { GranularityItem } from './type';
 import { getOptions, getTimeFormat, isTimeInterval } from './helper';
 import useStyle from './style';
+import type { GranularityItem } from './type';
 
 const { RangePicker } = DatePicker;
 export interface DateItemProps {
@@ -36,7 +36,9 @@ const DateItem: React.FC<DateItemProps> = (props) => {
       // @ts-ignore
       const _fieldFormat = defaultOptions.find((item) => item.value === defaultValue.field).format;
       const _options = getOptions(_fieldFormat);
-      const _granularity = _options.find((item) => item.granularity === defaultValue.granularity);
+      const _granularity = _options.find(
+        (item) => defaultValue.granularity && [item.granularity, item.value].includes(defaultValue.granularity),
+      );
       if (_granularity) {
         setGranularity(_granularity);
       }
@@ -83,6 +85,9 @@ const DateItem: React.FC<DateItemProps> = (props) => {
       const _isTimeInterval = isTimeInterval(defaultValue.value, granularity.value);
       setDateType(_isTimeInterval ? 'rangePicker' : 'datePicker');
     }
+    if (!defaultValue.value) {
+      setDateType('datePicker');
+    }
   }, [defaultValue]);
 
   return wrapSSR(
@@ -112,14 +117,14 @@ const DateItem: React.FC<DateItemProps> = (props) => {
           <>
             {granularity.picker ? (
               <DatePicker
-                value={dayjs(typeof timer === 'string' ? timer : timer[0], granularity.value)}
+                value={timer ? dayjs(typeof timer === 'string' ? timer : timer[0], granularity.value) : undefined}
                 picker={granularity.picker}
                 format={granularity.value}
                 onChange={onRangePickerChange}
               />
             ) : (
               <DatePicker
-                value={dayjs(typeof timer === 'string' ? timer : timer[0], granularity.value)}
+                value={timer ? dayjs(typeof timer === 'string' ? timer : timer[0], granularity.value) : undefined}
                 showTime={{ format: granularity.value }}
                 format={granularity.value}
                 onChange={onRangePickerChange}

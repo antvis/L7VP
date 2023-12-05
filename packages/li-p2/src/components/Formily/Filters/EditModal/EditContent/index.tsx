@@ -51,7 +51,7 @@ const EditContent: React.FC<FiltersProps> = (props) => {
         type: 'date',
         operator: '>',
         granularity: _field.format,
-        value: '2021-12-20',
+        value: undefined,
       };
     }
     setFilter(_filter as FilterNodeItem);
