@@ -16,6 +16,7 @@ export default genStyleHook('filters', (token) => {
       '&__left': {
         width: '200px',
         background: '#f5f5f5',
+        borderTop: `1px solid #f5f5f5`,
 
         '&-selected': {
           background: colorPrimaryActive,

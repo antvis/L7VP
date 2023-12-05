@@ -1,17 +1,15 @@
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
-import { Radio, Select } from 'antd';
 import cls from 'classnames';
 import React, { useEffect, useState } from 'react';
-import type { FilterNodeItem, OptionType } from '../../type';
 import FieldSelect from '../../../FieldSelect/Select';
+import type { FilterNodeItem, OptionType } from '../../type';
+import DateItem from './DateItem';
+import NumberItem from './NumberItem';
+import StringItem from './StringItem';
 import useStyle from './style';
-import { GranularityOptions } from './contants';
 
 export interface FiltersProps {
-  /**
-   * 偏移量
-   */
-  value?: FilterNodeItem;
+  value: FilterNodeItem;
   /**
    * 筛选字段
    */
@@ -19,18 +17,50 @@ export interface FiltersProps {
   /**
    * 选择发生改变时
    */
-  onChange?: (value: FilterNodeItem) => void;
+  onChange: (value: FilterNodeItem) => void;
 }
 
 const EditContent: React.FC<FiltersProps> = (props) => {
   const prefixCls = usePrefixCls('formily-filters-edit-modal-right');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const { value, options, onChange } = props;
-  const [filter, setFilter] = useState<FilterNodeItem>();
+  const [filter, setFilter] = useState<FilterNodeItem>(value);
 
   const onFieldChange = (field: string) => {
-    const _field = options.find((item) => item.value === field);
-    setFilter({ field: _field?.value, type: _field?.type });
+    const _field = options.find((item) => item.value === field) as OptionType;
+    let _filter = {};
+    if (_field.type === 'string') {
+      _filter = {
+        field: _field.value,
+        type: 'string',
+        operator: 'IN',
+        value: '',
+        otherParams: {
+          radioType: 'radio',
+        },
+      };
+    }
+
+    if (_field.type === 'number') {
+      _filter = { field: _field.value, type: 'number', operator: '>=', value: 0 };
+    }
+
+    if (_field.type === 'date') {
+      _filter = {
+        field: _field.value,
+        type: 'date',
+        operator: '>',
+        granularity: _field.format,
+        value: '2021-12-20',
+      };
+    }
+    setFilter(_filter as FilterNodeItem);
+    onChange(_filter as FilterNodeItem);
+  };
+
+  const onFilterValueChange = (value: FilterNodeItem) => {
+    setFilter(value);
+    onChange(value);
   };
 
   useEffect(() => {
@@ -39,6 +69,10 @@ const EditContent: React.FC<FiltersProps> = (props) => {
       setFilter({ field: _field?.value, type: _field?.type });
     }
   }, []);
+
+  useEffect(() => {
+    setFilter(value);
+  }, [value]);
 
   if (!filter) {
     return null;
@@ -51,58 +85,11 @@ const EditContent: React.FC<FiltersProps> = (props) => {
         <FieldSelect value={filter.field} style={{ width: '100%' }} options={options} onChange={onFieldChange} />
       </div>
 
-      {filter.type === 'string' && (
-        <>
-          <div className={cls(`${prefixCls}__filter`, hashId)}>
-            <div className={cls(`${prefixCls}__field`, hashId)}>筛选方式</div>
-            <Radio.Group value="radio">
-              <Radio value="radio">单选</Radio>
-              <Radio value="multip">多选</Radio>
-            </Radio.Group>
-          </div>
+      {filter.type === 'string' && <StringItem value={filter} options={options} onChange={onFilterValueChange} />}
 
-          <div className={cls(`${prefixCls}__filter`, hashId)}>
-            <div className={cls(`${prefixCls}__field`, hashId)}>设定默认值</div>
-          </div>
-        </>
-      )}
+      {filter.type === 'number' && <NumberItem />}
 
-      {filter.type === 'number' && (
-        <>
-          <div className={cls(`${prefixCls}__filter`, hashId)}>
-            <div className={cls(`${prefixCls}__field`, hashId)}>请选择聚合函数</div>
-            <Select
-              size="small"
-              defaultValue="no"
-              style={{ width: '100%' }}
-              options={[{ value: 'no', label: '无聚合' }]}
-              onChange={onFieldChange}
-            />
-          </div>
-        </>
-      )}
-
-      {filter.type === 'date' && (
-        <>
-          <div className={cls(`${prefixCls}__filter`, hashId)}>
-            <div className={cls(`${prefixCls}__field`, hashId)}>日期类型</div>
-            <Radio.Group defaultValue="datePicker">
-              <Radio value="datePicker">单日期</Radio>
-              <Radio value="rangePicker">日期区间</Radio>
-            </Radio.Group>
-          </div>
-          <div className={cls(`${prefixCls}__filter`, hashId)}>
-            <div className={cls(`${prefixCls}__field`, hashId)}>时间粒度</div>
-            <Select
-              size="small"
-              defaultValue={GranularityOptions[0].value}
-              style={{ width: '100%' }}
-              options={GranularityOptions}
-              onChange={onFieldChange}
-            />
-          </div>
-        </>
-      )}
+      {filter.type === 'date' && <DateItem value={filter} options={options} onChange={onFilterValueChange} />}
     </div>,
   );
 };

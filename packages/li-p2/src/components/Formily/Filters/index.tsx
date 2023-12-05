@@ -5,7 +5,7 @@ import cls from 'classnames';
 import React, { useState } from 'react';
 import EditModal from './EditModal';
 import useStyle from './style';
-import type { OptionType, FilterNodeItem } from './type';
+import type { FilterNodeItem, OptionType } from './type';
 
 export interface FiltersProps {
   /**
@@ -23,10 +23,26 @@ export interface FiltersProps {
 }
 
 const defaultFilter = [
-  { id: '001', field: '001', type: 'number', operator: '>=', value: 0 },
-  { id: '002', field: '002', type: 'string', operator: 'IN', value: '' },
-  { id: '003', field: '003', type: 'date', operator: '>', granularity: 'day', value: '' },
-] as FilterNodeItem[];
+  {
+    id: '003',
+    field: '开盘日期',
+    type: 'date',
+    operator: '>',
+    granularity: 'day',
+    value: ['2021-12-20 00:00:00', '2021-12-22 12:59:59'],
+  },
+  { id: '001', field: 'depth', type: 'number', operator: '>=', value: 0 },
+  {
+    id: '002',
+    field: '名称',
+    type: 'string',
+    operator: 'IN',
+    value: '',
+    otherParams: {
+      radioType: 'radio',
+    },
+  },
+];
 
 const InternalFilters: React.FC<FiltersProps> = (props) => {
   const prefixCls = usePrefixCls('formily-filters');
@@ -47,7 +63,15 @@ const InternalFilters: React.FC<FiltersProps> = (props) => {
   return wrapSSR(
     <div className={cls(`${prefixCls}`, hashId)}>
       <div className={cls(`${prefixCls}__filter-list`, hashId)}>
-        展示添加信息
+        <div>
+          {defaultFilter.map((item) => {
+            return (
+              <div>
+                {item.field}:{item.value}
+              </div>
+            );
+          })}
+        </div>
         <Button className={`${prefixCls}__filter-list__btn`} onClick={() => setIsModalOpen(true)}>
           编辑
         </Button>
@@ -64,6 +88,6 @@ const InternalFilters: React.FC<FiltersProps> = (props) => {
   );
 };
 
-const Filters: React.FC<FiltersProps> = connect(InternalFilters);
+const Filters = connect(InternalFilters);
 
 export default Filters;

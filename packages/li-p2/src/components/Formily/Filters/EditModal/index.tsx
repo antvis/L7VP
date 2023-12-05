@@ -35,7 +35,10 @@ const EditModal: React.FC<EditModalProps> = (props) => {
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const { open = false, value = [], options = [], onCancel, onChange } = props;
   const [edits, setEdits] = useState<FilterNodeItem[]>(value);
+  // 选中数据
   const [selectedFilter, setSelectedFilter] = useState<FilterNodeItem>(value[0]);
+
+  console.log(selectedFilter, 'selectedFilter');
 
   const deletePaletteRangeItem = (id: string) => {
     setEdits((pre) => pre.filter((item) => item.id !== id));
@@ -114,6 +117,7 @@ const EditModal: React.FC<EditModalProps> = (props) => {
             </DndProvider>
           </div>
         </div>
+
         <div className={cls(`${prefixCls}__content__right`, hashId)}>
           <div className={cls(`${prefixCls}__content__left__add-filter`, hashId)}>
             <div>筛选配置</div>
