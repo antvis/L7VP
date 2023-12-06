@@ -1,7 +1,7 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
-export default genStyleHook('filters', (token) => {
-  const { componentCls, antCls, colorBorder, colorText } = token;
+export default genStyleHook('filters-edit-content', (token) => {
+  const { componentCls, colorText } = token;
 
   return {
     [componentCls]: {

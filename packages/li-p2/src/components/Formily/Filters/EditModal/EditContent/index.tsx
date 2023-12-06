@@ -3,6 +3,7 @@ import cls from 'classnames';
 import React, { useEffect, useState } from 'react';
 import FieldSelect from '../../../FieldSelect/Select';
 import type { FilterNodeItem, OptionType } from '../../type';
+import { getDefaultValue } from '../helper';
 import DateItem from './DateItem';
 import NumberItem from './NumberItem';
 import StringItem from './StringItem';
@@ -21,58 +22,46 @@ export interface FiltersProps {
 }
 
 const EditContent: React.FC<FiltersProps> = (props) => {
-  const prefixCls = usePrefixCls('formily-filters-edit-modal-right');
+  const prefixCls = usePrefixCls('formily-filters-edit-');
   const [wrapSSR, hashId] = useStyle(prefixCls);
-  const { value, options, onChange } = props;
-  const [filter, setFilter] = useState<FilterNodeItem>(value);
+  const { value: defaultValue, options, onChange } = props;
+  const [filter, setFilter] = useState<FilterNodeItem>(defaultValue);
+  const [domain, setDomain] = useState<(string | number)[]>();
+  const [format, setFormat] = useState<string>('YYYY');
 
+  // 字段变更
   const onFieldChange = (field: string) => {
     const _field = options.find((item) => item.value === field) as OptionType;
-    let _filter = {};
-    if (_field.type === 'string') {
-      _filter = {
-        field: _field.value,
-        type: 'string',
-        operator: 'IN',
-        value: '',
-        otherParams: {
-          radioType: 'radio',
-        },
-      };
-    }
-
-    if (_field.type === 'number') {
-      _filter = { field: _field.value, type: 'number', operator: '>=', value: 0 };
-    }
-
+    setDomain(_field.domain);
     if (_field.type === 'date') {
-      _filter = {
-        field: _field.value,
-        type: 'date',
-        operator: '>',
-        granularity: _field.format,
-        value: undefined,
-      };
+      setFormat(_field?.format || 'YYYY');
     }
-    setFilter(_filter as FilterNodeItem);
-    onChange(_filter as FilterNodeItem);
+
+    const _filter = { ...getDefaultValue(_field), id: filter.id };
+    setFilter(_filter);
+    onChange(_filter);
   };
 
+  // 字段配置变更
   const onFilterValueChange = (value: FilterNodeItem) => {
     setFilter(value);
     onChange(value);
   };
 
   useEffect(() => {
-    if (!filter) {
-      const _field = options[0];
-      setFilter({ field: _field?.value, type: _field?.type });
-    }
-  }, []);
+    setFilter(defaultValue);
+  }, [defaultValue]);
 
   useEffect(() => {
-    setFilter(value);
-  }, [value]);
+    if (defaultValue.field && options) {
+      const _field = options.find((item) => item.value === defaultValue.field);
+      const _domain = _field?.domain;
+      setDomain(_domain);
+      if (_field?.type === 'date') {
+        setFormat(_field?.format || 'YYYY');
+      }
+    }
+  }, [defaultValue.field, options]);
 
   if (!filter) {
     return null;
@@ -85,11 +74,13 @@ const EditContent: React.FC<FiltersProps> = (props) => {
         <FieldSelect value={filter.field} style={{ width: '100%' }} options={options} onChange={onFieldChange} />
       </div>
 
-      {filter.type === 'string' && <StringItem value={filter} options={options} onChange={onFilterValueChange} />}
+      {filter.type === 'string' && (
+        <StringItem value={filter} domain={domain as string[]} onChange={onFilterValueChange} />
+      )}
+
+      {filter.type === 'date' && <DateItem value={filter} format={format} onChange={onFilterValueChange} />}
 
       {filter.type === 'number' && <NumberItem />}
-
-      {filter.type === 'date' && <DateItem value={filter} options={options} onChange={onFilterValueChange} />}
     </div>,
   );
 };

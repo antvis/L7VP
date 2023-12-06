@@ -24,23 +24,23 @@ export interface FiltersProps {
 
 const defaultFilter = [
   {
+    id: '002',
+    field: '名称',
+    type: 'string',
+    operator: 'IN',
+    value: '',
+    params: {
+      radioType: 'radio',
+    },
+  },
+  { id: '001', field: 'depth', type: 'number', operator: '>=', value: 0 },
+  {
     id: '003',
     field: '开盘日期',
     type: 'date',
     operator: '>',
     granularity: 'day',
     value: ['2021-12-20 00:00:00', '2021-12-22 12:59:59'],
-  },
-  { id: '001', field: 'depth', type: 'number', operator: '>=', value: 0 },
-  {
-    id: '002',
-    field: '名称',
-    type: 'string',
-    operator: 'IN',
-    value: '',
-    otherParams: {
-      radioType: 'radio',
-    },
   },
 ];
 
@@ -49,22 +49,22 @@ const InternalFilters: React.FC<FiltersProps> = (props) => {
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const { options, value, onChange } = props;
   const [isModalOpen, setIsModalOpen] = useState(true);
-
-  console.log(props, '展示细腻');
+  const [filterList, setFilterList] = useState<FilterNodeItem[]>(defaultFilter);
 
   const handleCancel = () => {
     setIsModalOpen(false);
   };
 
+  // 获取所有数据变更信息
   const onfiltersChange = (val: any) => {
-    console.log(val);
+    console.log(val, 'sdfkljdkh');
   };
 
   return wrapSSR(
     <div className={cls(`${prefixCls}`, hashId)}>
       <div className={cls(`${prefixCls}__filter-list`, hashId)}>
         <div>
-          {defaultFilter.map((item) => {
+          {filterList.map((item) => {
             return (
               <div>
                 {item.field}:{item.value}
@@ -81,7 +81,7 @@ const InternalFilters: React.FC<FiltersProps> = (props) => {
         open={isModalOpen}
         onCancel={handleCancel}
         onChange={onfiltersChange}
-        value={defaultFilter}
+        value={filterList}
         options={options}
       />
     </div>,
