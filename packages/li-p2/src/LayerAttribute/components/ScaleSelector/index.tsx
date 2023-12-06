@@ -35,7 +35,7 @@ type ScaleSelectorProp = {
 const Internal = (props: ScaleSelectorProp) => {
   const prefixCls = usePrefixCls('formily-scale-selector');
   const { dataType, value, domain = [], onChange } = props;
-  const lastDataStateRef = useRef<{ dataType: 'string' | 'number'; domain: [number, number] | string[] } | null>(null);
+  const lastDataStateRef = useRef<Pick<ScaleSelectorProp, 'dataType' | 'domain'> | null>(null);
   const [wrapSSR, hashId] = useStyle(prefixCls);
 
   const defaultColors = useMemo(() => {
@@ -84,7 +84,7 @@ const Internal = (props: ScaleSelectorProp) => {
 
   useEffect(() => {
     let defaultSelectType: SelectType | undefined;
-    // 初始类型
+    // 初始化没有值时，设置第一项为默认值
     if (!lastDataStateRef.current) {
       if (value) {
         lastDataStateRef.current = { dataType, domain };
