@@ -37,6 +37,7 @@ export default (options: AttributeSchemaOptions) => {
           radius: {
             type: 'number',
             title: '半径',
+            default: 20,
             'x-decorator': 'FormItem',
             'x-component': 'Slider',
             'x-component-props': {
@@ -55,6 +56,7 @@ export default (options: AttributeSchemaOptions) => {
               },
             ],
           },
+
           radiusRange: {
             type: 'number',
             title: '半径',
@@ -64,7 +66,7 @@ export default (options: AttributeSchemaOptions) => {
               dots: false,
               range: true,
             },
-            default: [0, 20],
+            default: [5, 20],
             'x-decorator-props': {},
             'x-reactions': [
               {

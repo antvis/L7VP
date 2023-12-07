@@ -74,10 +74,9 @@ const DatasetPreview = (props: DatasetPreviewProps) => {
       className="li-dataset-preview"
       title={`${editorDataset.metadata.name}`}
       open={visible}
-      bodyStyle={{ padding: 0 }}
       destroyOnClose
       width={'calc(100vw - 200px)'}
-      footer={false}
+      footer={null}
       onCancel={() => onCancel()}
     >
       <Table

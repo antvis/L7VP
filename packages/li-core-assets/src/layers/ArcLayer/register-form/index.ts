@@ -28,7 +28,6 @@ const toValues = (config: LayerRegisterFormResultType<LineLayerStyleAttributeVal
 const fromValues = (values: Record<string, any>): LayerRegisterFormResultType<LineLayerStyleAttributeValue> => {
   const sourceConfig = {
     parser: {
-      type: 'json',
       x: values.longitude,
       y: values.latitude,
       x1: values.targetLongitude,

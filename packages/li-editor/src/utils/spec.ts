@@ -280,7 +280,7 @@ const getFieldsToLayerPopupShow = (dataset: EditorDataset, maxDefaultTooltips: n
  */
 export const getAutoFindLayerPopup = (layers: LayerSchema[], datasets: EditorDataset[], maxDefaultTooltips = 6) => {
   const items = layers.map((layer) => {
-    const dataset = datasets.find((d) => d.id === layer.sourceConfig?.datasetId);
+    const dataset = datasets.find((d) => d.id === layer.sourceConfig.datasetId);
     return {
       layerId: layer.id,
       fields: dataset ? getFieldsToLayerPopupShow(dataset, maxDefaultTooltips) : [],
@@ -308,8 +308,8 @@ export const getAutoFindLayerPopup = (layers: LayerSchema[], datasets: EditorDat
 };
 
 const getPointLayerBounds = (dataset: EditorDataset, layer: LayerSchema) => {
-  if (layer.sourceConfig === undefined) return null;
-  const { x, y, geometry } = layer.sourceConfig?.parser;
+  if (layer.sourceConfig?.parser === undefined) return null;
+  const { x, y, geometry } = layer.sourceConfig.parser;
   const sampleData = dataset.getSampleData();
 
   // 经纬度情况
@@ -337,8 +337,8 @@ const LayersBoundsMap = new Map<string, (dataset: EditorDataset, layer: LayerSch
   [
     'LineLayer',
     (dataset: EditorDataset, layer: LayerSchema) => {
-      if (layer.sourceConfig === undefined) return null;
-      const { x, y, x1, y1, geometry } = layer.sourceConfig?.parser;
+      if (layer.sourceConfig?.parser === undefined) return null;
+      const { x, y, x1, y1, geometry } = layer.sourceConfig.parser;
       const sampleData = dataset.getSampleData();
 
       // 起点终点情况
@@ -366,8 +366,8 @@ const LayersBoundsMap = new Map<string, (dataset: EditorDataset, layer: LayerSch
   [
     'ArcLayer',
     (dataset: EditorDataset, layer: LayerSchema) => {
-      if (layer.sourceConfig === undefined) return null;
-      const { x, y, x1, y1 } = layer.sourceConfig?.parser;
+      if (layer.sourceConfig?.parser === undefined) return null;
+      const { x, y, x1, y1 } = layer.sourceConfig.parser;
       const sampleData = dataset.getSampleData();
 
       // 起点终点情况
@@ -391,8 +391,8 @@ const LayersBoundsMap = new Map<string, (dataset: EditorDataset, layer: LayerSch
   [
     'ChoroplethLayer',
     (dataset: EditorDataset, layer: LayerSchema) => {
-      if (layer.sourceConfig === undefined) return null;
-      const { geometry } = layer.sourceConfig?.parser;
+      if (layer.sourceConfig?.parser === undefined) return null;
+      const { geometry } = layer.sourceConfig.parser;
       const sampleData = dataset.getSampleData(10000);
 
       // geometry 情况
@@ -408,8 +408,8 @@ const LayersBoundsMap = new Map<string, (dataset: EditorDataset, layer: LayerSch
   [
     'H3HexagonLayer',
     (dataset: EditorDataset, layer: LayerSchema) => {
-      if (layer.sourceConfig === undefined) return null;
-      const { hexagonId } = layer.sourceConfig?.parser;
+      if (layer.sourceConfig?.parser === undefined) return null;
+      const { hexagonId } = layer.sourceConfig.parser;
       const sampleData = dataset.getSampleData(10000);
 
       if (hexagonId) {
@@ -437,7 +437,7 @@ const LayersBoundsMap = new Map<string, (dataset: EditorDataset, layer: LayerSch
  */
 export const getLayersBounds = (layers: LayerSchema[], datasets: EditorDataset[]): LayerBounds | null => {
   const boundsList = layers.map((layer) => {
-    const dataset = datasets.find((d) => d.id === layer.sourceConfig?.datasetId);
+    const dataset = datasets.find((d) => d.id === layer.sourceConfig.datasetId);
     const getLayerBounds = LayersBoundsMap.get(layer.type);
     if (!dataset || !getLayerBounds) return null;
 

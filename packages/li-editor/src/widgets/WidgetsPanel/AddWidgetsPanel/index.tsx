@@ -115,7 +115,7 @@ const AddWidgetsPanel: React.FC<AddWidgetsPanelProps> = (props) => {
       className="li-add-widgets-panel"
       width={1100}
       destroyOnClose
-      bodyStyle={{ minHeight: '300px' }}
+      styles={{ body: { minHeight: '300px' } }}
       open={open}
       onCancel={onClose}
       footer={[

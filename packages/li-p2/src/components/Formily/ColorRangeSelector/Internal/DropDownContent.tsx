@@ -1,4 +1,5 @@
 import { useMemoizedFn } from 'ahooks';
+import { Divider } from 'antd';
 import React, { useEffect, useMemo, useState } from 'react';
 import ColorPaletteGroup from './ColorPaletteGroup';
 import { getColorGroupByName } from './constants';
@@ -200,7 +201,7 @@ const DropDownContent = (props: DropDownContentProps) => {
       {paletteConfigList.map((item) => (
         <PaletteConfig key={item.id} {...item} />
       ))}
-
+      <Divider style={{ margin: ' 0 0 10px' }} />
       {ContentRender}
     </div>
   );

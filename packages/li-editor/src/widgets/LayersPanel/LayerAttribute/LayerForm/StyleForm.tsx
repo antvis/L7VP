@@ -3,18 +3,18 @@ import {
   ColorRangeSelector,
   FieldSelect,
   FormCollapse,
-  IconList,
+  IconScaleSelector,
   IconSelector,
   Offset,
-  ScaleSelector,
   ResterScaleSelector,
+  ScaleSelector,
   Slider,
   SliderRange,
 } from '@antv/li-p2';
 import type { DatasetFieldWithMeta, ImplementLayer, LayerRegisterFormResultType, LayerSchema } from '@antv/li-sdk';
 import { Form, FormItem, Input, NumberPicker, Radio, Select, Switch } from '@formily/antd-v5';
 import type { Form as FormInstance } from '@formily/core';
-import { createForm, onFormValuesChange } from '@formily/core';
+import { createForm, onFormMount, onFormValuesChange } from '@formily/core';
 import { createSchemaField } from '@formily/react';
 import { useMemoizedFn } from 'ahooks';
 import { debounce } from 'lodash-es';
@@ -59,26 +59,28 @@ const StyleForm: React.FC<StyleFormProps> = (props) => {
           SliderRange,
           ScaleSelector,
           ResterScaleSelector,
-          IconList,
           IconSelector,
+          IconScaleSelector,
           ...registerForm.components,
         },
       }),
     [registerForm.components],
   );
 
-  const handleFormValuesChange = useMemoizedFn((formInstance: FormInstance<Record<string, any>>) => {
-    formInstance
-      .submit<Record<string, any>>()
-      .then((values) => {
-        const formatValues = (registerForm.fromValues ? registerForm.fromValues(values) : values) as LayerConfig;
+  const handleFormValuesChange = useMemoizedFn(
+    debounce((formInstance: FormInstance<Record<string, any>>) => {
+      formInstance
+        .submit<Record<string, any>>()
+        .then((values) => {
+          const formatValues = (registerForm.fromValues ? registerForm.fromValues(values) : values) as LayerConfig;
 
-        onChange(formatValues);
-      })
-      .catch((values) => {
-        // console.log('submit rejected', values);
-      });
-  });
+          onChange(formatValues);
+        })
+        .catch((values) => {
+          // console.log('submit rejected', values);
+        });
+    }),
+  );
 
   // 坐标配置和样式配置表单
   // 更新可视化类型时重新生成新的表单，避免 values 重复
@@ -91,7 +93,9 @@ const StyleForm: React.FC<StyleFormProps> = (props) => {
       initialValues: _initialValues,
       effects() {
         // 数据实时变化
-        onFormValuesChange(debounce(handleFormValuesChange, 150));
+        onFormValuesChange(handleFormValuesChange);
+        // 表单初始化时，触发一次提交，检查一下必填项
+        onFormMount(handleFormValuesChange);
       },
     });
 

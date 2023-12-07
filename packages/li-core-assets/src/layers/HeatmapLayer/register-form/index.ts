@@ -28,7 +28,6 @@ const fromValues = (values: Record<string, any>): LayerRegisterFormResultType<He
   const pointCoordinate = values.geometry ? { geometry: values.geometry } : { x: values.longitude, y: values.latitude };
   const sourceConfig = {
     parser: {
-      type: 'json',
       ...pointCoordinate,
     },
   };

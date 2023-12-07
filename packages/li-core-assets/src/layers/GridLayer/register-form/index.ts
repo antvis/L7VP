@@ -35,7 +35,6 @@ const fromValues = (values: Record<string, any>): LayerRegisterFormResultType<Gr
 
   const sourceConfig = {
     parser: {
-      type: 'json',
       ...pointCoordinate,
     },
     transforms: [

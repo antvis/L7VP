@@ -4,6 +4,7 @@ import { implementWidget } from '@antv/li-sdk';
 import React from 'react';
 import BubbleLayer from './BubbleLayer';
 import ChoroplethLayer from './ChoroplethLayer';
+import GET_FETCH_DATA_LIST from './fetch-dataset';
 import MyLayout from './MyLayout';
 
 const AttributeInfor = implementWidget({
@@ -50,9 +51,11 @@ const ZoomControl = implementWidget({
 
 const layers = [BubbleLayer, ChoroplethLayer];
 const widgets = [MyLayout, AttributeInfor, ZoomControl];
+const services = [GET_FETCH_DATA_LIST];
 
 export default {
   version: 'v0.1',
   layers,
   widgets,
+  services,
 };

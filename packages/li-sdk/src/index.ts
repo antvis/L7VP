@@ -21,3 +21,4 @@ export * from './utils/asset';
 export * from './utils/operations';
 export * from './utils/filters';
 export * from './utils/dataset-parser';
+export * from './utils/expression';

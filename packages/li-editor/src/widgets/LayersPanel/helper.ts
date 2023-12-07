@@ -8,7 +8,7 @@ export const getDefaultLayerAttr = (name: string, datasetId: string) => {
     metadata: {
       name,
     },
-    sourceConfig: { datasetId } as LayerSchema['sourceConfig'],
+    sourceConfig: { datasetId },
     visConfig: { visible: true },
   };
 

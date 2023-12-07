@@ -6,16 +6,16 @@ import classNames from 'classnames';
 import { debounce } from 'lodash-es';
 import React, { memo, useMemo } from 'react';
 import { ColorPicker, FieldSelect, FormCollapse, Offset, Slider, SliderRange } from '../components';
-import IconList from '../components/IconList';
 import IconSelector from '../components/IconSelector';
+import IconScaleSelector from '../components/IconScaleSelector';
 import { CLS_PREFIX } from './constant';
 import { iconImageLayerStyleConfigToFlat, iconImageLayerStyleFlatToConfig } from './helper';
 import schema from './schema';
-import type { IconImageLayerStyleAttributeProps, IconSelectOptionType } from './types';
+import type { IconImageLayerStyleAttributeProps } from './types';
 
-export const IconImageLayerStyleAttributeSchemaField: React.FC<
-  Pick<IconImageLayerStyleAttributeProps, 'fieldList'> & { iconList?: IconSelectOptionType[] }
-> = (props) => {
+export const IconImageLayerStyleAttributeSchemaField: React.FC<Pick<IconImageLayerStyleAttributeProps, 'fieldList'>> = (
+  props,
+) => {
   const SchemaField = useMemo(
     () =>
       createSchemaField({
@@ -29,18 +29,15 @@ export const IconImageLayerStyleAttributeSchemaField: React.FC<
           Switch,
           Select,
           Radio,
+          IconScaleSelector,
           IconSelector,
-          IconList,
           Offset,
         },
       }),
     [],
   );
 
-  const _schema = useMemo(() => schema({ fieldList: props.fieldList, iconList: props.iconList || [] }), [
-    props.fieldList,
-    props.iconList,
-  ]);
+  const _schema = useMemo(() => schema({ fieldList: props.fieldList }), [props.fieldList]);
 
   return <SchemaField schema={_schema} />;
 };

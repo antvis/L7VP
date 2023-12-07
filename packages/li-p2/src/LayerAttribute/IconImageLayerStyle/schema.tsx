@@ -2,10 +2,11 @@ import lableCollapse from '../common-schema/label-collapse';
 import otherAttributesCollapse from '../common-schema/other-attributes-collapse';
 import radiusCollapse from '../common-schema/point-radius-collapse';
 import type { AttributeSchemaOptions } from '../types';
-import type { IconSelectOptionType } from './types';
 
-export default (options: AttributeSchemaOptions & { iconList?: IconSelectOptionType[] }) => {
-  const { fieldList = [], iconList = [] } = options;
+export default (options: AttributeSchemaOptions) => {
+  const { fieldList = [] } = options;
+  const iconFieldList = fieldList.filter((item) => item.type === 'string');
+
   return {
     type: 'object',
     properties: {
@@ -37,38 +38,46 @@ export default (options: AttributeSchemaOptions & { iconList?: IconSelectOptionT
                   placeholder: '请选择字段',
                   allowClear: true,
                 },
-                enum: [...fieldList],
+                enum: iconFieldList,
                 'x-reactions': [
                   {
-                    target: 'iconImg',
-                    effects: ['onFieldValueChange', 'onFieldInit'],
+                    target: 'iconImgScale',
+                    effects: ['onFieldValueChange'],
                     fulfill: {
-                      run:
-                        "$form.setFieldState('iconImg',state=>{state.visible = $self.value? false : true ;state.required=true})",
+                      run: "$form.setFieldState('iconImgScale',state=>{ state.value = undefined })",
                     },
                   },
                 ],
               },
-              iconAtlasList: {
+
+              iconImgScale: {
                 type: 'array',
-                title: '图标列表',
+                title: '图标映射',
                 'x-decorator': 'FormItem',
-                'x-component': 'IconList',
+                'x-component': 'IconScaleSelector',
+                'x-component-props': {
+                  domain:
+                    '{{ $form.getFieldState("iconField",state=> { return state.dataSource.find((item) => item.value === state.value)?.domain })}}',
+                },
                 'x-decorator-props': {
                   tooltip: '点击可添加查看图标',
                 },
-                enum: [...iconList],
                 'x-reactions': [
                   {
+                    dependencies: ['iconField'],
                     fulfill: {
-                      run: "$form.setFieldState('iconImg',state=>{state.dataSource = $self.value })",
+                      state: {
+                        visible: '{{ $deps[0] !== undefined }}',
+                      },
                     },
                   },
                 ],
               },
+
               iconImg: {
                 type: 'string',
                 title: '图标形状',
+                required: true,
                 'x-decorator': 'FormItem',
                 'x-component': 'IconSelector',
                 'x-decorator-props': {
@@ -76,8 +85,18 @@ export default (options: AttributeSchemaOptions & { iconList?: IconSelectOptionT
                   allowClear: true,
                 },
                 'x-component-props': {
-                  placeholder: '请选择字段',
+                  placeholder: '请选择图标',
                 },
+                'x-reactions': [
+                  {
+                    dependencies: ['iconField'],
+                    fulfill: {
+                      state: {
+                        visible: '{{ $deps[0] === undefined }}',
+                      },
+                    },
+                  },
+                ],
               },
 
               // fillColor: {
@@ -90,6 +109,7 @@ export default (options: AttributeSchemaOptions & { iconList?: IconSelectOptionT
               //   },
               //   'x-decorator-props': {},
               // },
+
               fillOpacity: {
                 type: 'number',
                 title: '透明度',

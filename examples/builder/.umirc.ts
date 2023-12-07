@@ -6,7 +6,7 @@ export default defineConfig({
     type: 'hash',
   },
   esbuildMinifyIIFE: true,
-  codeSplitting: {jsStrategy: 'granularChunks'},
+  codeSplitting: { jsStrategy: 'granularChunks' },
   routes: [
     { path: '/', component: 'Project' },
     { path: '/builder/:id', component: 'Builder' },
@@ -29,7 +29,7 @@ export default defineConfig({
     'https://unpkg.com/react-dom@18.x/umd/react-dom.production.min.js',
 
     'https://unpkg.com/dayjs@1.x/dayjs.min.js',
-    'https://unpkg.com/antd@5.x/dist/antd.min.js',
+    'https://unpkg.com/antd@5.9.2/dist/antd.min.js',
     'https://unpkg.com/@ant-design/icons@5.x/dist/index.umd.min.js',
 
     'https://unpkg.com/turf@3.x/turf.min.js',

@@ -5,8 +5,15 @@ import { DefaultIconImageLayerStyle, IconImageLayerStyleAttribute } from '@antv/
 import React, { useEffect, useState } from 'react';
 
 const FieldList = [
-  { type: 'string', label: '城市', value: 'name', typeColor: 'green', typeName: '文本' },
-  { type: 'number', label: '温度', value: 'temperature', typeColor: 'gold', typeName: '数值' },
+  {
+    type: 'string',
+    label: '城市',
+    value: 'name',
+    typeColor: 'green',
+    typeName: '文本',
+    domain: ['杭州', '上海', '苏州', '南京'],
+  },
+  { type: 'number', label: '温度', value: 'temperature', typeColor: 'gold', typeName: '数值', domain: [0, 10] },
 ];
 
 const defaultIconImageLayerStyle: Omit<IconImageLayerProps, 'source'> = {

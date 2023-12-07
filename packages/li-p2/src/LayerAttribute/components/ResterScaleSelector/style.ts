@@ -5,17 +5,10 @@ export default genStyleHook('rester-scale-selector', (token) => {
 
   return {
     [`${componentCls}-dropdown`]: {
-      padding: '4px',
-
       [`${componentCls}-custom`]: {
-        padding: '5px 12px',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-      },
-
-      [`${componentCls}-customcontent`]: {
-        padding: '5px 12px',
       },
     },
 

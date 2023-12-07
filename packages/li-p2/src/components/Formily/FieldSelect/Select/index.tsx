@@ -1,6 +1,6 @@
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import type { SelectProps } from 'antd';
-import { Select, Tag, Empty } from 'antd';
+import { Empty, Select, Tag } from 'antd';
 import cls from 'classnames';
 import { isUndefined } from 'lodash-es';
 import React, { useState } from 'react';
@@ -19,6 +19,7 @@ const InternalSelect: React.FC<SelectProps<string, FieldSelectOptionType>> = (pr
       setOpen(false);
     }
   };
+
   return wrapSSR(
     <Select
       {...prop}

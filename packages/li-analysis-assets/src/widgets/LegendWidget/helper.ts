@@ -17,7 +17,7 @@ export const parserLegendData = (layer: Layer) => {
   const colors: string[] = [];
 
   // 如果是热力图图层
-  if (layer.options?.style?.rampColors) {
+  if (layer.type === 'heatmapLayer' && layer.options?.style?.rampColors) {
     const data: LegendRampData = {
       type: 'LegendRamp',
       field: layer.options?.size?.field,
@@ -34,8 +34,15 @@ export const parserLegendData = (layer: Layer) => {
   }
 
   // 如果是图标图层
-  if (layer.options?.icon?.field && layer.options?.iconAtlas) {
+  if (
+    layer.type === 'iconImageLayer' &&
+    layer.options?.icon?.field &&
+    layer.options?.iconAtlas &&
+    layer.options?.icon?.value
+  ) {
     const iconAtlas = layer.options.iconAtlas;
+
+    const icons = layer.options.icon.value.map((item: string) => iconAtlas[item]);
 
     const data: LegendIconData = {
       type: 'LegendIcon',
@@ -43,8 +50,8 @@ export const parserLegendData = (layer: Layer) => {
       layer,
       visible: true,
       data: {
-        labels: layer.options.icon.value,
-        icons: Object.values(iconAtlas),
+        labels: layer.options.icon.scale.domain,
+        icons,
       },
     };
 

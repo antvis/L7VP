@@ -60,13 +60,13 @@ const DatasetItem = (props: DatasetItemProps) => {
   };
 
   const getDelLayersCount = (dataSourceID: string) => {
-    return state.layers.filter((layer) => layer.sourceConfig?.datasetId === dataSourceID).length;
+    return state.layers.filter((layer) => layer.sourceConfig.datasetId === dataSourceID).length;
   };
 
   const onDeleteDataset = () => {
     updateState((draft) => {
       const delDataIndex = draft.datasets.findIndex((source) => source.id === datasetSchema.id);
-      draft.layers = draft.layers.filter((layer) => layer.sourceConfig?.datasetId !== datasetSchema.id);
+      draft.layers = draft.layers.filter((layer) => layer.sourceConfig.datasetId !== datasetSchema.id);
       draft.datasets.splice(delDataIndex, 1);
     });
   };

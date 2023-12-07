@@ -5,27 +5,10 @@ export default genStyleHook('rester-color-range-selector__custom-range', (token)
 
   return {
     [componentCls]: {
-      [`${componentCls}__selection-item`]: {
-        display: 'flex',
-        alignItems: 'center',
-        height: '10px',
-        margin: '5px 0',
+      [`${componentCls}_custom-content`]: {
+        maxHeight: '200px',
         overflow: 'hidden',
-        borderRadius: '4px',
-
-        [`${componentCls}__selection-item-color:nth-child(1)`]: {
-          borderTopLeftRadius: '4px',
-          borderBottomLeftRadius: '4px',
-        },
-        [`${componentCls}__selection-item-color:last-child`]: {
-          borderTopRightRadius: '4px',
-          borderBottomRightRadius: '4px',
-        },
-      },
-
-      [`${componentCls}__add-range-item`]: {
-        cursor: 'pointer',
-        color: colorTextSecondary,
+        overflowY: 'auto',
       },
 
       [`${componentCls}__btn`]: {
