@@ -52,10 +52,19 @@ export const getTimeFormat = (
   return _item;
 };
 
-export const isTimeInterval = (times: [string, string], dateGranularity: string): boolean => {
+export const isTimeInterval = (
+  times: [string, string],
+  dateGranularity: string,
+): { isInterval: boolean; time: string | [string, string] } => {
   if (dayjs(times[0]).format(dateGranularity) === dayjs(times[1]).format(dateGranularity)) {
-    return false;
+    return {
+      isInterval: false,
+      time: dayjs(times[0]).format(dateGranularity),
+    };
   }
 
-  return true;
+  return {
+    isInterval: true,
+    time: [dayjs(times[0]).format(dateGranularity), dayjs(times[1]).format(dateGranularity)],
+  };
 };

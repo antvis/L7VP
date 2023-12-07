@@ -56,6 +56,9 @@ export type FilterDate = FilterBase & {
   granularity?: 'minute' | 'hour' | 'day' | 'month' | 'year';
   operator: 'BETWEEN';
   value?: [string, string];
+  params: {
+    format: string;
+  };
 };
 
 export type FilterNumnber = FilterBase &

@@ -1,7 +1,15 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
 export default genStyleHook('filters-edit-modal', (token) => {
-  const { componentCls, colorBorder, colorPrimaryActive, colorText } = token;
+  const {
+    componentCls,
+    colorBorder,
+    colorText,
+    colorBgContainer,
+    colorBgTextHover,
+    controlItemBgActive,
+    colorPrimary,
+  } = token;
 
   return {
     [componentCls]: {
@@ -12,14 +20,24 @@ export default genStyleHook('filters-edit-modal', (token) => {
       display: 'flex',
       minHeight: '400px',
       margin: '0 -24px',
+      border: `1px solid ${colorBorder}`,
 
       '&__left': {
         width: '200px',
-        background: '#f5f5f5',
-        borderTop: `1px solid #f5f5f5`,
+        background: colorBgContainer,
+
+        '&-item': {
+          '&:hover': {
+            background: colorBgTextHover,
+          },
+        },
 
         '&-selected': {
-          background: colorPrimaryActive,
+          background: controlItemBgActive,
+          color: colorPrimary,
+          '&:hover': {
+            background: controlItemBgActive,
+          },
         },
 
         '&__add-filter': {
@@ -34,6 +52,9 @@ export default genStyleHook('filters-edit-modal', (token) => {
           color: colorText,
           '&-btn': {
             cursor: 'pointer',
+            '&:hover': {
+              color: colorPrimary,
+            },
 
             '&_disabled': {
               display: 'none',
@@ -44,7 +65,7 @@ export default genStyleHook('filters-edit-modal', (token) => {
 
       '&__right': {
         flex: 1,
-        border: `1px solid ${colorBorder}`,
+        borderLeft: `1px solid ${colorBorder}`,
       },
     },
   };

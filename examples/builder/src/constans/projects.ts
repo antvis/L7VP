@@ -603,6 +603,30 @@ const DEFAULT_ANALYSIS_APP: Application = {
         },
       },
       {
+        id: 'FilterApp',
+        type: 'FilterApp',
+        metadata: {
+          name: '筛选组件',
+        },
+        properties: {
+          isOpen: true,
+          trigger: 'hover',
+          items: [
+            {
+              layerId: 'my-bubble-layer',
+              fields: [
+                { field: 'lng', formatField: 'lng' },
+                { field: 'lat', formatField: 'lat' },
+              ],
+            },
+          ],
+        },
+        container: {
+          id: 'AnalysisLayout',
+          slot: 'controls',
+        },
+      },
+      {
         id: 'FullscreenControl1',
         type: 'FullscreenControl',
         metadata: {

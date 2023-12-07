@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import EditModal from './EditModal';
 import useStyle from './style';
 import type { FilterNodeItem, OptionType } from './type';
+import Preview from './Preview';
 
 export interface FiltersProps {
   /**
@@ -40,7 +41,10 @@ const defaultFilter = [
     type: 'date',
     operator: '>',
     granularity: 'day',
-    value: ['2021-12-20 00:00:00', '2021-12-22 12:59:59'],
+    value: ['2021-12-20 00:00:00', '2021-12-20 12:59:59'],
+    params: {
+      format: 'YYYY-MM-DD',
+    },
   },
 ];
 
@@ -48,8 +52,10 @@ const InternalFilters: React.FC<FiltersProps> = (props) => {
   const prefixCls = usePrefixCls('formily-filters');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const { options, value, onChange } = props;
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [filterList, setFilterList] = useState<FilterNodeItem[]>(defaultFilter);
+
+  console.log(props, '初始值---判断信心');
 
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -63,16 +69,9 @@ const InternalFilters: React.FC<FiltersProps> = (props) => {
   return wrapSSR(
     <div className={cls(`${prefixCls}`, hashId)}>
       <div className={cls(`${prefixCls}__filter-list`, hashId)}>
-        <div>
-          {filterList.map((item) => {
-            return (
-              <div>
-                {item.field}:{item.value}
-              </div>
-            );
-          })}
-        </div>
-        <Button className={`${prefixCls}__filter-list__btn`} onClick={() => setIsModalOpen(true)}>
+        <Preview filters={filterList} />
+
+        <Button size="small" className={`${prefixCls}__filter-list__btn`} onClick={() => setIsModalOpen(true)}>
           编辑
         </Button>
       </div>

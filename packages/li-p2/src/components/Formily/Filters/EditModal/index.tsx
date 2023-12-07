@@ -8,8 +8,8 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import type { FilterNodeItem, OptionType } from '../type';
 import EditContent from './EditContent';
 import EditItem from './EditItem';
-import useStyle from './style';
 import { getDefaultValue } from './helper';
+import useStyle from './style';
 
 export interface EditModalProps {
   /**
@@ -117,6 +117,7 @@ const EditModal: React.FC<EditModalProps> = (props) => {
                     setSelectedFilter(item);
                   }}
                   className={cls(
+                    `${prefixCls}__content__left-item`,
                     {
                       [`${prefixCls}__content__left-selected`]: selectedFilter?.id === item.id,
                     },

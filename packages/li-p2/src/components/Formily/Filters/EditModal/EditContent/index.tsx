@@ -22,7 +22,7 @@ export interface FiltersProps {
 }
 
 const EditContent: React.FC<FiltersProps> = (props) => {
-  const prefixCls = usePrefixCls('formily-filters-edit-');
+  const prefixCls = usePrefixCls('formily-filters-edit-content');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const { value: defaultValue, options, onChange } = props;
   const [filter, setFilter] = useState<FilterNodeItem>(defaultValue);

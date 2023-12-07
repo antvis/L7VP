@@ -24,6 +24,9 @@ export const getDefaultValue = (field: OptionType) => {
       operator: 'BETWEEN',
       granularity: 'day',
       value: undefined,
+      params: {
+        format: field.format ?? 'YYYY-MM-DD',
+      },
     };
     return _filter;
   }

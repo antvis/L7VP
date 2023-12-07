@@ -64,6 +64,9 @@ const DateItem: React.FC<DateItemProps> = (props) => {
         ...defaultValue,
         granularity: _granularity.granularity,
         value: getTimeFormat(timer, _granularity?.value),
+        params: {
+          format: _granularity.value,
+        },
       };
       // @ts-ignore
       onChange(_value);
@@ -82,8 +85,8 @@ const DateItem: React.FC<DateItemProps> = (props) => {
   useEffect(() => {
     // 初始回填判断选择的是时间还是时间区间
     if (defaultValue.value && !dateType) {
-      const _isTimeInterval = isTimeInterval(defaultValue.value, granularity.value);
-      setDateType(_isTimeInterval ? 'rangePicker' : 'datePicker');
+      const { isInterval, time } = isTimeInterval(defaultValue.value, granularity.value);
+      setDateType(isInterval ? 'rangePicker' : 'datePicker');
     }
     if (!defaultValue.value) {
       setDateType('datePicker');
