@@ -11,4 +11,3 @@ export { default as MapThemeControl } from './MapThemeControl';
 export { default as MapViewSettingControl } from './MapViewSettingControl';
 export { default as LayerPopup } from './LayerPopup';
 export { default as LogoControl } from './LogoControl';
-export { default as FilterApp } from './FilterApp';

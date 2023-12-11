@@ -1,5 +1,5 @@
 import type { SchemaProperties } from '@formily/json-schema';
-import { isUndefined } from 'lodash-es';
+import { isUndefined, max, min } from 'lodash-es';
 import { DATASET_FIELD_TYPE_MAP } from '../constants';
 import type { DatasetField, WidgetSchema } from '../specs';
 import type { DatasetFieldWithMeta, WidgetRegisterFormProps } from '../types';
@@ -69,10 +69,23 @@ export const getDatasetSelectFormSchema = (
   isRequired = true,
 ): SchemaProperties<any, any, any, any, any, any, any, any> => {
   const datasetOptions = props.datasets.map((dataset) => {
+    let _columns = getDatasetFields(isLocalOrRemoteDataset(dataset) ? dataset.columns : []);
+
+    if (dataset?.data && dataset.data.length) {
+      const cloumss = _columns.map((item) => {
+        const itemValue = dataset.data.map((_item: any) => _item[item.value]) || [];
+        const domain = item.type === 'number' ? [min(itemValue), max(itemValue)] : [...new Set(itemValue)];
+
+        return { ...item, domain };
+      });
+
+      _columns = cloumss;
+    }
+
     return {
       label: dataset.metadata.name,
       value: dataset.id,
-      columns: getDatasetFields(isLocalOrRemoteDataset(dataset) ? dataset.columns : []),
+      columns: _columns,
     };
   });
 

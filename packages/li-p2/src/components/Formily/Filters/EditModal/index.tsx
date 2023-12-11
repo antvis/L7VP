@@ -2,7 +2,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { Modal } from 'antd';
 import cls from 'classnames';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import type { FilterNodeItem, OptionType } from '../type';
@@ -28,18 +28,21 @@ export interface EditModalProps {
   /**
    * 选择发生改变时
    */
-  onChange: (value: any) => void;
+  onChange: (value: FilterNodeItem[]) => void;
 }
 
 const EditModal: React.FC<EditModalProps> = (props) => {
   const prefixCls = usePrefixCls('formily-filters-edit-modal');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const { open = false, value = [], options = [], onCancel, onChange } = props;
-  const [filters, setFilters] = useState<FilterNodeItem[]>(value);
-  const [selectedFilter, setSelectedFilter] = useState<FilterNodeItem>(value[0]);
+  const [filters, setFilters] = useState<FilterNodeItem[]>([]);
+  const [selectedFilter, setSelectedFilter] = useState<FilterNodeItem>();
 
   const selectedOptions = useMemo(() => {
-    return filters.map((item) => item.field);
+    if (filters.length) {
+      return filters.map((item) => item.field);
+    }
+    return [];
   }, [filters]);
 
   const delFilterItem = (id: string) => {
@@ -78,9 +81,23 @@ const EditModal: React.FC<EditModalProps> = (props) => {
   };
 
   const validOptions = useMemo(() => {
+    if (!selectedFilter) return [];
     const selected = selectedOptions.filter((item) => item !== selectedFilter.field);
     return options.filter((item) => !selected.includes(item.value));
   }, [selectedFilter]);
+
+  useEffect(() => {
+    if (open) {
+      if (value.length) {
+        setFilters(value);
+        setSelectedFilter(value?.[0] || []);
+      } else {
+        const _default = getDefaultValue(options[0]);
+        setFilters([_default]);
+        setSelectedFilter(_default);
+      }
+    }
+  }, [open]);
 
   return wrapSSR(
     <Modal
@@ -91,6 +108,7 @@ const EditModal: React.FC<EditModalProps> = (props) => {
       open={open}
       onOk={onSubmit}
       onCancel={onCancel}
+      destroyOnClose={true}
     >
       <div className={cls(`${prefixCls}__content`, hashId)}>
         <div className={cls(`${prefixCls}__content__left`, hashId)}>
@@ -143,7 +161,8 @@ const EditModal: React.FC<EditModalProps> = (props) => {
           <div className={cls(`${prefixCls}__content__left__add-filter`, hashId)}>
             <div>筛选配置</div>
           </div>
-          <EditContent value={selectedFilter} onChange={onFilterChange} options={validOptions} />
+
+          {selectedFilter && <EditContent value={selectedFilter} onChange={onFilterChange} options={validOptions} />}
         </div>
       </div>
     </Modal>,

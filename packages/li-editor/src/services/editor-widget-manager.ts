@@ -10,7 +10,6 @@ class EditorWidgetManager {
 
   registerWidget(widget: ImplementEditorWidget): void {
     // 注册相同控件覆盖掉之前的
-    console.log(widget.metadata.name, 'dslkgmdjk');
     this.widgets.set(widget.metadata.name, widget);
   }
 

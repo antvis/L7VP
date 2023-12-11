@@ -4,7 +4,6 @@ import type { ImplementWidgetProps } from '@antv/li-sdk';
 import { useLayerList } from '@antv/li-sdk';
 import { useUpdate } from 'ahooks';
 import { Empty, Popover, Tooltip } from 'antd';
-import type { Layer } from '@antv/larkmap/es/types';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash-es';
 import React, { useEffect, useMemo, useState } from 'react';

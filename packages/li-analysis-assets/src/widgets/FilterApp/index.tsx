@@ -6,15 +6,13 @@ export default implementWidget({
   version: 'v0.1',
   metadata: {
     name: 'FilterApp',
-    displayName: '筛选组件--',
+    displayName: '筛选组件',
     description: '筛选组件',
     type: 'Auto',
     category: 'DataAnalysis',
   },
   defaultProperties: {
-    isOpen: true,
-    trigger: 'hover',
-    items: [],
+    filters: [],
   },
   component,
   registerForm,

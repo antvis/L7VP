@@ -61,7 +61,7 @@ export type FilterDate = FilterBase & {
   };
 };
 
-export type FilterNumnber = FilterBase &
+export type FilterNumber = FilterBase &
   (
     | {
         type: 'number';
@@ -75,4 +75,4 @@ export type FilterNumnber = FilterBase &
       }
   );
 
-export type FilterNodeItem = FilterDate | FilterNumnber | FilterString;
+export type FilterNodeItem = FilterDate | FilterNumber | FilterString;

@@ -16,62 +16,39 @@ export interface FiltersProps {
   /**
    * value
    */
-  value?: FilterNodeItem;
+  value?: FilterNodeItem[];
   /**
    * 选择发生改变时
    */
-  onChange?: (value: FilterNodeItem) => void;
+  onChange?: (value: FilterNodeItem[]) => void;
 }
-
-const defaultFilter = [
-  {
-    id: '002',
-    field: '名称',
-    type: 'string',
-    operator: 'IN',
-    value: '',
-    params: {
-      radioType: 'radio',
-    },
-  },
-  { id: '001', field: 'depth', type: 'number', operator: '>=', value: 0 },
-  {
-    id: '003',
-    field: '开盘日期',
-    type: 'date',
-    operator: '>',
-    granularity: 'day',
-    value: ['2021-12-20 00:00:00', '2021-12-20 12:59:59'],
-    params: {
-      format: 'YYYY-MM-DD',
-    },
-  },
-];
 
 const InternalFilters: React.FC<FiltersProps> = (props) => {
   const prefixCls = usePrefixCls('formily-filters');
   const [wrapSSR, hashId] = useStyle(prefixCls);
-  const { options, value, onChange } = props;
+  const { options, value = [], onChange } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [filterList, setFilterList] = useState<FilterNodeItem[]>(defaultFilter);
-
-  console.log(props, '初始值---判断信心');
+  const [filterList, setFilterList] = useState<FilterNodeItem[]>(value);
 
   const handleCancel = () => {
     setIsModalOpen(false);
   };
 
   // 获取所有数据变更信息
-  const onfiltersChange = (val: any) => {
-    console.log(val, 'sdfkljdkh');
+  const onfiltersChange = (val: FilterNodeItem[]) => {
+    if (onChange) {
+      onChange(val);
+    }
+
+    setFilterList(val);
+    setIsModalOpen(false);
   };
 
   return wrapSSR(
     <div className={cls(`${prefixCls}`, hashId)}>
       <div className={cls(`${prefixCls}__filter-list`, hashId)}>
-        <Preview filters={filterList} />
-
-        <Button size="small" className={`${prefixCls}__filter-list__btn`} onClick={() => setIsModalOpen(true)}>
+        <Preview filters={filterList} options={options} />
+        <Button className={`${prefixCls}__filter-list__btn`} onClick={() => setIsModalOpen(true)}>
           编辑
         </Button>
       </div>

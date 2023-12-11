@@ -1,13 +1,16 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
 export default genStyleHook('filters-preview', (token) => {
-  const { componentCls } = token;
+  const { componentCls, antCls } = token;
 
   return {
     [componentCls]: {
-      display: 'inline-block',
       width: '100%',
-      marginBottom: '10px',
+
+      [`${antCls}-descriptions-item-content`]: {
+        maxHeight: '100px',
+        overflowY: 'auto',
+      },
     },
   };
 });

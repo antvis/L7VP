@@ -2,11 +2,11 @@ import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { Select } from 'antd';
 import cls from 'classnames';
 import React from 'react';
-import type { FilterNumnber, OptionType } from '../../../type';
+import type { FilterNumber, OptionType } from '../../../type';
 import useStyle from './style';
 
 export interface NumberItemProps {
-  value?: FilterNumnber;
+  value?: FilterNumber;
   /**
    * 筛选字段
    */
@@ -14,7 +14,7 @@ export interface NumberItemProps {
   /**
    * 选择发生改变时
    */
-  onChange?: (value: FilterNumnber) => void;
+  onChange?: (value: FilterNumber) => void;
 }
 
 const NumberItem: React.FC<NumberItemProps> = (props) => {

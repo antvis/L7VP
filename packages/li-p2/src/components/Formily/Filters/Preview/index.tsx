@@ -2,8 +2,10 @@ import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import cls from 'classnames';
 import React, { useMemo } from 'react';
 import { isEmpty } from 'lodash-es';
+import { Descriptions } from 'antd';
+import type { DescriptionsProps } from 'antd';
 import { isTimeInterval } from '../EditModal/EditContent/DateItem/helper';
-import type { FilterNodeItem } from '../type';
+import type { FilterNodeItem, OptionType } from '../type';
 import useStyle from './style';
 
 export interface PreviewProps {
@@ -11,23 +13,28 @@ export interface PreviewProps {
    * 筛选数组
    */
   filters: FilterNodeItem[];
+  /**
+   * 筛选字段
+   */
+  options: OptionType[];
 }
 
 const Preview: React.FC<PreviewProps> = (props) => {
   const prefixCls = usePrefixCls('formily-filters-preview');
   const [wrapSSR, hashId] = useStyle(prefixCls);
-  const { filters = [] } = props;
+  const { filters = [], options = [] } = props;
 
-  const list: { field: string; value: string }[] = useMemo(() => {
+  const items: DescriptionsProps['items'] = useMemo(() => {
     if (!filters.length) {
       return [];
     }
 
-    const _options = filters.map((item) => {
+    const _options = filters.map((item, index) => {
       if (isEmpty(item.value)) {
         return {
-          field: item.field,
-          value: '不限',
+          key: index,
+          label: item.field,
+          children: '不限',
         };
       }
 
@@ -35,42 +42,46 @@ const Preview: React.FC<PreviewProps> = (props) => {
         const { isInterval, time } = isTimeInterval(item.value as [string, string], item.params.format);
 
         return {
-          field: item.field,
-          value: (isInterval ? `${time?.[0]} 至 ${time?.[1]}` : time) as string,
+          key: index,
+          label: item.field,
+          children: (isInterval ? `${time?.[0]} 至 ${time?.[1]}` : time) as string,
         };
       }
 
       if (item.type === 'number') {
         if (item.operator === 'BETWEEN') {
           return {
-            field: item.field,
-            value: `<=${item.value?.[1]} 且 >=${item.value?.[0]}`,
+            key: index,
+            label: item.field,
+            children: `<=${item.value?.[1]} 且 >=${item.value?.[0]}`,
           };
         }
         return {
-          field: item.field,
-          value: `${item.operator}${item.value}`,
+          key: index,
+          label: item.field,
+          children: `${item.operator}${item.value}`,
         };
       }
 
+      const _domain = options.find((_item) => _item.value === item.field)?.domain;
+
       return {
-        field: item.field,
-        value: `包含：${item.value.toString()}`,
+        key: index,
+        label: item.field,
+        children: _domain?.length === item.value.length ? '全部' : `包含${item.value.toString()}`,
       };
     });
 
     return _options;
   }, [filters]);
 
+  if (!filters.length) {
+    return null;
+  }
+
   return wrapSSR(
     <div className={cls(`${prefixCls}`, hashId)}>
-      {list.map((item) => {
-        return (
-          <div>
-            {item.field} : {item.value}
-          </div>
-        );
-      })}
+      <Descriptions items={items} column={1} />
     </div>,
   );
 };

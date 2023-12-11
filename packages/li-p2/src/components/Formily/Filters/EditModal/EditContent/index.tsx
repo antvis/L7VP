@@ -53,7 +53,7 @@ const EditContent: React.FC<FiltersProps> = (props) => {
   }, [defaultValue]);
 
   useEffect(() => {
-    if (defaultValue.field && options) {
+    if (defaultValue?.field && options) {
       const _field = options.find((item) => item.value === defaultValue.field);
       const _domain = _field?.domain;
       setDomain(_domain);
@@ -61,7 +61,7 @@ const EditContent: React.FC<FiltersProps> = (props) => {
         setFormat(_field?.format || 'YYYY');
       }
     }
-  }, [defaultValue.field, options]);
+  }, [defaultValue?.field, options]);
 
   if (!filter) {
     return null;

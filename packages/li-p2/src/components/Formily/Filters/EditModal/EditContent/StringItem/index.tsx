@@ -30,6 +30,7 @@ const StringItem: React.FC<StringItemProps> = (props) => {
     onChange({
       ...defaluValue,
       params: {
+        ...defaluValue.params,
         radioType: type,
       },
       value: domain,
