@@ -55,7 +55,7 @@
   "devDependencies": {
     "@ant-design/icons": "^5.0.1",
     "@antv/l7": "^2.17.2",
-    "@antv/larkmap": "^1.4.1",
+    "@antv/larkmap": "^1.4.9",
     "@antv/li-core-assets": "^1.0.17",
     "@antv/li-editor": "^1.2.2",
     "@types/react": "^18.0.0",
@@ -69,7 +69,7 @@
   "peerDependencies": {
     "@ant-design/icons": "^5.0.1",
     "@antv/l7": "^2.17.2",
-    "@antv/larkmap": "^1.4.1",
+    "@antv/larkmap": "^1.4.9",
     "antd": "^5.5.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
