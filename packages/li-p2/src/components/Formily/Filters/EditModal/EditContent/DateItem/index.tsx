@@ -2,10 +2,10 @@ import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { DatePicker, Radio, Select } from 'antd';
 import cls from 'classnames';
 import dayjs from 'dayjs';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import type { FilterDate } from '../../../type';
 import { DEFAULT_OPTIONS } from './contants';
-import { getOptions, getTimeFormat, isTimeInterval } from './helper';
+import { getOptions, getTimeFormat } from './helper';
 import useStyle from './style';
 import type { GranularityItem } from './type';
 
@@ -29,7 +29,6 @@ const DateItem: React.FC<DateItemProps> = (props) => {
     return _timer ?? '';
   }, [defaultValue.value]);
 
-  const [dateType, setDateType] = useState<'datePicker' | 'rangePicker'>();
   const [granularity, setGranularity] = useState<GranularityItem>(DEFAULT_OPTIONS[0]);
 
   // 粒度 options
@@ -48,11 +47,10 @@ const DateItem: React.FC<DateItemProps> = (props) => {
   }, [defaultValue.field, defaultValue.granularity]);
 
   // 时间区间选择
-  const onDateTypeChange = (e: 'datePicker' | 'rangePicker') => {
-    setDateType(e);
+  const onDateTypeChange = (e: 'date' | 'range') => {
     const _times = getTimeFormat(timer[0], granularity?.value);
     if (_times) {
-      onChange({ ...defaultValue, value: _times });
+      onChange({ ...defaultValue, value: _times, params: { ...defaultValue.params, type: e } });
     }
   };
 
@@ -82,24 +80,13 @@ const DateItem: React.FC<DateItemProps> = (props) => {
     }
   };
 
-  useEffect(() => {
-    // 初始回填判断选择的是时间还是时间区间
-    if (defaultValue.value && !dateType) {
-      const { isInterval, time } = isTimeInterval(defaultValue.value, granularity.value);
-      setDateType(isInterval ? 'rangePicker' : 'datePicker');
-    }
-    if (!defaultValue.value) {
-      setDateType('datePicker');
-    }
-  }, [defaultValue]);
-
   return wrapSSR(
     <>
       <div className={cls(`${prefixCls}__filter`, hashId)}>
         <div className={cls(`${prefixCls}__field`, hashId)}>日期类型</div>
-        <Radio.Group value={dateType} onChange={(e) => onDateTypeChange(e.target.value)}>
-          <Radio value="datePicker">单日期</Radio>
-          <Radio value="rangePicker">日期区间</Radio>
+        <Radio.Group value={defaultValue.params.type || 'date'} onChange={(e) => onDateTypeChange(e.target.value)}>
+          <Radio value="date">单日期</Radio>
+          <Radio value="range">日期区间</Radio>
         </Radio.Group>
       </div>
 
@@ -116,7 +103,7 @@ const DateItem: React.FC<DateItemProps> = (props) => {
 
       <div className={cls(`${prefixCls}__filter`, hashId)}>
         <div className={cls(`${prefixCls}__field`, hashId)}>默认值</div>
-        {dateType === 'datePicker' && granularity && (
+        {defaultValue.params.type === 'date' && granularity && (
           <>
             {granularity.picker ? (
               <DatePicker
@@ -136,7 +123,7 @@ const DateItem: React.FC<DateItemProps> = (props) => {
           </>
         )}
 
-        {dateType === 'rangePicker' && granularity && (
+        {defaultValue.params.type === 'range' && granularity && (
           <>
             {granularity.picker ? (
               <RangePicker

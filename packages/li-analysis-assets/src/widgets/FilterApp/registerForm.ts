@@ -8,6 +8,7 @@ import type { FilterNodeItem } from '@antv/li-p2';
  * 属性面板生产的数据类型定义
  */
 export type Properties = {
+  datasetId: 'string';
   filters: FilterNodeItem[];
 };
 
@@ -46,6 +47,14 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
             state: {
               visible: '{{ $deps[0] !== undefined }}',
             },
+          },
+        },
+        {
+          dependencies: ['datasetId'],
+          fulfill: {
+            run: `$form.setFieldState('filters',state=>{  
+                state.value = [];
+              })`,
           },
         },
       ],

@@ -58,6 +58,7 @@ export type FilterDate = FilterBase & {
   value?: [string, string];
   params: {
     format: string;
+    type: 'date' | 'range';
   };
 };
 

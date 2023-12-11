@@ -2,7 +2,7 @@ import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { connect } from '@formily/react';
 import { Button } from 'antd';
 import cls from 'classnames';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import EditModal from './EditModal';
 import useStyle from './style';
 import type { FilterNodeItem, OptionType } from './type';
@@ -29,6 +29,10 @@ const InternalFilters: React.FC<FiltersProps> = (props) => {
   const { options, value = [], onChange } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [filterList, setFilterList] = useState<FilterNodeItem[]>(value);
+
+  useEffect(() => {
+    setFilterList(value);
+  }, [value]);
 
   const handleCancel = () => {
     setIsModalOpen(false);

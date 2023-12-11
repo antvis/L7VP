@@ -1,10 +1,10 @@
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
-import cls from 'classnames';
-import React, { useMemo } from 'react';
-import { isEmpty } from 'lodash-es';
-import { Descriptions } from 'antd';
 import type { DescriptionsProps } from 'antd';
-import { isTimeInterval } from '../EditModal/EditContent/DateItem/helper';
+import { Descriptions } from 'antd';
+import cls from 'classnames';
+import dayjs from 'dayjs';
+import { isEmpty } from 'lodash-es';
+import React, { useMemo } from 'react';
 import type { FilterNodeItem, OptionType } from '../type';
 import useStyle from './style';
 
@@ -39,12 +39,17 @@ const Preview: React.FC<PreviewProps> = (props) => {
       }
 
       if (item.type === 'date') {
-        const { isInterval, time } = isTimeInterval(item.value as [string, string], item.params.format);
+        const time =
+          item.params.type === 'date'
+            ? dayjs(item.value?.[0]).format(item.params.format)
+            : `${dayjs(item.value?.[0]).format(item.params.format)} 至 ${dayjs(item.value?.[1]).format(
+                item.params.format,
+              )}`;
 
         return {
           key: index,
           label: item.field,
-          children: (isInterval ? `${time?.[0]} 至 ${time?.[1]}` : time) as string,
+          children: time as string,
         };
       }
 

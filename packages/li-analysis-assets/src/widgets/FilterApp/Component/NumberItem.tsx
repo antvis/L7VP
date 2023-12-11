@@ -2,7 +2,7 @@ import { DownOutlined } from '@ant-design/icons';
 import type { FilterNumber } from '@antv/li-p2';
 import { Button, InputNumber, Popover } from 'antd';
 import React, { useEffect, useState } from 'react';
-import useStyle from './ComponenStyle';
+import useStyle from './style';
 
 export interface NumberItemProps {
   value: FilterNumber;
@@ -68,6 +68,7 @@ const NumberItem: React.FC<NumberItemProps> = (props) => {
     <>
       <div>
         <InputNumber
+          placeholder="最小值"
           min={domain[0]}
           max={domain[1]}
           value={ranges[0]}
@@ -75,6 +76,7 @@ const NumberItem: React.FC<NumberItemProps> = (props) => {
         />
         -
         <InputNumber
+          placeholder="最大值"
           min={domain[0]}
           max={domain[1]}
           value={ranges[1]}
