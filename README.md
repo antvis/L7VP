@@ -1,16 +1,16 @@
-<img src="https://gw.alipayobjects.com/zos/antfincdn/R8sN%24GNdh6/language.svg" width="18"> [English](./README.en-US.md) | 简体中文
+<img src="https://gw.alipayobjects.com/zos/antfincdn/R8sN%24GNdh6/language.svg" width="18"> English | [简体中文](./README.zh-CN.md)
 
 <h1 align="center">L7VP</h1>
 
 <div align="center">
 
-🌍 L7VP （<a href="https://github.com/antvis/L7" target="_blank">L7</a> Visualization Platform）地理空间智能可视分析工具和应用研发工具。
+🌍 L7VP （<a href="https://github.com/antvis/L7" target="_blank">L7</a> Visualization Platform）is an geospatial intelligent visual analysis and application development tools.
 
 <p align="center">
-  <a href="https://locationinsight.antv.antgroup.com" target="_blank">网站</a> •
-  <a href="https://locationinsight.antv.antgroup.com/#/docs" target="_blank">文档</a> •
+  <a href="https://locationinsight.antv.antgroup.com" target="_blank">Website</a> •
+    <a href="https://locationinsight.antv.antgroup.com/#/docs" target="_blank">Document</a> •
   <a href="https://locationinsight.antv.antgroup.com/#/docs?path=cmp1vz2u5p07ghrt" target="_blank">SDK</a> •
-  <a href="https://locationinsight.antv.antgroup.com/#/case" target="_blank">案例</a>
+  <a href="https://locationinsight.antv.antgroup.com/#/case" target="_blank">Case</a>
 </p>
 
 [![SDK Version](https://badgen.net/npm/v/@antv/li-sdk)](https://npmjs.com/@antv/li-sdk) [![Release Status](https://github.com/antvis/L7VP/workflows/release/badge.svg)](https://github.com/antvis/L7VP/actions?query=workflow:release) [![Percentage of issues still open](http://isitmaintained.com/badge/open/antvis/l7vp.svg)](http://isitmaintained.com/project/antvis/l7vp 'Percentage of issues still open') [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/antvis/l7vp.svg)](http://isitmaintained.com/project/antvis/l7vp 'Average time to resolve an issue') ![License](https://flat-badgen.vercel.app/github/license/antvis/L7VP)
@@ -23,28 +23,28 @@
 
 <br>
 
-AntV [L7VP](https://locationinsight.antv.antgroup.com) 是一款地理空间智能可视分析工具&应用研发工具，其原名 LocationInsight，L7VP 取名意为 AntV L7 Visualization Platform，[L7](https://github.com/antvis/L7) 中的 L 代表 Location，7 代表世界七大洲，寓意能为全球位置数据提供可视分析的能力。
+AntV [L7VP](https://locationinsight.antv.antgroup.com) is a geospatial intelligent visual analysis tool and application development tool, originally named LocationInsight. L7VP is named after AntV L7 Visualization Platform, where L represents Location and 7 represents the seven continents of the world, implying the ability to provide visual analysis for global location data.
 
-[L7VP](https://locationinsight.antv.antgroup.com) 通过其丰富的地理可视化效果、洞察分析能力、地图应用搭建工具和开放扩展能力，为用户提供了一个强大而灵活的地理可视分析工具，满足各类可视化需求和数据分析应用场景。
+[L7VP](https://locationinsight.antv.antgroup.com) provides users with a powerful and flexible geographic visualization analysis tool through its rich geographic visualization effects, insight analysis capabilities, map application building tools, and open expansion capabilities, meeting various visualization needs and data analysis application scenarios.
 
-## ✨ 特性
+## ✨ Features
 
-- 🚀 快速：具备有时空数据的洞察能力，快速出可视化成果。
-- 🛠 扩展：拥有可扩展能力，业务可自定义定制。
-- 🏗 嵌入：提供开放的组件，业务系统可轻松嵌入。
+- 🚀 Fast: Possess insight into spatio-temporal data, and quickly produce visualization results.
+- 🛠 Expansion: With scalability, the business can be customized.
+- 🏗 Embedding: Provide open components, business systems can be easily embedded.
 
-## 🖥 在线工具
+## 🖥 Online
 
-- <a href="https://locationinsight.antv.antgroup.com" target="_blank">在线网址</a>
-- <a href="https://locationinsight.antv.antgroup.com/#/docs?path=get-started" target="_blank">快速入门</a>
-- <a href="https://locationinsight.antv.antgroup.com/#/docs?path=data-formats" target="_blank">数据格式</a>
-- <a href="https://locationinsight.antv.antgroup.com/#/docs?path=layer-category" target="_blank">图层分类</a>
+- <a href="https://locationinsight.antv.antgroup.com" target="_blank">Website</a>
+- <a href="https://locationinsight.antv.antgroup.com/#/docs?path=get-started" target="_blank">Get Started</a>
+- <a href="https://locationinsight.antv.antgroup.com/#/docs?path=data-formats" target="_blank">Data Formats</a>
+- <a href="https://locationinsight.antv.antgroup.com/#/docs?path=layer-category" target="_blank">Layer Category</a>
 
 <div align="center">
   <img src="https://github.com/antvis/L7VP/assets/26923747/9d064849-ef9f-4999-9d98-3a704df554fc" width="800">
 </div>
 
-更多了解 👉 <a href="https://locationinsight.antv.antgroup.com/#/docs" target="_blank">使用文档</a>
+Learn more 👉 <a href="https://locationinsight.antv.antgroup.com/#/docs" target="_blank">User Guide</a>
 
 ## 🐍 PyL7VP
 
@@ -64,34 +64,34 @@ l7vp_map.show()
   <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*MsnaS4IHywoAAAAAAAAAAAAADmJ7AQ/original" width="800">
 </div>
 
-更多了解 👉 [PyL7VP](https://github.com/antvis/L7VP/tree/master/bindings/pyl7vp)
+Learn more 👉 [PyL7VP](https://github.com/antvis/L7VP/tree/master/bindings/pyl7vp)
 
-## 🔬 本地示例
+## 🔬 Local Case
 
-### 🔨 构建依赖
+### 🔨 PreBuild
 
 ```bash
 yarn install && yarn build:package
 ```
 
-### 📦 安装依赖
+### 📦 Installation
 
 ```bash
 cd examples/builder && yarn install
 ```
 
-### 🛫 启动示例
+### 💻 Start Up
 
 ```bash
 yarn run dev
 ```
 
-## 🤝 如何贡献
+## 🤝 How to Contribute
 
-如果您在使用的过程中碰到问题，可以先通过 [issues](https://github.com/antvis/l7vp/issues) 看看有没有类似的 bug 或者建议。
+Your contributions are always welcome! Please Do have a look at the [issues](https://github.com/antvis/l7vp/issues) first.
 
-如需提交代码，请遵从我们的[贡献指南](https://github.com/antvis/l7vp/blob/master/CONTRIBUTING.zh-CN.md)。
+To become a contributor, please follow our [contributing guide](https://github.com/antvis/l7vp/blob/master/CONTRIBUTING.md).
 
-## 许可证
+## License
 
 [Apache-2.0](./LICENSE)
