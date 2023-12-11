@@ -1,7 +1,7 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
 export default genStyleHook('scale-selector__custom-content__custom-number__input', (token) => {
-  const { componentCls, antCls, colorTextDescription } = token;
+  const { componentCls, antCls, colorTextDescription, colorBorder, lineType } = token;
 
   return {
     [componentCls]: {
@@ -20,6 +20,8 @@ export default genStyleHook('scale-selector__custom-content__custom-number__inpu
         '&__color': {
           width: '18px',
           height: '18px',
+          border: `1px ${colorBorder} ${lineType}`,
+          borderRadius: '4px',
         },
 
         '&__content': {

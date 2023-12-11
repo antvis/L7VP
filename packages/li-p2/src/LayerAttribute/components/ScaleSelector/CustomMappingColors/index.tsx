@@ -11,6 +11,7 @@ type CustomMappingColorProps = {
   dataType: 'string' | 'number';
   domain: string[] | [number, number];
   value?: CustomMappingData;
+  unknown?: string;
   onChange: (value: CustomMappingData) => void;
   className?: string;
 };
@@ -20,6 +21,7 @@ const CustomMappingColor = (props: CustomMappingColorProps) => {
   const prefixCls = usePrefixCls('formily-color-range-selector__custom-range');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const [customRanges, setCustomRanges] = useState<CustomMappingColorItem[]>([]);
+  const [unknown, setUnknown] = useState<string>(props.unknown ?? '#f000');
 
   useEffect(() => {
     if (value?.list?.length) {
@@ -41,15 +43,27 @@ const CustomMappingColor = (props: CustomMappingColorProps) => {
     const list = customRanges.map((item) => {
       return { value: item.value, color: item.color };
     });
-    onChange({ type: dataType, list });
+    onChange({ type: dataType, list, unknown: unknown });
   };
 
   return wrapSSR(
     <div className={classnames(`${prefixCls}`, hashId, className)}>
       <div className={classnames(`${prefixCls}_custom-content`, hashId, className)}>
-        {dataType === 'number' && <CustomNumber value={customRanges} onChange={onCustomRangesChange} />}
+        {dataType === 'number' && (
+          <CustomNumber value={customRanges} domain={domain as [number, number]} onChange={onCustomRangesChange} />
+        )}
 
-        {dataType === 'string' && <CustomString domain={domain} value={customRanges} onChange={onCustomRangesChange} />}
+        {dataType === 'string' && (
+          <CustomString
+            domain={domain as string[]}
+            value={customRanges}
+            onChange={onCustomRangesChange}
+            unknown={unknown}
+            onUnknownChange={(color: string) => {
+              setUnknown(color);
+            }}
+          />
+        )}
       </div>
 
       <div className={`${prefixCls}__btn`}>

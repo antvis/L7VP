@@ -89,7 +89,7 @@ const NumberItem = ({ size = 'middle', value, min = -Infinity, max = Infinity, p
               controls={false}
               size={size}
               min={min}
-              max={max}
+              max={itemVal?.[1]}
               value={itemVal?.[0]}
               className={`${prefixCls}__input`}
               onChange={(e) => onFirstInputChange(e as number)}
@@ -100,7 +100,7 @@ const NumberItem = ({ size = 'middle', value, min = -Infinity, max = Infinity, p
             <InputNumber
               controls={false}
               size={size}
-              min={min}
+              min={itemVal?.[0]}
               max={max}
               value={itemVal?.[1]}
               className={`${prefixCls}__input`}
