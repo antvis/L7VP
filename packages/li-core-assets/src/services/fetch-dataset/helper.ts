@@ -46,7 +46,7 @@ const datasetFilterService = async (
  */
 export const getFetchData = (params: Params) => {
   const { properties, filter, signal } = params;
-  const requestkey = properties.url + properties.requestOptions.method + JSON.stringify(properties.requestOptions.body);
+  const requestkey = JSON.stringify(properties);
   const defaultRequestInit: RequestInit = {
     mode: 'cors',
     cache: 'default',
@@ -67,7 +67,12 @@ export const getFetchData = (params: Params) => {
   const { onComplete, onError } = properties;
 
   return fetch(properties.url, requestInit)
-    .then((res) => res.json())
+    .then((res) => {
+      if (!res.ok) {
+        return Promise.reject(new Error(`status ${res.status} ${res.statusText}`));
+      }
+      return res.json();
+    })
     .then((res) => {
       if (onComplete && isJSFunction(onComplete)) {
         const _onComplete = parseFunction(onComplete.value);
@@ -89,11 +94,17 @@ export const getFetchData = (params: Params) => {
       return Promise.reject(new Error('数据格式不是数组对象, 请检查数据格式是否正确。'));
     })
     .catch((err) => {
-      if (onError && isJSFunction(onError)) {
-        const _onError = parseFunction(onError.value);
-        if (_onError) return _onError(err);
-
-        return err;
+      if (err.name == 'AbortError') {
+        // 取消发起的请求不做任何处理
+        return [];
+      } else {
+        const _onError = onError && isJSFunction(onError) ? parseFunction(onError.value) : undefined;
+        if (_onError) {
+          const result = _onError(err);
+          throw result ? result : err;
+        } else {
+          throw err;
+        }
       }
     });
 };

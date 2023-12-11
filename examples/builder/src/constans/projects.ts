@@ -1032,6 +1032,7 @@ const MARINE_PROTECTED_AREA: Application = {
             }
           },
           iconAtlas: {
+            "unknown_icon": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*EcQZS6JM69EAAAAAAAAAAAAADmJ7AQ/original",
             "landmark_park": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*JZf9T6psSzkAAAAAAAAAAAAADmJ7AQ/original",
             "landmark_fire-station": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*lKIITZAG_PcAAAAAAAAAAAAADmJ7AQ/original",
             "landmark-coffee": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*uHYERpUeZ_MAAAAAAAAAAAAADmJ7AQ/original",
@@ -1064,11 +1065,16 @@ const MARINE_PROTECTED_AREA: Application = {
             "fire_fighting-extinguisher": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*vIadR56-pKMAAAAAAAAAAAAADmJ7AQ/original",
             "fire_fighting-water-pump": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*TFzHSLnqc9gAAAAAAAAAAAAADmJ7AQ/original",
             "fire_fighting-pump-room": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*bWYLQqc8sTIAAAAAAAAAAAAADmJ7AQ/original",
+            "flag_red": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*CHCXT7F_3YkAAAAAAAAAAAAADmJ7AQ/original",
+            "flag_yellow": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*8yZhRYZ-PpAAAAAAAAAAAAAADmJ7AQ/original",
+            "flag_green": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*e58jSpHWmr0AAAAAAAAAAAAADmJ7AQ/original",
+            "flag_blue": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*vPCVQazLoUcAAAAAAAAAAAAADmJ7AQ/original",
+            "markers_warn": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*MxBbQZx5byoAAAAAAAAAAAAADmJ7AQ/original",
+            "markers_query": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*QfWGQ7fzkrcAAAAAAAAAAAAADmJ7AQ/original",
             "other_aquatic-germplasm-reserve": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sSbCRKP1RsgAAAAAAAAAAAAADmJ7AQ/original",
             "other_marine-nature-reserves": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*dPoYQoBq4f0AAAAAAAAAAAAADmJ7AQ/original",
             "other_marine-park": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*on7pR5VRjHsAAAAAAAAAAAAADmJ7AQ/original",
-            "other_special-marinep-protected-areas": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*DulySrR5zuwAAAAAAAAAAAAADmJ7AQ/original",
-            'unknown_icon': 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*EcQZS6JM69EAAAAAAAAAAAAADmJ7AQ/original'
+            "other_special-marinep-protected-areas": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*DulySrR5zuwAAAAAAAAAAAAADmJ7AQ/original"
           },
           iconStyle: {
             opacity: 0.9,

@@ -50,7 +50,8 @@ const ProcessingFunction = (props: ProcessingFunctionProps) => {
       val.key === 'success-func'
         ? {
             name: val.label,
-            value: `function onComplete(res) {
+            value: `// 函数必须返回 Record<string, any>[] 数组对象数据结构
+function onComplete(res) {
   return res.data;
 }`,
             key: val.key,
@@ -109,7 +110,7 @@ const ProcessingFunction = (props: ProcessingFunctionProps) => {
                   }}
                   onChange={(fun) => handleEditorChange(fun, item.key)}
                   theme="vs-dark"
-                  value={item.value}
+                  defaultValue={item.value}
                 />
               </div>
               <div className="li-provessing-function__success-and-err__content-icon">
