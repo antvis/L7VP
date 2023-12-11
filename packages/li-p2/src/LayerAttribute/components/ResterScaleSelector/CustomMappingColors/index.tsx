@@ -50,6 +50,7 @@ const CustomMappingColor = (props: CustomMappingColorProps) => {
         {type === 'cat' && <CustomCat value={customRanges} onChange={onCustomRangesChange} />}
         {type === 'custom' && (
           <CustomNumber
+            domain={domain as [number, number]}
             value={customRanges}
             onChange={(list) => onCustomRangesChange(list as CustomMappingColorItem[])}
           />

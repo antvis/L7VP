@@ -1,10 +1,9 @@
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { connect } from '@formily/react';
-import { useUpdateEffect } from 'ahooks';
-import { Select, Divider } from 'antd';
+import { Divider, Select } from 'antd';
 import cls from 'classnames';
-import React, { useEffect, useMemo, useState } from 'react';
-import { DEHAULT_OPTIONS } from './constants';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { DEHAULT_COLORS, DEHAULT_OPTIONS } from './constants';
 import CustomMappingColor from './CustomMappingColors';
 import { getCustomMappingData, getDefaultValue, getScaleByCustomMappingData } from './helper';
 import useStyle from './style';
@@ -35,8 +34,17 @@ type ScaleSelectorProp = {
 
 const Internal = (props: ScaleSelectorProp) => {
   const prefixCls = usePrefixCls('formily-scale-selector');
-  const { dataType, value, domain = [], defaultColors = ['#f00', '#ff0', '#00f', '#faa'], onChange } = props;
+  const { dataType, value, domain = [], onChange } = props;
+  const lastDataStateRef = useRef<Pick<ScaleSelectorProp, 'dataType' | 'domain'> | null>(null);
   const [wrapSSR, hashId] = useStyle(prefixCls);
+
+  const defaultColors = useMemo(() => {
+    if (props.defaultColors) {
+      return props.defaultColors;
+    } else {
+      return DEHAULT_COLORS[dataType];
+    }
+  }, [props.defaultColors]);
 
   const customMappingData = useMemo(() => {
     if (value) {
@@ -74,40 +82,50 @@ const Internal = (props: ScaleSelectorProp) => {
     }
   };
 
-  // dataType 变更，引起可选类型变更，当 scale 为非自定义时自动填充当前类型
   useEffect(() => {
     let defaultSelectType: SelectType | undefined;
-
-    // 初始，scale 填入默认值
-    if (!value) {
-      defaultSelectType = selectOptions[0].value;
-      // 非自定义数据情况
-    } else if (!value.isCustom) {
-      // 判断 value 类型是否有效
-      const isValid = selectOptions.some((item) => item.value === value.type);
-      if (!isValid) {
+    // 初始化没有值时，设置第一项为默认值
+    if (!lastDataStateRef.current) {
+      if (value) {
+        lastDataStateRef.current = { dataType, domain };
+      } else {
         defaultSelectType = selectOptions[0].value;
+
+        setSelectedType(defaultSelectType);
+        //@ts-ignore
+        onChange?.({ isCustom: false, type: defaultSelectType });
+
+        lastDataStateRef.current = { dataType, domain };
       }
+      return;
     }
 
-    // 设置默认选中类型；因类型推断问题，当前传入类型去除 custom
-    if (defaultSelectType && defaultSelectType !== 'custom') {
+    // 对比类型判断 出现类型变更
+    if (lastDataStateRef.current.dataType !== dataType) {
+      defaultSelectType = selectOptions[0].value;
+
       setSelectedType(defaultSelectType);
+      //@ts-ignore
       onChange?.({ isCustom: false, type: defaultSelectType });
-    }
-  }, [selectOptions]);
 
-  // 自定义 scale 且数据 domain 发生更新时，自动计算默认值
-  useUpdateEffect(() => {
-    if (selectedType === 'custom' && value?.domain && value.domain.length !== 0) {
-      const range = value.range ? [...new Set(value.range)] : defaultColors;
-      const _defaultValue = getDefaultValue(dataType, domain, range);
-      if (onChange)
-        onChange({
-          ..._defaultValue,
-        });
+      lastDataStateRef.current = { dataType, domain };
+      return;
     }
-  }, [domain.toString()]);
+
+    // 类型没有发生变更，但是 domain 出现变更，需要进行重新赋予默认值
+    if (lastDataStateRef.current.domain.toString() !== domain.toString()) {
+      if (value && value?.domain && value.domain.length !== 0) {
+        const range = value.range && value.range.length ? [...new Set(value.range)] : defaultColors;
+        const _defaultValue = getDefaultValue(dataType, domain, range);
+        if (onChange)
+          onChange({
+            ..._defaultValue,
+          });
+      }
+      lastDataStateRef.current = { dataType, domain };
+      return;
+    }
+  }, [dataType, domain.toString()]);
 
   return wrapSSR(
     <Select
@@ -140,6 +158,7 @@ const Internal = (props: ScaleSelectorProp) => {
                   dataType={dataType}
                   domain={domain}
                   value={customMappingData}
+                  unknown={value?.unknown}
                   onChange={(ranges: CustomMappingData) => onValueChange(ranges)}
                 />
               </>

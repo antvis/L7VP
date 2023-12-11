@@ -7,6 +7,7 @@ export type CustomMappingColorItem = {
 export type CustomMappingData = {
   type: 'number' | 'string' | 'custom';
   list: CustomMappingColorItem[];
+  unknown?: string;
 };
 
 export type SelectType = 'custom' | 'quantize' | 'quantile' | 'cat';
@@ -18,4 +19,5 @@ export type SelectorValue = {
   isCustom: boolean;
   domain?: string[] | number[];
   range?: string[];
+  unknown?: string;
 };
