@@ -131,7 +131,7 @@ const FilterDateItem: React.FC<FilterDateItemProps> = (props) => {
                   ? dayjs(typeof defaultValue === 'string' ? defaultValue : defaultValue[0], format)
                   : undefined
               }
-              picker={granularity}
+              picker={(granularity === 'day' ? 'date' : granularity) as 'year' | 'month' | 'date'}
               format={format}
               onChange={onRangePickerChange}
               renderExtraFooter={() => (isRenderExtraFooter ? renderExtraFooter : null)}
@@ -162,7 +162,7 @@ const FilterDateItem: React.FC<FilterDateItemProps> = (props) => {
               open={open}
               onOpenChange={(open) => setOpen(open)}
               value={defaultValue ? [dayjs(defaultValue[0], format), dayjs(defaultValue[1], format)] : undefined}
-              picker={granularity}
+              picker={(granularity === 'day' ? 'date' : granularity) as 'year' | 'month' | 'date'}
               onChange={onRangePickerChange}
               format={format}
               renderExtraFooter={() => (isRenderExtraFooter ? renderExtraFooter : null)}

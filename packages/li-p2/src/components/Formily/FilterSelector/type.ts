@@ -56,7 +56,7 @@ export type FilterString = FilterBase & {
 export type FilterDate = FilterBase & {
   type: 'date';
   /** 日期粒度 */
-  granularity?: Granularity;
+  granularity: Granularity;
   operator: 'BETWEEN';
   value?: [string, string] | string;
   params: {

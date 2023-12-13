@@ -74,6 +74,7 @@ export const getDatasetSelectFormSchema = (
     // @ts-ignore
     if (dataset?.data && dataset.data.length) {
       const cloumss = _columns.map((item) => {
+        // @ts-ignore
         const itemValue = dataset.data.map((_item: any) => _item[item.value]) || [];
         const domain = item.type === 'number' ? [min(itemValue), max(itemValue)] : [...new Set(itemValue)];
 

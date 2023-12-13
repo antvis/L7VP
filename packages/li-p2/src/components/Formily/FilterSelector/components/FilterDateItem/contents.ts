@@ -28,7 +28,7 @@ export const DEFAULT_OPTIONS: (GranularityItem & { other: string; otherLabel: st
     value: 'YYYY-MM-DD',
     other: 'YYYY/MM/DD',
     otherLabel: '日',
-    granularity: 'date',
+    granularity: 'day',
     picker: 'date',
   },
   {

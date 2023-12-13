@@ -1,4 +1,4 @@
-export type Granularity = 'second' | 'minute' | 'hour' | 'date' | 'month' | 'year';
+export type Granularity = 'second' | 'minute' | 'hour' | 'day' | 'month' | 'year';
 
 type PickerType = 'year' | 'month' | 'date';
 
