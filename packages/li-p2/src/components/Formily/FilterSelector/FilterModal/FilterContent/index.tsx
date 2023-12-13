@@ -9,7 +9,7 @@ import NumberItem from './NumberItem';
 import StringItem from './StringItem';
 import useStyle from './style';
 
-export interface FiltersProps {
+export interface FilterContentProps {
   value: FilterNodeItem;
   /**
    * 筛选字段
@@ -21,30 +21,23 @@ export interface FiltersProps {
   onChange: (value: FilterNodeItem) => void;
 }
 
-const EditContent: React.FC<FiltersProps> = (props) => {
-  const prefixCls = usePrefixCls('formily-filter-selector-edit-content');
+const FilterContent: React.FC<FilterContentProps> = (props) => {
+  const prefixCls = usePrefixCls('formily-filter-selector-content');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const { value: defaultValue, options, onChange } = props;
   const [filter, setFilter] = useState<FilterNodeItem>(defaultValue);
-  const [domain, setDomain] = useState<(string | number)[]>();
   const [format, setFormat] = useState<string>('YYYY');
 
-  console.log(defaultValue, 'defaultValue');
-
-  // 字段变更
+  // 筛选字段变更
   const onFieldChange = (field: string) => {
     const _field = options.find((item) => item.value === field) as OptionType;
-    setDomain(_field.domain);
-    if (_field.type === 'date') {
-      setFormat(_field?.format || 'YYYY');
-    }
-
+    setFormat(_field.format ?? '');
     const _filter = { ...getDefaultValue(_field), id: filter.id };
     setFilter(_filter);
     onChange(_filter);
   };
 
-  // 字段配置变更
+  // 配置项变更
   const onFilterValueChange = (value: FilterNodeItem) => {
     setFilter(value);
     onChange(value);
@@ -52,18 +45,13 @@ const EditContent: React.FC<FiltersProps> = (props) => {
 
   useEffect(() => {
     setFilter(defaultValue);
-  }, [defaultValue]);
-
-  useEffect(() => {
-    if (defaultValue?.field && options) {
+    if (defaultValue.field && options) {
       const _field = options.find((item) => item.value === defaultValue.field);
-      const _domain = _field?.domain;
-      setDomain(_domain);
       if (_field?.type === 'date') {
         setFormat(_field?.format || 'YYYY');
       }
     }
-  }, [defaultValue?.field, options]);
+  }, [defaultValue, options]);
 
   if (!filter) {
     return null;
@@ -76,9 +64,7 @@ const EditContent: React.FC<FiltersProps> = (props) => {
         <FieldSelect value={filter.field} style={{ width: '100%' }} options={options} onChange={onFieldChange} />
       </div>
 
-      {filter.type === 'string' && (
-        <StringItem value={filter} domain={domain as string[]} onChange={onFilterValueChange} />
-      )}
+      {filter.type === 'string' && <StringItem value={filter} onChange={onFilterValueChange} />}
 
       {filter.type === 'date' && <DateItem value={filter} format={format} onChange={onFilterValueChange} />}
 
@@ -87,4 +73,4 @@ const EditContent: React.FC<FiltersProps> = (props) => {
   );
 };
 
-export default EditContent;
+export default FilterContent;

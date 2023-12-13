@@ -1,10 +1,13 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
-export default genStyleHook('filter-selector-edit-modal-right-number-item', (token) => {
+export default genStyleHook('filter-selector-content', (token) => {
   const { componentCls, colorText } = token;
 
   return {
     [componentCls]: {
+      width: '100%',
+      padding: '12px 12px 0',
+
       '&__filter': {
         marginBottom: '8px',
       },

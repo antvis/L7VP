@@ -6,12 +6,12 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import type { FilterNodeItem, OptionType } from '../type';
-import EditContent from './EditContent';
-import EditItem from './EditItem';
+import FilterContent from './FilterContent';
+import FilterItem from './FilterItem';
 import { getDefaultValue } from './helper';
 import useStyle from './style';
 
-export interface EditModalProps {
+export interface FilterModalProps {
   /**
    * 是否打开
    */
@@ -31,8 +31,8 @@ export interface EditModalProps {
   onChange: (value: FilterNodeItem[]) => void;
 }
 
-const EditModal: React.FC<EditModalProps> = (props) => {
-  const prefixCls = usePrefixCls('formily-filter-selector-edit-modal');
+const FilterModal: React.FC<FilterModalProps> = (props) => {
+  const prefixCls = usePrefixCls('formily-filter-selector-modal');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const { open = false, value = [], options = [], onCancel, onChange } = props;
   const [filterList, setFilterList] = useState<FilterNodeItem[]>([]);
@@ -141,7 +141,7 @@ const EditModal: React.FC<EditModalProps> = (props) => {
                     hashId,
                   )}
                 >
-                  <EditItem
+                  <FilterItem
                     index={index}
                     id={item.id}
                     field={item.field}
@@ -162,7 +162,7 @@ const EditModal: React.FC<EditModalProps> = (props) => {
           </div>
 
           {selectedFilterNode && (
-            <EditContent value={selectedFilterNode} onChange={onFilterChange} options={validOptions} />
+            <FilterContent value={selectedFilterNode} onChange={onFilterChange} options={validOptions} />
           )}
         </div>
       </div>
@@ -170,4 +170,4 @@ const EditModal: React.FC<EditModalProps> = (props) => {
   );
 };
 
-export default EditModal;
+export default FilterModal;

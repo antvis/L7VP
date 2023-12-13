@@ -7,23 +7,23 @@ import { getOptions } from './helper';
 import useStyle from './style';
 export interface StringItemProps {
   value: FilterString;
-  /**
-   * 筛选字段
-   */
-  domain: string[];
   onChange: (value: FilterString) => void;
 }
 
 const StringItem: React.FC<StringItemProps> = (props) => {
-  const prefixCls = usePrefixCls('formily-filter-selector-edit-modal-right-string-item');
+  const prefixCls = usePrefixCls('formily-filter-selector-modal-string-item');
   const [wrapSSR, hashId] = useStyle(prefixCls);
-  const { value: defaluValue, domain = [], onChange } = props;
+  const { value: defaluValue, onChange } = props;
   const [selectedOptions, setSelectedOptions] = useState<string | string[]>('all');
   const [options, setOptions] = useState<{ label: string; value: string; disabled?: boolean }[]>();
 
-  const onTypeChange = (type: 'radio' | 'multip') => {
-    if (type === 'multip') {
-      const _options = getOptions(domain, true);
+  // 类型变化
+  const onTypeChange = (type: 'radio' | 'multiple') => {
+    if (type === 'multiple') {
+      const _options = getOptions(defaluValue.params.domain, true);
+      setOptions(_options);
+    } else {
+      const _options = getOptions(defaluValue.params.domain, false);
       setOptions(_options);
     }
 
@@ -33,7 +33,7 @@ const StringItem: React.FC<StringItemProps> = (props) => {
         ...defaluValue.params,
         radioType: type,
       },
-      value: domain,
+      value: defaluValue.params.domain,
     });
   };
 
@@ -43,7 +43,7 @@ const StringItem: React.FC<StringItemProps> = (props) => {
       if (val === 'all') {
         onChange({
           ...defaluValue,
-          value: domain,
+          value: defaluValue.params.domain,
         });
       } else {
         onChange({
@@ -55,15 +55,15 @@ const StringItem: React.FC<StringItemProps> = (props) => {
     } else {
       if (typeof val === 'string') return;
       if (val.includes('all')) {
-        const _options = getOptions(domain, true);
+        const _options = getOptions(defaluValue.params.domain, true);
         setOptions(_options);
         onChange({
           ...defaluValue,
-          value: domain,
+          value: defaluValue.params.domain,
         });
         setSelectedOptions(['all']);
       } else {
-        const _options = getOptions(domain, false);
+        const _options = getOptions(defaluValue.params.domain, false);
         setOptions(_options);
         onChange({
           ...defaluValue,
@@ -76,7 +76,7 @@ const StringItem: React.FC<StringItemProps> = (props) => {
 
   useEffect(() => {
     if (defaluValue.value) {
-      if (defaluValue.value.length === domain.length) {
+      if (defaluValue.value.length === defaluValue.params.domain.length) {
         setSelectedOptions('all');
       } else {
         setSelectedOptions(defaluValue.value);
@@ -85,11 +85,11 @@ const StringItem: React.FC<StringItemProps> = (props) => {
   }, [defaluValue.value]);
 
   useEffect(() => {
-    if (domain && domain.length) {
-      const _options = getOptions(domain, false);
+    if (defaluValue.params.domain && defaluValue.params.domain.length) {
+      const _options = getOptions(defaluValue.params.domain, false);
       setOptions(_options);
     }
-  }, [domain]);
+  }, [defaluValue.params.domain]);
 
   return wrapSSR(
     <>
@@ -97,7 +97,7 @@ const StringItem: React.FC<StringItemProps> = (props) => {
         <div className={cls(`${prefixCls}__field`, hashId)}>筛选方式</div>
         <Radio.Group value={defaluValue.params?.radioType} onChange={(e) => onTypeChange(e.target.value)}>
           <Radio value="radio">单选</Radio>
-          <Radio value="multip">多选</Radio>
+          <Radio value="multiple">多选</Radio>
         </Radio.Group>
       </div>
 
@@ -105,7 +105,6 @@ const StringItem: React.FC<StringItemProps> = (props) => {
         <div className={cls(`${prefixCls}__field`, hashId)}>设定默认值</div>
         {defaluValue.params?.radioType === 'radio' && (
           <Select
-            allowClear
             style={{ width: '100%' }}
             placeholder="请选择"
             value={selectedOptions}
@@ -114,10 +113,9 @@ const StringItem: React.FC<StringItemProps> = (props) => {
           />
         )}
 
-        {defaluValue.params?.radioType === 'multip' && (
+        {defaluValue.params?.radioType === 'multiple' && (
           <Select
             mode="multiple"
-            allowClear
             style={{ width: '100%' }}
             placeholder="请选择"
             value={selectedOptions}

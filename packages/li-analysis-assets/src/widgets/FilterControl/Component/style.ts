@@ -13,7 +13,6 @@ const useStyle = () => {
       padding: 10px;
       flex-wrap: wrap;
       color: ${colorTextDescription};
-      border: 1px solid #f00;
       align-items: center;
       background: ${colorBgContainer};
     `,

@@ -11,7 +11,7 @@ export const getOptions = (format: string) => {
     value: isDiagonalLineSplit ? item.value : item.other,
   }));
 
-  const formatIndex = DEFAULT_OPTIONS.findIndex((item) => item.value === format || item.other === format);
+  const formatIndex = options.findIndex((item) => item.value === format);
 
   if (!isEmpty(formatIndex)) {
     return options;

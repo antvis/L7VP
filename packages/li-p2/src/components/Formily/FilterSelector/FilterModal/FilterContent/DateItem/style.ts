@@ -1,6 +1,6 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
-export default genStyleHook('filter-selector-edit-modal-right-date-item', (token) => {
+export default genStyleHook('filter-selector-modal-date-item', (token) => {
   const { componentCls, colorText } = token;
 
   return {

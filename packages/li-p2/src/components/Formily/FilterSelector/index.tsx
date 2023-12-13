@@ -3,7 +3,7 @@ import { connect } from '@formily/react';
 import { Button } from 'antd';
 import cls from 'classnames';
 import React, { useEffect, useState } from 'react';
-import EditModal from './EditModal';
+import FilterModal from './FilterModal';
 import useStyle from './style';
 import type { FilterNodeItem, OptionType } from './type';
 import Preview from './Preview';
@@ -57,7 +57,7 @@ const InternalFilters: React.FC<FilterSelectorProps> = (props) => {
         </Button>
       </div>
 
-      <EditModal
+      <FilterModal
         open={isModalOpen}
         onCancel={handleCancel}
         onChange={onfiltersChange}

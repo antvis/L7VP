@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { uniqueId } from 'lodash-es';
 import type { FilterDate, FilterNumber, FilterString, OptionType } from '../type';
-import { getTimeFormat } from './EditContent/DateItem/helper';
+import { getTimeFormat } from './FilterContent/DateItem/helper';
 
 export const UNSELECTED_FIELD_ID = 'UNSELECTED_FIELD_ID';
 
@@ -15,7 +15,7 @@ export const getDefaultValue = (field: OptionType) => {
       value: field.domain as string[],
       params: {
         radioType: 'radio',
-        domain: field.domain,
+        domain: field.domain as string[],
       },
     };
     return _filter;

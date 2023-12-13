@@ -48,7 +48,8 @@ export type FilterString = FilterBase & {
   operator: 'IN';
   value: string[];
   params: {
-    radioType: 'multip' | 'radio'; // 是否单选类
+    radioType: 'multiple' | 'radio'; // 是否单选类
+    domain: string[];
   };
 };
 

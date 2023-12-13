@@ -5,7 +5,7 @@ import React, { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import useStyle from './style';
 
-type EditItemProps = {
+type FilterItemProps = {
   index: string | number;
   id: string;
   field: string;
@@ -14,8 +14,8 @@ type EditItemProps = {
   onChangeSort: (dragIndex: string | number, hoverIndex: string | number) => void;
 };
 
-const EditItem = ({ index, id, field, onDelete, onClickItem, onChangeSort }: EditItemProps) => {
-  const prefixCls = usePrefixCls('formily-filter-selector-edit-modal-filter-item');
+const FilterItem = ({ index, id, field, onDelete, onClickItem, onChangeSort }: FilterItemProps) => {
+  const prefixCls = usePrefixCls('formily-filter-selector-filter-item');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -58,4 +58,4 @@ const EditItem = ({ index, id, field, onDelete, onClickItem, onChangeSort }: Edi
   );
 };
 
-export default EditItem;
+export default FilterItem;

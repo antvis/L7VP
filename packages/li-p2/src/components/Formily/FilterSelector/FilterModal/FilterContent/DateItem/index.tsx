@@ -17,7 +17,7 @@ export interface DateItemProps {
 }
 
 const DateItem: React.FC<DateItemProps> = (props) => {
-  const prefixCls = usePrefixCls('formily-filter-selector-edit-modal-right-date-item');
+  const prefixCls = usePrefixCls('formily-filter-selector-modal-date-item');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const { value: defaultValue, format, onChange } = props;
 
@@ -31,6 +31,7 @@ const DateItem: React.FC<DateItemProps> = (props) => {
   const options = useMemo(() => {
     if (format) {
       const _options = getOptions(format);
+
       const _granularity = _options.find(
         (item) => defaultValue.granularity && [item.granularity, item.value].includes(defaultValue.granularity),
       );
@@ -40,9 +41,9 @@ const DateItem: React.FC<DateItemProps> = (props) => {
       return _options;
     }
     return [];
-  }, [defaultValue.field, defaultValue.granularity]);
+  }, [defaultValue, format]);
 
-  // 时间区间选择
+  // 时间类型
   const onDateTypeChange = (e: 'date' | 'range') => {
     const _times = timer ? getTimeFormat(timer[0], granularity?.value) : '';
     onChange({ ...defaultValue, value: _times, params: { ...defaultValue.params, type: e } });
@@ -105,7 +106,7 @@ const DateItem: React.FC<DateItemProps> = (props) => {
         <Select
           size="small"
           style={{ width: '100%' }}
-          defaultValue={granularity?.value}
+          value={granularity?.value}
           options={options}
           onChange={onGranularityChange}
         />

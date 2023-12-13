@@ -18,7 +18,7 @@ export interface NumberItemProps {
 }
 
 const NumberItem: React.FC<NumberItemProps> = (props) => {
-  const prefixCls = usePrefixCls('formily-filter-selector-edit-modal-right-number-item');
+  const prefixCls = usePrefixCls('formily-filter-selector-modal-number-item');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const { value, options, onChange } = props;
 

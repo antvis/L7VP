@@ -72,7 +72,6 @@ const StringItem: React.FC<StringItemProps> = (props) => {
     <>
       {defaluValue.params?.radioType === 'radio' && (
         <Select
-          allowClear
           style={{ width: '100%' }}
           placeholder="请选择"
           value={selectedOptions}
@@ -81,10 +80,9 @@ const StringItem: React.FC<StringItemProps> = (props) => {
         />
       )}
 
-      {defaluValue.params?.radioType === 'multip' && (
+      {defaluValue.params?.radioType === 'multiple' && (
         <Select
           mode="multiple"
-          allowClear
           style={{ width: '100%' }}
           placeholder="请选择"
           value={selectedOptions}
