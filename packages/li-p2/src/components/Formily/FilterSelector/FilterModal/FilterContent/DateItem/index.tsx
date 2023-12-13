@@ -1,19 +1,18 @@
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
-import { DatePicker, Radio, Select } from 'antd';
+import { Radio, Select } from 'antd';
 import cls from 'classnames';
-import dayjs from 'dayjs';
 import React, { useMemo, useState } from 'react';
-import type { FilterDate } from '../../../type';
-import { DEFAULT_OPTIONS } from './contants';
-import { getOptions, getTimeFormat } from './helper';
+import type { FilterDate as FilterDateType } from '../../../type';
+import FilterDateItem from '../../../components/FilterDateItem';
+import { DEFAULT_OPTIONS } from '../../../components/FilterDateItem/contents';
+import type { GranularityItem } from '../../../components/FilterDateItem/type';
+import { getTimeFormat } from '../../../components/FilterDateItem/helper';
+import { getOptions } from './helper';
 import useStyle from './style';
-import type { GranularityItem } from './type';
-
-const { RangePicker } = DatePicker;
 export interface DateItemProps {
-  value: FilterDate;
+  value: FilterDateType;
   format: string;
-  onChange: (value: FilterDate) => void;
+  onChange: (value: FilterDateType) => void;
 }
 
 const DateItem: React.FC<DateItemProps> = (props) => {
@@ -54,7 +53,7 @@ const DateItem: React.FC<DateItemProps> = (props) => {
     const _granularity = options.find((item) => item.value === e);
 
     if (_granularity) {
-      const _value: FilterDate = {
+      const _value: FilterDateType = {
         ...defaultValue,
         granularity: _granularity.granularity,
         value: timer ? getTimeFormat(timer, _granularity?.value) : '',
@@ -69,26 +68,12 @@ const DateItem: React.FC<DateItemProps> = (props) => {
   };
 
   // 时间区间变化
-  const onRangePickerChange = (_: any, dateString: [string, string] | string) => {
-    if (defaultValue.params.type === 'date') {
-      if (dateString) {
-        const _timer = getTimeFormat(dateString, defaultValue.params.format);
-        if (_timer) {
-          onChange({ ...defaultValue, value: _timer });
-        }
-      } else {
-        onChange({ ...defaultValue, value: '' });
-      }
-    } else {
-      if (dateString[0]) {
-        const _timer = getTimeFormat(dateString, defaultValue.params.format);
-        if (_timer) {
-          onChange({ ...defaultValue, value: _timer });
-        }
-      } else {
-        onChange({ ...defaultValue, value: '' });
-      }
-    }
+  const onValueChange = (val: any) => {
+    const { value } = val;
+    onChange({
+      ...defaultValue,
+      value,
+    });
   };
 
   return wrapSSR(
@@ -114,45 +99,14 @@ const DateItem: React.FC<DateItemProps> = (props) => {
 
       <div className={cls(`${prefixCls}__filter`, hashId)}>
         <div className={cls(`${prefixCls}__field`, hashId)}>默认值</div>
-        {defaultValue.params.type === 'date' && granularity && (
-          <>
-            {granularity.picker ? (
-              <DatePicker
-                value={timer ? dayjs(typeof timer === 'string' ? timer : timer[0], granularity.value) : undefined}
-                picker={granularity.picker}
-                format={granularity.value}
-                onChange={onRangePickerChange}
-              />
-            ) : (
-              <DatePicker
-                value={timer ? dayjs(typeof timer === 'string' ? timer : timer[0], granularity.value) : undefined}
-                showTime={{ format: granularity.value }}
-                format={granularity.value}
-                onChange={onRangePickerChange}
-              />
-            )}
-          </>
-        )}
-
-        {defaultValue.params.type === 'range' && granularity && (
-          <>
-            {granularity.picker ? (
-              <RangePicker
-                value={timer ? [dayjs(timer[0], granularity.value), dayjs(timer[1], granularity.value)] : undefined}
-                picker={granularity.picker}
-                onChange={onRangePickerChange}
-                format={granularity.value}
-              />
-            ) : (
-              <RangePicker
-                value={timer ? [dayjs(timer[0], granularity.value), dayjs(timer[1], granularity.value)] : undefined}
-                showTime={{ format: granularity.value }}
-                onChange={onRangePickerChange}
-                format={granularity.value}
-              />
-            )}
-          </>
-        )}
+        <FilterDateItem
+          isRenderExtraFooter={false}
+          value={defaultValue.value}
+          format={defaultValue.params.format}
+          granularity={defaultValue.granularity}
+          type={defaultValue.params.type}
+          onChange={onValueChange}
+        />
       </div>
     </>,
   );

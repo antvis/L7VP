@@ -1,6 +1,5 @@
-import dayjs from 'dayjs';
 import { isEmpty } from 'lodash-es';
-import { DateGranularity, DEFAULT_OPTIONS } from './contants';
+import { DEFAULT_OPTIONS } from '../../../components/FilterDateItem/contents';
 
 export const getOptions = (format: string) => {
   const isDiagonalLineSplit = format.indexOf('/') === -1;
@@ -18,36 +17,4 @@ export const getOptions = (format: string) => {
   }
 
   return options.slice(formatIndex);
-};
-
-// 时间格式化展示
-export const getTimeFormat = (
-  times: [string, string] | string,
-  dateGranularity: string,
-): [string, string] | undefined => {
-  const _format = DateGranularity[dateGranularity];
-  const _times =
-    typeof times === 'string'
-      ? dayjs(times).format(dateGranularity)
-      : [dayjs(times[0]).format(dateGranularity), dayjs(times[1]).format(dateGranularity)];
-
-  if (!_format) {
-    return undefined;
-  }
-
-  if (typeof _times === 'string') {
-    const _timer: [string, string] = [
-      dayjs(_times).format(_format.format),
-      dayjs(_times).endOf(_format.granularity).format(_format.format),
-    ];
-
-    return _timer;
-  }
-
-  const _item: [string, string] = [
-    dayjs(_times[0]).format(_format.format),
-    dayjs(_times[1]).endOf(_format.granularity).format(_format.format),
-  ];
-
-  return _item;
 };

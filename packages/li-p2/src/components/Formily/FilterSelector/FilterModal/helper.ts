@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { uniqueId } from 'lodash-es';
 import type { FilterDate, FilterNumber, FilterString, OptionType } from '../type';
-import { getTimeFormat } from './FilterContent/DateItem/helper';
+import { getTimeFormat } from '../components/FilterDateItem/helper';
 
 export const UNSELECTED_FIELD_ID = 'UNSELECTED_FIELD_ID';
 

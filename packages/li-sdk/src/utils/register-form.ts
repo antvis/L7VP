@@ -71,6 +71,7 @@ export const getDatasetSelectFormSchema = (
   const datasetOptions = props.datasets.map((dataset) => {
     let _columns = getDatasetFields(isLocalOrRemoteDataset(dataset) ? dataset.columns : []);
 
+    // @ts-ignore
     if (dataset?.data && dataset.data.length) {
       const cloumss = _columns.map((item) => {
         const itemValue = dataset.data.map((_item: any) => _item[item.value]) || [];

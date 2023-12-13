@@ -86,6 +86,7 @@ const Preview: React.FC<PreviewProps> = (props) => {
 
   return wrapSSR(
     <div className={cls(`${prefixCls}`, hashId)}>
+      <p>默认筛选：</p>
       <Descriptions items={items} column={1} />
     </div>,
   );
