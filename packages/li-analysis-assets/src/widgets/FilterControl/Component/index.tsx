@@ -38,9 +38,9 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
       }
       return item;
     });
-    updateFilter({ relation: 'AND', children: _filterList });
-
     setFilterList(_filterList);
+
+    updateFilter({ relation: 'AND', children: _filterList });
   };
 
   if (!filters.length) {
