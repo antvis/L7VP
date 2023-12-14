@@ -70,12 +70,18 @@ export type FilterNumber = FilterBase &
     | {
         type: 'number';
         operator: '>=' | '<=';
-        value: number; // default 不限
+        value: number;
+        params: {
+          domain: [number, number];
+        };
       }
     | {
         type: 'number';
         operator: 'BETWEEN';
-        value: [number, number]; // default 不限
+        value: [number, number];
+        params: {
+          domain: [number, number];
+        };
       }
   );
 

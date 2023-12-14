@@ -68,7 +68,7 @@ const FilterContent: React.FC<FilterContentProps> = (props) => {
 
       {filter.type === 'date' && <DateItem value={filter} format={format} onChange={onFilterValueChange} />}
 
-      {filter.type === 'number' && <NumberItem />}
+      {filter.type === 'number' && <NumberItem value={filter} onChange={onFilterValueChange} />}
     </div>,
   );
 };

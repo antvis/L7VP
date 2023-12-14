@@ -28,9 +28,8 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
     ...getDatasetSelectFormSchema({ ...props, datasets: datasets }, 'datasetId', '数据源'),
 
     filters: {
-      type: 'string',
+      type: 'array',
       default: [],
-      enum: [],
       'x-decorator': 'FormItem',
       'x-component': 'FilterSelector',
       'x-component-props': {

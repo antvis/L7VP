@@ -30,15 +30,16 @@ const Preview: React.FC<PreviewProps> = (props) => {
     }
 
     const _options = filters.map((item, index) => {
-      if (isEmpty(item.value)) {
-        return {
-          key: index,
-          label: item.field,
-          children: '不限',
-        };
-      }
-
+      // 时间类型
       if (item.type === 'date') {
+        if (isEmpty(item.value)) {
+          return {
+            key: index,
+            label: item.field,
+            children: '不限',
+          };
+        }
+
         const time =
           item.params.type === 'date'
             ? dayjs(item.value?.[0]).format(item.params.format)
@@ -53,21 +54,25 @@ const Preview: React.FC<PreviewProps> = (props) => {
         };
       }
 
+      // 数值类型
       if (item.type === 'number') {
         if (item.operator === 'BETWEEN') {
           return {
             key: index,
             label: item.field,
-            children: `<=${item.value?.[1]} 且 >=${item.value?.[0]}`,
+            children: `${item.value?.[0]} ~ ${item.value?.[1]}`,
           };
         }
+
         return {
           key: index,
           label: item.field,
-          children: `${item.operator}${item.value}`,
+          children:
+            item.operator === '>=' && item.value === item.params.domain[0] ? '不限' : `${item.operator}${item.value}`,
         };
       }
 
+      // 文本类型
       const _domain = options.find((_item) => _item.value === item.field)?.domain;
 
       return {

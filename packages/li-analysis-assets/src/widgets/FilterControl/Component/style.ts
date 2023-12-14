@@ -5,7 +5,7 @@ const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
 
-  const { colorTextDescription, colorBgContainer, colorBorderSecondary } = token;
+  const { colorTextDescription, colorBgContainer, colorBorderSecondary, borderRadius } = token;
 
   return {
     filterControl: css`
@@ -15,6 +15,7 @@ const useStyle = () => {
       color: ${colorTextDescription};
       align-items: center;
       background: ${colorBgContainer};
+      border-radius: ${borderRadius}px;
     `,
 
     filterItem: css`

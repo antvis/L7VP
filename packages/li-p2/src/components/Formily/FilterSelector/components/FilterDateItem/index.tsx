@@ -20,6 +20,7 @@ export interface FilterDateItemProps {
   type: 'date' | 'range';
   // 默认时间
   value?: string | [string, string];
+  size?: 'small' | 'middle' | 'large';
   onChange: (value: {
     format: string;
     granularity: Granularity;
@@ -29,7 +30,15 @@ export interface FilterDateItemProps {
 }
 
 const FilterDateItem: React.FC<FilterDateItemProps> = (props) => {
-  const { isRenderExtraFooter = false, format, granularity, type = 'date', value: defaultValue, onChange } = props;
+  const {
+    isRenderExtraFooter = false,
+    format,
+    granularity,
+    type = 'date',
+    value: defaultValue,
+    size = 'middle',
+    onChange,
+  } = props;
   const [open, setOpen] = useState(false);
   const prefixCls = usePrefixCls('formily-filter-selector-modal');
   const [wrapSSR, hashId] = useStyle(prefixCls);
@@ -123,6 +132,7 @@ const FilterDateItem: React.FC<FilterDateItemProps> = (props) => {
         <>
           {['year', 'month', 'day'].includes(granularity) ? (
             <DatePicker
+              size={size}
               open={open}
               showToday={false}
               onOpenChange={(open) => setOpen(open)}
@@ -138,6 +148,7 @@ const FilterDateItem: React.FC<FilterDateItemProps> = (props) => {
             />
           ) : (
             <DatePicker
+              size={size}
               showNow={false}
               open={open}
               onOpenChange={(open) => setOpen(open)}
@@ -159,6 +170,7 @@ const FilterDateItem: React.FC<FilterDateItemProps> = (props) => {
         <>
           {['year', 'month', 'day'].includes(granularity) ? (
             <RangePicker
+              size={size}
               open={open}
               onOpenChange={(open) => setOpen(open)}
               value={defaultValue ? [dayjs(defaultValue[0], format), dayjs(defaultValue[1], format)] : undefined}
@@ -169,6 +181,7 @@ const FilterDateItem: React.FC<FilterDateItemProps> = (props) => {
             />
           ) : (
             <RangePicker
+              size={size}
               open={open}
               onOpenChange={(open) => setOpen(open)}
               value={defaultValue ? [dayjs(defaultValue[0], format), dayjs(defaultValue[1], format)] : undefined}

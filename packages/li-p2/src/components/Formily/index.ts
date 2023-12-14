@@ -13,3 +13,5 @@ export { default as TimeGranularitySelect } from './TimeGranularitySelect';
 export { default as FilterSelector } from './FilterSelector';
 export type { FilterNodeItem, FilterDate, FilterNumber, FilterString } from './FilterSelector/type';
 export { default as FilterDateItem } from './FilterSelector/components/FilterDateItem';
+export { default as FilterStringItem } from './FilterSelector/components/FilterStringItem';
+export { default as FilterNumberItem } from './FilterSelector/components/FilterNumberItem';

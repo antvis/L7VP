@@ -1,7 +1,8 @@
 import { DownOutlined } from '@ant-design/icons';
 import type { FilterNumber } from '@antv/li-p2';
-import { Button, InputNumber, Popover } from 'antd';
-import React, { useEffect, useState } from 'react';
+import { Button, Popover } from 'antd';
+import React, { useState } from 'react';
+import { FilterNumberItem } from '@antv/li-p2';
 import useStyle from './style';
 
 export interface NumberItemProps {
@@ -12,23 +13,16 @@ export interface NumberItemProps {
 const NumberItem: React.FC<NumberItemProps> = (props) => {
   const { value: defaluValue, onChange } = props;
   const styles = useStyle();
-  const domain = (defaluValue.params?.domain || [-Infinity, Infinity]) as [number, number];
+  const domain = defaluValue.params?.domain || [-Infinity, Infinity];
   const [open, setOpen] = useState(false);
-  const [ranges, setRanges] = useState<[number | null, number | null]>([null, null]);
 
-  useEffect(() => {
-    if (defaluValue.operator === '>=') {
-      setRanges([defaluValue.value, null]);
-    } else if (defaluValue.operator === '<=') {
-      setRanges([null, defaluValue.value]);
-    } else if (defaluValue.operator === 'BETWEEN') {
-      setRanges(defaluValue.value);
-    }
-  }, [defaluValue]);
+  const [valAndOperator, setValAndOperator] = useState<{
+    value: number | [number, number];
+    operator: '>=' | '<=' | 'BETWEEN';
+  }>({ value: defaluValue.value, operator: defaluValue.operator });
 
-  const onValueChange = (val: [number | null, number | null]) => {
-    const [min, max] = val;
-    setRanges(val);
+  const onValueChange = (val: number | [number, number], operator: '>=' | '<=' | 'BETWEEN') => {
+    setValAndOperator({ value: val, operator });
   };
 
   const handleOpenChange = (open: boolean) => {
@@ -36,64 +30,20 @@ const NumberItem: React.FC<NumberItemProps> = (props) => {
   };
 
   const onSubmit = () => {
-    if (ranges[0]) {
-      if (ranges[1]) {
-        onChange({
-          ...defaluValue,
-          operator: 'BETWEEN',
-          value: ranges as [number, number],
-        });
-        setOpen(false);
-        return;
-      } else {
-        onChange({
-          ...defaluValue,
-          operator: '>=',
-          value: ranges[0],
-        });
-        setOpen(false);
-        return;
-      }
-    } else {
-      if (ranges[1]) {
-        onChange({
-          ...defaluValue,
-          operator: '<=',
-          value: ranges[1] as number,
-        });
-        setOpen(false);
-        return;
-      } else {
-        onChange({
-          ...defaluValue,
-          operator: '>=',
-          value: domain[0] as number,
-        });
-        setOpen(false);
-        return;
-      }
-    }
+    const numberNode = { ...defaluValue, ...valAndOperator } as FilterNumber;
+    onChange(numberNode);
+    setOpen(false);
   };
 
   const content = (
     <>
-      <div>
-        <InputNumber
-          placeholder="最小值"
-          min={domain[0]}
-          max={domain[1]}
-          value={ranges[0]}
-          onChange={(value) => onValueChange([value, ranges[1]])}
-        />
-        -
-        <InputNumber
-          placeholder="最大值"
-          min={domain[0]}
-          max={domain[1]}
-          value={ranges[1]}
-          onChange={(value) => onValueChange([ranges[0], value])}
-        />
-      </div>
+      <FilterNumberItem
+        value={defaluValue.value}
+        min={domain[0]}
+        max={domain[1]}
+        operator={defaluValue.operator}
+        onChange={onValueChange}
+      />
       <div style={{ textAlign: 'center', marginTop: '10px' }}>
         <Button type="primary" onClick={onSubmit}>
           确定
@@ -104,7 +54,7 @@ const NumberItem: React.FC<NumberItemProps> = (props) => {
 
   const title =
     defaluValue.operator === 'BETWEEN'
-      ? `${defaluValue.value[0]} - ${defaluValue.value[1]}`
+      ? `${defaluValue.value[0]} ~ ${defaluValue.value[1]}`
       : defaluValue.operator === '>=' && defaluValue.value === domain[0]
       ? '不限'
       : `${defaluValue.operator} ${defaluValue.value}`;
