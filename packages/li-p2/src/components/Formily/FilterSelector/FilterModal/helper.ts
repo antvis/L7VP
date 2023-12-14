@@ -8,7 +8,7 @@ export const UNSELECTED_FIELD_ID = 'UNSELECTED_FIELD_ID';
 export const getDefaultValue = (field: OptionType) => {
   if (field.type === 'string') {
     const _filter: FilterString = {
-      id: uniqueId(UNSELECTED_FIELD_ID),
+      id: uniqueId(`${UNSELECTED_FIELD_ID}${field.value}`),
       field: field.value,
       type: 'string',
       operator: 'IN',
@@ -23,7 +23,7 @@ export const getDefaultValue = (field: OptionType) => {
 
   if (field.type === 'date') {
     const _filter: FilterDate = {
-      id: uniqueId(UNSELECTED_FIELD_ID),
+      id: uniqueId(`${UNSELECTED_FIELD_ID}${field.value}`),
       field: field.value,
       type: 'date',
       operator: 'BETWEEN',
@@ -39,13 +39,13 @@ export const getDefaultValue = (field: OptionType) => {
   }
 
   const _filter: FilterNumber = {
-    id: uniqueId(UNSELECTED_FIELD_ID),
+    id: uniqueId(`${UNSELECTED_FIELD_ID}${field.value}`),
     field: field.value,
     type: 'number',
     operator: '>=',
     value: 0,
     params: {
-      domain: field.domain,
+      domain: field.domain as [number, number],
     },
   };
   return _filter;

@@ -33,7 +33,7 @@ export type OptionType = {
   /**
    * 更多数据
    */
-  domain?: (string | number)[];
+  domain?: string[] | [number, number];
 };
 
 type FilterBase = {
