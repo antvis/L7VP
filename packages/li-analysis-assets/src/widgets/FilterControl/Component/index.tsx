@@ -3,7 +3,7 @@ import type { FilterNodeItem } from '@antv/li-p2';
 import type { ImplementWidgetProps } from '@antv/li-sdk';
 import { useDatasetFilter } from '@antv/li-sdk';
 import { default as classNames, default as cls } from 'classnames';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import type { Properties } from '../registerForm';
 import DateItem from './DateItem';
 import NumberItem from './NumberItem';
@@ -14,7 +14,7 @@ const CLS_PREFIX = 'li-filter-control';
 export interface LIFilterControlProps extends Properties, ImplementWidgetProps {}
 
 const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
-  const { filters, datasetId = '' } = props;
+  const { filters, datasetId = '', position } = props;
   const styles = useStyle();
   const [filterList, setFilterList] = useState(filters);
   // 筛选数据
@@ -50,7 +50,7 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
   }
 
   return (
-    <CustomControl position="topleft">
+    <CustomControl position={position}>
       <div className={cls(CLS_PREFIX, styles.filterControl)}>
         {filterList.map((item) => {
           return (

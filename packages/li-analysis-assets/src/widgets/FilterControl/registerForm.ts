@@ -3,12 +3,14 @@ import { useEditorDataset } from '@antv/li-editor';
 import type { FilterNodeItem } from '@antv/li-p2';
 import type { WidgetRegisterForm, WidgetRegisterFormProps } from '@antv/li-sdk';
 import { getDatasetSelectFormSchema } from '@antv/li-sdk';
+import type { PositionName } from '@antv/l7';
 
 /**
  * 属性面板生产的数据类型定义
  */
 export type Properties = {
   datasetId?: 'string';
+  position?: PositionName;
   filters: FilterNodeItem[];
 };
 
@@ -26,6 +28,14 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
   const schema = {
     // @ts-ignore
     ...getDatasetSelectFormSchema({ ...props, datasets: datasets }, 'datasetId', '数据源'),
+
+    position: {
+      title: '放置方位',
+      type: 'string',
+      'x-decorator': 'FormItem',
+      'x-component': 'ControlPositionSelect',
+      default: 'topleft',
+    },
 
     filters: {
       type: 'array',
