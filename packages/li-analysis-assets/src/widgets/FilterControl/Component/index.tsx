@@ -14,7 +14,7 @@ const CLS_PREFIX = 'li-filter-control';
 export interface LIFilterControlProps extends Properties, ImplementWidgetProps {}
 
 const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
-  const { filters, datasetId } = props;
+  const { filters, datasetId = '' } = props;
   const styles = useStyle();
   const [filterList, setFilterList] = useState(filters);
   // 筛选数据
@@ -24,6 +24,7 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
   useEffect(() => {
     if (filters.length) {
       clearFilter();
+      // @ts-ignore
       updateFilter({ relation: 'AND', children: filters });
       setFilterList(filters);
     } else {
@@ -38,16 +39,16 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
       }
       return item;
     });
+
     setFilterList(_filterList);
 
+    // @ts-ignore
     updateFilter({ relation: 'AND', children: _filterList });
   };
 
   if (!filters.length) {
     return;
   }
-
-  console.log(_, '速度快就发货的时间');
 
   return (
     <CustomControl position="topleft">

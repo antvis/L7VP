@@ -11,22 +11,23 @@ export interface NumberItemProps {
 
 const NumberItem: React.FC<NumberItemProps> = (props) => {
   const { value: defaluValue, onChange } = props;
-  const domain = defaluValue.params?.domain || [-Infinity, Infinity];
   const styles = useStyle();
+  const domain = (defaluValue.params?.domain || [-Infinity, Infinity]) as [number, number];
   const [open, setOpen] = useState(false);
-  const [ranges, setRanges] = useState<[number | undefined, number | undefined]>([undefined, undefined]);
+  const [ranges, setRanges] = useState<[number | null, number | null]>([null, null]);
 
   useEffect(() => {
     if (defaluValue.operator === '>=') {
-      setRanges([defaluValue.value, undefined]);
+      setRanges([defaluValue.value, null]);
     } else if (defaluValue.operator === '<=') {
-      setRanges([undefined, defaluValue.value]);
+      setRanges([null, defaluValue.value]);
     } else if (defaluValue.operator === 'BETWEEN') {
       setRanges(defaluValue.value);
     }
   }, [defaluValue]);
 
-  const onValueChange = (val: [number | undefined, number | undefined]) => {
+  const onValueChange = (val: [number | null, number | null]) => {
+    const [min, max] = val;
     setRanges(val);
   };
 
@@ -54,13 +55,23 @@ const NumberItem: React.FC<NumberItemProps> = (props) => {
         return;
       }
     } else {
-      onChange({
-        ...defaluValue,
-        operator: '<=',
-        value: ranges[1] as number,
-      });
-      setOpen(false);
-      return;
+      if (ranges[1]) {
+        onChange({
+          ...defaluValue,
+          operator: '<=',
+          value: ranges[1] as number,
+        });
+        setOpen(false);
+        return;
+      } else {
+        onChange({
+          ...defaluValue,
+          operator: '>=',
+          value: domain[0] as number,
+        });
+        setOpen(false);
+        return;
+      }
     }
   };
 
@@ -91,14 +102,17 @@ const NumberItem: React.FC<NumberItemProps> = (props) => {
     </>
   );
 
+  const title =
+    defaluValue.operator === 'BETWEEN'
+      ? `${defaluValue.value[0]} - ${defaluValue.value[1]}`
+      : defaluValue.operator === '>=' && defaluValue.value === domain[0]
+      ? '不限'
+      : `${defaluValue.operator} ${defaluValue.value}`;
+
   return (
     <Popover content={content} trigger="click" open={open} onOpenChange={handleOpenChange}>
       <div className={styles.numberItem}>
-        <div>
-          {defaluValue.operator === 'BETWEEN'
-            ? `${defaluValue.value[0]} - ${defaluValue.value[1]}`
-            : `${defaluValue.operator} ${defaluValue.value}`}
-        </div>
+        <div>{title}</div>
         <DownOutlined />
       </div>
     </Popover>
