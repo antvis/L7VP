@@ -33,10 +33,14 @@ const useStyle = () => {
     `,
 
     numberItem: css`
-      border-bottom: 1px solid ${colorBorderSecondary};
+      border: 1px solid ${colorBorderSecondary};
+      border-radius: 4px;
       display: flex;
       justify-content: space-between;
       padding: 10px;
+      height: 32px;
+      line-height: 32px;
+      padding: 0 5px;
     `,
   };
 };
