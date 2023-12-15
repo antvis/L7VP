@@ -29,6 +29,7 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
   useEffect(() => {
     if (filters.length) {
       clearFilter();
+      // @ts-ignore
       updateFilter({ relation: 'AND', children: getFilters(filters) });
       setFilterList(filters);
     } else {
@@ -45,6 +46,7 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
     });
 
     setFilterList(_filterList);
+    // @ts-ignore
     updateFilter({ relation: 'AND', children: getFilters(_filterList) });
   };
 
