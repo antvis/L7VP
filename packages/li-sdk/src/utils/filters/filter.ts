@@ -1,4 +1,4 @@
-import type { DatasetFilter, FilterLogicalOperators, FilterNode } from '../../specs';
+import type { DatasetField, DatasetFilter, FilterLogicalOperators, FilterNode } from '../../specs';
 import { filterFunctions } from './filter-types';
 
 const LOGICAL_OPERATOR_METHODS: Record<FilterLogicalOperators, 'every' | 'some'> = {
@@ -67,4 +67,15 @@ export function filterFalsyDatasetFilter(filter: DatasetFilter) {
   };
 
   return _filter;
+}
+
+export function getValidFilterWithMeta(filter: DatasetFilter, columns: DatasetField[]) {
+  const filterChildren = filterFalsyDatasetFilter(filter).children.map((child) => {
+    const column = columns.find((item) => item.name === child.field);
+    // 给 filter 添加 fieldMeta，Remote 数据集可能会用到
+    return Object.assign({}, child, column && { fieldMeta: column });
+  });
+  const filterWithMeta = { ...filter, children: filterChildren };
+
+  return filterWithMeta;
 }

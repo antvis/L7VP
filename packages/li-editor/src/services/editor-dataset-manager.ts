@@ -1,6 +1,7 @@
 import type { DatasetField, DatasetSchema, DatasetServiceParams, RemoteDatasetSchema } from '@antv/li-sdk';
 import {
   getDatasetColumns,
+  getValidFilterWithMeta,
   isLocalDatasetSchema,
   isLocalOrRemoteDatasetSchema,
   isRemoteDatasetSchema,
@@ -182,14 +183,15 @@ export class EditorDataset {
    * 动态数据源类型，异步请求数据情况使用
    */
   private getQueryOptions(datasetSchema: RemoteDatasetSchema) {
-    const { serviceType: serviceName, filter, properties } = datasetSchema;
+    const { serviceType: serviceName, filter, columns = [], properties } = datasetSchema;
     const datasetService = this.appService.getImplementDatasetService(serviceName);
     const service = datasetService.service;
+    const filterWithMeta = filter && getValidFilterWithMeta(filter, columns);
 
     const options: QueryObserverOptions = {
-      queryKey: [serviceName, filter, properties],
+      queryKey: [serviceName, filterWithMeta, properties],
       queryFn: (context) => {
-        const serviceParams: DatasetServiceParams = { filter, properties, signal: context.signal };
+        const serviceParams: DatasetServiceParams = { filter: filterWithMeta, properties, signal: context.signal };
         return service(serviceParams);
       },
     };
