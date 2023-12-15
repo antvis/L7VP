@@ -6,7 +6,7 @@ import { FilterDateSetting } from '../../../components';
 import { DEFAULT_OPTIONS } from '../../../components/FilterDateSetting/contents';
 import { getTimeFormat } from '../../../components/FilterDateSetting/helper';
 import type { GranularityItem } from '../../../components/FilterDateSetting/type';
-import type { FilterDate as FilterDateType } from '../../../type';
+import type { FilterSettingDate as FilterDateType } from '../../../type';
 import { getOptions } from './helper';
 import useStyle from './style';
 export interface DateItemProps {

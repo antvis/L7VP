@@ -3,12 +3,12 @@ import { Radio } from 'antd';
 import cls from 'classnames';
 import React from 'react';
 import { FilterStringSetting } from '../../../components';
-import type { FilterString } from '../../../type';
+import type { FilterSettingString } from '../../../type';
 import useStyle from './style';
 export interface StringItemProps {
-  value: FilterString;
+  value: FilterSettingString;
   options: string[];
-  onChange: (value: FilterString) => void;
+  onChange: (value: FilterSettingString) => void;
 }
 
 const StringItem: React.FC<StringItemProps> = (props) => {

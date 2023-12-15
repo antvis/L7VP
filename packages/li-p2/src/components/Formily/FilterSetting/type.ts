@@ -34,7 +34,7 @@ export type OptionType = {
   domain?: string[] | [number, number];
 };
 
-export type FilterString = {
+export type FilterSettingString = {
   id: string;
   field: string;
   type: 'string';
@@ -46,7 +46,7 @@ export type FilterString = {
   };
 };
 
-export type FilterDate = {
+export type FilterSettingDate = {
   id: string;
   field: string;
   type: 'date';
@@ -62,7 +62,7 @@ export type FilterDate = {
   };
 };
 
-export type FilterNumber =
+export type FilterSettingNumber =
   | {
       id: string;
       field: string;
@@ -78,4 +78,4 @@ export type FilterNumber =
       value?: [number, number];
     };
 
-export type FilterSettingItem = FilterDate | FilterNumber | FilterString;
+export type FilterSettingItem = FilterSettingDate | FilterSettingNumber | FilterSettingString;

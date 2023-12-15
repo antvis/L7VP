@@ -11,7 +11,12 @@ export { default as Slider } from './Slider';
 export { default as SliderRange } from './SliderRange';
 export { default as TimeGranularitySelect } from './TimeGranularitySelect';
 export { default as FilterSetting } from './FilterSetting';
-export type { FilterSettingItem as FilterNodeItem, FilterDate, FilterNumber, FilterString } from './FilterSetting/type';
+export type {
+  FilterSettingItem,
+  FilterSettingDate,
+  FilterSettingNumber,
+  FilterSettingString,
+} from './FilterSetting/type';
 export { default as FilterDateSetting } from './FilterSetting/components/FilterDateSetting';
 export { default as FilterStringSetting } from './FilterSetting/components/FilterStringSetting';
 export { default as FilterNumberSetting } from './FilterSetting/components/FilterNumberSetting';

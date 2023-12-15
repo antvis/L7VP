@@ -1,11 +1,11 @@
-import type { FilterString } from '@antv/li-p2';
+import type { FilterSettingString } from '@antv/li-p2';
 import React from 'react';
 import { FilterStringSetting } from '@antv/li-p2';
 
 export interface StringItemProps {
-  value: FilterString;
+  value: FilterSettingString;
   domain: string[];
-  onChange: (value: FilterString) => void;
+  onChange: (value: FilterSettingString) => void;
 }
 
 const StringItem: React.FC<StringItemProps> = (props) => {

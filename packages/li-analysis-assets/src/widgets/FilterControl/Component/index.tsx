@@ -1,15 +1,16 @@
 import { CustomControl } from '@antv/larkmap';
-import type { FilterNodeItem } from '@antv/li-p2';
+import type { FilterSettingItem } from '@antv/li-p2';
 import type { ImplementWidgetProps, LocalOrRemoteDataset } from '@antv/li-sdk';
 import { useDataset, useDatasetFilter } from '@antv/li-sdk';
 import { default as classNames, default as cls } from 'classnames';
-import React, { useEffect, useMemo, useState } from 'react';
 import { max, min } from 'lodash-es';
+import React, { useEffect, useState } from 'react';
 import type { Properties } from '../registerForm';
 import DateItem from './DateItem';
 import NumberItem from './NumberItem';
 import StringItem from './StringItem';
 import useStyle from './style';
+import { getFilters } from './helper';
 
 const CLS_PREFIX = 'li-filter-control';
 export interface LIFilterControlProps extends Properties, ImplementWidgetProps {}
@@ -19,7 +20,7 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
   const styles = useStyle();
   // 获取数据源
   const [dataset] = useDataset<LocalOrRemoteDataset>(datasetId);
-  const { data: tableData = [], columns: tableColumns = [] } = dataset || {};
+  const { data: tableData = [] } = dataset || {};
   const [filterList, setFilterList] = useState(filters);
   // 筛选数据
   const [_, { clearFilter, updateFilter }] = useDatasetFilter(datasetId);
@@ -28,15 +29,14 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
   useEffect(() => {
     if (filters.length) {
       clearFilter();
-      // @ts-ignore
-      updateFilter({ relation: 'AND', children: filters });
+      updateFilter({ relation: 'AND', children: getFilters(filters) });
       setFilterList(filters);
     } else {
       clearFilter();
     }
   }, [filters]);
 
-  const onValueChange = (val: FilterNodeItem) => {
+  const onValueChange = (val: FilterSettingItem) => {
     const _filterList = filterList.map((item) => {
       if (item.id === val.id) {
         return val;
@@ -45,8 +45,7 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
     });
 
     setFilterList(_filterList);
-    // @ts-ignore
-    updateFilter({ relation: 'AND', children: _filterList });
+    updateFilter({ relation: 'AND', children: getFilters(_filterList) });
   };
 
   if (!filters.length) {

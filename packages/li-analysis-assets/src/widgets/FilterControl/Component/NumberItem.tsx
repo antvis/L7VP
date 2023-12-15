@@ -1,14 +1,14 @@
 import { DownOutlined } from '@ant-design/icons';
-import type { FilterNumber } from '@antv/li-p2';
+import type { FilterSettingNumber } from '@antv/li-p2';
 import { FilterNumberSetting } from '@antv/li-p2';
 import { Button, Popover } from 'antd';
 import React, { useState } from 'react';
 import useStyle from './style';
 
 export interface NumberItemProps {
-  value: FilterNumber;
+  value: FilterSettingNumber;
   domain: [number, number];
-  onChange: (value: FilterNumber) => void;
+  onChange: (value: FilterSettingNumber) => void;
 }
 
 const NumberItem: React.FC<NumberItemProps> = (props) => {
@@ -30,7 +30,7 @@ const NumberItem: React.FC<NumberItemProps> = (props) => {
   };
 
   const onSubmit = () => {
-    const numberNode = { ...defaluValue, ...valAndOperator } as FilterNumber;
+    const numberNode = { ...defaluValue, ...valAndOperator } as FilterSettingNumber;
     onChange(numberNode);
     setOpen(false);
   };

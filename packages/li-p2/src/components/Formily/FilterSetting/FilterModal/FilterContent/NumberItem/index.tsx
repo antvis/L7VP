@@ -1,17 +1,17 @@
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import cls from 'classnames';
 import React from 'react';
-import type { FilterNumber } from '../../../type';
+import type { FilterSettingNumber } from '../../../type';
 import { FilterNumberSetting } from '../../../components';
 import useStyle from './style';
 
 export interface NumberItemProps {
-  value: FilterNumber;
+  value: FilterSettingNumber;
   range: [number, number];
   /**
    * 选择发生改变时
    */
-  onChange: (value: FilterNumber) => void;
+  onChange: (value: FilterSettingNumber) => void;
 }
 
 const NumberItem: React.FC<NumberItemProps> = (props) => {
@@ -25,7 +25,7 @@ const NumberItem: React.FC<NumberItemProps> = (props) => {
       ...defaultValue,
       value: val,
       operator,
-    } as FilterNumber;
+    } as FilterSettingNumber;
     onChange(_value);
   };
 
