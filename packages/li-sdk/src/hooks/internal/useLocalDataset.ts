@@ -68,13 +68,6 @@ export function useLocalDataset(datasetSchema: LocalDatasetSchema, pickFilter?: 
 
   const service = datasetSchema.id === NOOP_LOCAL_DATASET.id ? NOOP_SERVICE : datasetFilterService;
 
-  // const cacheKey = datasetSchema.id + JSON.stringify(params);
-  // const { data, run } = useRequest<Record<string, unknown>[], [DatasetServiceParams]>(service, {
-  //   defaultParams: params,
-  //   cacheKey,
-  //   manual: false,
-  // });
-
   useEffect(() => {
     let didCancel = false;
     // const cacheKey = datasetSchema.id + JSON.stringify(debouncedParams);
