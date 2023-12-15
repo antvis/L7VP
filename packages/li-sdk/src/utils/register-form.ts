@@ -69,25 +69,10 @@ export const getDatasetSelectFormSchema = (
   isRequired = true,
 ): SchemaProperties<any, any, any, any, any, any, any, any> => {
   const datasetOptions = props.datasets.map((dataset) => {
-    let _columns = getDatasetFields(isLocalOrRemoteDataset(dataset) ? dataset.columns : []);
-
-    // @ts-ignore
-    if (dataset?.data && dataset.data.length) {
-      const cloumss = _columns.map((item) => {
-        // @ts-ignore
-        const itemValue = dataset.data.map((_item: any) => _item[item.value]) || [];
-        const domain = item.type === 'number' ? [min(itemValue), max(itemValue)] : [...new Set(itemValue)];
-
-        return { ...item, domain };
-      });
-
-      _columns = cloumss;
-    }
-
     return {
       label: dataset.metadata.name,
       value: dataset.id,
-      columns: _columns,
+      columns: getDatasetFields(isLocalOrRemoteDataset(dataset) ? dataset.columns : []),
     };
   });
 

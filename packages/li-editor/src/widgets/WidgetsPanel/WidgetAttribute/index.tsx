@@ -1,6 +1,6 @@
 import type { Dataset, ImplementWidget, WidgetSchema } from '@antv/li-sdk';
 import classNames from 'classnames';
-import { forOwn, omit } from 'lodash-es';
+import { forOwn, max, min, omit } from 'lodash-es';
 import React, { useCallback, useMemo } from 'react';
 import { AtomWidgetEmptyContainer } from '../../../constants';
 import { useEditorDatasets, useEditorService, useEditorState } from '../../../hooks';
@@ -38,7 +38,20 @@ const WidgetAttribute: React.FC<WidgetAttributeProps> = (props) => {
 
   // 数据集列表
   const { editorDatasets } = useEditorDatasets();
-  const datasets: Dataset[] = editorDatasets.map((item) => ({ ...item.schema, columns: item.columns, data: [] }));
+  const datasets: Dataset[] = editorDatasets.map((item) => {
+    const columns = item.columns.map((cloumn) => {
+      const itemValue = item.data.map((_item: any) => _item[cloumn.name]) || [];
+      const domain = cloumn.type === 'number' ? [min(itemValue), max(itemValue)] : [...new Set(itemValue)];
+
+      return { ...cloumn, domain };
+    });
+
+    return {
+      ...item.schema,
+      columns: columns,
+      data: [],
+    };
+  });
 
   // 服务资产列表
   const services = useMemo(() => appService.getImplementServices(), [appService]);

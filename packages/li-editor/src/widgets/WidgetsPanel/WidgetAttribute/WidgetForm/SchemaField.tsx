@@ -1,4 +1,4 @@
-import { ControlPositionSelect, FieldSelect, FormCollapse, TimeGranularitySelect, FilterSelector } from '@antv/li-p2';
+import { ControlPositionSelect, FieldSelect, FormCollapse, TimeGranularitySelect, FilterSetting } from '@antv/li-p2';
 import {
   ArrayItems,
   Checkbox,
@@ -33,7 +33,7 @@ const SchemaField = createSchemaField({
     FormGrid,
     ControlPositionSelect,
     TimeGranularitySelect,
-    FilterSelector,
+    FilterSetting,
   },
 });
 

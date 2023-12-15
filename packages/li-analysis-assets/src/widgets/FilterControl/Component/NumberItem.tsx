@@ -1,23 +1,23 @@
 import { DownOutlined } from '@ant-design/icons';
 import type { FilterNumber } from '@antv/li-p2';
+import { FilterNumberSetting } from '@antv/li-p2';
 import { Button, Popover } from 'antd';
 import React, { useState } from 'react';
-import { FilterNumberItem } from '@antv/li-p2';
 import useStyle from './style';
 
 export interface NumberItemProps {
   value: FilterNumber;
+  domain: [number, number];
   onChange: (value: FilterNumber) => void;
 }
 
 const NumberItem: React.FC<NumberItemProps> = (props) => {
-  const { value: defaluValue, onChange } = props;
+  const { value: defaluValue, domain, onChange } = props;
   const styles = useStyle();
-  const domain = defaluValue.params?.domain || [-Infinity, Infinity];
   const [open, setOpen] = useState(false);
 
   const [valAndOperator, setValAndOperator] = useState<{
-    value: number | [number, number];
+    value?: number | [number, number];
     operator: '>=' | '<=' | 'BETWEEN';
   }>({ value: defaluValue.value, operator: defaluValue.operator });
 
@@ -37,7 +37,7 @@ const NumberItem: React.FC<NumberItemProps> = (props) => {
 
   const content = (
     <>
-      <FilterNumberItem
+      <FilterNumberSetting
         value={defaluValue.value}
         min={domain[0]}
         max={domain[1]}
@@ -52,12 +52,11 @@ const NumberItem: React.FC<NumberItemProps> = (props) => {
     </>
   );
 
-  const title =
-    defaluValue.operator === 'BETWEEN'
-      ? `${defaluValue.value[0]} ~ ${defaluValue.value[1]}`
-      : defaluValue.operator === '>=' && defaluValue.value === domain[0]
-      ? '不限'
-      : `${defaluValue.operator} ${defaluValue.value}`;
+  const title = !defaluValue.value
+    ? '不限'
+    : defaluValue.operator === 'BETWEEN'
+    ? `${defaluValue.value[0]} ~ ${defaluValue.value[1]}`
+    : `${defaluValue.operator} ${defaluValue.value}`;
 
   return (
     <Popover content={content} trigger="click" open={open} onOpenChange={handleOpenChange}>

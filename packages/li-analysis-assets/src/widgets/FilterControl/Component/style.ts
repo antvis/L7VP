@@ -10,7 +10,6 @@ const useStyle = () => {
   return {
     filterControl: css`
       display: flex;
-      padding: 10px;
       flex-wrap: wrap;
       color: ${colorTextDescription};
       align-items: center;
@@ -33,8 +32,6 @@ const useStyle = () => {
     `,
 
     numberItem: css`
-      border: 1px solid ${colorBorderSecondary};
-      border-radius: 4px;
       display: flex;
       justify-content: space-between;
       padding: 10px;

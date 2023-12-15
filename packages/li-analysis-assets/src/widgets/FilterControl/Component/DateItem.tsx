@@ -1,6 +1,6 @@
 import type { FilterDate as FilterDateType } from '@antv/li-p2';
 import React from 'react';
-import { FilterDateItem } from '@antv/li-p2';
+import { FilterDateSetting } from '@antv/li-p2';
 
 export interface DateItemProps {
   value: FilterDateType;
@@ -19,18 +19,19 @@ const DateItem: React.FC<DateItemProps> = (props) => {
       params: {
         ...defaultValue.params,
         format,
-        type,
+        dateType: type,
       },
     });
   };
 
   return (
-    <FilterDateItem
+    <FilterDateSetting
+      bordered={false}
       value={defaultValue.value}
       format={defaultValue.params.format}
       granularity={defaultValue.granularity}
       isRenderExtraFooter={true}
-      type={defaultValue.params.type}
+      type={defaultValue.params.dateType}
       onChange={onValueChange}
     />
   );

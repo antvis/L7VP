@@ -602,7 +602,6 @@ const DEFAULT_ANALYSIS_APP: Application = {
           slot: 'controls',
         },
       },
-
       {
         id: 'FullscreenControl1',
         type: 'FullscreenControl',
