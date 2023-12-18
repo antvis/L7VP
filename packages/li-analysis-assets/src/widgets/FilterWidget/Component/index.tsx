@@ -23,7 +23,6 @@ const FilterWidget = (props: Properties) => {
     }
     return _datasets.map(({ id }) => id);
   });
-
   const selectedDatasets = datasets.filter((item) => !isUndefined(item?.filter)).map(({ id }) => id);
 
   return (
