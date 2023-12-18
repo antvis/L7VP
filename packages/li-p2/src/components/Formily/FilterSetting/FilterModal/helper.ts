@@ -4,6 +4,7 @@ export const getDefaultValue = (field: OptionType, id: string) => {
   if (field.type === 'string') {
     const _filter: FilterSettingString = {
       id,
+      title: field.value,
       field: field.value,
       type: 'string',
       operator: 'IN',
@@ -18,6 +19,7 @@ export const getDefaultValue = (field: OptionType, id: string) => {
   if (field.type === 'date') {
     const _filter: FilterSettingDate = {
       id,
+      title: field.value,
       field: field.value,
       type: 'date',
       operator: 'BETWEEN',
@@ -32,6 +34,7 @@ export const getDefaultValue = (field: OptionType, id: string) => {
 
   const _filter: FilterSettingNumber = {
     id,
+    title: field.value,
     field: field.value,
     type: 'number',
     operator: '>=',

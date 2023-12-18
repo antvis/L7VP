@@ -31,7 +31,7 @@ const Preview: React.FC<PreviewProps> = (props) => {
         if (isEmpty(item.value)) {
           return {
             key: index,
-            label: item.field,
+            label: item.title,
             children: '不限',
           };
         }
@@ -45,7 +45,7 @@ const Preview: React.FC<PreviewProps> = (props) => {
 
         return {
           key: index,
-          label: item.field,
+          label: item.title,
           children: time as string,
         };
       }
@@ -55,14 +55,14 @@ const Preview: React.FC<PreviewProps> = (props) => {
         if (item.operator === 'BETWEEN') {
           return {
             key: index,
-            label: item.field,
+            label: item.title,
             children: `${item.value?.[0]} ~ ${item.value?.[1]}`,
           };
         }
 
         return {
           key: index,
-          label: item.field,
+          label: item.title,
           children: !item.value ? '不限' : `${item.operator}${item.value}`,
         };
       }
@@ -70,7 +70,7 @@ const Preview: React.FC<PreviewProps> = (props) => {
       // 文本类型
       return {
         key: index,
-        label: item.field,
+        label: item.title,
         children: !item.value
           ? '不限'
           : item.value && item.value.includes('all')

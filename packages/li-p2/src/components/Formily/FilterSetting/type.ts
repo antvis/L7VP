@@ -36,6 +36,7 @@ export type OptionType = {
 
 export type FilterSettingString = {
   id: string;
+  title: string;
   field: string;
   type: 'string';
   operator: 'IN';
@@ -48,6 +49,7 @@ export type FilterSettingString = {
 
 export type FilterSettingDate = {
   id: string;
+  title: string;
   field: string;
   type: 'date';
   /** 日期粒度 */
@@ -65,6 +67,7 @@ export type FilterSettingDate = {
 export type FilterSettingNumber =
   | {
       id: string;
+      title: string;
       field: string;
       type: 'number';
       operator: '>=' | '<=';
@@ -72,6 +75,7 @@ export type FilterSettingNumber =
     }
   | {
       id: string;
+      title: string;
       field: string;
       type: 'number';
       operator: 'BETWEEN';

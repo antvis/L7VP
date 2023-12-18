@@ -45,11 +45,9 @@ const FilterCard = ({
   const _data = useMemo(() => (dataset && isLocalOrRemoteDataset(dataset) ? dataset.data.slice(0, 50000) : []), [
     dataset,
   ]);
-
   const [filter, { addFilterNode, updateFilterNode, removeFilterNode, updateFilter, clearFilter }] = useDatasetFilter(
     datasetId,
   );
-
   const relation = filter?.relation ?? 'AND';
   const filterNodes = filter?.children ?? [];
 

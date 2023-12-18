@@ -1,7 +1,7 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
 export default genStyleHook('filter-setting-filter-item', (token) => {
-  const { componentCls, colorInfoTextHover } = token;
+  const { componentCls, colorPrimary } = token;
 
   return {
     [componentCls]: {
@@ -28,16 +28,22 @@ export default genStyleHook('filter-setting-filter-item', (token) => {
 
         '&__delete-icon': {
           fontSize: '12px',
+          marginLeft: '5px',
+          opacity: 0,
         },
 
         '&__delete-icon:hover': {
-          color: colorInfoTextHover,
+          color: colorPrimary,
         },
       },
     },
 
     [`${componentCls}:hover`]: {
       [`${componentCls}__drag-icon`]: {
+        opacity: 1,
+      },
+
+      [`${componentCls}__infor__delete-icon`]: {
         opacity: 1,
       },
     },

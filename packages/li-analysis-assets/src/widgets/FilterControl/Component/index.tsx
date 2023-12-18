@@ -64,7 +64,7 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
           return (
             <div className={classNames(`${CLS_PREFIX}__filter-item`, styles.filterItem)}>
               <div className={classNames(`${CLS_PREFIX}__filter-item__title`, styles.filterItemTitle)}>
-                {item.field}:
+                {item.title}:
               </div>
               <div className={classNames(`${CLS_PREFIX}__filter-item__content`, styles.filterItemContent)}>
                 {item.type === 'string' && (

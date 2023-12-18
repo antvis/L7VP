@@ -16,7 +16,6 @@ const FilterWidget = (props: Properties) => {
   const [dataSourcesList] = useDatasetList();
   const datasets = dataSourcesList.filter((item): item is LocalDataset | RemoteDataset => isLocalOrRemoteDataset(item));
   const datasetOptions = datasets.map((item) => ({ id: item.id, name: item.metadata.name }));
-
   const [filterWidget, setfilterWidget] = useState<string[]>(() => {
     const _datasets = datasets.filter((item) => !isUndefined(item?.filter));
     if (_datasets.length === 0) {
@@ -45,7 +44,6 @@ const FilterWidget = (props: Properties) => {
           />
         );
       })}
-
       {showAddFilter && (
         <div
           className={classNames(`${CLS_PREFIX}__add-filter`, {

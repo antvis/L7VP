@@ -1,23 +1,31 @@
-import { DeleteOutlined, HolderOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, HolderOutlined } from '@ant-design/icons';
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import classnames from 'classnames';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
+import { Tooltip } from 'antd';
+import { FilterSettingItem } from '../../type';
 import useStyle from './style';
+import EditName from './EditName';
 
 type FilterItemProps = {
   index: string | number;
   id: string;
   field: string;
+  /**
+   * 选择发生改变时
+   */
+  onChange: (title: string) => void;
   onDelete: () => void;
   onClickItem: () => void;
   onChangeSort: (dragIndex: string | number, hoverIndex: string | number) => void;
 };
 
-const FilterItem = ({ index, id, field, onDelete, onClickItem, onChangeSort }: FilterItemProps) => {
+const FilterItem = ({ index, id, field, onChange, onDelete, onClickItem, onChangeSort }: FilterItemProps) => {
   const prefixCls = usePrefixCls('formily-filter-setting-filter-item');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const ref = useRef<HTMLDivElement>(null);
+  const [isEditName, setIsEditName] = useState(false);
 
   const [, drop] = useDrop({
     accept: 'DragDropBox',
@@ -39,6 +47,11 @@ const FilterItem = ({ index, id, field, onDelete, onClickItem, onChangeSort }: F
     },
   });
 
+  const onChangeName = (title: string) => {
+    onChange(title);
+    setIsEditName(false);
+  };
+
   drag(drop(ref));
 
   return wrapSSR(
@@ -48,11 +61,19 @@ const FilterItem = ({ index, id, field, onDelete, onClickItem, onChangeSort }: F
       </div>
       <div className={`${prefixCls}__infor`}>
         <div className={`${prefixCls}__infor__field`} onClick={onClickItem}>
-          {field}
+          <EditName name={field} onChange={onChangeName} onCancel={() => setIsEditName(false)} isEdit={isEditName} />
         </div>
-        <div className={`${prefixCls}__infor__delete-icon`} onClick={onDelete}>
-          <DeleteOutlined />
-        </div>
+
+        <Tooltip title="点击修改名称">
+          <div className={`${prefixCls}__infor__delete-icon`} onClick={() => setIsEditName(true)}>
+            <EditOutlined />
+          </div>
+        </Tooltip>
+        <Tooltip title="点击删除">
+          <div className={`${prefixCls}__infor__delete-icon`} onClick={onDelete}>
+            <DeleteOutlined />
+          </div>
+        </Tooltip>
       </div>
     </div>,
   );

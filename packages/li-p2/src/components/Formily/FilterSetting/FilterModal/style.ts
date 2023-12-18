@@ -20,7 +20,6 @@ export default genStyleHook('filter-setting-modal', (token) => {
       display: 'flex',
       minHeight: '400px',
       margin: '0 -24px',
-      border: `1px solid ${colorBorder}`,
 
       '&__left': {
         width: '200px',

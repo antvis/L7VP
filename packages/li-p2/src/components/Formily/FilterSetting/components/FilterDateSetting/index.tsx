@@ -66,7 +66,6 @@ const FilterDateSetting: React.FC<FilterDateSettingProps> = (props) => {
         onChange({ value: '', format, type, granularity });
       }
     }
-    setOpen(false);
   };
 
   // 粒度变化
@@ -83,8 +82,8 @@ const FilterDateSetting: React.FC<FilterDateSettingProps> = (props) => {
   // 区间变化
   const onDateOrRange = (type: 'date' | 'range') => {
     const _times = defaultValue ? getTimeFormat(defaultValue[0], format) : '';
-    onChange({ value: _times, format, type, granularity });
     setOpen(true);
+    onChange({ value: _times, format, type, granularity });
   };
 
   const granularityOptions = useMemo(() => {

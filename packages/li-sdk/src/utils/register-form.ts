@@ -1,5 +1,5 @@
 import type { SchemaProperties } from '@formily/json-schema';
-import { isUndefined, max, min } from 'lodash-es';
+import { isUndefined } from 'lodash-es';
 import { DATASET_FIELD_TYPE_MAP } from '../constants';
 import type { DatasetField, WidgetSchema } from '../specs';
 import type { DatasetFieldWithMeta, WidgetRegisterFormProps } from '../types';

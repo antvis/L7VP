@@ -110,8 +110,6 @@ const FilterModal: React.FC<FilterModalProps> = (props) => {
     }
   }, [open]);
 
-  console.log(filterList, selectedFilterNode, 'skldnfkjdnj-是绝大部分的环境');
-
   return wrapSSR(
     <Modal
       title="筛选器设置"
@@ -155,8 +153,9 @@ const FilterModal: React.FC<FilterModalProps> = (props) => {
                   <FilterItem
                     index={index}
                     id={item.id}
-                    field={item.field}
+                    field={item.title}
                     key={`filter_drag_card${index}`}
+                    onChange={(title: string) => onFilterChange({ ...item, title })}
                     onChangeSort={onChangeSort}
                     onClickItem={() => setSelectedFilterNode(item)}
                     onDelete={() => delFilterItem(item.id)}

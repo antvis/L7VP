@@ -1,6 +1,4 @@
-// @ts-ignore
-import { useEditorDataset } from '@antv/li-editor';
-import type { FilterNodeItem } from '@antv/li-p2';
+import type { FilterSettingItem } from '@antv/li-p2';
 import type { WidgetRegisterForm, WidgetRegisterFormProps } from '@antv/li-sdk';
 import { getDatasetSelectFormSchema } from '@antv/li-sdk';
 import type { PositionName } from '@antv/l7';
@@ -11,7 +9,7 @@ import type { PositionName } from '@antv/l7';
 export type Properties = {
   datasetId?: 'string';
   position?: PositionName;
-  filters: FilterNodeItem[];
+  filters: FilterSettingItem[];
 };
 
 export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> => {
