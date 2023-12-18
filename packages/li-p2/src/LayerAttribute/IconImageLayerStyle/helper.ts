@@ -1,4 +1,4 @@
-import { BuiltInImage } from './constant';
+import { BuiltInImageList } from '../components/IconScaleSelector/constant';
 import type { IconImageLayerStyleAttributeValue } from './types';
 
 /**
@@ -22,8 +22,24 @@ export const iconImageLayerStyleFlatToConfig = (style: Record<string, any>) => {
     };
   }
 
+  let iconAtlas = {};
+  if (iconImg) {
+    const _img = BuiltInImageList.find((item) => item.id === iconImg);
+    iconAtlas = _img ? { [_img.id]: _img.url } : {};
+  } else {
+    iconAtlas = BuiltInImageList.filter((item) => iconImgScale.range.includes(item.id)).reduce(
+      (pre, { id, url }) => ({
+        ...pre,
+        [id]: url,
+      }),
+      {
+        unknown_icon: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*EcQZS6JM69EAAAAAAAAAAAAADmJ7AQ/original',
+      },
+    );
+  }
+
   const styleConfig: IconImageLayerStyleAttributeValue = {
-    iconAtlas: BuiltInImage,
+    iconAtlas,
     icon,
     fillColor: style.fillColor,
     radius: style.radiusField
