@@ -1,4 +1,4 @@
-import { BuiltInImageList } from '../components/IconScaleSelector/constant';
+import { BuiltInImageList, UNKNOWN_ICON } from './constant';
 import type { IconImageLayerStyleAttributeValue } from './types';
 
 /**
@@ -24,17 +24,16 @@ export const iconImageLayerStyleFlatToConfig = (style: Record<string, any>) => {
 
   let iconAtlas = {};
   if (iconImg) {
-    const _img = BuiltInImageList.find((item) => item.id === iconImg);
-    iconAtlas = _img ? { [_img.id]: _img.url } : {};
+    const img = BuiltInImageList.find((item) => item.id === iconImg);
+    iconAtlas = img ? { [img.id]: img.url } : {};
   } else {
     iconAtlas = BuiltInImageList.filter((item) => iconImgScale.range.includes(item.id)).reduce(
       (pre, { id, url }) => ({
         ...pre,
         [id]: url,
       }),
-      {
-        unknown_icon: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*EcQZS6JM69EAAAAAAAAAAAAADmJ7AQ/original',
-      },
+      // 'unknown_icon' 对应 iconImgScale unknown 的值
+      { unknown_icon: UNKNOWN_ICON },
     );
   }
 
