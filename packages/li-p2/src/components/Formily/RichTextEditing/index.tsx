@@ -4,6 +4,8 @@ import { Button, Modal } from 'antd';
 import cls from 'classnames';
 import React, { useState } from 'react';
 import useStyle from './style';
+import 'quill/dist/quill.snow.css';
+import Editor from './Editor';
 
 type InternalRichTextEditingProps = {};
 
@@ -14,6 +16,10 @@ const InternalRichTextEditing: React.FC<InternalRichTextEditingProps> = (props) 
 
   const handleOk = () => {
     setIsModalOpen(false);
+  };
+
+  const onSubmit = (val: any) => {
+    console.log(val, '垂手可得肌肤回到家');
   };
 
   const handleCancel = () => {
@@ -29,11 +35,12 @@ const InternalRichTextEditing: React.FC<InternalRichTextEditingProps> = (props) 
         title="筛选器设置"
         cancelText="取消"
         okText="确定"
-        open={isModalOpen}
+        open={true}
         onOk={handleOk}
         onCancel={handleCancel}
+        width={600}
       >
-        富文本新一站是
+        <Editor onSubmit={onSubmit} />
       </Modal>
     </div>,
   );
