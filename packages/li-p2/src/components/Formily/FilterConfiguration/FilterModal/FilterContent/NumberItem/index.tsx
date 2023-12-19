@@ -2,7 +2,7 @@ import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import cls from 'classnames';
 import React from 'react';
 import type { NumberConfig } from '../../../type';
-import { FilterNumberSetting } from '../../../components';
+import { FilterNumberConfig } from '../../../components';
 import useStyle from './style';
 
 export interface NumberItemProps {
@@ -31,7 +31,7 @@ const NumberItem: React.FC<NumberItemProps> = (props) => {
   return wrapSSR(
     <div className={cls(`${prefixCls}__filter`, hashId)}>
       <div className={cls(`${prefixCls}__field`, hashId)}>设定默认值</div>
-      <FilterNumberSetting value={value} operator={operator} onChange={onValueChange} />
+      <FilterNumberConfig value={value} operator={operator} onChange={onValueChange} />
     </div>,
   );
 };

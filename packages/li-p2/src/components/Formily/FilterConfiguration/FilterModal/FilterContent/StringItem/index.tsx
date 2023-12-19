@@ -2,7 +2,7 @@ import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { Radio } from 'antd';
 import cls from 'classnames';
 import React from 'react';
-import { FilterStringSetting } from '../../../components';
+import { FilterStringConfig } from '../../../components';
 import type { StringConfig } from '../../../type';
 import useStyle from './style';
 export interface StringItemProps {
@@ -47,7 +47,7 @@ const StringItem: React.FC<StringItemProps> = (props) => {
 
       <div className={cls(`${prefixCls}__filter`, hashId)}>
         <div className={cls(`${prefixCls}__field`, hashId)}>设定默认值</div>
-        <FilterStringSetting
+        <FilterStringConfig
           value={defaluValue.value}
           domain={options}
           filterType={defaluValue.params.filterType}
