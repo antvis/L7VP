@@ -40,7 +40,8 @@ const WidgetAttribute: React.FC<WidgetAttributeProps> = (props) => {
   const { editorDatasets } = useEditorDatasets();
   const datasets: Dataset[] = editorDatasets.map((item) => {
     const columns = item.columns.map((cloumn) => {
-      const itemValue = item.data.map((_item: any) => _item[cloumn.name]) || [];
+      const itemValue = item.data.map((_item) => _item[cloumn.name]);
+      // TODO: 从 editorDataset 获取数据
       const domain = cloumn.type === 'number' ? [min(itemValue), max(itemValue)] : [...new Set(itemValue)];
 
       return { ...cloumn, domain };

@@ -6,8 +6,8 @@ export default implementWidget({
   version: 'v0.1',
   metadata: {
     name: 'FilterControl',
-    displayName: '筛选组件',
-    description: '在右侧地图上添加筛选条件，供实时筛选',
+    displayName: '数据筛选控件',
+    description: '在地图上的实时筛选数据，支持默认值设置',
     type: 'Auto',
     category: 'DataAnalysis',
   },
