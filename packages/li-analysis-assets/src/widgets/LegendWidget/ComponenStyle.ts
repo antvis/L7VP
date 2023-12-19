@@ -5,11 +5,6 @@ const useStyle = () => {
   const { colorText, colorTextDescription, colorBgContainer, colorBorder, antCls } = useAntdToken();
 
   return {
-    legendContainer: css`
-      background-color: ${colorBgContainer};
-      border-radius: 4px;
-    `,
-
     legendPopover: css`
       ${antCls}-popover-content {
         width: 330px;
@@ -106,7 +101,6 @@ const useStyle = () => {
       color: ${colorTextDescription};
       font-size: 16px;
       background-color: ${colorBgContainer};
-      border-radius: 4px;
       cursor: pointer;
 
       &:hover {
