@@ -1,18 +1,17 @@
 import { DownOutlined } from '@ant-design/icons';
-import type { FilterSettingNumber } from '@antv/li-p2';
-import { FilterNumberSetting } from '@antv/li-p2';
+import type { NumberConfig } from '@antv/li-p2';
+import { FilterNumberConfig } from '@antv/li-p2';
 import { Button, Popover } from 'antd';
 import React, { useState } from 'react';
 import useStyle from './style';
 
 export interface NumberItemProps {
-  value: FilterSettingNumber;
-  domain: [number, number];
-  onChange: (value: FilterSettingNumber) => void;
+  value: NumberConfig;
+  onChange: (value: NumberConfig) => void;
 }
 
 const NumberItem: React.FC<NumberItemProps> = (props) => {
-  const { value: defaluValue, domain, onChange } = props;
+  const { value: defaluValue, onChange } = props;
   const styles = useStyle();
   const [open, setOpen] = useState(false);
 
@@ -21,7 +20,7 @@ const NumberItem: React.FC<NumberItemProps> = (props) => {
     operator: '>=' | '<=' | 'BETWEEN';
   }>({ value: defaluValue.value, operator: defaluValue.operator });
 
-  const onValueChange = (val: number | [number, number], operator: '>=' | '<=' | 'BETWEEN') => {
+  const onValueChange = (val: number | [number, number] | undefined, operator: '>=' | '<=' | 'BETWEEN') => {
     setValAndOperator({ value: val, operator });
   };
 
@@ -30,26 +29,20 @@ const NumberItem: React.FC<NumberItemProps> = (props) => {
   };
 
   const onSubmit = () => {
-    const numberNode = { ...defaluValue, ...valAndOperator } as FilterSettingNumber;
+    const numberNode = { ...defaluValue, ...valAndOperator } as NumberConfig;
     onChange(numberNode);
     setOpen(false);
   };
 
   const content = (
-    <>
-      <FilterNumberSetting
-        value={defaluValue.value}
-        min={domain[0]}
-        max={domain[1]}
-        operator={defaluValue.operator}
-        onChange={onValueChange}
-      />
-      <div style={{ textAlign: 'center', marginTop: '10px' }}>
-        <Button type="primary" onClick={onSubmit}>
+    <div className={styles.numberContent}>
+      <FilterNumberConfig value={defaluValue.value} operator={defaluValue.operator} onChange={onValueChange} />
+      <div className={styles.numberSubmit}>
+        <Button type="primary" size="small" onClick={onSubmit}>
           确定
         </Button>
       </div>
-    </>
+    </div>
   );
 
   const title = !defaluValue.value

@@ -8,7 +8,7 @@ import useStyle from './style';
 import type { FieldSelectOptionType } from './types';
 
 const InternalSelect: React.FC<SelectProps<string, FieldSelectOptionType>> = (props) => {
-  const { options, open: defaultOpen = false, ...prop } = props;
+  const { options, open: defaultOpen = true, ...prop } = props;
   const prefixCls = usePrefixCls('formily-field-select');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const [open, setOpen] = useState(false);

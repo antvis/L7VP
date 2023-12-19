@@ -1,4 +1,4 @@
-import type { FilterSettingItem } from '@antv/li-p2';
+import type { FilterConfig } from '@antv/li-p2';
 import type { WidgetRegisterForm, WidgetRegisterFormProps } from '@antv/li-sdk';
 import { getDatasetSelectFormSchema } from '@antv/li-sdk';
 import type { PositionName } from '@antv/l7';
@@ -9,7 +9,7 @@ import type { PositionName } from '@antv/l7';
 export type Properties = {
   datasetId?: 'string';
   position?: PositionName;
-  filters: FilterSettingItem[];
+  defaultFilters: FilterConfig[];
 };
 
 export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> => {
@@ -17,11 +17,11 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
   const schema = {
     ...getDatasetSelectFormSchema(props, 'datasetId', '数据源'),
 
-    filters: {
+    defaultFilters: {
       type: 'array',
       default: [],
       'x-decorator': 'FormItem',
-      'x-component': 'FilterSetting',
+      'x-component': 'FilterConfiguration',
       'x-component-props': {
         options:
           '{{ $form.getFieldState("datasetId",state=> { return state.dataSource.find(item=>item.value=== state?.value)?.columns || [] })}}',
@@ -42,7 +42,7 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
         {
           dependencies: ['datasetId'],
           fulfill: {
-            run: `$form.setFieldState('filters',state=>{  
+            run: `$form.setFieldState('defaultFilters',state=>{  
                 state.value = [];
               })`,
           },

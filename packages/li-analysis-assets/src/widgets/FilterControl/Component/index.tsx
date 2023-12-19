@@ -1,9 +1,8 @@
 import { CustomControl } from '@antv/larkmap';
-import type { FilterSettingItem } from '@antv/li-p2';
+import type { FilterConfig } from '@antv/li-p2';
 import type { ImplementWidgetProps, LocalOrRemoteDataset } from '@antv/li-sdk';
 import { useDataset, useDatasetFilter } from '@antv/li-sdk';
 import { default as classNames, default as cls } from 'classnames';
-import { max, min } from 'lodash-es';
 import React, { useEffect, useRef, useState } from 'react';
 import { useMount } from 'ahooks';
 import type { Properties } from '../registerForm';
@@ -17,12 +16,12 @@ const CLS_PREFIX = 'li-filter-control';
 export interface LIFilterControlProps extends Properties, ImplementWidgetProps {}
 
 const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
-  const { filters, datasetId = '', position } = props;
+  const { defaultFilters, datasetId = '', position } = props;
   const styles = useStyle();
   // 获取数据源
   const [dataset] = useDataset<LocalOrRemoteDataset>(datasetId, { filter: { relation: 'AND', children: [] } });
   const { data: tableData = [] } = dataset || {};
-  const [filterList, setFilterList] = useState(filters);
+  const [filterList, setFilterList] = useState(defaultFilters);
   // 筛选数据
   const [_, { addFilterNode, updateFilter }] = useDatasetFilter(datasetId);
   const firstMountRef = useRef(false);
@@ -30,7 +29,7 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
   // 首次挂载
   useMount(() => {
     if (!firstMountRef.current) {
-      const _filters = getFilters(filters);
+      const _filters = getFilters(defaultFilters);
       _filters.forEach((item) => {
         addFilterNode(item);
       });
@@ -38,12 +37,13 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
     }
   });
 
+  // 配置初始筛选条件变更
   useEffect(() => {
-    updateFilter({ relation: 'AND', children: getFilters(filters) });
-    setFilterList(filters);
-  }, [filters]);
+    updateFilter({ relation: 'AND', children: getFilters(defaultFilters) });
+    setFilterList(defaultFilters);
+  }, [defaultFilters]);
 
-  const onValueChange = (val: FilterSettingItem) => {
+  const onValueChange = (val: FilterConfig) => {
     const _filterList = filterList.map((item) => {
       if (item.id === val.id) {
         return val;
@@ -55,7 +55,7 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
     updateFilter({ relation: 'AND', children: getFilters(_filterList) });
   };
 
-  if (!filters.length) {
+  if (!defaultFilters.length) {
     return null;
   }
 
@@ -64,7 +64,7 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
       <div className={cls(CLS_PREFIX, styles.filterControl)}>
         {filterList.map((item) => {
           const itemValue = tableData.map((_item: any) => _item[item.field]) || [];
-          const domain = item.type === 'number' ? [min(itemValue), max(itemValue)] : [...new Set(itemValue)];
+          const domain = item.type === 'string' ? [...new Set(itemValue)] : [];
 
           return (
             <div className={classNames(`${CLS_PREFIX}__filter-item`, styles.filterItem)}>
@@ -75,9 +75,7 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
                 {item.type === 'string' && (
                   <StringItem value={item} domain={domain as string[]} onChange={onValueChange} />
                 )}
-                {item.type === 'number' && (
-                  <NumberItem value={item} domain={domain as [number, number]} onChange={onValueChange} />
-                )}
+                {item.type === 'number' && <NumberItem value={item} onChange={onValueChange} />}
                 {item.type === 'date' && <DateItem value={item} onChange={onValueChange} />}
               </div>
             </div>

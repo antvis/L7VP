@@ -41,7 +41,7 @@ const WidgetAttribute: React.FC<WidgetAttributeProps> = (props) => {
   const datasets: Dataset[] = editorDatasets.map((item) => {
     const columns = item.columns.map((cloumn) => {
       const itemValue = item.data.map((_item: any) => _item[cloumn.name]) || [];
-      const domain = cloumn.type === 'number' ? [min(itemValue), max(itemValue)] : [...new Set(itemValue)];
+      const domain = cloumn.type === 'string' ? [...new Set(itemValue)] : [];
 
       return { ...cloumn, domain };
     });

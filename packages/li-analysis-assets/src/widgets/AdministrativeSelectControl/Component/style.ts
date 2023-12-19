@@ -58,7 +58,7 @@ function useStyle() {
     popoverTitle: css`
       display: flex;
       align-items: center;
-      height: 30px;
+      height: 32px;
       padding: 0 8px;
       font-size: ${fontSize}px;
     `,

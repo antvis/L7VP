@@ -12,7 +12,7 @@ export default implementWidget({
     category: 'DataAnalysis',
   },
   defaultProperties: {
-    filters: [],
+    defaultFilters: [],
   },
   component,
   registerForm,

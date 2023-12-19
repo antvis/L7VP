@@ -10,13 +10,8 @@ export { default as RibbonSelect } from './RibbonSelect';
 export { default as Slider } from './Slider';
 export { default as SliderRange } from './SliderRange';
 export { default as TimeGranularitySelect } from './TimeGranularitySelect';
-export { default as FilterSetting } from './FilterSetting';
-export type {
-  FilterSettingItem,
-  FilterSettingDate,
-  FilterSettingNumber,
-  FilterSettingString,
-} from './FilterSetting/type';
-export { default as FilterDateSetting } from './FilterSetting/components/FilterDateSetting';
-export { default as FilterStringSetting } from './FilterSetting/components/FilterStringSetting';
-export { default as FilterNumberSetting } from './FilterSetting/components/FilterNumberSetting';
+export { default as FilterConfiguration } from './FilterConfiguration';
+export type { FilterConfig, DateConfig, NumberConfig, StringConfig } from './FilterConfiguration/type';
+export { default as FilterDateConfig } from './FilterConfiguration/components/FilterDateConfig';
+export { default as FilterStringConfig } from './FilterConfiguration/components/FilterStringConfig';
+export { default as FilterNumberConfig } from './FilterConfiguration/components/FilterNumberConfig';

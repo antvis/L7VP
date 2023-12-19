@@ -5,7 +5,7 @@ const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
 
-  const { colorTextDescription, colorBgContainer, colorBorderSecondary, borderRadius } = token;
+  const { colorTextDescription, colorBgContainer } = token;
 
   return {
     filterControl: css`
@@ -14,7 +14,6 @@ const useStyle = () => {
       color: ${colorTextDescription};
       align-items: center;
       background: ${colorBgContainer};
-      border-radius: ${borderRadius}px;
     `,
 
     filterItem: css`
@@ -24,11 +23,21 @@ const useStyle = () => {
 
     filterItemTitle: css`
       margin: 0 10px;
+      font-size: 14px;
     `,
 
     filterItemContent: css`
       min-width: 150px;
       max-width: 300px;
+      font-size: 14px;
+
+      .ant-select-selector {
+        color: ${colorTextDescription};
+      }
+
+      .ant-picker-input > input {
+        color: ${colorTextDescription};
+      }
     `,
 
     numberItem: css`
@@ -38,6 +47,15 @@ const useStyle = () => {
       height: 32px;
       line-height: 32px;
       padding: 0 5px;
+    `,
+
+    numberContent: css`
+      padding: 5px;
+    `,
+
+    numberSubmit: css`
+      text-align: center;
+      margin-top: 20px;
     `,
   };
 };

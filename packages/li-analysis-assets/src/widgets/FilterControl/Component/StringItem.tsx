@@ -1,11 +1,11 @@
-import type { FilterSettingString } from '@antv/li-p2';
+import type { StringConfig } from '@antv/li-p2';
 import React from 'react';
-import { FilterStringSetting } from '@antv/li-p2';
+import { FilterStringConfig } from '@antv/li-p2';
 
 export interface StringItemProps {
-  value: FilterSettingString;
+  value: StringConfig;
   domain: string[];
-  onChange: (value: FilterSettingString) => void;
+  onChange: (value: StringConfig) => void;
 }
 
 const StringItem: React.FC<StringItemProps> = (props) => {
@@ -19,7 +19,7 @@ const StringItem: React.FC<StringItemProps> = (props) => {
   };
 
   return (
-    <FilterStringSetting
+    <FilterStringConfig
       bordered={false}
       value={defaluValue.value}
       domain={domain}

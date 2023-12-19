@@ -1,7 +1,7 @@
-import type { FilterSettingItem } from 'packages/li-p2';
+import type { FilterConfig } from 'packages/li-p2';
 import type { FilterNode } from 'packages/li-sdk';
 
-export const getFilters = (list: FilterSettingItem[]) => {
+export const getFilters = (list: FilterConfig[]) => {
   const _list = list
     .map((item) => {
       if (item.type === 'string' && item.value?.includes('all')) {
