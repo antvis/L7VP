@@ -2,7 +2,7 @@ import { DownOutlined } from '@ant-design/icons';
 import { DatePicker, Dropdown, Space } from 'antd';
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import dayjs from 'dayjs';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import cls from 'classnames';
 import { getGranularityOptions, getTimeFormat } from './helper';
 import useStyle from './style';
@@ -44,11 +44,12 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
   const [open, setOpen] = useState(false);
   const prefixCls = usePrefixCls('formily-filter-setting-date');
   const [wrapSSR, hashId] = useStyle(prefixCls);
+  const dataRef = useRef(0);
 
   // 开关变化
   const onOpenChange = (open: boolean) => {
     setOpen(open);
-    onChange({ value: '', format, type, granularity });
+    dataRef.current = 0;
   };
 
   // 时间区间变化
@@ -72,7 +73,6 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
         onChange({ value: '', format, type, granularity });
       }
     }
-    setOpen(false);
   };
 
   // 粒度变化
@@ -89,8 +89,8 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
   // 区间变化
   const onDateOrRange = (type: 'date' | 'range') => {
     const _times = defaultValue ? getTimeFormat(defaultValue[0], format) : '';
-    setOpen(true);
     onChange({ value: _times, format, type, granularity });
+    setOpen(true);
   };
 
   const granularityOptions = useMemo(() => {
@@ -188,6 +188,13 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
               picker={(granularity === 'day' ? 'date' : granularity) as 'year' | 'month' | 'date'}
               onChange={onRangePickerChange}
               format={format}
+              onCalendarChange={() => {
+                if (dataRef.current !== 1) {
+                  dataRef.current += 1;
+                } else {
+                  setOpen(false);
+                }
+              }}
               renderExtraFooter={() => (isRenderExtraFooter ? renderExtraFooter : null)}
             />
           ) : (
@@ -199,6 +206,13 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
               value={defaultValue ? [dayjs(defaultValue[0], format), dayjs(defaultValue[1], format)] : undefined}
               showTime={{ format: format }}
               onChange={onRangePickerChange}
+              onCalendarChange={() => {
+                if (dataRef.current !== 3) {
+                  dataRef.current += 1;
+                } else {
+                  setOpen(false);
+                }
+              }}
               format={format}
               renderExtraFooter={() => (isRenderExtraFooter ? renderExtraFooter : null)}
             />
