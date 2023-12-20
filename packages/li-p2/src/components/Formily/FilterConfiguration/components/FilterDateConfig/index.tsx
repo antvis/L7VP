@@ -45,6 +45,12 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
   const prefixCls = usePrefixCls('formily-filter-setting-date');
   const [wrapSSR, hashId] = useStyle(prefixCls);
 
+  // 开关变化
+  const onOpenChange = (open: boolean) => {
+    setOpen(open);
+    onChange({ value: '', format, type, granularity });
+  };
+
   // 时间区间变化
   const onRangePickerChange = (_: any, dateString: [string, string] | string) => {
     if (type === 'date') {
@@ -66,6 +72,7 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
         onChange({ value: '', format, type, granularity });
       }
     }
+    setOpen(false);
   };
 
   // 粒度变化
@@ -176,7 +183,7 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
               bordered={bordered}
               size={size}
               open={open}
-              onOpenChange={(open) => setOpen(open)}
+              onOpenChange={onOpenChange}
               value={defaultValue ? [dayjs(defaultValue[0], format), dayjs(defaultValue[1], format)] : undefined}
               picker={(granularity === 'day' ? 'date' : granularity) as 'year' | 'month' | 'date'}
               onChange={onRangePickerChange}
@@ -188,7 +195,7 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
               bordered={bordered}
               size={size}
               open={open}
-              onOpenChange={(open) => setOpen(open)}
+              onOpenChange={onOpenChange}
               value={defaultValue ? [dayjs(defaultValue[0], format), dayjs(defaultValue[1], format)] : undefined}
               showTime={{ format: format }}
               onChange={onRangePickerChange}
