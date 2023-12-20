@@ -4,7 +4,6 @@ import type { ImplementWidgetProps } from '@antv/li-sdk';
 import { useLayerList } from '@antv/li-sdk';
 import { useUpdate } from 'ahooks';
 import { Empty, Popover, Tooltip } from 'antd';
-import type { Layer } from '@antv/larkmap/es/types';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash-es';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -103,30 +102,28 @@ const LegendControl: React.FC<LegendType> = (props) => {
   );
 
   return (
-    <CustomControl position={position}>
-      <div className={classNames(CLS_PREFIX, styles.legendContainer)}>
-        <Popover
-          overlayClassName={classNames(`${CLS_PREFIX}__popover`, styles.legendPopover)}
-          open={openPopover}
-          placement={onPlacement}
-          content={content}
-          trigger="click"
-          arrow={false}
-        >
-          <Tooltip placement={onPlacement} title="显示图例">
-            <div
-              className={classNames(`${CLS_PREFIX}__btn`, styles.legendBtn, {
-                [styles.legendBtnSelect]: openPopover,
-              })}
-              onClick={() => {
-                setOpenPopover((isOpen) => !isOpen);
-              }}
-            >
-              <Icon component={LegendWidgetSvg} />
-            </div>
-          </Tooltip>
-        </Popover>
-      </div>
+    <CustomControl position={position} className={CLS_PREFIX}>
+      <Popover
+        overlayClassName={classNames(`${CLS_PREFIX}__popover`, styles.legendPopover)}
+        open={openPopover}
+        placement={onPlacement}
+        content={content}
+        trigger="click"
+        arrow={false}
+      >
+        <Tooltip placement={onPlacement} title="显示图例">
+          <div
+            className={classNames(`${CLS_PREFIX}__btn`, styles.legendBtn, {
+              [styles.legendBtnSelect]: openPopover,
+            })}
+            onClick={() => {
+              setOpenPopover((isOpen) => !isOpen);
+            }}
+          >
+            <Icon component={LegendWidgetSvg} />
+          </div>
+        </Tooltip>
+      </Popover>
     </CustomControl>
   );
 };
