@@ -89,7 +89,7 @@ const MapViewSettingControl: React.FC<MapViewSettingProps> = (props) => {
     <CustomControl position={position} className={CLS_PREFIX}>
       <Popover arrow={false} placement={onPlacement} content={content} trigger="click">
         <Tooltip placement={onPlacement} title="地图倾角">
-          <div className={classNames(`${CLS_PREFIX}__setting-btn`, styles.SettingBtn)}>
+          <div className={classNames(`${CLS_PREFIX}__setting-btn`, styles.settingBtn)}>
             <Icon component={MapViewSettingControlSvg} />
           </div>
         </Tooltip>

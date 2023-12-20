@@ -12,14 +12,13 @@ const useStyle = () => {
       width: 200px;
     `,
 
-    SettingBtn: css`
+    settingBtn: css`
       display: flex;
       align-items: center;
       justify-content: center;
       width: 28px;
       height: 28px;
       background-color: ${colorBgContainer};
-      border-radius: 2px;
       cursor: pointer;
 
       svg {
