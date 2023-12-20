@@ -10,7 +10,7 @@ export const getDefaultValue = (field: OptionType, id: string) => {
       operator: 'IN',
       value: undefined,
       params: {
-        filterType: 'radio',
+        filterType: 'single',
       },
     };
     return _filter;

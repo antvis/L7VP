@@ -48,7 +48,7 @@ export type StringConfig = FilterConfigBase & {
   value?: string[];
   params: {
     // 筛选方式
-    filterType: 'multiple' | 'radio';
+    filterType: 'multiple' | 'single';
   };
 };
 

@@ -17,7 +17,7 @@ const StringItem: React.FC<StringItemProps> = (props) => {
   const { value: defaluValue, options = [], onChange } = props;
 
   // 类型变化
-  const onTypeChange = (type: 'radio' | 'multiple') => {
+  const onTypeChange = (type: 'single' | 'multiple') => {
     onChange({
       ...defaluValue,
       params: {
@@ -40,7 +40,7 @@ const StringItem: React.FC<StringItemProps> = (props) => {
       <div className={cls(`${prefixCls}__filter`, hashId)}>
         <div className={cls(`${prefixCls}__field`, hashId)}>筛选方式</div>
         <Radio.Group value={defaluValue.params?.filterType} onChange={(e) => onTypeChange(e.target.value)}>
-          <Radio value="radio">单选</Radio>
+          <Radio value="single">单选</Radio>
           <Radio value="multiple">多选</Radio>
         </Radio.Group>
       </div>

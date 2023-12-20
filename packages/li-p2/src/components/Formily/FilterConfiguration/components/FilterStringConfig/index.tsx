@@ -6,7 +6,7 @@ import { getOptions } from './helper';
 import useStyle from './style';
 
 export interface FilterStringConfigProps {
-  filterType: 'radio' | 'multiple';
+  filterType: 'single' | 'multiple';
   domain: string[];
   value?: string[];
   onChange: (value?: string[]) => void;
@@ -23,7 +23,7 @@ const FilterStringConfig: React.FC<FilterStringConfigProps> = (props) => {
   const [wrapSSR, hashId] = useStyle(prefixCls);
 
   const onValueChange = (val: string | string[]) => {
-    if (filterType === 'radio') {
+    if (filterType === 'single') {
       const _val = typeof val === 'string' ? [val] : undefined;
       onChange(_val);
       setSelectedOptions(_val);
@@ -57,7 +57,7 @@ const FilterStringConfig: React.FC<FilterStringConfigProps> = (props) => {
 
   return wrapSSR(
     <>
-      {filterType === 'radio' && (
+      {filterType === 'single' && (
         <Select
           size={size}
           bordered={bordered}
@@ -76,11 +76,12 @@ const FilterStringConfig: React.FC<FilterStringConfigProps> = (props) => {
           </div>
 
           <Select
+            allowClear
             maxTagCount={1}
             size={size}
             bordered={bordered}
             mode="tags"
-            style={{ width: '100%' }}
+            style={{ width: '100%', textAlign: 'left' }}
             placeholder="请选择"
             value={selectedOptions}
             options={options}
