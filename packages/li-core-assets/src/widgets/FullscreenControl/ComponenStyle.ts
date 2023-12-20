@@ -5,14 +5,14 @@ const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
 
-  const { colorText, colorTextDescription, colorBgContainer, colorBorder } = token;
+  const { colorText, colorTextDescription, colorBgContainer, colorBorder, borderRadius } = token;
 
   return {
     fullScreen: css`
       color: ${colorTextDescription};
       background: ${colorBgContainer} !important;
       border-color: ${colorBorder};
-      border-radius: 0px;
+      border-radius: ${borderRadius}px;
 
       svg {
         fill: ${colorTextDescription} !important;

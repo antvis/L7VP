@@ -5,11 +5,11 @@ const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
 
-  const { colorTextDescription, colorBgContainer, colorBorder, colorText, colorBgElevated } = token;
+  const { colorTextDescription, colorBgContainer, colorBorder, colorText, colorBgElevated, borderRadius } = token;
 
   return {
     l7Zoom: css`
-      border-radius: 0px;
+      border-radius: ${borderRadius}px;
 
       .l7-button-control {
         color: ${colorTextDescription};

@@ -25,6 +25,7 @@ function useStyle() {
       line-height: 28px;
       font-size: 14px;
       background-color: ${colorBgContainer};
+      border-radius: ${borderRadius}px;
       cursor: pointer;
       &:hover {
         color: ${colorText};

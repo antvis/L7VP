@@ -5,14 +5,22 @@ const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
 
-  const { colorText, colorTextDescription, colorBgContainer, colorBorder, colorPrimary, colorBgElevated } = token;
+  const {
+    colorText,
+    colorTextDescription,
+    colorBgContainer,
+    colorBorder,
+    colorPrimary,
+    colorBgElevated,
+    borderRadius,
+  } = token;
 
   return {
     mapTheme: css`
       color: ${colorTextDescription};
       background: ${colorBgContainer} !important;
       border-color: ${colorBorder};
-      border-radius: 0px;
+      border-radius: ${borderRadius}px;
 
       svg {
         fill: ${colorTextDescription} !important;

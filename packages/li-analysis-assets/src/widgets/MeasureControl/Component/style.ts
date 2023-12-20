@@ -17,6 +17,7 @@ const useStyle = () => {
     measureControl: css`
       text-align: left !important;
       background-color: ${colorBgContainer};
+      border-radius: ${borderRadius}px;
     `,
 
     measureBtn: css`

@@ -5,7 +5,7 @@ const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
 
-  const { colorText, colorTextDescription, colorBgContainer } = token;
+  const { colorText, colorTextDescription, colorBgContainer, borderRadius } = token;
 
   return {
     settingContainer: css`
@@ -19,6 +19,7 @@ const useStyle = () => {
       width: 28px;
       height: 28px;
       background-color: ${colorBgContainer};
+      border-radius: ${borderRadius}px;
       cursor: pointer;
 
       svg {
