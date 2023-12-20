@@ -2,7 +2,7 @@ import type { LocationSearchOption } from '@antv/larkmap';
 import { CustomControl, LocationSearch } from '@antv/larkmap';
 import type { ImplementWidgetProps } from '@antv/li-sdk';
 import { useScene } from '@antv/li-sdk';
-import { message } from 'antd';
+import { Empty, message } from 'antd';
 import classNames from 'classnames';
 import React, { useCallback, useEffect, useState } from 'react';
 import useStyle from './ComponenStyle';
@@ -11,10 +11,16 @@ import type { Properties } from './registerForm';
 
 export interface LocationSearchControlProps extends ImplementWidgetProps, Properties {
   AMAP_KEY?: string;
+  PRIVATE_KEY?: string;
 }
 
+const getDefaultKey = () => ({
+  AMAP_KEY: 'd76a81e912e36130d498216d1085db31',
+  PRIVATE_KEY: atob('ZWJkZmNjNjkzOTI1Nzg2NGJjOTEzMmY3NDE4MTEwNDM'),
+});
+
 const LocationSearchControl: React.FC<LocationSearchControlProps> = (props) => {
-  const { position, AMAP_KEY = 'fdef552a086edf93e01b6bac2eb89197' } = props;
+  const { position, AMAP_KEY = getDefaultKey().AMAP_KEY, PRIVATE_KEY = getDefaultKey().PRIVATE_KEY } = props;
   const [location, setLocation] = useState('');
   const [scene] = useScene();
   const styles = useStyle();
@@ -49,12 +55,14 @@ const LocationSearchControl: React.FC<LocationSearchControlProps> = (props) => {
       {messageContextHolder}
       <LocationSearch
         searchParams={{
-          key: AMAP_KEY,
           location,
+          key: AMAP_KEY,
+          privateKey: PRIVATE_KEY,
         }}
         autoFocus
         bordered={false}
         value={null}
+        notFoundContent={<Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={false} />}
         onChange={onChange}
         popupClassName={classNames(styles.locationSearche, `${CLS_PREFIX}__location-searche`)}
       />
