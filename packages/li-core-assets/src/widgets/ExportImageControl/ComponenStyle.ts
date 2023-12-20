@@ -5,13 +5,14 @@ const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
 
-  const { colorText, colorTextDescription, colorBgContainer, colorBorder } = token;
+  const { colorText, colorTextDescription, colorBgContainer, colorBorder, borderRadius } = token;
 
   return {
     exportImageIcon: css`
       color: ${colorTextDescription};
       background: ${colorBgContainer} !important;
       border-color: ${colorBorder};
+      border-radius: ${borderRadius}px;
 
       .l7-iconfont {
         fill: ${colorTextDescription};

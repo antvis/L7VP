@@ -47,7 +47,7 @@ function useStyle() {
 
     popoverContent: css`
       min-width: 36px;
-      border-radius: ${borderRadius - 2}px;
+      border-radius: ${borderRadius}px;
       background: ${colorBgContainer};
       color: ${colorTextDescription};
       cursor: pointer;
@@ -58,7 +58,7 @@ function useStyle() {
     popoverTitle: css`
       display: flex;
       align-items: center;
-      height: 30px;
+      height: 32px;
       padding: 0 8px;
       font-size: ${fontSize}px;
     `,
