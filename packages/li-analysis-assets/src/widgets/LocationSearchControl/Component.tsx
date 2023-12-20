@@ -14,12 +14,13 @@ export interface LocationSearchControlProps extends ImplementWidgetProps, Proper
   PRIVATE_KEY?: string;
 }
 
+const getDefaultKey = () => ({
+  AMAP_KEY: 'd76a81e912e36130d498216d1085db31',
+  PRIVATE_KEY: atob('ZWJkZmNjNjkzOTI1Nzg2NGJjOTEzMmY3NDE4MTEwNDM'),
+});
+
 const LocationSearchControl: React.FC<LocationSearchControlProps> = (props) => {
-  const {
-    position,
-    AMAP_KEY = 'd76a81e912e36130d498216d1085db31',
-    PRIVATE_KEY = 'ebdfcc6939257864bc9132f741811043',
-  } = props;
+  const { position, AMAP_KEY = getDefaultKey().AMAP_KEY, PRIVATE_KEY = getDefaultKey().PRIVATE_KEY } = props;
   const [location, setLocation] = useState('');
   const [scene] = useScene();
   const styles = useStyle();
