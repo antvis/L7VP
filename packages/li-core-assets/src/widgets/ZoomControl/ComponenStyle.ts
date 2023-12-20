@@ -9,6 +9,8 @@ const useStyle = () => {
 
   return {
     l7Zoom: css`
+      border-radius: 0px;
+
       .l7-button-control {
         color: ${colorTextDescription};
         background: ${colorBgContainer};

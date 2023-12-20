@@ -12,6 +12,7 @@ const useStyle = () => {
       color: ${colorTextDescription};
       background: ${colorBgContainer} !important;
       border-color: ${colorBorder};
+      border-radius: 0px;
 
       .l7-iconfont {
         fill: ${colorTextDescription};
