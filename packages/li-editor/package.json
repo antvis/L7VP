@@ -61,7 +61,7 @@
   "devDependencies": {
     "@ant-design/icons": "^5.0.1",
     "@antv/l7": "^2.17.2",
-    "@antv/larkmap": "^1.4.10",
+    "@antv/larkmap": "^1.4.11",
     "@types/geojson": "^7946.0.10",
     "@types/lodash-es": "^4.17.6",
     "@types/papaparse": "^5.3.3",
@@ -78,7 +78,7 @@
   "peerDependencies": {
     "@ant-design/icons": "^5.0.1",
     "@antv/l7": "^2.17.2",
-    "@antv/larkmap": "^1.4.10",
+    "@antv/larkmap": "^1.4.11",
     "antd": "^5.5.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
