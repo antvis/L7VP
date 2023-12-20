@@ -3,7 +3,6 @@ import { Select } from 'antd';
 import cls from 'classnames';
 import { isUndefined } from 'lodash-es';
 import React, { useMemo, useState } from 'react';
-import { getUniqueId } from '@antv/li-sdk';
 import { COLOR_RANGES, DEFAULT_VALUE } from './constants';
 import DropDownContent from './DropDownContent';
 import useStyle from './style';
@@ -67,17 +66,19 @@ const Internal = (props: ColorRangeSelectorProps) => {
         return (
           <Select.Option key={colorList.toString()} value={colorList.toString()}>
             <div className={`${prefixCls}__selection-item`}>
-              {colorList.map((color) => (
-                <span
-                  key={getUniqueId(color)}
-                  className={`${prefixCls}__selection-item-color`}
-                  style={{
-                    backgroundColor: color,
-                    height: '22px',
-                    width: `${100 / colorList.length}%`,
-                  }}
-                />
-              ))}
+              {colorList.map((color, index) => {
+                return (
+                  <span
+                    key={`${color}${index}`}
+                    className={`${prefixCls}__selection-item-color`}
+                    style={{
+                      backgroundColor: color,
+                      height: '22px',
+                      width: `${100 / colorList.length}%`,
+                    }}
+                  />
+                );
+              })}
             </div>
           </Select.Option>
         );

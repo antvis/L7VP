@@ -38,6 +38,10 @@ const DropDownContent = (props: DropDownContentProps) => {
     steps: selectedValue.colors.length || 6,
   });
 
+  useEffect(() => {
+    setPaletteConfig({ type: 'all', steps: selectedValue.colors.length || 6 });
+  }, [selectedValue.colors.length]);
+
   // 自定义调色板是否开启
   const [customPaletteOpen, setCustomPaletteOpen] = useState(false);
 

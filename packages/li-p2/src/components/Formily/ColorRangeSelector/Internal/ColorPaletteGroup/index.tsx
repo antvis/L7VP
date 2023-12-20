@@ -1,6 +1,6 @@
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import classnames from 'classnames';
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import type { ColorRange } from '../types';
 import useStyle from './style';
 
@@ -22,6 +22,12 @@ const ColorPaletteGroup = (props: ColorPaletteGroupProps) => {
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const { colorRange, selectedValue, isReversed, onChange } = props;
 
+  // 判断是否存在于筛选出来的色带中，如果是自定义则不存在于色带，单独加一条展示自定义
+  const isExist = useMemo(() => {
+    const _colors = isReversed ? selectedValue.slice().reverse().toString() : selectedValue.toString();
+    return colorRange.find((item) => item.colors.toString() === _colors && item.colors.length === selectedValue.length);
+  }, [selectedValue, colorRange]);
+
   const ColorPaletteGroupItem = (item: ColorPaletteGroupItemProps) => {
     const { color, ...prop } = item;
 
@@ -41,6 +47,13 @@ const ColorPaletteGroup = (props: ColorPaletteGroupProps) => {
 
   return wrapSSR(
     <div className={classnames(prefixCls, hashId)}>
+      {!isExist && (
+        <ColorPaletteGroupItem
+          key={selectedValue.toString()}
+          color={selectedValue}
+          onClick={() => onChange(selectedValue)}
+        />
+      )}
       {colorRange.map((colorArr: ColorRange, index: number) => {
         return (
           <ColorPaletteGroupItem
