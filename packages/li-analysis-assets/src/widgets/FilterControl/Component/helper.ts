@@ -1,25 +1,11 @@
 import type { FilterConfig } from 'packages/li-p2';
 import type { FilterNode } from 'packages/li-sdk';
 
-export const getFilters = (list: FilterConfig[]) => {
-  const _list = list
-    .map((item) => {
-      if (item.type === 'string' && item.value?.includes('all')) {
-        return {
-          ...item,
-          value: undefined,
-        };
-      }
-      return item;
-    })
-    .filter((item) => item.value);
+export const getFilterNodes = (list: FilterConfig[]) => {
+  const _list = list.filter((item) => !(item.type === 'string' && item.value?.includes('all')));
 
-  if (!_list.length) {
-    return [];
-  }
-
-  return _list.map((item) => {
-    return (item.type === 'date'
+  const filterNodes = _list.map((item) => {
+    return item.type === 'date'
       ? {
           id: item.id,
           field: item.field,
@@ -34,6 +20,8 @@ export const getFilters = (list: FilterConfig[]) => {
           type: item.type,
           operator: item.operator,
           value: item.value,
-        }) as FilterNode;
+        };
   });
+
+  return filterNodes as FilterNode[];
 };

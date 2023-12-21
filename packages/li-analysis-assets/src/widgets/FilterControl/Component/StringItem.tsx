@@ -1,15 +1,24 @@
 import type { StringConfig } from '@antv/li-p2';
-import React from 'react';
 import { FilterStringConfig } from '@antv/li-p2';
+import { uniq } from 'lodash-es';
+import React, { useMemo } from 'react';
 
 export interface StringItemProps {
   value: StringConfig;
-  domain: string[];
+  field: string;
+  data: Record<string, any>[];
   onChange: (value: StringConfig) => void;
 }
 
 const StringItem: React.FC<StringItemProps> = (props) => {
-  const { value: defaluValue, domain, onChange } = props;
+  const { value: defaluValue, field, data, onChange } = props;
+
+  const domain = useMemo(() => {
+    const fieldData = data.map((item) => (typeof item[field] === 'object' ? JSON.stringify(item[field]) : item[field]));
+    const _domain: string[] = uniq(fieldData).slice(0, 3000);
+
+    return _domain;
+  }, [data, field]);
 
   const onValueChange = (val?: string[]) => {
     onChange({

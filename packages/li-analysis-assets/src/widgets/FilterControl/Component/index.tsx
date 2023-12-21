@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
 import type { Properties } from '../registerForm';
 import DateItem from './DateItem';
-import { getFilters } from './helper';
+import { getFilterNodes } from './helper';
 import NumberItem from './NumberItem';
 import StringItem from './StringItem';
 import useStyle from './style';
@@ -32,7 +32,7 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
   // 首次挂载
   useMount(() => {
     if (!firstMountRef.current) {
-      const _filters = getFilters(defaultFilters);
+      const _filters = getFilterNodes(defaultFilters);
       _filters.forEach((item) => {
         addFilterNode(item);
       });
@@ -42,7 +42,7 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
 
   // 配置初始筛选条件变更
   useEffect(() => {
-    updateFilter({ relation: 'AND', children: getFilters(defaultFilters) });
+    updateFilter({ relation: 'AND', children: getFilterNodes(defaultFilters) });
     setFilterList(defaultFilters);
   }, [defaultFilters]);
 
@@ -55,7 +55,7 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
     });
 
     setFilterList(_filterList);
-    updateFilter({ relation: 'AND', children: getFilters(_filterList) });
+    updateFilter({ relation: 'AND', children: getFilterNodes(_filterList) });
   };
 
   if (!defaultFilters.length) {
@@ -66,9 +66,6 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
     <CustomControl position={position}>
       <div className={classNames(CLS_PREFIX, styles.filterControl)}>
         {filterList.map((item) => {
-          const itemValue = tableData.map((_item: any) => _item[item.field]) || [];
-          const domain = item.type === 'string' ? [...new Set(itemValue)] : [];
-
           return (
             <div key={item.id} className={classNames(`${CLS_PREFIX}__filter-item`, styles.filterItem)}>
               <div className={classNames(`${CLS_PREFIX}__filter-item__title`, styles.filterItemTitle)}>
@@ -76,7 +73,7 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
               </div>
               <div className={classNames(`${CLS_PREFIX}__filter-item__content`, styles.filterItemContent)}>
                 {item.type === 'string' && (
-                  <StringItem value={item} domain={domain as string[]} onChange={onValueChange} />
+                  <StringItem value={item} field={item.field} data={tableData} onChange={onValueChange} />
                 )}
                 {item.type === 'number' && <NumberItem value={item} onChange={onValueChange} />}
                 {item.type === 'date' && <DateItem value={item} onChange={onValueChange} />}
