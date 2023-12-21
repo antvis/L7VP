@@ -45,7 +45,6 @@ const Internal = (props: ColorRangeSelectorProps) => {
   const onColorChange = (selectorValue: SelectorValue) => {
     if (props.onChange) {
       props.onChange(selectorValue);
-      setOpen(false);
     }
   };
 
