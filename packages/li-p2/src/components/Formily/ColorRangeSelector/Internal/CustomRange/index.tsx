@@ -21,7 +21,7 @@ type RangeItemType = {
 };
 
 const CustomRange = (props: CustomRangeProps) => {
-  const { ranges: defaultRanges, onChange, onCancel, className } = props;
+  const { ranges: defaultRanges, onChange, className } = props;
   const prefixCls = usePrefixCls('formily-color-range-selector__custom-range');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const [ranges, setRanges] = useState<RangeItemType[]>([]);
@@ -69,7 +69,6 @@ const CustomRange = (props: CustomRangeProps) => {
   const onSubmit = () => {
     const list = ranges.map((item) => item.value);
     onChange(list);
-    onCancel();
   };
 
   return wrapSSR(
@@ -109,8 +108,7 @@ const CustomRange = (props: CustomRangeProps) => {
       </div>
 
       <div className={`${prefixCls}__btn`}>
-        <span onClick={onCancel}>取消</span>
-        <span onClick={onSubmit}>确定</span>
+        <span onClick={onSubmit}>应用</span>
       </div>
     </div>,
   );
