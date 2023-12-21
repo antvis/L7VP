@@ -2,9 +2,9 @@ import { CustomControl } from '@antv/larkmap';
 import type { FilterConfig } from '@antv/li-p2';
 import type { ImplementWidgetProps, LocalOrRemoteDataset } from '@antv/li-sdk';
 import { useDataset, useDatasetFilter } from '@antv/li-sdk';
-import { default as classNames, default as cls } from 'classnames';
-import React, { useEffect, useRef, useState } from 'react';
 import { useMount } from 'ahooks';
+import classNames from 'classnames';
+import React, { useEffect, useRef, useState } from 'react';
 import type { Properties } from '../registerForm';
 import DateItem from './DateItem';
 import { getFilters } from './helper';
@@ -19,7 +19,10 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
   const { defaultFilters, datasetId = '', position } = props;
   const styles = useStyle();
   // 获取数据源
-  const [dataset] = useDataset<LocalOrRemoteDataset>(datasetId, { filter: { relation: 'AND', children: [] } });
+  const [dataset] = useDataset<LocalOrRemoteDataset>(datasetId, {
+    // TODO: remote 数据类型会全量请求数据
+    filter: { relation: 'AND', children: [] },
+  });
   const { data: tableData = [] } = dataset || {};
   const [filterList, setFilterList] = useState(defaultFilters);
   // 筛选数据
@@ -61,13 +64,13 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
 
   return (
     <CustomControl position={position}>
-      <div className={cls(CLS_PREFIX, styles.filterControl)}>
+      <div className={classNames(CLS_PREFIX, styles.filterControl)}>
         {filterList.map((item) => {
           const itemValue = tableData.map((_item: any) => _item[item.field]) || [];
           const domain = item.type === 'string' ? [...new Set(itemValue)] : [];
 
           return (
-            <div className={classNames(`${CLS_PREFIX}__filter-item`, styles.filterItem)}>
+            <div key={item.id} className={classNames(`${CLS_PREFIX}__filter-item`, styles.filterItem)}>
               <div className={classNames(`${CLS_PREFIX}__filter-item__title`, styles.filterItemTitle)}>
                 {item.title}:
               </div>
