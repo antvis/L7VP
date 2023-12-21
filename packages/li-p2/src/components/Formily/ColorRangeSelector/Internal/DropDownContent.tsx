@@ -30,20 +30,24 @@ export interface DropDownContentProps {
 const DropDownContent = (props: DropDownContentProps) => {
   const { isOpen, colorRanges, selectedValue } = props;
 
+  // 在当前色带中查找，判断是否自定义色带，如果不是自定义色带查找出 colorRanges 中对应item 确定 type,steps
+  const selectedColor = colorRanges.find((item) => {
+    const _colors = selectedValue.isReversed ? selectedValue.colors.slice().reverse() : selectedValue.colors;
+    if (item.colors.toString() === _colors.toString()) {
+      return item;
+    }
+  });
+
   const [paletteConfig, setPaletteConfig] = useState<{
     type: string;
     steps: number;
   }>({
-    type: 'all',
-    steps: selectedValue.colors.length || 6,
+    type: selectedColor?.type ?? 'all',
+    steps: selectedColor?.colors.length || 6,
   });
 
-  useEffect(() => {
-    setPaletteConfig({ type: 'all', steps: selectedValue.colors.length || 6 });
-  }, [selectedValue.colors.length]);
-
   // 自定义调色板是否开启
-  const [customPaletteOpen, setCustomPaletteOpen] = useState(false);
+  const [customPaletteOpen, setCustomPaletteOpen] = useState(!selectedColor);
 
   // 颜色列表
   const colorRangeList = useMemo(() => {

@@ -42,6 +42,13 @@ const Internal = (props: ColorRangeSelectorProps) => {
 
   const [open, setOpen] = useState(false);
 
+  const onColorChange = (selectorValue: SelectorValue) => {
+    if (props.onChange) {
+      props.onChange(selectorValue);
+      setOpen(false);
+    }
+  };
+
   return wrapSSR(
     <Select
       disabled={props.disabled}
@@ -55,7 +62,7 @@ const Internal = (props: ColorRangeSelectorProps) => {
           isOpen={open}
           colorRanges={colorRanges}
           selectedValue={selectedValue}
-          onChange={props.onChange}
+          onChange={onColorChange}
         />
       )}
     >
