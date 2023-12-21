@@ -5,21 +5,21 @@ const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
 
-  const { colorText, colorTextDescription, colorBgContainer } = token;
+  const { colorText, colorTextDescription, colorBgContainer, borderRadius } = token;
 
   return {
     settingContainer: css`
       width: 200px;
     `,
 
-    SettingBtn: css`
+    settingBtn: css`
       display: flex;
       align-items: center;
       justify-content: center;
       width: 28px;
       height: 28px;
       background-color: ${colorBgContainer};
-      border-radius: 2px;
+      border-radius: ${borderRadius}px;
       cursor: pointer;
 
       svg {

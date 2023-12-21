@@ -2,14 +2,9 @@ import { css } from '@emotion/css';
 import { useAntdToken } from '../../hooks';
 
 const useStyle = () => {
-  const { colorText, colorTextDescription, colorBgContainer, colorBorder, antCls } = useAntdToken();
+  const { colorText, colorTextDescription, colorBgContainer, borderRadius, colorBorder, antCls } = useAntdToken();
 
   return {
-    legendContainer: css`
-      background-color: ${colorBgContainer};
-      border-radius: 4px;
-    `,
-
     legendPopover: css`
       ${antCls}-popover-content {
         width: 330px;
@@ -106,7 +101,7 @@ const useStyle = () => {
       color: ${colorTextDescription};
       font-size: 16px;
       background-color: ${colorBgContainer};
-      border-radius: 4px;
+      border-radius: ${borderRadius}px;
       cursor: pointer;
 
       &:hover {

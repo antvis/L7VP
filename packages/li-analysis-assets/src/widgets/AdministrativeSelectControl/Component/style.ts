@@ -47,7 +47,7 @@ function useStyle() {
 
     popoverContent: css`
       min-width: 36px;
-      border-radius: ${borderRadius - 2}px;
+      border-radius: ${borderRadius}px;
       background: ${colorBgContainer};
       color: ${colorTextDescription};
       cursor: pointer;

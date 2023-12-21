@@ -42,6 +42,12 @@ const Internal = (props: ColorRangeSelectorProps) => {
 
   const [open, setOpen] = useState(false);
 
+  const onColorChange = (selectorValue: SelectorValue) => {
+    if (props.onChange) {
+      props.onChange(selectorValue);
+    }
+  };
+
   return wrapSSR(
     <Select
       disabled={props.disabled}
@@ -55,7 +61,7 @@ const Internal = (props: ColorRangeSelectorProps) => {
           isOpen={open}
           colorRanges={colorRanges}
           selectedValue={selectedValue}
-          onChange={props.onChange}
+          onChange={onColorChange}
         />
       )}
     >
@@ -66,17 +72,19 @@ const Internal = (props: ColorRangeSelectorProps) => {
         return (
           <Select.Option key={colorList.toString()} value={colorList.toString()}>
             <div className={`${prefixCls}__selection-item`}>
-              {colorList.map((color) => (
-                <span
-                  key={color}
-                  className={`${prefixCls}__selection-item-color`}
-                  style={{
-                    backgroundColor: color,
-                    height: '22px',
-                    width: `${100 / colorList.length}%`,
-                  }}
-                />
-              ))}
+              {colorList.map((color, index) => {
+                return (
+                  <span
+                    key={`${color}${index}`}
+                    className={`${prefixCls}__selection-item-color`}
+                    style={{
+                      backgroundColor: color,
+                      height: '22px',
+                      width: `${100 / colorList.length}%`,
+                    }}
+                  />
+                );
+              })}
             </div>
           </Select.Option>
         );

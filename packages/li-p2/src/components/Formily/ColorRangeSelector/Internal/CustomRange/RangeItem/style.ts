@@ -8,7 +8,6 @@ export default genStyleHook('color-range-selector__custom-range__range-item', (t
       display: 'flex',
       alignItems: 'center',
       margin: '5px 0',
-      marginLeft: '-14px',
       height: '32px',
 
       [`${componentCls}__drag-icon`]: {

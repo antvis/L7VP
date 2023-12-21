@@ -45,7 +45,7 @@
     "@antv/li-editor": "^1.0.0",
     "@ant-design/icons": "^5.0.1",
     "@antv/l7": "^2.17.2",
-    "@antv/larkmap": "^1.4.10",
+    "@antv/larkmap": "^1.4.11",
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
     "@types/lodash-es": "^4.17.6",
@@ -69,7 +69,7 @@
   "peerDependencies": {
     "@ant-design/icons": "^5.0.1",
     "@antv/l7": "^2.17.2",
-    "@antv/larkmap": "^1.4.10",
+    "@antv/larkmap": "^1.4.11",
     "antd": "^5.4.6",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"

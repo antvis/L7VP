@@ -5,7 +5,7 @@ const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
 
-  const { colorTextDescription, colorBgContainer, colorBorder } = token;
+  const { colorTextDescription, colorBgContainer, colorBorder, borderRadius } = token;
 
   return {
     scalesControl: css`
@@ -13,6 +13,7 @@ const useStyle = () => {
         color: ${colorTextDescription};
         background: ${colorBgContainer} !important;
         border-color: ${colorBorder};
+        border-radius: ${borderRadius}px;
       }
     `,
   };
