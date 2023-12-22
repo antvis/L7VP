@@ -26,7 +26,7 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
   const { data: tableData = [] } = dataset || {};
   const [filterList, setFilterList] = useState(defaultFilters);
   // 筛选数据
-  const [_, { addFilterNode, updateFilterNode, updateFilter }] = useDatasetFilter(datasetId);
+  const [_, { addFilterNode, updateFilterNode }] = useDatasetFilter(datasetId);
   const firstMountRef = useRef(false);
 
   // 首次挂载
@@ -42,7 +42,17 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
 
   // 配置初始筛选条件变更
   useEffect(() => {
-    updateFilter({ relation: 'AND', children: getFilterNodes(defaultFilters) });
+    const filterIds = filterList.map((item) => item.id);
+    const _filters = getFilterNodes(defaultFilters);
+
+    _filters.forEach((item) => {
+      // 筛选条件已经存在进行更新 updateFilterNode，不存在添加 addFilterNode
+      if (filterIds.includes(item.id)) {
+        updateFilterNode(item.id, item);
+      } else {
+        addFilterNode(item);
+      }
+    });
     setFilterList(defaultFilters);
   }, [defaultFilters]);
 
@@ -56,8 +66,8 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
 
     setFilterList(_filterList);
 
-    const filterNode = getFilterNodes([val])[0];
-    updateFilterNode(val.id, filterNode);
+    const updateFilter = getFilterNodes([val])[0];
+    updateFilterNode(val.id, updateFilter);
   };
 
   if (!defaultFilters.length) {
