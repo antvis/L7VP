@@ -1,10 +1,10 @@
-import type { DateConfig } from '@antv/li-p2';
+import type { FilterDateConfigType } from '@antv/li-p2';
 import React from 'react';
 import { FilterDateConfig } from '@antv/li-p2';
 
 export interface DateItemProps {
-  value: DateConfig;
-  onChange: (value: DateConfig) => void;
+  value: FilterDateConfigType;
+  onChange: (value: FilterDateConfigType) => void;
 }
 
 const DateItem: React.FC<DateItemProps> = (props) => {

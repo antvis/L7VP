@@ -26,7 +26,7 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
   const { data: tableData = [] } = dataset || {};
   const [filterList, setFilterList] = useState(defaultFilters);
   // 筛选数据
-  const [_, { addFilterNode, updateFilter }] = useDatasetFilter(datasetId);
+  const [_, { addFilterNode, updateFilterNode, updateFilter }] = useDatasetFilter(datasetId);
   const firstMountRef = useRef(false);
 
   // 首次挂载
@@ -55,7 +55,9 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
     });
 
     setFilterList(_filterList);
-    updateFilter({ relation: 'AND', children: getFilterNodes(_filterList) });
+
+    const filterNode = getFilterNodes([val])[0];
+    updateFilterNode(val.id, filterNode);
   };
 
   if (!defaultFilters.length) {

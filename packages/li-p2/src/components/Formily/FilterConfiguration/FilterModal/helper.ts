@@ -1,8 +1,8 @@
-import type { DateConfig, NumberConfig, StringConfig, OptionType } from '../type';
+import type { FilterDateConfigType, FilterNumberConfigType, FilterStringConfigType, OptionType } from '../type';
 
 export const getDefaultValue = (field: OptionType, id: string) => {
   if (field.type === 'string') {
-    const _filter: StringConfig = {
+    const _filter: FilterStringConfigType = {
       id,
       title: field.value,
       field: field.value,
@@ -17,7 +17,7 @@ export const getDefaultValue = (field: OptionType, id: string) => {
   }
 
   if (field.type === 'date') {
-    const _filter: DateConfig = {
+    const _filter: FilterDateConfigType = {
       id,
       title: field.value,
       field: field.value,
@@ -32,7 +32,7 @@ export const getDefaultValue = (field: OptionType, id: string) => {
     return _filter;
   }
 
-  const _filter: NumberConfig = {
+  const _filter: FilterNumberConfigType = {
     id,
     title: field.value,
     field: field.value,
