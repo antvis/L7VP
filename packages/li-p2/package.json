@@ -63,6 +63,8 @@
     "antd": "^5.5.0",
     "dumi": "^1.1.46",
     "father": "^4.0.7",
+    "quill-image-resize-module": "^3.0.0",
+    "quill-image-upload": "^0.1.3",
     "rimraf": "^3.0.2",
     "typescript": "^4.7.4"
   },
