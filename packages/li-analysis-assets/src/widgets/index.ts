@@ -13,3 +13,4 @@ export { default as MeasureControl } from './MeasureControl';
 export { default as TimeLine } from './TimeLine';
 export { default as SpreadSheetTable } from './SpreadSheetTable';
 export { default as AdministrativeSelectControl } from './AdministrativeSelectControl';
+export { default as AppIntroductionControl } from './AppIntroductionControl';

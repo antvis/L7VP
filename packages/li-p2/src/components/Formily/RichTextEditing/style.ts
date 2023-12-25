@@ -1,7 +1,7 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
 export default genStyleHook('rich-text-editing', (token) => {
-  const { antCls, componentCls } = token;
+  const { componentCls } = token;
 
   return {
     [componentCls]: {

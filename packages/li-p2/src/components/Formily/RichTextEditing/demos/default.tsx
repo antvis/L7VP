@@ -6,7 +6,7 @@ import { createSchemaField, FormConsumer } from '@formily/react';
 import React from 'react';
 
 const form = createForm({
-  initialValues: { slider: [0, 19] },
+  initialValues: {},
   effects() {
     onFormValuesChange((formIns: FormInstance<any>) => {
       console.log('formIns.values: ', formIns.values);

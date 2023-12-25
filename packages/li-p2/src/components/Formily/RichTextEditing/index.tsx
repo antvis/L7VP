@@ -7,19 +7,25 @@ import useStyle from './style';
 import 'quill/dist/quill.snow.css';
 import Editor from './Editor';
 
-type InternalRichTextEditingProps = {};
+type InternalRichTextEditingProps = {
+  value?: any;
+  onChange: (val: any) => void;
+};
 
 const InternalRichTextEditing: React.FC<InternalRichTextEditingProps> = (props) => {
+  const { onChange, value } = props;
   const prefixCls = usePrefixCls('formily-rich-text-editing', props);
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [content, setContent] = useState<any>();
 
   const handleOk = () => {
+    onChange(content);
     setIsModalOpen(false);
   };
 
   const onSubmit = (val: any) => {
-    console.log(val, '垂手可得肌肤回到家');
+    setContent(val);
   };
 
   const handleCancel = () => {
@@ -32,15 +38,15 @@ const InternalRichTextEditing: React.FC<InternalRichTextEditingProps> = (props) 
         编辑
       </Button>
       <Modal
-        title="筛选器设置"
+        title="应用简介设置"
         cancelText="取消"
         okText="确定"
         open={true}
         onOk={handleOk}
         onCancel={handleCancel}
-        width={600}
+        width={1000}
       >
-        <Editor onSubmit={onSubmit} />
+        <Editor value={value} onChange={onSubmit} />
       </Modal>
     </div>,
   );
