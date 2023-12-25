@@ -42,7 +42,7 @@ type FilterConfigBase = {
   field: string;
 };
 
-export type StringConfig = FilterConfigBase & {
+export type FilterStringConfigType = FilterConfigBase & {
   type: 'string';
   operator: 'IN';
   value?: string[];
@@ -52,7 +52,7 @@ export type StringConfig = FilterConfigBase & {
   };
 };
 
-export type DateConfig = FilterConfigBase & {
+export type FilterDateConfigType = FilterConfigBase & {
   type: 'date';
   /** 日期粒度 */
   granularity: Granularity;
@@ -66,7 +66,7 @@ export type DateConfig = FilterConfigBase & {
   };
 };
 
-export type NumberConfig = FilterConfigBase &
+export type FilterNumberConfigType = FilterConfigBase &
   (
     | {
         type: 'number';
@@ -80,4 +80,4 @@ export type NumberConfig = FilterConfigBase &
       }
   );
 
-export type FilterConfig = DateConfig | NumberConfig | StringConfig;
+export type FilterConfigType = FilterDateConfigType | FilterNumberConfigType | FilterStringConfigType;

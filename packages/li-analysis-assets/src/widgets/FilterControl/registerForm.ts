@@ -1,7 +1,7 @@
-import type { FilterConfig } from '@antv/li-p2';
+import type { PositionName } from '@antv/l7';
+import type { FilterConfigType } from '@antv/li-p2';
 import type { WidgetRegisterForm, WidgetRegisterFormProps } from '@antv/li-sdk';
 import { getDatasetSelectFormSchema } from '@antv/li-sdk';
-import type { PositionName } from '@antv/l7';
 
 /**
  * 属性面板生产的数据类型定义
@@ -9,7 +9,7 @@ import type { PositionName } from '@antv/l7';
 export type Properties = {
   datasetId?: 'string';
   position?: PositionName;
-  defaultFilters: FilterConfig[];
+  defaultFilters: FilterConfigType[];
 };
 
 export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> => {
@@ -42,7 +42,7 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
         {
           dependencies: ['datasetId'],
           fulfill: {
-            run: `$form.setFieldState('defaultFilters',state=>{  
+            run: `$form.setFieldState('defaultFilters',state=>{
                 state.value = [];
               })`,
           },

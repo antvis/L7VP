@@ -6,13 +6,13 @@ import { FilterDateSetting } from '../../../components';
 import { DEFAULT_OPTIONS } from '../../../components/FilterDateConfig/contents';
 import { getTimeFormat } from '../../../components/FilterDateConfig/helper';
 import type { GranularityItem } from '../../../components/FilterDateConfig/type';
-import type { DateConfig as FilterDateType } from '../../../type';
+import type { FilterDateConfigType } from '../../../type';
 import { getOptions } from './helper';
 import useStyle from './style';
 export interface DateItemProps {
-  value: FilterDateType;
+  value: FilterDateConfigType;
   format: string;
-  onChange: (value: FilterDateType) => void;
+  onChange: (value: FilterDateConfigType) => void;
 }
 
 const DateItem: React.FC<DateItemProps> = (props) => {
@@ -53,7 +53,7 @@ const DateItem: React.FC<DateItemProps> = (props) => {
     const _granularity = options.find((item) => item.value === e);
 
     if (_granularity) {
-      const _value: FilterDateType = {
+      const _value: FilterDateConfigType = {
         ...defaultValue,
         granularity: _granularity.granularity,
         value: timer ? getTimeFormat(timer, _granularity?.value) : undefined,

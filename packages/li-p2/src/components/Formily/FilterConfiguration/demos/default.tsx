@@ -6,7 +6,7 @@ import { createSchemaField, FormConsumer } from '@formily/react';
 import React from 'react';
 
 const form = createForm({
-  initialValues: { textOffset: [0, 0] },
+  initialValues: { filterConfiguration: [] },
   effects() {
     onFormValuesChange((formIns: FormInstance<any>) => {
       console.log('formIns.values: ', formIns.values);
@@ -79,10 +79,10 @@ const fieldList = [
 const schema = {
   type: 'object',
   properties: {
-    textOffset: {
+    filterConfiguration: {
       type: 'array',
       title: '筛选器',
-      default: [0, 0],
+      default: [],
       'x-decorator': 'FormItem',
       'x-component': 'FilterConfiguration',
       'x-component-props': {

@@ -1,12 +1,12 @@
 import { PlusOutlined } from '@ant-design/icons';
+import { getUniqueId } from '@antv/li-sdk';
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { Modal } from 'antd';
 import cls from 'classnames';
 import React, { useEffect, useMemo, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { getUniqueId } from '@antv/li-sdk';
-import type { FilterConfig, OptionType } from '../type';
+import type { FilterConfigType, OptionType } from '../type';
 import FilterContent from './FilterContent';
 import FilterItem from './FilterItem';
 import useStyle from './style';
@@ -16,7 +16,7 @@ export interface FilterModalProps {
    * 是否打开
    */
   open?: boolean;
-  value: FilterConfig[];
+  value: FilterConfigType[];
   /**
    * 筛选字段
    */
@@ -28,15 +28,15 @@ export interface FilterModalProps {
   /**
    * 选择发生改变时
    */
-  onChange: (value: FilterConfig[]) => void;
+  onChange: (value: FilterConfigType[]) => void;
 }
 
 const FilterModal: React.FC<FilterModalProps> = (props) => {
   const prefixCls = usePrefixCls('formily-filter-setting-modal');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const { open = false, value = [], options = [], onCancel, onChange } = props;
-  const [filterList, setFilterList] = useState<FilterConfig[]>([]);
-  const [selectedFilterNode, setSelectedFilterNode] = useState<FilterConfig>();
+  const [filterList, setFilterList] = useState<FilterConfigType[]>([]);
+  const [selectedFilterNode, setSelectedFilterNode] = useState<FilterConfigType>();
 
   const selectedOptions = useMemo(() => {
     if (filterList.length) {
@@ -51,7 +51,7 @@ const FilterModal: React.FC<FilterModalProps> = (props) => {
     setFilterList(_filter);
   };
 
-  const onFilterChange = (val: FilterConfig) => {
+  const onFilterChange = (val: FilterConfigType) => {
     setSelectedFilterNode(val);
     const list = filterList.map((item) => {
       if (item.id === val.id) {
@@ -75,7 +75,7 @@ const FilterModal: React.FC<FilterModalProps> = (props) => {
     const DEFAULTITEM = ({
       id: getUniqueId(),
       field: undefined,
-    } as unknown) as FilterConfig;
+    } as unknown) as FilterConfigType;
 
     const _filterList = [...filterList, DEFAULTITEM];
     setFilterList(_filterList);
@@ -102,7 +102,7 @@ const FilterModal: React.FC<FilterModalProps> = (props) => {
         const DEFAULTITEM = ({
           id: getUniqueId(),
           field: undefined,
-        } as unknown) as FilterConfig;
+        } as unknown) as FilterConfigType;
 
         setFilterList([DEFAULTITEM]);
         setSelectedFilterNode(DEFAULTITEM);
@@ -116,6 +116,7 @@ const FilterModal: React.FC<FilterModalProps> = (props) => {
       cancelText="取消"
       okText="确定"
       className={cls(`${prefixCls}`, hashId)}
+      width={800}
       open={open}
       onOk={onSubmit}
       onCancel={onCancel}
@@ -139,7 +140,7 @@ const FilterModal: React.FC<FilterModalProps> = (props) => {
           </div>
           <div>
             <DndProvider backend={HTML5Backend}>
-              {filterList.map((item: FilterConfig, index: string | number) => (
+              {filterList.map((item: FilterConfigType, index: string | number) => (
                 <div
                   key={`filters_drag_card${index}`}
                   className={cls(
