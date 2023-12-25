@@ -40,6 +40,7 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
     });
   });
 
+  // TODO: 支持同步更新（在事件订阅之前）
   // const firstMountRef = useRef(false);
   // if (!firstMountRef.current) {
   //   const filterNodes = getFilterNodes(defaultFilters);
