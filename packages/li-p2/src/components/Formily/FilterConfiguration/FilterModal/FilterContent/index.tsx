@@ -1,6 +1,6 @@
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import cls from 'classnames';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FieldSelect from '../../../FieldSelect/Select';
 import type { FilterConfigType, OptionType } from '../../type';
 import { getDefaultValue } from '../helper';
@@ -29,9 +29,7 @@ const FilterContent: React.FC<FilterContentProps> = (props) => {
   const [format, setFormat] = useState<string>('YYYY');
   const [domain, setDomain] = useState<string[] | [number, number]>([]);
 
-  const open = useMemo(() => {
-    return defaultValue.field ? false : true;
-  }, [defaultValue.field]);
+  const openFieldSelect = defaultValue.field ? false : true;
 
   // 筛选字段变更
   const onFieldChange = (field: string) => {
@@ -69,7 +67,7 @@ const FilterContent: React.FC<FilterContentProps> = (props) => {
       <div className={cls(`${prefixCls}__filter`, hashId)}>
         <div className={cls(`${prefixCls}__field`, hashId)}> 选择筛选字段</div>
         <FieldSelect
-          open={open}
+          open={openFieldSelect}
           value={filter.field}
           style={{ width: '100%' }}
           options={options}
