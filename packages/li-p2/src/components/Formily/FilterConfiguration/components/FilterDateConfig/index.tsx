@@ -1,9 +1,9 @@
 import { DownOutlined } from '@ant-design/icons';
-import { DatePicker, Dropdown, Space } from 'antd';
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
+import { DatePicker, Dropdown, Space } from 'antd';
+import cls from 'classnames';
 import dayjs from 'dayjs';
 import React, { useMemo, useRef, useState } from 'react';
-import cls from 'classnames';
 import { getGranularityOptions, getTimeFormat } from './helper';
 import useStyle from './style';
 import type { Granularity } from './type';
@@ -77,12 +77,8 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
 
   // 粒度变化
   const onGranularityChange = (format: string, granularity: Granularity) => {
-    if (defaultValue) {
-      const _timer = getTimeFormat(defaultValue, format);
-      if (_timer) {
-        onChange({ value: _timer, format, type, granularity });
-      }
-    }
+    const _timer = defaultValue ? getTimeFormat(defaultValue, format) : undefined;
+    onChange({ value: _timer, format, type, granularity });
     setOpen(true);
   };
 
