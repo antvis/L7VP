@@ -1,13 +1,13 @@
-import type { StringConfig } from '@antv/li-p2';
+import type { FilterStringConfigType } from '@antv/li-p2';
 import { FilterStringConfig } from '@antv/li-p2';
 import { uniq } from 'lodash-es';
 import React, { useMemo } from 'react';
 
 export interface StringItemProps {
-  value: StringConfig;
+  value: FilterStringConfigType;
   field: string;
   data: Record<string, any>[];
-  onChange: (value: StringConfig) => void;
+  onChange: (value: FilterStringConfigType) => void;
 }
 
 const StringItem: React.FC<StringItemProps> = (props) => {
