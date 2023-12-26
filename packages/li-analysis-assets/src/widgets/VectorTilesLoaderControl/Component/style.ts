@@ -5,13 +5,13 @@ const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
 
-  const { colorTextDescription, colorBgContainer, colorBorder, colorPrimary, colorPrimaryHover } = token;
+  const { colorTextDescription, colorBgContainer, borderRadius, colorPrimaryHover } = token;
 
   return {
     vectorTiles: css`
       text-align: left !important;
       background-color: ${colorBgContainer};
-      border-radius: ${colorBorder};
+      border-radius: ${borderRadius}px;
     `,
 
     tilesBtn: css`
@@ -23,7 +23,7 @@ const useStyle = () => {
       color: ${colorTextDescription};
       font-size: 16px;
       background-color: ${colorBgContainer};
-      border-radius: ${colorBorder};
+      border-radius: ${borderRadius}px;
       cursor: pointer;
 
       &:hover {

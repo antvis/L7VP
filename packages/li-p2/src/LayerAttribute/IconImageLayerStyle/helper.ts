@@ -1,4 +1,4 @@
-import { BuiltInImage } from './constant';
+import { BuiltInImageList, UNKNOWN_ICON } from './constant';
 import type { IconImageLayerStyleAttributeValue } from './types';
 
 /**
@@ -22,8 +22,23 @@ export const iconImageLayerStyleFlatToConfig = (style: Record<string, any>) => {
     };
   }
 
+  let iconAtlas = {};
+  if (iconImg) {
+    const img = BuiltInImageList.find((item) => item.id === iconImg);
+    iconAtlas = img ? { [img.id]: img.url } : {};
+  } else {
+    iconAtlas = BuiltInImageList.filter((item) => iconImgScale.range.includes(item.id)).reduce(
+      (pre, { id, url }) => ({
+        ...pre,
+        [id]: url,
+      }),
+      // 'unknown_icon' 对应 iconImgScale unknown 的值
+      { unknown_icon: UNKNOWN_ICON },
+    );
+  }
+
   const styleConfig: IconImageLayerStyleAttributeValue = {
-    iconAtlas: BuiltInImage,
+    iconAtlas,
     icon,
     fillColor: style.fillColor,
     radius: style.radiusField

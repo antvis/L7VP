@@ -4,7 +4,7 @@ import { isArray, isUndefined } from 'lodash-es';
 import { useMemo } from 'react';
 import type { DatasetField, DatasetFilter, RemoteDatasetSchema } from '../../specs';
 import type { DatasetServiceParams, ImplementService, RemoteDataset } from '../../types';
-import { filterFalsyDatasetFilter, getDatasetColumns, queryServiceClient } from '../../utils';
+import { getDatasetColumns, getValidFilterWithMeta, queryServiceClient } from '../../utils';
 import { useRegistryManager } from './useRegistryManager';
 
 const mergeColumns = (columns: DatasetField[], originColumns?: DatasetField[]) => {
@@ -57,13 +57,7 @@ export function useRemoteDataset(datasetSchema: RemoteDatasetSchema, pickFilter?
     const _filter = pickFilter || datasetSchema.filter;
     if (isUndefined(_filter)) return _filter;
 
-    const filterChildren = filterFalsyDatasetFilter(_filter).children.map((child) => {
-      const column = _columns.find((item) => item.name === child.field);
-      return Object.assign({}, child, column && { fieldMeta: column });
-    });
-    const _filterFormat = { ..._filter, children: filterChildren };
-
-    return _filterFormat;
+    return getValidFilterWithMeta(_filter, _columns);
   }, [datasetSchema.filter, pickFilter, datasetSchema.columns]);
   const datasetProperties = datasetSchema.properties;
 

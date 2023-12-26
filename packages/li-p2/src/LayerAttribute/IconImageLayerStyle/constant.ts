@@ -1,21 +1,22 @@
+import { BuiltInImageList } from '../components/IconScaleSelector/constant';
 import type { IconImageLayerStyleAttributeValue } from './types';
 
 /** 组件名称, 前缀 */
 export const CLS_PREFIX = 'li-p2-icon-image-layer-style-attribute';
-import { BuiltInImageList } from '../components/IconScaleSelector/constant';
 
-export const BuiltInImage = BuiltInImageList.reduce(
-  (pre, { id, url }) => ({
-    ...pre,
-    [id]: url,
-  }),
-  { unknown_icon: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*EcQZS6JM69EAAAAAAAAAAAAADmJ7AQ/original' },
-);
+const DEFAULT_ICON = BuiltInImageList[0];
+
+export const UNKNOWN_ICON =
+  'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*EcQZS6JM69EAAAAAAAAAAAAADmJ7AQ/original';
+
+export { BuiltInImageList };
 
 /** 默认值样式属性 */
 export const DefaultIconImageLayerStyle: IconImageLayerStyleAttributeValue = {
-  iconAtlas: BuiltInImage,
-  icon: BuiltInImageList[0].id,
+  iconAtlas: {
+    [DEFAULT_ICON.id]: DEFAULT_ICON.url,
+  },
+  icon: DEFAULT_ICON.id,
   radius: 20,
   iconStyle: {
     opacity: 1,

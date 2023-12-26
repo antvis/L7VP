@@ -4,7 +4,7 @@ import type { DependencyList } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import type { DatasetFilter, LocalDatasetSchema } from '../../specs';
 import type { LocalDataset } from '../../types';
-import { applyDatasetFilter, filterFalsyDatasetFilter } from '../../utils';
+import { applyDatasetFilter, getValidFilterWithMeta } from '../../utils';
 import { useMemoDeep } from './useMemoDeep';
 
 const customizerDepsEqual = (aDeps: DependencyList = [], bDeps: DependencyList = []) => {
@@ -56,13 +56,7 @@ export function useLocalDataset(datasetSchema: LocalDatasetSchema, pickFilter?: 
     const _filter = pickFilter || datasetSchema.filter;
     if (isUndefined(_filter)) return _filter;
 
-    const filterChildren = filterFalsyDatasetFilter(_filter).children.map((child) => {
-      const column = _columns.find((item) => item.name === child.field);
-      return Object.assign({}, child, column && { fieldMeta: column });
-    });
-    const _filterFormat = { ..._filter, children: filterChildren };
-
-    return _filterFormat;
+    return getValidFilterWithMeta(_filter, _columns);
   }, [datasetSchema.filter, pickFilter, datasetSchema.columns]);
   const params: DatasetServiceParams = useMemoDeep(() => ({ data: datasetSchema.data, filter }), customizerDepsEqual);
 
@@ -73,13 +67,6 @@ export function useLocalDataset(datasetSchema: LocalDatasetSchema, pickFilter?: 
   const [data, setData] = useState<Record<string, any>[]>();
 
   const service = datasetSchema.id === NOOP_LOCAL_DATASET.id ? NOOP_SERVICE : datasetFilterService;
-
-  // const cacheKey = datasetSchema.id + JSON.stringify(params);
-  // const { data, run } = useRequest<Record<string, unknown>[], [DatasetServiceParams]>(service, {
-  //   defaultParams: params,
-  //   cacheKey,
-  //   manual: false,
-  // });
 
   useEffect(() => {
     let didCancel = false;

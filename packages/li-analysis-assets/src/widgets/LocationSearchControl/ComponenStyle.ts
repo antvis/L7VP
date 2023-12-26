@@ -5,12 +5,13 @@ const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
 
-  const { colorText, colorBgContainer, colorBgElevated } = token;
+  const { colorText, colorBgContainer, colorBgElevated, borderRadius } = token;
 
   return {
     locationSearcheContainer: css`
       .larkmap-location-search {
         background-color: ${colorBgContainer};
+        border-radius: ${borderRadius}px;
       }
 
       .larkmap-select-selection-search {

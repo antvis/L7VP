@@ -5,10 +5,11 @@ const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
 
-  const { colorTextDescription, colorBgContainer } = token;
+  const { colorTextDescription, colorBgContainer, borderRadius } = token;
 
   return {
     mouseLocation: css`
+      border-radius: ${borderRadius}px;
       color: ${colorTextDescription} !important;
       background: ${colorBgContainer} !important;
     `,

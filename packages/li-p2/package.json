@@ -1,6 +1,6 @@
 {
   "name": "@antv/li-p2",
-  "version": "1.4.0",
+  "version": "1.4.2",
   "description": "property panel for location insight editor",
   "keywords": [
     "li",
@@ -56,7 +56,7 @@
   "devDependencies": {
     "@ant-design/icons": "^5.0.1",
     "@antv/l7": "^2.17.2",
-    "@antv/larkmap": "^1.4.9",
+    "@antv/larkmap": "^1.4.11",
     "@types/lodash-es": "^4.17.6",
     "@types/quill": "^2.0.14",
     "@types/react": "^18.0.0",
