@@ -1,11 +1,22 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
 export default genStyleHook('filter-string-config', (token) => {
-  const { componentCls, antCls } = token;
+  const { componentCls, antCls, borderRadius, colorBorder, colorPrimaryBorderHover } = token;
 
   return {
     [componentCls]: {
       position: 'relative',
+      border: `1px solid ${colorBorder}`,
+      borderRadius: `${borderRadius}px`,
+
+      '&:hover': {
+        cursor: 'pointer',
+        borderColor: colorPrimaryBorderHover,
+      },
+
+      [`${antCls}-select-selector`]: {
+        opacity: 0,
+      },
 
       [`${antCls}-select-selection-overflow`]: {
         display: 'none',
