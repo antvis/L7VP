@@ -1,10 +1,10 @@
+import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { Button, Form, Input, Popover } from 'antd';
+import cls from 'classnames';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 import React, { useEffect, useRef, useState } from 'react';
 import './index.css';
-import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
-import cls from 'classnames';
 import useStyle from './style';
 
 type EditorProps = {
@@ -74,44 +74,63 @@ const Editor: React.FC<EditorProps> = (props) => {
     };
   }, []);
 
+  const onFormClose = () => {
+    setOpen(false);
+    form.resetFields();
+  };
+
   const content = (
-    <div>
-      <Form layout="vertical" requiredMark={false} form={form} style={{ minWidth: 500 }}>
-        <Form.Item
-          name="image"
-          label="图片 URL"
-          validateFirst={true}
-          rules={[{ required: true, message: '请输入图片地址' }]}
-        >
-          <Input placeholder="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*r6H_R5wv-WgAAAAAAAAAAAAADmJ7AQ/original" />
+    <div className={cls(`${prefixCls}__popover__content`, hashId)}>
+      <Form form={form} style={{ minWidth: 500 }}>
+        <Form.Item name="image" validateFirst={true} rules={[{ required: true, message: '请输入图片地址' }]}>
+          <Input placeholder="https://example.png" />
+        </Form.Item>
+
+        <Form.Item className={cls(`${prefixCls}__popover__content-btn`, hashId)}>
+          <Button onClick={onFormClose} style={{ marginRight: 10 }}>
+            取消
+          </Button>
+          <Button
+            type="primary"
+            onClick={() => {
+              if (quillRef.current && form.getFieldValue('image')) {
+                const selection = quillRef.current.getSelection(true).index; //当前光标位置
+                const contents = quillRef.current.getContents();
+                contents.ops.splice(selection > 0 ? selection - 1 : selection, 0, {
+                  insert: {
+                    image: form.getFieldValue('image'),
+                  },
+                  attributes: {
+                    width: '100%',
+                  },
+                });
+                quillRef.current.setContents(contents);
+              }
+              onFormClose();
+            }}
+          >
+            确定
+          </Button>
         </Form.Item>
       </Form>
-      <Button
-        onClick={() => {
-          if (quillRef.current && form.getFieldValue('image')) {
-            const contents = quillRef.current.getContents();
-            quillRef.current.insertEmbed(quillRef.current.getLength(), 'image', form.getFieldValue('image'));
-          }
-          setOpen(false);
-        }}
-      >
-        确定
-      </Button>
     </div>
   );
-
-  console.log(document.querySelector('.ql-image'), 'lskfnsjk');
 
   return wrapSSR(
     <div className={cls(`${prefixCls}`, hashId)}>
       <div ref={editorContainerRef} />
-      <div>dlfgknfjkg</div>
       <Popover
+        overlayClassName={cls(`${prefixCls}__popover`, hashId)}
+        overlayStyle={{ left: 220, top: 0 }}
         open={open}
         content={content}
         title="插入图片"
         trigger="click"
-        getPopupContainer={() => document.querySelector('.ql-toolbar')!}
+        placement="bottom"
+        arrow={false}
+        destroyTooltipOnHide={true}
+        // 渲染父节点上
+        getPopupContainer={() => editorContainerRef.current!}
       />
     </div>,
   );

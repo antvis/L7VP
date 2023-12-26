@@ -97,5 +97,15 @@ export default genStyleHook('rich-editor', (token) => {
         borderColor: colorBorder,
       },
     },
+
+    [`${componentCls}__popover`]: {},
+
+    [`${componentCls}__popover__content`]: {
+      background: colorBgElevated,
+
+      '&-btn': {
+        textAlign: 'right',
+      },
+    },
   };
 });

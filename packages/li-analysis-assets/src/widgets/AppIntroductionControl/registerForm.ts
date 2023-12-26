@@ -23,6 +23,7 @@ export default (): WidgetRegisterForm<Properties> => {
     width: {
       title: '宽度',
       type: 'string',
+      default: 100,
       'x-decorator': 'FormItem',
       'x-component': 'NumberPicker',
       'x-component-props': {
@@ -30,7 +31,18 @@ export default (): WidgetRegisterForm<Properties> => {
         min: 0,
         precision: 0,
       },
-      default: 100,
+    },
+    height: {
+      title: '高度',
+      type: 'string',
+      default: 150,
+      'x-decorator': 'FormItem',
+      'x-component': 'NumberPicker',
+      'x-component-props': {
+        addonAfter: 'px',
+        min: 0,
+        precision: 0,
+      },
     },
     content: {
       type: 'any',
