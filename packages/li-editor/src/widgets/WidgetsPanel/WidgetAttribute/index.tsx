@@ -38,7 +38,24 @@ const WidgetAttribute: React.FC<WidgetAttributeProps> = (props) => {
 
   // 数据集列表
   const { editorDatasets } = useEditorDatasets();
-  const datasets: Dataset[] = editorDatasets.map((item) => ({ ...item.schema, columns: item.columns, data: [] }));
+  const datasets: Dataset[] = editorDatasets.map((item) => {
+    const columns = item.columns.map((cloumn) => {
+      // TODO: 从 editorDataset 获取 domain 数据
+      let domain: string[] | [number, number] = [];
+      if (cloumn.type === 'string') {
+        const itemValue = item.data.map((_item: any) => _item[cloumn.name]);
+        domain = cloumn.type === 'string' ? [...new Set(itemValue)] : [];
+      }
+
+      return { ...cloumn, domain };
+    });
+
+    return {
+      ...item.schema,
+      columns: columns,
+      data: [],
+    };
+  });
 
   // 服务资产列表
   const services = useMemo(() => appService.getImplementServices(), [appService]);
