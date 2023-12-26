@@ -69,7 +69,8 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
     let value: string | [string, string] | undefined;
 
     // 点击清空的情况
-    if (dateString === '' || dateString.includes('')) {
+    // dateString is '' Or ['','']
+    if (dateString === '' || (Array.isArray(dateString) && dateString.every((item) => item === ''))) {
       value = undefined;
     } else if (state.type === 'date') {
       value = typeof dateString === 'string' ? getTimeFormat(dateString, state.format) : undefined;
