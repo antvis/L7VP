@@ -1,26 +1,27 @@
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
+import { useUpdateEffect } from 'ahooks';
 import type { SelectProps } from 'antd';
 import { Empty, Select, Tag } from 'antd';
 import cls from 'classnames';
 import { isUndefined } from 'lodash-es';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import useStyle from './style';
 import type { FieldSelectOptionType } from './types';
 
 const InternalSelect: React.FC<SelectProps<string, FieldSelectOptionType>> = (props) => {
-  const { options, open: defaultOpen = true, ...prop } = props;
+  const { options, open: outerOpen = false, ...prop } = props;
   const prefixCls = usePrefixCls('formily-field-select');
   const [wrapSSR, hashId] = useStyle(prefixCls);
-  const [open, setOpen] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(outerOpen);
 
-  useEffect(() => {
-    setOpen(defaultOpen);
-  }, [defaultOpen]);
+  useUpdateEffect(() => {
+    setInternalOpen(outerOpen);
+  }, [outerOpen]);
 
   const onOptionClick = (val: string) => {
     if (props.onChange) {
       props.onChange(val, options ?? []);
-      setOpen(false);
+      setInternalOpen(false);
     }
   };
 
@@ -28,8 +29,8 @@ const InternalSelect: React.FC<SelectProps<string, FieldSelectOptionType>> = (pr
     <Select
       {...prop}
       popupClassName={cls(`${prefixCls}`, hashId)}
-      open={open}
-      onDropdownVisibleChange={(visible) => setOpen(visible)}
+      open={internalOpen}
+      onDropdownVisibleChange={(visible) => setInternalOpen(visible)}
       dropdownRender={() => {
         if (!options?.length) {
           return <Empty description="暂无数据" image={Empty.PRESENTED_IMAGE_SIMPLE} />;

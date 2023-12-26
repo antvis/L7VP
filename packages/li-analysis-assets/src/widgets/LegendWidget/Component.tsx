@@ -102,30 +102,28 @@ const LegendControl: React.FC<LegendType> = (props) => {
   );
 
   return (
-    <CustomControl position={position}>
-      <div className={classNames(CLS_PREFIX, styles.legendContainer)}>
-        <Popover
-          overlayClassName={classNames(`${CLS_PREFIX}__popover`, styles.legendPopover)}
-          open={openPopover}
-          placement={onPlacement}
-          content={content}
-          trigger="click"
-          arrow={false}
-        >
-          <Tooltip placement={onPlacement} title="显示图例">
-            <div
-              className={classNames(`${CLS_PREFIX}__btn`, styles.legendBtn, {
-                [styles.legendBtnSelect]: openPopover,
-              })}
-              onClick={() => {
-                setOpenPopover((isOpen) => !isOpen);
-              }}
-            >
-              <Icon component={LegendWidgetSvg} />
-            </div>
-          </Tooltip>
-        </Popover>
-      </div>
+    <CustomControl position={position} className={CLS_PREFIX}>
+      <Popover
+        overlayClassName={classNames(`${CLS_PREFIX}__popover`, styles.legendPopover)}
+        open={openPopover}
+        placement={onPlacement}
+        content={content}
+        trigger="click"
+        arrow={false}
+      >
+        <Tooltip placement={onPlacement} title="显示图例">
+          <div
+            className={classNames(`${CLS_PREFIX}__btn`, styles.legendBtn, {
+              [styles.legendBtnSelect]: openPopover,
+            })}
+            onClick={() => {
+              setOpenPopover((isOpen) => !isOpen);
+            }}
+          >
+            <Icon component={LegendWidgetSvg} />
+          </div>
+        </Tooltip>
+      </Popover>
     </CustomControl>
   );
 };

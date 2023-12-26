@@ -1,21 +1,9 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
 export default genStyleHook('filter-setting-modal', (token) => {
-  const {
-    componentCls,
-    colorBorder,
-    colorText,
-    colorBgTextHover,
-    colorInfoBg,
-    colorPrimaryTextActive,
-    colorPrimary,
-  } = token;
+  const { componentCls, colorBorder, colorText, colorBgTextHover, colorPrimary } = token;
 
   return {
-    [componentCls]: {
-      width: '800px !important',
-    },
-
     [`${componentCls}__content`]: {
       display: 'flex',
       minHeight: '400px',
@@ -23,7 +11,6 @@ export default genStyleHook('filter-setting-modal', (token) => {
 
       '&__left': {
         width: '200px',
-        background: colorInfoBg,
 
         '&-item': {
           '&:hover': {
@@ -32,11 +19,8 @@ export default genStyleHook('filter-setting-modal', (token) => {
         },
 
         '&-selected': {
-          background: colorPrimaryTextActive,
+          background: colorBgTextHover,
           color: colorText,
-          '&:hover': {
-            background: colorPrimaryTextActive,
-          },
         },
 
         '&__add-filter': {

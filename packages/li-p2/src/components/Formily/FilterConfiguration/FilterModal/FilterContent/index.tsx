@@ -1,8 +1,8 @@
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import cls from 'classnames';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FieldSelect from '../../../FieldSelect/Select';
-import type { FilterConfig, OptionType } from '../../type';
+import type { FilterConfigType, OptionType } from '../../type';
 import { getDefaultValue } from '../helper';
 import DateItem from './DateItem';
 import NumberItem from './NumberItem';
@@ -10,7 +10,7 @@ import StringItem from './StringItem';
 import useStyle from './style';
 
 export interface FilterContentProps {
-  value: FilterConfig;
+  value: FilterConfigType;
   /**
    * 筛选字段
    */
@@ -18,20 +18,18 @@ export interface FilterContentProps {
   /**
    * 选择发生改变时
    */
-  onChange: (value: FilterConfig) => void;
+  onChange: (value: FilterConfigType) => void;
 }
 
 const FilterContent: React.FC<FilterContentProps> = (props) => {
   const prefixCls = usePrefixCls('formily-filter-setting-content');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const { value: defaultValue, options, onChange } = props;
-  const [filter, setFilter] = useState<FilterConfig>(defaultValue);
+  const [filter, setFilter] = useState<FilterConfigType>(defaultValue);
   const [format, setFormat] = useState<string>('YYYY');
   const [domain, setDomain] = useState<string[] | [number, number]>([]);
 
-  const open = useMemo(() => {
-    return defaultValue.field ? false : true;
-  }, [defaultValue.field]);
+  const openFieldSelect = defaultValue.field ? false : true;
 
   // 筛选字段变更
   const onFieldChange = (field: string) => {
@@ -44,7 +42,7 @@ const FilterContent: React.FC<FilterContentProps> = (props) => {
   };
 
   // 配置项变更
-  const onFilterValueChange = (value: FilterConfig) => {
+  const onFilterValueChange = (value: FilterConfigType) => {
     setFilter(value);
     onChange(value);
   };
@@ -69,7 +67,7 @@ const FilterContent: React.FC<FilterContentProps> = (props) => {
       <div className={cls(`${prefixCls}__filter`, hashId)}>
         <div className={cls(`${prefixCls}__field`, hashId)}> 选择筛选字段</div>
         <FieldSelect
-          open={open}
+          open={openFieldSelect}
           value={filter.field}
           style={{ width: '100%' }}
           options={options}

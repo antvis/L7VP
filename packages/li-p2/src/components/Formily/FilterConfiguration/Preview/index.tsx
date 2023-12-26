@@ -5,14 +5,14 @@ import cls from 'classnames';
 import dayjs from 'dayjs';
 import { isEmpty } from 'lodash-es';
 import React, { useMemo } from 'react';
-import type { FilterConfig } from '../type';
+import type { FilterConfigType } from '../type';
 import useStyle from './style';
 
 export interface PreviewProps {
   /**
    * 筛选数组
    */
-  filters: FilterConfig[];
+  filters: FilterConfigType[];
 }
 
 const Preview: React.FC<PreviewProps> = (props) => {

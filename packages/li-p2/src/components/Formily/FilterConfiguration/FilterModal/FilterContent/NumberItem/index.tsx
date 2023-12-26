@@ -1,8 +1,8 @@
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import cls from 'classnames';
 import React from 'react';
-import type { FilterNumberConfigType } from '../../../type';
 import { FilterNumberConfig } from '../../../components';
+import type { FilterNumberConfigType } from '../../../type';
 import useStyle from './style';
 
 export interface NumberItemProps {

@@ -4,9 +4,9 @@ import { Button } from 'antd';
 import cls from 'classnames';
 import React, { useEffect, useState } from 'react';
 import FilterModal from './FilterModal';
-import useStyle from './style';
-import type { FilterConfig, OptionType } from './type';
 import Preview from './Preview';
+import useStyle from './style';
+import type { FilterConfigType, OptionType } from './type';
 
 export interface FilterConfigurationProps {
   /**
@@ -16,11 +16,11 @@ export interface FilterConfigurationProps {
   /**
    * value
    */
-  value?: FilterConfig[];
+  value?: FilterConfigType[];
   /**
    * 选择发生改变时
    */
-  onChange?: (value: FilterConfig[]) => void;
+  onChange?: (value: FilterConfigType[]) => void;
 }
 
 const Internal: React.FC<FilterConfigurationProps> = (props) => {
@@ -28,7 +28,7 @@ const Internal: React.FC<FilterConfigurationProps> = (props) => {
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const { options, value = [], onChange } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [filterList, setFilterList] = useState<FilterConfig[]>(value);
+  const [filterList, setFilterList] = useState<FilterConfigType[]>(value);
 
   useEffect(() => {
     setFilterList(value);
@@ -39,7 +39,7 @@ const Internal: React.FC<FilterConfigurationProps> = (props) => {
   };
 
   // 获取所有数据变更信息
-  const onfiltersChange = (val: FilterConfig[]) => {
+  const onfiltersChange = (val: FilterConfigType[]) => {
     if (onChange) {
       onChange(val);
     }

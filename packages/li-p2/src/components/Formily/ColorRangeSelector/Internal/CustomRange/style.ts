@@ -26,6 +26,7 @@ export default genStyleHook('color-range-selector__custom-range', (token) => {
       [`${componentCls}__custon-item`]: {
         maxHeight: '200px',
         overflowY: 'auto',
+        marginLeft: '-14px',
       },
 
       [`${componentCls}__add-range-item`]: {

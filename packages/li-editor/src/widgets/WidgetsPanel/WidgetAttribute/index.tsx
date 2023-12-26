@@ -1,6 +1,6 @@
 import type { Dataset, ImplementWidget, WidgetSchema } from '@antv/li-sdk';
 import classNames from 'classnames';
-import { forOwn, max, min, omit } from 'lodash-es';
+import { forOwn, omit } from 'lodash-es';
 import React, { useCallback, useMemo } from 'react';
 import { AtomWidgetEmptyContainer } from '../../../constants';
 import { useEditorDatasets, useEditorService, useEditorState } from '../../../hooks';
@@ -40,8 +40,12 @@ const WidgetAttribute: React.FC<WidgetAttributeProps> = (props) => {
   const { editorDatasets } = useEditorDatasets();
   const datasets: Dataset[] = editorDatasets.map((item) => {
     const columns = item.columns.map((cloumn) => {
-      const itemValue = item.data.map((_item: any) => _item[cloumn.name]) || [];
-      const domain = cloumn.type === 'string' ? [...new Set(itemValue)] : [];
+      // TODO: 从 editorDataset 获取 domain 数据
+      let domain: string[] | [number, number] = [];
+      if (cloumn.type === 'string') {
+        const itemValue = item.data.map((_item: any) => _item[cloumn.name]);
+        domain = cloumn.type === 'string' ? [...new Set(itemValue)] : [];
+      }
 
       return { ...cloumn, domain };
     });

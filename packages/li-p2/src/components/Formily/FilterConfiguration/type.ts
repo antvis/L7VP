@@ -80,4 +80,4 @@ export type FilterNumberConfigType = FilterConfigBase &
       }
   );
 
-export type FilterConfig = FilterDateConfigType | FilterNumberConfigType | FilterStringConfigType;
+export type FilterConfigType = FilterDateConfigType | FilterNumberConfigType | FilterStringConfigType;
