@@ -1,8 +1,7 @@
+import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
+import { useUpdateEffect } from 'ahooks';
 import { Select } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
-import cls from 'classnames';
-import { useUpdateEffect } from 'ahooks';
 import { getOptions } from './helper';
 import useStyle from './style';
 
@@ -71,24 +70,20 @@ const FilterStringConfig: React.FC<FilterStringConfigProps> = (props) => {
       )}
 
       {filterType === 'multiple' && (
-        <div className={cls(`${prefixCls}`, hashId)}>
-          <div className={cls(`${prefixCls}__title`, hashId)}>
-            {selectedOptions?.includes('all') ? '全部' : selectedOptions?.toString()}
-          </div>
-
-          <Select
-            allowClear
-            maxTagCount={1}
-            size={size}
-            bordered={bordered}
-            mode="tags"
-            style={{ width: '100%', textAlign: 'left' }}
-            placeholder="请选择"
-            value={selectedOptions}
-            options={options}
-            onChange={onValueChange}
-          />
-        </div>
+        <Select
+          allowClear
+          size={size}
+          bordered={bordered}
+          mode="multiple"
+          maxTagCount="responsive"
+          maxTagPlaceholder="..."
+          tagRender={(_props) => <>{_props.label}&ensp;</>}
+          style={{ width: '100%', textAlign: 'left' }}
+          placeholder="请选择"
+          value={selectedOptions}
+          options={options}
+          onChange={onValueChange}
+        />
       )}
     </>,
   );

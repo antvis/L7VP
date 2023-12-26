@@ -16,12 +16,12 @@ export interface NumberItemProps {
 const NumberItem: React.FC<NumberItemProps> = (props) => {
   const prefixCls = usePrefixCls('formily-filter-setting-modal-number-item');
   const [wrapSSR, hashId] = useStyle(prefixCls);
-  const { value: defaultValue, onChange } = props;
-  const { value, operator } = defaultValue;
+  const { value: outterValue, onChange } = props;
+  const { value, operator } = outterValue;
 
   const onValueChange = (val: number | [number, number] | undefined, operator: '>=' | '<=' | 'BETWEEN') => {
     const _value = {
-      ...defaultValue,
+      ...outterValue,
       value: val,
       operator,
     } as FilterNumberConfigType;

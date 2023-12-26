@@ -14,14 +14,14 @@ export interface StringItemProps {
 const StringItem: React.FC<StringItemProps> = (props) => {
   const prefixCls = usePrefixCls('formily-filter-setting-modal-string-item');
   const [wrapSSR, hashId] = useStyle(prefixCls);
-  const { value: defaluValue, options = [], onChange } = props;
+  const { value: outterValue, options = [], onChange } = props;
 
   // 类型变化
   const onTypeChange = (type: 'single' | 'multiple') => {
     onChange({
-      ...defaluValue,
+      ...outterValue,
       params: {
-        ...defaluValue.params,
+        ...outterValue.params,
         filterType: type,
       },
       value: undefined,
@@ -30,7 +30,7 @@ const StringItem: React.FC<StringItemProps> = (props) => {
 
   const onValueChange = (val: string[] | undefined) => {
     onChange({
-      ...defaluValue,
+      ...outterValue,
       value: val,
     });
   };
@@ -39,7 +39,7 @@ const StringItem: React.FC<StringItemProps> = (props) => {
     <>
       <div className={cls(`${prefixCls}__filter`, hashId)}>
         <div className={cls(`${prefixCls}__field`, hashId)}>筛选方式</div>
-        <Radio.Group value={defaluValue.params?.filterType} onChange={(e) => onTypeChange(e.target.value)}>
+        <Radio.Group value={outterValue.params?.filterType} onChange={(e) => onTypeChange(e.target.value)}>
           <Radio value="single">单选</Radio>
           <Radio value="multiple">多选</Radio>
         </Radio.Group>
@@ -48,9 +48,9 @@ const StringItem: React.FC<StringItemProps> = (props) => {
       <div className={cls(`${prefixCls}__filter`, hashId)}>
         <div className={cls(`${prefixCls}__field`, hashId)}>设定默认值</div>
         <FilterStringConfig
-          value={defaluValue.value}
+          value={outterValue.value}
           domain={options}
-          filterType={defaluValue.params.filterType}
+          filterType={outterValue.params.filterType}
           onChange={onValueChange}
         />
       </div>

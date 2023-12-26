@@ -1,8 +1,9 @@
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { connect } from '@formily/react';
+import { useUpdateEffect } from 'ahooks';
 import { Button } from 'antd';
 import cls from 'classnames';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import FilterModal from './FilterModal';
 import Preview from './Preview';
 import useStyle from './style';
@@ -30,7 +31,7 @@ const Internal: React.FC<FilterConfigurationProps> = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [filterList, setFilterList] = useState<FilterConfigType[]>(value);
 
-  useEffect(() => {
+  useUpdateEffect(() => {
     setFilterList(value);
   }, [value]);
 

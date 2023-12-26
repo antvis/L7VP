@@ -18,34 +18,20 @@ export interface DateItemProps {
 const DateItem: React.FC<DateItemProps> = (props) => {
   const prefixCls = usePrefixCls('formily-filter-setting-modal-date-item');
   const [wrapSSR, hashId] = useStyle(prefixCls);
-  const { value: defaultValue, format, onChange } = props;
-
-  const timer = useMemo(() => {
-    return defaultValue.value;
-  }, [defaultValue.value]);
-
-  const [granularity, setGranularity] = useState<GranularityItem>(DEFAULT_OPTIONS[0]);
-
+  const { value: outterValue, format, onChange } = props;
+  const dateValue = outterValue.value;
   // 粒度 options
-  const options = useMemo(() => {
-    if (format) {
-      const _options = getOptions(format);
+  const options = useMemo(() => (format ? getOptions(format) : []), [format]);
 
-      const _granularity = _options.find(
-        (item) => defaultValue.granularity && [item.granularity, item.value].includes(defaultValue.granularity),
-      );
-      if (_granularity) {
-        setGranularity(_granularity);
-      }
-      return _options;
-    }
-    return [];
-  }, [defaultValue, format]);
+  const [granularity, setGranularity] = useState<GranularityItem>(() => {
+    const _granularity = options.find((item) => [item.granularity, item.value].includes(outterValue.granularity));
+    return _granularity || DEFAULT_OPTIONS[0];
+  });
 
   // 时间类型
   const onDateTypeChange = (e: 'date' | 'range') => {
-    const _times = timer ? getTimeFormat(timer[0], granularity?.value) : undefined;
-    onChange({ ...defaultValue, value: _times, params: { ...defaultValue.params, dateType: e } });
+    const _times = dateValue ? getTimeFormat(dateValue[0], granularity?.value) : undefined;
+    onChange({ ...outterValue, value: _times, params: { ...outterValue.params, dateType: e } });
   };
 
   // 选择粒度
@@ -54,11 +40,11 @@ const DateItem: React.FC<DateItemProps> = (props) => {
 
     if (_granularity) {
       const _value: FilterDateConfigType = {
-        ...defaultValue,
+        ...outterValue,
         granularity: _granularity.granularity,
-        value: timer ? getTimeFormat(timer, _granularity?.value) : undefined,
+        value: dateValue ? getTimeFormat(dateValue, _granularity?.value) : undefined,
         params: {
-          ...defaultValue.params,
+          ...outterValue.params,
           format: _granularity.value,
         },
       };
@@ -71,7 +57,7 @@ const DateItem: React.FC<DateItemProps> = (props) => {
   const onValueChange = (val: any) => {
     const { value } = val;
     onChange({
-      ...defaultValue,
+      ...outterValue,
       value,
     });
   };
@@ -80,7 +66,7 @@ const DateItem: React.FC<DateItemProps> = (props) => {
     <>
       <div className={cls(`${prefixCls}__filter`, hashId)}>
         <div className={cls(`${prefixCls}__field`, hashId)}>日期类型</div>
-        <Radio.Group value={defaultValue.params.dateType || 'date'} onChange={(e) => onDateTypeChange(e.target.value)}>
+        <Radio.Group value={outterValue.params.dateType || 'date'} onChange={(e) => onDateTypeChange(e.target.value)}>
           <Radio value="date">单日期</Radio>
           <Radio value="range">日期区间</Radio>
         </Radio.Group>
@@ -91,7 +77,7 @@ const DateItem: React.FC<DateItemProps> = (props) => {
         <Select
           size="small"
           style={{ width: '100%' }}
-          value={granularity?.value}
+          value={granularity.value}
           options={options}
           onChange={onGranularityChange}
         />
@@ -101,10 +87,10 @@ const DateItem: React.FC<DateItemProps> = (props) => {
         <div className={cls(`${prefixCls}__field`, hashId)}>默认值</div>
         <FilterDateSetting
           isRenderExtraFooter={false}
-          value={defaultValue.value}
-          defaultFormat={defaultValue.params.format}
-          defaultGranularity={defaultValue.granularity}
-          defaultType={defaultValue.params.dateType}
+          value={outterValue.value}
+          format={outterValue.params.format}
+          granularity={outterValue.granularity}
+          type={outterValue.params.dateType}
           onChange={onValueChange}
         />
       </div>

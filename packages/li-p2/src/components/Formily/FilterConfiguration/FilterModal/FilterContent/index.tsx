@@ -24,21 +24,23 @@ export interface FilterContentProps {
 const FilterContent: React.FC<FilterContentProps> = (props) => {
   const prefixCls = usePrefixCls('formily-filter-setting-content');
   const [wrapSSR, hashId] = useStyle(prefixCls);
-  const { value: defaultValue, options, onChange } = props;
-  const [filter, setFilter] = useState<FilterConfigType>(defaultValue);
+  const { value: outterValue, options, onChange } = props;
+  const [filter, setFilter] = useState<FilterConfigType>(outterValue);
   const [format, setFormat] = useState<string>('YYYY');
   const [domain, setDomain] = useState<string[] | [number, number]>([]);
 
-  const openFieldSelect = defaultValue.field ? false : true;
+  const openFieldSelect = outterValue.field ? false : true;
 
   // 筛选字段变更
   const onFieldChange = (field: string) => {
-    const _field = options.find((item) => item.value === field) as OptionType;
-    setDomain(_field.domain ?? []);
-    setFormat(_field.format ?? '');
-    const _filter = { ...getDefaultValue(_field, filter.id) };
-    setFilter(_filter);
-    onChange(_filter);
+    const _field = options.find((item) => item.value === field);
+    if (_field) {
+      setDomain(_field?.domain ?? []);
+      setFormat(_field?.format ?? 'YYYY');
+      const _filter = { ...getDefaultValue(_field, filter.id) };
+      setFilter(_filter);
+      onChange(_filter);
+    }
   };
 
   // 配置项变更
@@ -48,15 +50,15 @@ const FilterContent: React.FC<FilterContentProps> = (props) => {
   };
 
   useEffect(() => {
-    setFilter(defaultValue);
-    if (defaultValue.field && options) {
-      const _field = options.find((item) => item.value === defaultValue.field);
+    if (outterValue.field && options) {
+      const _field = options.find((item) => item.value === outterValue.field);
       setDomain(_field?.domain ?? []);
       if (_field?.type === 'date') {
         setFormat(_field?.format || 'YYYY');
       }
     }
-  }, [defaultValue, options]);
+    setFilter(outterValue);
+  }, [outterValue, options]);
 
   if (!filter) {
     return null;
