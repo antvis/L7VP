@@ -59,6 +59,8 @@ export const getFetchData = (params: Params) => {
         : properties.requestOptions.body,
   });
 
+  console.log('getFetchData filter: ', filter);
+
   if (Chache.has(requestkey)) {
     const data = Chache.get(requestkey);
     return datasetFilterService({ data, filter }, signal);
