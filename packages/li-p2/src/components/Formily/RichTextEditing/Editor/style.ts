@@ -98,8 +98,6 @@ export default genStyleHook('rich-editor', (token) => {
       },
     },
 
-    [`${componentCls}__popover`]: {},
-
     [`${componentCls}__popover__content`]: {
       background: colorBgElevated,
 

@@ -6,7 +6,6 @@ import type { WidgetRegisterForm } from '@antv/li-sdk';
 export type Properties = {
   position?: PositionName;
   width?: number;
-  height?: number;
   content?: any;
 };
 
@@ -23,19 +22,7 @@ export default (): WidgetRegisterForm<Properties> => {
     width: {
       title: '宽度',
       type: 'string',
-      default: 100,
-      'x-decorator': 'FormItem',
-      'x-component': 'NumberPicker',
-      'x-component-props': {
-        addonAfter: 'px',
-        min: 0,
-        precision: 0,
-      },
-    },
-    height: {
-      title: '高度',
-      type: 'string',
-      default: 150,
+      default: 300,
       'x-decorator': 'FormItem',
       'x-component': 'NumberPicker',
       'x-component-props': {

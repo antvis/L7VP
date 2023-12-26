@@ -13,6 +13,7 @@ export default implementWidget({
   },
   defaultProperties: {
     position: 'topright' as const,
+    width: 300,
   },
   component,
   registerForm,

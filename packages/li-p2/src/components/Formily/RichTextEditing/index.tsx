@@ -44,7 +44,7 @@ const InternalRichTextEditing: React.FC<InternalRichTextEditingProps> = (props) 
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
-        width={1000}
+        width={800}
       >
         <Editor value={value} onChange={onSubmit} />
       </Modal>

@@ -9,6 +9,14 @@ function useStyle() {
   return {
     appIntroduction: css`
       background-color: ${colorBgContainer};
+
+      .ql-editor {
+        overflow: hidden;
+      }
+
+      .ql-tooltip {
+        display: none;
+      }
     `,
   };
 }

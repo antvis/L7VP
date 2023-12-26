@@ -129,7 +129,7 @@ const Editor: React.FC<EditorProps> = (props) => {
         placement="bottom"
         arrow={false}
         destroyTooltipOnHide={true}
-        // 渲染父节点上
+        onOpenChange={(open: boolean) => setOpen(open)}
         getPopupContainer={() => editorContainerRef.current!}
       />
     </div>,
