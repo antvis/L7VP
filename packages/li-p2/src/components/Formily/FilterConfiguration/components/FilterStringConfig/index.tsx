@@ -2,6 +2,7 @@ import { Select } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import cls from 'classnames';
+import { useUpdateEffect } from 'ahooks';
 import { getOptions } from './helper';
 import useStyle from './style';
 
@@ -16,8 +17,8 @@ export interface FilterStringConfigProps {
 }
 
 const FilterStringConfig: React.FC<FilterStringConfigProps> = (props) => {
-  const { value: defaluValue, domain, filterType, size = 'middle', bordered = true, onChange } = props;
-  const [selectedOptions, setSelectedOptions] = useState<undefined | string[]>();
+  const { value: outterValue, domain, filterType, size = 'middle', bordered = true, onChange } = props;
+  const [selectedOptions, setSelectedOptions] = useState<undefined | string[]>(outterValue);
   const [options, setOptions] = useState<{ label: string; value: string; disabled?: boolean }[]>();
   const prefixCls = usePrefixCls('formily-filter-string-config');
   const [wrapSSR, hashId] = useStyle(prefixCls);
@@ -43,13 +44,13 @@ const FilterStringConfig: React.FC<FilterStringConfigProps> = (props) => {
     }
   };
 
-  useEffect(() => {
-    setSelectedOptions(defaluValue);
-  }, [defaluValue]);
+  useUpdateEffect(() => {
+    setSelectedOptions(outterValue);
+  }, [outterValue]);
 
   useEffect(() => {
     if (domain && domain.length) {
-      const isUsable = filterType === 'multiple' && defaluValue && defaluValue[0] === 'all' ? true : false;
+      const isUsable = filterType === 'multiple' && outterValue && outterValue[0] === 'all' ? true : false;
       const _options = getOptions(domain, isUsable);
       setOptions(_options);
     }

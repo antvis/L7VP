@@ -10,24 +10,24 @@ export interface FilterNumberConfigProps {
 }
 
 const FilterNumberConfig: React.FC<FilterNumberConfigProps> = (props) => {
-  const { value: defaluValue, operator, size = 'middle', bordered = true, onChange } = props;
+  const { value: outterValue, operator, size = 'middle', bordered = true, onChange } = props;
   const [ranges, setRanges] = useState<[number | null, number | null]>([null, null]);
 
   useEffect(() => {
-    if (!defaluValue) {
+    if (!outterValue) {
       return;
     }
 
-    if (typeof defaluValue === 'number') {
+    if (typeof outterValue === 'number') {
       if (operator === '>=') {
-        setRanges([defaluValue, null]);
+        setRanges([outterValue, null]);
       } else if (operator === '<=') {
-        setRanges([null, defaluValue]);
+        setRanges([null, outterValue]);
       }
     } else {
-      setRanges(defaluValue);
+      setRanges(outterValue);
     }
-  }, [defaluValue]);
+  }, [outterValue]);
 
   const onValueChange = (val: [number | null, number | null]) => {
     const [minVal, maxVal] = val;

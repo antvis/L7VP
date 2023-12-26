@@ -3,7 +3,7 @@ import { Radio, Select } from 'antd';
 import cls from 'classnames';
 import React, { useMemo, useState } from 'react';
 import { FilterDateSetting } from '../../../components';
-import { DEFAULT_OPTIONS } from '../../../components/FilterDateConfig/contents';
+import { DEFAULT_OPTIONS } from '../../../components/FilterDateConfig/constants';
 import { getTimeFormat } from '../../../components/FilterDateConfig/helper';
 import type { GranularityItem } from '../../../components/FilterDateConfig/type';
 import type { FilterDateConfigType } from '../../../type';

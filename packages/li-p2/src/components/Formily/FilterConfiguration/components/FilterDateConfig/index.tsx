@@ -3,7 +3,7 @@ import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { DatePicker, Dropdown, Space } from 'antd';
 import cls from 'classnames';
 import dayjs from 'dayjs';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { getGranularityOptions, getTimeFormat } from './helper';
 import useStyle from './style';
 import type { Granularity } from './type';
@@ -36,7 +36,7 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
     format,
     granularity,
     type = 'date',
-    value: defaultValue,
+    value: outterValue,
     size = 'middle',
     bordered = true,
     onChange,
@@ -46,8 +46,8 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const dataRef = useRef(0);
 
-  // 开关变化
-  const onOpenChange = (open: boolean) => {
+  // RangePicker 开关变化
+  const onRangePickerOpenChange = (open: boolean) => {
     setOpen(open);
     dataRef.current = 0;
   };
@@ -61,7 +61,7 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
           onChange({ value: _timer, format, type, granularity });
         }
       } else {
-        onChange({ value: '', format, type, granularity });
+        onChange({ value: undefined, format, type, granularity });
       }
     } else {
       if (dateString[0]) {
@@ -70,35 +70,31 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
           onChange({ value: _timer, format, type, granularity });
         }
       } else {
-        onChange({ value: '', format, type, granularity });
+        onChange({ value: undefined, format, type, granularity });
       }
     }
   };
 
   // 粒度变化
   const onGranularityChange = (format: string, granularity: Granularity) => {
-    const _timer = defaultValue ? getTimeFormat(defaultValue, format) : undefined;
+    const _timer = outterValue ? getTimeFormat(outterValue, format) : undefined;
     onChange({ value: _timer, format, type, granularity });
     setOpen(true);
   };
 
   // 区间变化
   const onDateOrRange = (type: 'date' | 'range') => {
-    const _times = defaultValue ? getTimeFormat(defaultValue[0], format) : '';
+    const _times = outterValue ? getTimeFormat(outterValue[0], format) : undefined;
     onChange({ value: _times, format, type, granularity });
     setOpen(true);
   };
 
-  const granularityOptions = useMemo(() => {
-    if (format) {
-      const _options = getGranularityOptions(format).map((item) => ({
+  const granularityOptions = format
+    ? getGranularityOptions(format).map((item) => ({
         ...item,
         label: <div onClick={() => onGranularityChange(item.value, item.granularity)}>{item.label}</div>,
-      }));
-      return _options;
-    }
-    return [];
-  }, [defaultValue]);
+      }))
+    : [];
 
   const dateRangeTtpe = [
     { key: 'date', value: 'date', label: <div onClick={() => onDateOrRange('date')}>单日期</div> },
@@ -142,9 +138,7 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
               showToday={false}
               onOpenChange={(open) => setOpen(open)}
               value={
-                defaultValue
-                  ? dayjs(typeof defaultValue === 'string' ? defaultValue : defaultValue[0], format)
-                  : undefined
+                outterValue ? dayjs(typeof outterValue === 'string' ? outterValue : outterValue[0], format) : undefined
               }
               picker={(granularity === 'day' ? 'date' : granularity) as 'year' | 'month' | 'date'}
               format={format}
@@ -159,9 +153,7 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
               open={open}
               onOpenChange={(open) => setOpen(open)}
               value={
-                defaultValue
-                  ? dayjs(typeof defaultValue === 'string' ? defaultValue : defaultValue[0], format)
-                  : undefined
+                outterValue ? dayjs(typeof outterValue === 'string' ? outterValue : outterValue[0], format) : undefined
               }
               showTime={{ format: format }}
               format={format}
@@ -179,8 +171,8 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
               bordered={bordered}
               size={size}
               open={open}
-              onOpenChange={onOpenChange}
-              value={defaultValue ? [dayjs(defaultValue[0], format), dayjs(defaultValue[1], format)] : undefined}
+              onOpenChange={onRangePickerOpenChange}
+              value={outterValue ? [dayjs(outterValue[0], format), dayjs(outterValue[1], format)] : undefined}
               picker={(granularity === 'day' ? 'date' : granularity) as 'year' | 'month' | 'date'}
               onChange={onRangePickerChange}
               format={format}
@@ -198,8 +190,8 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
               bordered={bordered}
               size={size}
               open={open}
-              onOpenChange={onOpenChange}
-              value={defaultValue ? [dayjs(defaultValue[0], format), dayjs(defaultValue[1], format)] : undefined}
+              onOpenChange={onRangePickerOpenChange}
+              value={outterValue ? [dayjs(outterValue[0], format), dayjs(outterValue[1], format)] : undefined}
               showTime={{ format: format }}
               onChange={onRangePickerChange}
               onCalendarChange={() => {

@@ -1,5 +1,5 @@
 import { isEmpty } from 'lodash-es';
-import { DEFAULT_OPTIONS } from '../../../components/FilterDateConfig/contents';
+import { DEFAULT_OPTIONS } from '../../../components/FilterDateConfig/constants';
 
 export const getOptions = (format: string) => {
   const isDiagonalLineSplit = format.indexOf('/') === -1;

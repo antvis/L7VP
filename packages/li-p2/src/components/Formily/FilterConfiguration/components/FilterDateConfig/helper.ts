@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { DEFAULT_OPTIONS, DateGranularity } from './contents';
+import { DateGranularity, DEFAULT_OPTIONS } from './constants';
 
 export const getTimeFormat = (
   times: [string, string] | string,

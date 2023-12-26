@@ -4,14 +4,14 @@ import { uniq } from 'lodash-es';
 import React, { useMemo } from 'react';
 
 export interface StringItemProps {
-  value: FilterStringConfigType;
+  defaluValue: FilterStringConfigType;
   field: string;
   data: Record<string, any>[];
   onChange: (value: FilterStringConfigType) => void;
 }
 
 const StringItem: React.FC<StringItemProps> = (props) => {
-  const { value: defaluValue, field, data, onChange } = props;
+  const { defaluValue, field, data, onChange } = props;
 
   const domain = useMemo(() => {
     const fieldData = data.map((item) => (typeof item[field] === 'object' ? JSON.stringify(item[field]) : item[field]));

@@ -67,15 +67,6 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
   }, [defaultFilters]);
 
   const onValueChange = (val: FilterConfigType) => {
-    const _filterList = filterList.map((item) => {
-      if (item.id === val.id) {
-        return val;
-      }
-      return item;
-    });
-
-    setFilterList(_filterList);
-
     const updateNode = getFilterNode(val);
     updateFilterNode(val.id, updateNode);
   };
@@ -95,10 +86,10 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
               </div>
               <div className={classNames(`${CLS_PREFIX}__filter-item__content`, styles.filterItemContent)}>
                 {item.type === 'string' && (
-                  <StringItem value={item} field={item.field} data={tableData} onChange={onValueChange} />
+                  <StringItem defaluValue={item} field={item.field} data={tableData} onChange={onValueChange} />
                 )}
-                {item.type === 'number' && <NumberItem value={item} onChange={onValueChange} />}
-                {item.type === 'date' && <DateItem value={item} onChange={onValueChange} />}
+                {item.type === 'number' && <NumberItem defaluValue={item} onChange={onValueChange} />}
+                {item.type === 'date' && <DateItem defaultValue={item} onChange={onValueChange} />}
               </div>
             </div>
           );

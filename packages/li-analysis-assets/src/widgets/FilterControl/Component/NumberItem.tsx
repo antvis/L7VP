@@ -6,19 +6,19 @@ import React, { useState } from 'react';
 import useStyle from './style';
 
 export interface NumberItemProps {
-  value: FilterNumberConfigType;
+  defaluValue: FilterNumberConfigType;
   onChange: (value: FilterNumberConfigType) => void;
 }
 
 const NumberItem: React.FC<NumberItemProps> = (props) => {
-  const { value: defaluValue, onChange } = props;
+  const { defaluValue, onChange } = props;
   const styles = useStyle();
   const [open, setOpen] = useState(false);
 
-  const [valAndOperator, setValAndOperator] = useState<{
-    value?: number | [number, number];
-    operator: '>=' | '<=' | 'BETWEEN';
-  }>({ value: defaluValue.value, operator: defaluValue.operator });
+  const [valAndOperator, setValAndOperator] = useState<Pick<FilterNumberConfigType, 'operator' | 'value'>>({
+    value: defaluValue.value,
+    operator: defaluValue.operator,
+  });
 
   const onValueChange = (val: number | [number, number] | undefined, operator: '>=' | '<=' | 'BETWEEN') => {
     setValAndOperator({ value: val, operator });
@@ -45,11 +45,11 @@ const NumberItem: React.FC<NumberItemProps> = (props) => {
     </div>
   );
 
-  const title = !defaluValue.value
+  const title = !valAndOperator.value
     ? '不限'
-    : defaluValue.operator === 'BETWEEN'
-    ? `${defaluValue.value[0]} ~ ${defaluValue.value[1]}`
-    : `${defaluValue.operator} ${defaluValue.value}`;
+    : valAndOperator.operator === 'BETWEEN' && Array.isArray(valAndOperator.value)
+    ? `${valAndOperator.value[0]} ~ ${valAndOperator.value[1]}`
+    : `${valAndOperator.operator} ${valAndOperator.value}`;
 
   return (
     <Popover content={content} trigger="click" open={open} onOpenChange={handleOpenChange}>
