@@ -1,9 +1,10 @@
 import { DownOutlined } from '@ant-design/icons';
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
+import { useUpdateEffect } from 'ahooks';
 import { DatePicker, Dropdown, Space } from 'antd';
 import cls from 'classnames';
 import dayjs from 'dayjs';
-import React, { useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { getGranularityOptions, getTimeFormat } from './helper';
 import useStyle from './style';
 import type { Granularity } from './type';
@@ -13,11 +14,11 @@ export interface FilterDateConfigProps {
   // 是否自定义footer
   isRenderExtraFooter?: boolean;
   // 时间格式
-  format: string;
+  defaultFormat: string;
   // 时间粒度
-  granularity: Granularity;
+  defaultGranularity: Granularity;
   // 时间类型 单日期｜区间
-  type: 'date' | 'range';
+  defaultType: 'date' | 'range';
   // 默认时间
   value?: string | [string, string];
   bordered?: boolean;
@@ -33,9 +34,9 @@ export interface FilterDateConfigProps {
 const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
   const {
     isRenderExtraFooter = false,
-    format,
-    granularity,
-    type = 'date',
+    defaultFormat,
+    defaultGranularity,
+    defaultType = 'date',
     value: outterValue,
     size = 'middle',
     bordered = true,
@@ -45,6 +46,17 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
   const prefixCls = usePrefixCls('formily-filter-setting-date');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const dataRef = useRef(0);
+  const [timer, setTimer] = useState<{
+    granularity: Granularity;
+    format: string;
+    value?: string | [string, string];
+    type: 'date' | 'range';
+  }>({
+    granularity: defaultGranularity,
+    format: defaultFormat,
+    value: outterValue,
+    type: defaultType,
+  });
 
   // RangePicker 开关变化
   const onRangePickerOpenChange = (open: boolean) => {
@@ -54,47 +66,60 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
 
   // 时间区间变化
   const onRangePickerChange = (_: any, dateString: [string, string] | string) => {
-    if (type === 'date') {
+    if (timer.type === 'date') {
       if (dateString) {
-        const _timer = getTimeFormat(dateString, format);
+        const _timer = getTimeFormat(dateString, timer.format);
         if (_timer) {
-          onChange({ value: _timer, format, type, granularity });
+          onChange({ value: _timer, format: timer.format, type: timer.type, granularity: timer.granularity });
         }
       } else {
-        onChange({ value: undefined, format, type, granularity });
+        onChange({ value: undefined, format: timer.format, type: timer.type, granularity: timer.granularity });
       }
     } else {
       if (dateString[0]) {
-        const _timer = getTimeFormat(dateString, format);
+        const _timer = getTimeFormat(dateString, timer.format);
         if (_timer) {
-          onChange({ value: _timer, format, type, granularity });
+          onChange({ value: _timer, format: timer.format, type: timer.type, granularity: timer.granularity });
         }
       } else {
-        onChange({ value: undefined, format, type, granularity });
+        onChange({ value: undefined, format: timer.format, type: timer.type, granularity: timer.granularity });
       }
     }
   };
 
   // 粒度变化
   const onGranularityChange = (format: string, granularity: Granularity) => {
-    const _timer = outterValue ? getTimeFormat(outterValue, format) : undefined;
-    onChange({ value: _timer, format, type, granularity });
+    const _timer = timer.value ? getTimeFormat(timer.value, format) : undefined;
+    setTimer((pre) => ({ ...pre, format, granularity }));
+    onChange({ value: _timer, format, type: timer.type, granularity });
     setOpen(true);
   };
 
   // 区间变化
   const onDateOrRange = (type: 'date' | 'range') => {
-    const _times = outterValue ? getTimeFormat(outterValue[0], format) : undefined;
-    onChange({ value: _times, format, type, granularity });
+    setTimer((pre) => ({ ...pre, type }));
+    const _times = timer.value ? getTimeFormat(timer.value[0], timer.format) : undefined;
+    onChange({ value: _times, format: timer.format, type, granularity: timer.granularity });
     setOpen(true);
   };
 
-  const granularityOptions = format
-    ? getGranularityOptions(format).map((item) => ({
-        ...item,
-        label: <div onClick={() => onGranularityChange(item.value, item.granularity)}>{item.label}</div>,
-      }))
-    : [];
+  useUpdateEffect(() => {
+    setTimer({
+      granularity: defaultGranularity,
+      format: defaultFormat,
+      value: outterValue,
+      type: defaultType,
+    });
+  }, [defaultGranularity, defaultFormat, outterValue, defaultType]);
+
+  const granularityOptions = useMemo(() => {
+    return timer.format
+      ? getGranularityOptions(timer.format).map((item) => ({
+          ...item,
+          label: <div onClick={() => onGranularityChange(item.value, item.granularity)}>{item.label}</div>,
+        }))
+      : [];
+  }, [timer.format]);
 
   const dateRangeTtpe = [
     { key: 'date', value: 'date', label: <div onClick={() => onDateOrRange('date')}>单日期</div> },
@@ -107,7 +132,7 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
         <Dropdown menu={{ items: granularityOptions }} trigger={['hover']}>
           <a onClick={(e) => e.preventDefault()} className={cls(`${prefixCls}__item__info`, hashId)}>
             <Space>
-              {granularityOptions.find((item) => item.value === format)?.label}
+              {granularityOptions.find((item) => item.value === timer.format)?.label}
               <DownOutlined />
             </Space>
           </a>
@@ -117,7 +142,7 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
         <Dropdown menu={{ items: dateRangeTtpe }} trigger={['hover']}>
           <a onClick={(e) => e.preventDefault()} className={cls(`${prefixCls}__item__info`, hashId)}>
             <Space>
-              {dateRangeTtpe.find((item) => item.value === type)?.label}
+              {dateRangeTtpe.find((item) => item.value === timer.type)?.label}
               <DownOutlined />
             </Space>
           </a>
@@ -128,9 +153,9 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
 
   return wrapSSR(
     <div>
-      {type === 'date' && (
+      {timer.type === 'date' && (
         <>
-          {['year', 'month', 'day'].includes(granularity) ? (
+          {['year', 'month', 'day'].includes(timer.granularity) ? (
             <DatePicker
               bordered={bordered}
               size={size}
@@ -138,10 +163,12 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
               showToday={false}
               onOpenChange={(open) => setOpen(open)}
               value={
-                outterValue ? dayjs(typeof outterValue === 'string' ? outterValue : outterValue[0], format) : undefined
+                timer.value
+                  ? dayjs(typeof timer.value === 'string' ? timer.value : timer.value[0], timer.format)
+                  : undefined
               }
-              picker={(granularity === 'day' ? 'date' : granularity) as 'year' | 'month' | 'date'}
-              format={format}
+              picker={(timer.granularity === 'day' ? 'date' : timer.granularity) as 'year' | 'month' | 'date'}
+              format={timer.format}
               onChange={onRangePickerChange}
               renderExtraFooter={() => (isRenderExtraFooter ? renderExtraFooter : null)}
             />
@@ -153,10 +180,12 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
               open={open}
               onOpenChange={(open) => setOpen(open)}
               value={
-                outterValue ? dayjs(typeof outterValue === 'string' ? outterValue : outterValue[0], format) : undefined
+                timer.value
+                  ? dayjs(typeof timer.value === 'string' ? timer.value : timer.value[0], timer.format)
+                  : undefined
               }
-              showTime={{ format: format }}
-              format={format}
+              showTime={{ format: timer.format }}
+              format={timer.format}
               onChange={onRangePickerChange}
               renderExtraFooter={() => (isRenderExtraFooter ? renderExtraFooter : null)}
             />
@@ -164,18 +193,20 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
         </>
       )}
 
-      {type === 'range' && granularity && (
+      {timer.type === 'range' && timer.granularity && (
         <>
-          {['year', 'month', 'day'].includes(granularity) ? (
+          {['year', 'month', 'day'].includes(timer.granularity) ? (
             <RangePicker
               bordered={bordered}
               size={size}
               open={open}
               onOpenChange={onRangePickerOpenChange}
-              value={outterValue ? [dayjs(outterValue[0], format), dayjs(outterValue[1], format)] : undefined}
-              picker={(granularity === 'day' ? 'date' : granularity) as 'year' | 'month' | 'date'}
+              value={
+                timer.value ? [dayjs(timer.value[0], timer.format), dayjs(timer.value[1], timer.format)] : undefined
+              }
+              picker={(timer.granularity === 'day' ? 'date' : timer.granularity) as 'year' | 'month' | 'date'}
               onChange={onRangePickerChange}
-              format={format}
+              format={timer.format}
               onCalendarChange={() => {
                 if (dataRef.current !== 1) {
                   dataRef.current += 1;
@@ -191,8 +222,10 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
               size={size}
               open={open}
               onOpenChange={onRangePickerOpenChange}
-              value={outterValue ? [dayjs(outterValue[0], format), dayjs(outterValue[1], format)] : undefined}
-              showTime={{ format: format }}
+              value={
+                timer.value ? [dayjs(timer.value[0], timer.format), dayjs(timer.value[1], timer.format)] : undefined
+              }
+              showTime={{ format: timer.format }}
               onChange={onRangePickerChange}
               onCalendarChange={() => {
                 if (dataRef.current !== 3) {
@@ -201,7 +234,7 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
                   setOpen(false);
                 }
               }}
-              format={format}
+              format={timer.format}
               renderExtraFooter={() => (isRenderExtraFooter ? renderExtraFooter : null)}
             />
           )}

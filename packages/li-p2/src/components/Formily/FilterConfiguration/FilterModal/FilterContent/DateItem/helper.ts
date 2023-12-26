@@ -1,4 +1,3 @@
-import { isEmpty } from 'lodash-es';
 import { DEFAULT_OPTIONS } from '../../../components/FilterDateConfig/constants';
 
 export const getOptions = (format: string) => {
@@ -10,11 +9,5 @@ export const getOptions = (format: string) => {
     value: isDiagonalLineSplit ? item.value : item.other,
   }));
 
-  const formatIndex = options.findIndex((item) => item.value === format);
-
-  if (!isEmpty(formatIndex)) {
-    return options;
-  }
-
-  return options.slice(formatIndex);
+  return options;
 };

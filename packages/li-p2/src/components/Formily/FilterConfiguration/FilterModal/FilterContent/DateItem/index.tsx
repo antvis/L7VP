@@ -102,9 +102,9 @@ const DateItem: React.FC<DateItemProps> = (props) => {
         <FilterDateSetting
           isRenderExtraFooter={false}
           value={defaultValue.value}
-          format={defaultValue.params.format}
-          granularity={defaultValue.granularity}
-          type={defaultValue.params.dateType}
+          defaultFormat={defaultValue.params.format}
+          defaultGranularity={defaultValue.granularity}
+          defaultType={defaultValue.params.dateType}
           onChange={onValueChange}
         />
       </div>
