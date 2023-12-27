@@ -28,6 +28,7 @@ const AppIntroductionControl: React.FC<AppIntroductionControlProps> = (props) =>
 
   useEffect(() => {
     if (content && quillRef.current) {
+      // @ts-ignore
       quillRef.current.setContents(content);
     }
   }, [content]);
