@@ -2,14 +2,15 @@ import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { Button, Form, Input, Popover } from 'antd';
 import cls from 'classnames';
 import Quill from 'quill';
+import type { RichTextEditingDelta } from '../type';
 import 'quill/dist/quill.snow.css';
 import React, { useEffect, useRef, useState } from 'react';
 import './index.css';
 import useStyle from './style';
 
 type EditorProps = {
-  value?: any;
-  onChange: (val: any) => void;
+  value?: RichTextEditingDelta;
+  onChange: (val: RichTextEditingDelta) => void;
 };
 
 // 字体大小
@@ -19,7 +20,7 @@ Quill.register(FontAttributor, true);
 
 const Editor: React.FC<EditorProps> = (props) => {
   const { onChange, value } = props;
-  const prefixCls = usePrefixCls('formily-rich-editor', props);
+  const prefixCls = usePrefixCls('formily-rich-editor');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const editorContainerRef = useRef<HTMLDivElement>(null);
   const quillRef = useRef<Quill>();

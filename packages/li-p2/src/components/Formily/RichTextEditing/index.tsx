@@ -6,25 +6,26 @@ import React, { useState } from 'react';
 import useStyle from './style';
 import 'quill/dist/quill.snow.css';
 import Editor from './Editor';
+import type { RichTextEditingDelta } from './type';
 
 type InternalRichTextEditingProps = {
-  value?: any;
-  onChange: (val: any) => void;
+  value?: RichTextEditingDelta;
+  onChange: (val?: RichTextEditingDelta) => void;
 };
 
 const InternalRichTextEditing: React.FC<InternalRichTextEditingProps> = (props) => {
   const { onChange, value } = props;
-  const prefixCls = usePrefixCls('formily-rich-text-editing', props);
+  const prefixCls = usePrefixCls('formily-rich-text-editing');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [content, setContent] = useState<any>();
+  const [content, setContent] = useState<RichTextEditingDelta>();
 
   const handleOk = () => {
     onChange(content);
     setIsModalOpen(false);
   };
 
-  const onSubmit = (val: any) => {
+  const onSubmit = (val: RichTextEditingDelta) => {
     setContent(val);
   };
 
