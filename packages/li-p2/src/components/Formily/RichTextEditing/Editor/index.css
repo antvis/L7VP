@@ -76,3 +76,24 @@
 .ql-snow .ql-picker.ql-header .ql-picker-item::before {
   content: '常规';
 }
+
+/* 链接 */
+.ql-snow .ql-tooltip[data-mode='link']::before {
+  content: 'url：';
+}
+
+.ql-snow .ql-tooltip.ql-editing a.ql-action::after {
+  content: '保存';
+}
+
+.ql-snow .ql-tooltip::before {
+  content: 'url：';
+}
+
+.ql-snow .ql-tooltip a.ql-action::after {
+  content: '修改';
+}
+
+.ql-snow .ql-tooltip a.ql-remove::before {
+  content: '删除';
+}

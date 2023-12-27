@@ -32,18 +32,27 @@ const Editor: React.FC<EditorProps> = (props) => {
       modules: {
         toolbar: {
           container: [
-            [{ size: ['ft12', 'ft14', 'ft16', 'ft18', 'ft32', 'ft48'] }], //字体大小
-            [{ header: [false, 1, 2, 3, 4, 5, 6] }], // 几级标题
             [
-              { color: [] }, // 字体颜色
+              { size: ['ft12', 'ft14', 'ft16', 'ft18', 'ft32', 'ft48'] }, //字体大小
+              { header: [false, 1, 2, 3, 4, 5, 6] }, // 几级标题
+            ],
+            [
               'bold', // 加粗
               'italic', // 斜体
               'underline', //下划线，
-              { align: [] }, // 对齐方式
+            ],
+            [
+              { color: [] }, // 字体颜色
               { background: [] }, // 字体背景颜色
+            ],
+            [
+              { align: [] }, // 对齐方式
               { list: 'ordered' },
               { list: 'bullet' }, // 列表
+            ],
+            [
               'image', // 上传图片
+              'link', // 链接
             ],
           ],
           handlers: {

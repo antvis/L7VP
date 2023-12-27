@@ -1,12 +1,22 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
 export default genStyleHook('rich-editor', (token) => {
-  const { componentCls, colorText, colorBgElevated, colorPrimaryHover, colorPrimaryActive, colorBorder } = token;
+  const {
+    componentCls,
+    colorText,
+    colorBgContainer,
+    colorBgElevated,
+    colorPrimaryHover,
+    colorPrimaryActive,
+    colorBorder,
+    boxShadow,
+  } = token;
 
   return {
     [componentCls]: {
       width: '100%',
       minHeight: '300px',
+      background: colorBgContainer,
 
       '.ql-editor': {
         minHeight: '300px',
@@ -95,6 +105,35 @@ export default genStyleHook('rich-editor', (token) => {
 
       '.ql-toolbar.ql-snow , .ql-container.ql-snow': {
         borderColor: colorBorder,
+      },
+
+      // 链接
+      '.ql-snow .ql-tooltip': {
+        background: colorBgElevated,
+        boxShadow: boxShadow,
+        borderColor: colorBorder,
+      },
+
+      '.ql-snow .ql-tooltip::before': {
+        color: colorText,
+      },
+
+      '.ql-snow .ql-tooltip input[type=text]': {
+        background: colorBgElevated,
+        borderColor: colorBorder,
+        color: colorText,
+      },
+
+      ".ql-snow .ql-tooltip[data-mode='link']::before": {
+        color: colorText,
+      },
+
+      '.ql-snow .ql-tooltip a': {
+        color: colorPrimaryActive,
+
+        '&:hover': {
+          color: colorPrimaryHover,
+        },
       },
     },
 
