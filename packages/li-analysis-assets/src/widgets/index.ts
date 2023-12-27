@@ -1,6 +1,5 @@
 // organize-imports-ignore
 export { default as AnalysisLayout } from './AnalysisLayout';
-
 export { default as FilterWidget } from './FilterWidget';
 export { default as LegendWidget } from './LegendWidget';
 export { default as VectorTilesLoaderControl } from './VectorTilesLoaderControl';
@@ -14,3 +13,4 @@ export { default as TimeLine } from './TimeLine';
 export { default as SpreadSheetTable } from './SpreadSheetTable';
 export { default as AdministrativeSelectControl } from './AdministrativeSelectControl';
 export { default as AppIntroductionControl } from './AppIntroductionControl';
+export { default as FilterControl } from './FilterControl';

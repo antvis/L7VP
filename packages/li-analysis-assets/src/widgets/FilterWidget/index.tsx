@@ -6,8 +6,8 @@ export default implementWidget({
   version: 'v0.1',
   metadata: {
     name: 'FilterWidget',
-    displayName: '数据筛选器',
-    description: '用于添加筛选条件过滤数据',
+    displayName: '条件筛选器',
+    description: '用于动态添加筛选条件来过滤数据',
     type: 'Atom',
     category: 'DataAnalysis',
   },

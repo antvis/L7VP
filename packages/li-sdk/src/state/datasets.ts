@@ -90,7 +90,7 @@ class DatasetStore extends BaseStore<DatasetsState> {
     const dataset = this.getDatasetById(datasetId);
     if (dataset && isLocalOrRemoteDataset(dataset)) {
       this.state.datasets.set(datasetId, { ...dataset, filter: filter });
-      this.emit(DatasetsStoreEvent.UPDATE_FILTER, dataset.filter);
+      this.emit(DatasetsStoreEvent.UPDATE_FILTER, this.getDatasetById(datasetId));
       this.emit(DatasetsStoreEvent.UPDATE_DATASET, this.getDatasetById(datasetId));
     }
   }
@@ -100,7 +100,7 @@ class DatasetStore extends BaseStore<DatasetsState> {
     if (dataset && isLocalOrRemoteDataset(dataset) && dataset.filter) {
       dataset.filter = undefined;
       this.state.datasets.set(datasetId, { ...dataset });
-      this.emit(DatasetsStoreEvent.CLEAR_FILTER, dataset.filter);
+      this.emit(DatasetsStoreEvent.CLEAR_FILTER, datasetId);
       this.emit(DatasetsStoreEvent.UPDATE_DATASET, this.getDatasetById(datasetId));
     }
   }
