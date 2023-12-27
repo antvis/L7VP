@@ -2,15 +2,15 @@ import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { Button, Form, Input, Popover } from 'antd';
 import cls from 'classnames';
 import Quill from 'quill';
-import type { Delta } from 'quill-delta';
+import type { RichTextEditingType } from '../type';
 import 'quill/dist/quill.snow.css';
 import React, { useEffect, useRef, useState } from 'react';
 import './index.css';
 import useStyle from './style';
 
 type EditorProps = {
-  value?: Delta;
-  onChange: (val: Delta) => void;
+  value?: RichTextEditingType;
+  onChange: (val: RichTextEditingType) => void;
 };
 
 // 字体大小

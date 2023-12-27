@@ -21,3 +21,4 @@ export { default as Slider } from './Slider';
 export { default as SliderRange } from './SliderRange';
 export { default as TimeGranularitySelect } from './TimeGranularitySelect';
 export { default as RichTextEditing } from './RichTextEditing';
+export type { RichTextEditingType } from './RichTextEditing/type';
