@@ -59,6 +59,7 @@ const Editor: React.FC<EditorProps> = (props) => {
 
     quillRef.current = quill;
     if (value) {
+      // @ts-ignore
       quillRef.current.setContents(value);
     }
 
