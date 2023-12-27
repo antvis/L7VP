@@ -1,13 +1,14 @@
 import type { PositionName } from '@antv/l7';
 import type { WidgetRegisterForm } from '@antv/li-sdk';
-import type { RichTextEditingDelta } from '@antv/li-p2';
+import type { Delta } from 'quill-delta';
+
 /**
  * 属性面板生产的数据类型定义
  */
 export type Properties = {
   position?: PositionName;
   width?: number;
-  content?: RichTextEditingDelta;
+  content?: Delta;
 };
 
 export default (): WidgetRegisterForm<Properties> => {
