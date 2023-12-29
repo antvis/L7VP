@@ -9,7 +9,6 @@ const useStyle = () => {
     colorBgContainer,
     colorBorder,
     colorText,
-    colorBgElevated,
     borderRadius,
   } = useAntdToken();
 
@@ -83,7 +82,7 @@ const useStyle = () => {
 
     layerActions: css`
       ${antCls}-divider-vertical {
-        border-color: ${colorTextDescription};
+        border-color: ${colorBorder};
       }
     `,
   };
