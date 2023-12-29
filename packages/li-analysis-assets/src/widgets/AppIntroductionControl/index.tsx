@@ -6,8 +6,8 @@ export default implementWidget({
   version: 'v0.1',
   metadata: {
     name: 'AppIntroductionControl',
-    displayName: '应用简介',
-    description: '添加应用介绍说明信息',
+    displayName: '应用描述控件',
+    description: '利用富文本编辑器，添加应用描述信息',
     type: 'Auto',
     category: 'MapControl',
   },

@@ -39,7 +39,7 @@ const InternalRichTextEditing: React.FC<InternalRichTextEditingProps> = (props) 
         编辑
       </Button>
       <Modal
-        title="应用简介设置"
+        title="设置"
         cancelText="取消"
         okText="确定"
         open={isModalOpen}
