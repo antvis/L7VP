@@ -52,60 +52,88 @@ const SwipeControl: React.FC<SwipeControlProps> = (props) => {
         const isInRight = swipeLayers.rightLayers.includes(item);
         const isAllVisible = !isInLfet && !isInRight;
 
+        const onCheckboxChange = (e: CheckboxChangeEvent) => {
+          const checked = e.target.checked;
+          if (checked) {
+            setSwipeLayers((pre) => ({
+              ...pre,
+              rightLayers: pre.rightLayers.concat(item),
+            }));
+          } else {
+            setSwipeLayers((pre) => ({
+              ...pre,
+              layers: pre.layers.filter((layer) => layer !== item),
+              rightLayers: pre.rightLayers.filter((layer) => layer !== item),
+            }));
+          }
+        };
+
+        const onClickLfet = () => {
+          // 当前状态是：✕ | ✕
+          if (!isInLfet && !isInRight) {
+            setSwipeLayers((pre) => ({
+              ...pre,
+              layers: pre.layers.concat(item),
+            }));
+          } else if (!isInLfet && isInRight) {
+            // 当前状态是：✕ | ✔
+            // 单选为左侧显示
+            setSwipeLayers((pre) => ({
+              ...pre,
+              layers: pre.layers.concat(item),
+              rightLayers: pre.rightLayers.filter((layer) => layer !== item),
+            }));
+          } else if (isInLfet && !isInRight) {
+            // 当前状态是：✔ | ✕
+            // 单选为右侧侧显示
+            setSwipeLayers((pre) => ({
+              ...pre,
+              layers: pre.layers.filter((layer) => layer !== item),
+              rightLayers: pre.rightLayers.concat(item),
+            }));
+          } else if (isInLfet && isInRight) {
+            // 当前状态是：✔ | ✔，不会存在这种情况
+          }
+        };
+
+        const onClickRight = () => {
+          // 当前状态是：✕ | ✕
+          if (!isInLfet && !isInRight) {
+            setSwipeLayers((pre) => ({
+              ...pre,
+              rightLayers: pre.rightLayers.concat(item),
+            }));
+          } else if (!isInLfet && isInRight) {
+            // 当前状态是：✕ | ✔
+            // 单选为左侧显示
+            setSwipeLayers((pre) => ({
+              ...pre,
+              layers: pre.layers.concat(item),
+              rightLayers: pre.rightLayers.filter((layer) => layer !== item),
+            }));
+          } else if (isInLfet && !isInRight) {
+            // 当前状态是：✔ | ✕
+            // 单选为右侧侧显示
+            setSwipeLayers((pre) => ({
+              ...pre,
+              layers: pre.layers.filter((layer) => layer !== item),
+              rightLayers: pre.rightLayers.concat(item),
+            }));
+          } else if (isInLfet && isInRight) {
+            // 当前状态是：✔ | ✔，不会存在这种情况
+          }
+        };
+
         return (
           <div key={item.id} className={classNames(styles.layerItem)}>
-            <Checkbox
-              checked={!isAllVisible}
-              style={{ marginRight: 5 }}
-              onChange={(e: CheckboxChangeEvent) => {
-                const checked = e.target.checked;
-                if (checked) {
-                  setSwipeLayers((pre) => ({
-                    ...pre,
-                    rightLayers: pre.rightLayers.concat(item),
-                  }));
-                } else {
-                  setSwipeLayers((pre) => ({
-                    ...pre,
-                    layers: pre.layers.filter((layer) => layer !== item),
-                    rightLayers: pre.rightLayers.filter((layer) => layer !== item),
-                  }));
-                }
-              }}
-            />
+            <Checkbox checked={!isAllVisible} style={{ marginRight: 5 }} onChange={onCheckboxChange} />
             <div className={classNames(styles.layerName)}>{item.name}</div>
             <div className={classNames(styles.layerActions)}>
               <Button
                 type="text"
                 size="small"
                 disabled={isAllVisible}
-                onClick={() => {
-                  // 当前状态是：✕ | ✕
-                  if (!isInLfet && !isInRight) {
-                    setSwipeLayers((pre) => ({
-                      ...pre,
-                      layers: pre.layers.concat(item),
-                    }));
-                  } else if (!isInLfet && isInRight) {
-                    // 当前状态是：✕ | ✔
-                    // 单选为左侧显示
-                    setSwipeLayers((pre) => ({
-                      ...pre,
-                      layers: pre.layers.concat(item),
-                      rightLayers: pre.rightLayers.filter((layer) => layer !== item),
-                    }));
-                  } else if (isInLfet && !isInRight) {
-                    // 当前状态是：✔ | ✕
-                    // 单选为右侧侧显示
-                    setSwipeLayers((pre) => ({
-                      ...pre,
-                      layers: pre.layers.filter((layer) => layer !== item),
-                      rightLayers: pre.rightLayers.concat(item),
-                    }));
-                  } else if (isInLfet && isInRight) {
-                    // 当前状态是：✔ | ✔，不会存在这种情况
-                  }
-                }}
+                onClick={onClickLfet}
                 icon={<Icon component={isInLfet ? CheckedSvg : UncheckedSvg} />}
               />
               <Divider type="vertical" />
@@ -113,33 +141,7 @@ const SwipeControl: React.FC<SwipeControlProps> = (props) => {
                 type="text"
                 size="small"
                 disabled={isAllVisible}
-                onClick={() => {
-                  // 当前状态是：✕ | ✕
-                  if (!isInLfet && !isInRight) {
-                    setSwipeLayers((pre) => ({
-                      ...pre,
-                      rightLayers: pre.rightLayers.concat(item),
-                    }));
-                  } else if (!isInLfet && isInRight) {
-                    // 当前状态是：✕ | ✔
-                    // 单选为左侧显示
-                    setSwipeLayers((pre) => ({
-                      ...pre,
-                      layers: pre.layers.concat(item),
-                      rightLayers: pre.rightLayers.filter((layer) => layer !== item),
-                    }));
-                  } else if (isInLfet && !isInRight) {
-                    // 当前状态是：✔ | ✕
-                    // 单选为右侧侧显示
-                    setSwipeLayers((pre) => ({
-                      ...pre,
-                      layers: pre.layers.filter((layer) => layer !== item),
-                      rightLayers: pre.rightLayers.concat(item),
-                    }));
-                  } else if (isInLfet && isInRight) {
-                    // 当前状态是：✔ | ✔，不会存在这种情况
-                  }
-                }}
+                onClick={onClickRight}
                 icon={<Icon component={isInRight ? CheckedSvg : UncheckedSvg} />}
               />
             </div>
