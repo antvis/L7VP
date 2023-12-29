@@ -7,6 +7,7 @@ const useStyle = () => {
     colorPrimary,
     colorTextDescription,
     colorBgContainer,
+    colorBorderSecondary,
     colorBorder,
     colorText,
     borderRadius,
@@ -82,7 +83,7 @@ const useStyle = () => {
 
     layerActions: css`
       ${antCls}-divider-vertical {
-        border-color: ${colorBorder};
+        border-color: ${colorBorderSecondary};
       }
     `,
   };

@@ -35,7 +35,10 @@ const LegendControl: React.FC<LegendType> = (props) => {
 
   useEffect(() => {
     const updateLegendData = () => {
-      const legendDatas = layerList.map(parserLegendData);
+      // 以图层在地图上的层级从高到低的（地图上）排列，以方便用户从 UI 上理解图层列表。
+      // 最上面的图层，在地图上的层级越高；
+      // 从原始数据，反转顺序
+      const legendDatas = layerList.slice().reverse().map(parserLegendData);
       const legendData = legendDatas.filter((item) => {
         const isIconsData = item.type === 'LegendIcon' && !isEmpty(item.data.icons);
         const isColorData = item.type !== 'LegendIcon' && !isEmpty(item.data.colors);
