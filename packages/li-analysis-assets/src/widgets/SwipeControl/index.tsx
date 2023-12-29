@@ -13,9 +13,10 @@ export default implementWidget({
   },
   defaultProperties: {
     position: 'topright',
+    defaultOpen: false,
     orientation: 'vertical',
-    leftLayers: [],
-    rightLayers: [],
+    defaultLeftLayers: [],
+    defaultRightLayers: [],
   },
   component,
   registerForm,

@@ -6,12 +6,14 @@ import type { WidgetRegisterForm } from '@antv/li-sdk';
 export type Properties = {
   /** 控件放置位置 */
   position?: PositionName;
+  /** 是否默认开启 */
+  defaultOpen: boolean;
   /** 卷帘方向设置，默认 'vertical' */
   orientation?: 'vertical' | 'horizontal';
   /** 卷帘左侧的图层 ID */
-  leftLayers: string[];
+  defaultLeftLayers: string[];
   /** 卷帘右侧侧的图层 ID */
-  rightLayers: string[];
+  defaultRightLayers: string[];
 };
 
 export default (): WidgetRegisterForm<Properties> => {
@@ -24,13 +26,13 @@ export default (): WidgetRegisterForm<Properties> => {
       'x-component': 'ControlPositionSelect',
       default: 'bottomright',
     },
-    // showZoom: {
-    //   title: '显示层级',
-    //   type: 'boolean',
-    //   'x-decorator': 'FormItem',
-    //   'x-component': 'Switch',
-    //   default: true,
-    // },
+    defaultOpen: {
+      title: '默认打开',
+      type: 'boolean',
+      'x-decorator': 'FormItem',
+      'x-component': 'Switch',
+      default: false,
+    },
   };
   return { schema };
 };
