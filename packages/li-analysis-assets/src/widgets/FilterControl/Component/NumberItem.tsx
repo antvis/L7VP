@@ -1,24 +1,30 @@
 import { DownOutlined } from '@ant-design/icons';
 import type { FilterNumberConfigType } from '@antv/li-p2';
 import { FilterNumberConfig } from '@antv/li-p2';
+import { useUpdateEffect } from 'ahooks';
 import { Button, Popover } from 'antd';
 import React, { useState } from 'react';
 import useStyle from './style';
 
 export interface NumberItemProps {
-  defaluValue: FilterNumberConfigType;
+  defaultValue: FilterNumberConfigType;
   onChange: (value: FilterNumberConfigType) => void;
 }
 
 const NumberItem: React.FC<NumberItemProps> = (props) => {
-  const { defaluValue, onChange } = props;
+  const { defaultValue, onChange } = props;
   const styles = useStyle();
   const [open, setOpen] = useState(false);
 
   const [valAndOperator, setValAndOperator] = useState<Pick<FilterNumberConfigType, 'operator' | 'value'>>({
-    value: defaluValue.value,
-    operator: defaluValue.operator,
+    value: defaultValue.value,
+    operator: defaultValue.operator,
   });
+
+  // 配置初始筛选条件变更，配置态运行
+  useUpdateEffect(() => {
+    setValAndOperator({ value: defaultValue.value, operator: defaultValue.operator });
+  }, [defaultValue.value, defaultValue.operator]);
 
   const onValueChange = (val: number | [number, number] | undefined, operator: '>=' | '<=' | 'BETWEEN') => {
     setValAndOperator({ value: val, operator });
@@ -29,14 +35,14 @@ const NumberItem: React.FC<NumberItemProps> = (props) => {
   };
 
   const onSubmit = () => {
-    const numberNode = { ...defaluValue, ...valAndOperator } as FilterNumberConfigType;
+    const numberNode = { ...defaultValue, ...valAndOperator } as FilterNumberConfigType;
     onChange(numberNode);
     setOpen(false);
   };
 
   const content = (
     <div className={styles.numberContent}>
-      <FilterNumberConfig value={defaluValue.value} operator={defaluValue.operator} onChange={onValueChange} />
+      <FilterNumberConfig value={defaultValue.value} operator={defaultValue.operator} onChange={onValueChange} />
       <div className={styles.numberSubmit}>
         <Button type="primary" size="small" onClick={onSubmit}>
           确定

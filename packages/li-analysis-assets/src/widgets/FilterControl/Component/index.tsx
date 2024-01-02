@@ -86,9 +86,9 @@ const LIFilterControl: React.FC<LIFilterControlProps> = (props) => {
               </div>
               <div className={classNames(`${CLS_PREFIX}__filter-item__content`, styles.filterItemContent)}>
                 {item.type === 'string' && (
-                  <StringItem defaluValue={item} field={item.field} data={tableData} onChange={onValueChange} />
+                  <StringItem defaultValue={item} field={item.field} data={tableData} onChange={onValueChange} />
                 )}
-                {item.type === 'number' && <NumberItem defaluValue={item} onChange={onValueChange} />}
+                {item.type === 'number' && <NumberItem defaultValue={item} onChange={onValueChange} />}
                 {item.type === 'date' && <DateItem defaultValue={item} onChange={onValueChange} />}
               </div>
             </div>
