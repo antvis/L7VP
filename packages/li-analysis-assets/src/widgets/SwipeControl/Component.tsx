@@ -152,7 +152,7 @@ const SwipeControl: React.FC<SwipeControlProps> = (props) => {
   );
 
   return (
-    <CustomControl position={position} className={classNames(styles.swipeControl, CLS_PREFIX)}>
+    <CustomControl position={position} className={classNames(CLS_PREFIX)}>
       <Popover
         overlayClassName={classNames(`${CLS_PREFIX}__popover`, styles.popover)}
         arrow={false}
@@ -174,7 +174,14 @@ const SwipeControl: React.FC<SwipeControlProps> = (props) => {
           </div>
         </Tooltip>
       </Popover>
-      {isOpen && <Swipe orientation={orientation} layers={swipeLayers.layers} rightLayers={swipeLayers.rightLayers} />}
+      {isOpen && (
+        <Swipe
+          className={styles.l7swipe}
+          orientation={orientation}
+          layers={swipeLayers.layers}
+          rightLayers={swipeLayers.rightLayers}
+        />
+      )}
     </CustomControl>
   );
 };

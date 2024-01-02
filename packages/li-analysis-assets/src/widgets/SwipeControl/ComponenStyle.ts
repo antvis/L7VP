@@ -14,11 +14,12 @@ const useStyle = () => {
   } = useAntdToken();
 
   return {
-    swipeControl: css`
-      border-radius: ${borderRadius}px;
-
+    l7swipe: css`
       .l7-control-swipe__button {
+        color: ${colorText};
         background-color: ${colorPrimary};
+        border: #fff solid 2px;
+        border-radius: ${borderRadius}px;
       }
     `,
 
@@ -62,7 +63,7 @@ const useStyle = () => {
 
     layerItem: css`
       padding: 8px 12px;
-      color: rgb(160, 167, 180);
+      color: ${colorText};
       font-size: 12px;
       display: flex;
       align-items: center;
