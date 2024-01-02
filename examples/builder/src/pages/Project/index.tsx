@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { history, Link } from 'umi';
 import styles from './index.less';
 import type { Project } from '@/types';
-import { DEFAULT_PROJECTS } from '@/constans';
+import { DEFAULT_PROJECTS } from '@/constants';
 
 export default function ProjectPage() {
   const [projectList, setProjectList] = useState<Project[]>(DEFAULT_PROJECTS);

@@ -1,4 +1,4 @@
-import { Assets, DEFAULT_PROJECTS } from '@/constans';
+import { Assets, DEFAULT_PROJECTS } from '@/constants';
 import type { Application } from '@antv/li-sdk';
 import { LIRuntimeApp } from '@antv/li-sdk';
 import { ConfigProvider, theme } from 'antd';
