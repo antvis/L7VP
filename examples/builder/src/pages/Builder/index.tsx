@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'umi';
 import { editorWidgets } from './editor-widgets';
 import { useEditorNavbarKey } from './hooks';
-import { Assets, DEFAULT_PROJECTS } from '@/constans';
+import { Assets, DEFAULT_PROJECTS } from '@/constants';
 import './index.less';
 
 const BuilderPage = () => {
