@@ -2,7 +2,7 @@ import Icon from '@ant-design/icons';
 import { CustomControl, LegendCategories, LegendIcon, LegendRamp } from '@antv/larkmap';
 import type { ImplementWidgetProps } from '@antv/li-sdk';
 import { useLayerList } from '@antv/li-sdk';
-import { useUpdate } from 'ahooks';
+import { useUpdate, useUpdateEffect } from 'ahooks';
 import { Empty, Popover, Tooltip } from 'antd';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash-es';
@@ -23,19 +23,22 @@ export interface LegendType extends ImplementWidgetProps, Properties {}
 type LegendDataListType = LegendRampData | LegendCategoriesData | LegendIconData;
 
 const LegendControl: React.FC<LegendType> = (props) => {
-  const { position, open } = props;
+  const { position, open: defaultOpen } = props;
   const styles = useStyle();
-  const [openPopover, setOpenPopover] = useState(false);
+  const [openPopover, setOpenPopover] = useState(defaultOpen);
   const [legendDataList, setLegendDataList] = useState<LegendDataListType[]>([]);
   const layerList = useLayerList();
 
-  useEffect(() => {
-    setOpenPopover(open);
-  }, [open]);
+  useUpdateEffect(() => {
+    setOpenPopover(defaultOpen);
+  }, [defaultOpen]);
 
   useEffect(() => {
     const updateLegendData = () => {
-      const legendDatas = layerList.map(parserLegendData);
+      // 以图层在地图上的层级从高到低的（地图上）排列，以方便用户从 UI 上理解图层列表。
+      // 最上面的图层，在地图上的层级越高；
+      // 从原始数据，反转顺序
+      const legendDatas = layerList.slice().reverse().map(parserLegendData);
       const legendData = legendDatas.filter((item) => {
         const isIconsData = item.type === 'LegendIcon' && !isEmpty(item.data.icons);
         const isColorData = item.type !== 'LegendIcon' && !isEmpty(item.data.colors);
@@ -68,11 +71,11 @@ const LegendControl: React.FC<LegendType> = (props) => {
   const content = (
     <>
       <div className={classNames(`${CLS_PREFIX}__popover__header-title`, styles.popoverHeaderTitle)}>图层图例</div>
-      {legendDataList?.map((item: LegendDataListType, index: number) => {
+      {legendDataList?.map((item: LegendDataListType) => {
         const visible = item.layer.isVisible();
         return (
           <div
-            key={`${index.toString()}`}
+            key={item.layer.id}
             className={classNames(`${CLS_PREFIX}__popover__content-item`, styles.popoveContentItem)}
           >
             <div className={classNames(`${CLS_PREFIX}__popover__content-item__header`, styles.itemHeader)}>

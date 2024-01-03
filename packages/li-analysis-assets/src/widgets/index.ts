@@ -13,4 +13,5 @@ export { default as TimeLine } from './TimeLine';
 export { default as SpreadSheetTable } from './SpreadSheetTable';
 export { default as AdministrativeSelectControl } from './AdministrativeSelectControl';
 export { default as AppIntroductionControl } from './AppIntroductionControl';
+export { default as SwipeControl } from './SwipeControl';
 export { default as FilterControl } from './FilterControl';

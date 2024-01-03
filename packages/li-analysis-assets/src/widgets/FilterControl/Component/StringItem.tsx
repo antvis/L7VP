@@ -4,14 +4,14 @@ import { uniq } from 'lodash-es';
 import React, { useMemo } from 'react';
 
 export interface StringItemProps {
-  defaluValue: FilterStringConfigType;
+  defaultValue: FilterStringConfigType;
   field: string;
   data: Record<string, any>[];
   onChange: (value: FilterStringConfigType) => void;
 }
 
 const StringItem: React.FC<StringItemProps> = (props) => {
-  const { defaluValue, field, data, onChange } = props;
+  const { defaultValue, field, data, onChange } = props;
 
   const domain = useMemo(() => {
     const fieldData = data.map((item) => (typeof item[field] === 'object' ? JSON.stringify(item[field]) : item[field]));
@@ -22,7 +22,7 @@ const StringItem: React.FC<StringItemProps> = (props) => {
 
   const onValueChange = (val?: string[]) => {
     onChange({
-      ...defaluValue,
+      ...defaultValue,
       value: val,
     });
   };
@@ -30,10 +30,10 @@ const StringItem: React.FC<StringItemProps> = (props) => {
   return (
     <FilterStringConfig
       bordered={false}
-      value={defaluValue.value}
+      value={defaultValue.value}
       domain={domain}
       onChange={onValueChange}
-      filterType={defaluValue.params.filterType}
+      filterType={defaultValue.params.filterType}
       maxTagCount={2}
     />
   );
