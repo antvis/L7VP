@@ -18,11 +18,7 @@ export type Properties = {
 
 export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> => {
   const { layers } = props;
-
-  const layerList = layers
-    .filter((layer: Record<string, any>) => layer.visConfig.visible)
-    .slice()
-    .map((item: Record<string, any>) => ({ label: item.metadata.name, value: item.id }));
+  const layerList = layers.map((item) => ({ label: item.metadata.name, value: item.id }));
 
   // 属性面板表单的 Schema 定义，来自表单库 formily 的 Schema
   const schema = {
@@ -39,31 +35,6 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
       'x-decorator': 'FormItem',
       'x-component': 'Switch',
       default: false,
-    },
-    defaultLeftLayers: {
-      title: '左侧图层',
-      type: 'array',
-      default: [],
-      enum: layerList,
-      'x-decorator': 'FormItem',
-      'x-component': 'Select',
-      'x-component-props': {
-        placeholder: '请选择图层',
-        mode: 'multiple',
-        layers: layerList,
-      },
-      'x-reactions': [
-        {
-          dependencies: ['defaultRightLayers'],
-          fulfill: {
-            run: `$form.setFieldState('defaultLeftLayers', (state) => {
-              state.dataSource = $form.getFieldState('defaultRightLayers', (rightState) => {
-                  return rightState.componentProps.layers.filter((item) => rightState.value && !rightState.value.includes(item.value));
-              });
-          });`,
-          },
-        },
-      ],
     },
     defaultRightLayers: {
       title: '右侧图层',
@@ -84,6 +55,31 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
             run: `$form.setFieldState('defaultRightLayers', (state) => {
               state.dataSource = $form.getFieldState('defaultLeftLayers', (leftState) => {
                   return leftState.componentProps.layers.filter((item) => leftState.value && !leftState.value.includes(item.value));
+              });
+          });`,
+          },
+        },
+      ],
+    },
+    defaultLeftLayers: {
+      title: '左侧图层',
+      type: 'array',
+      default: [],
+      enum: layerList,
+      'x-decorator': 'FormItem',
+      'x-component': 'Select',
+      'x-component-props': {
+        placeholder: '请选择图层',
+        mode: 'multiple',
+        layers: layerList,
+      },
+      'x-reactions': [
+        {
+          dependencies: ['defaultRightLayers'],
+          fulfill: {
+            run: `$form.setFieldState('defaultLeftLayers', (state) => {
+              state.dataSource = $form.getFieldState('defaultRightLayers', (rightState) => {
+                  return rightState.componentProps.layers.filter((item) => rightState.value && !rightState.value.includes(item.value));
               });
           });`,
           },
