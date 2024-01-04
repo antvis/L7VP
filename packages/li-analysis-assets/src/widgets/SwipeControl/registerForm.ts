@@ -22,7 +22,6 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
   const layerList = layers
     .filter((layer: Record<string, any>) => layer.visConfig.visible)
     .slice()
-    .reverse()
     .map((item: Record<string, any>) => ({ label: item.metadata.name, value: item.id }));
 
   // 属性面板表单的 Schema 定义，来自表单库 formily 的 Schema
