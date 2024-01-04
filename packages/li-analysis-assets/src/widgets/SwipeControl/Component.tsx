@@ -7,7 +7,7 @@ import { useUpdateEffect } from 'ahooks';
 import { Button, Checkbox, Divider, Popover, Tooltip } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import classNames from 'classnames';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import useStyle from './ComponenStyle';
 import { CheckedSvg, CLS_PREFIX, POPOVER_PLACEMENT_LEGEND, SwipeSvg, UncheckedSvg } from './constants';
 import type { Properties } from './registerForm';
@@ -16,7 +16,7 @@ import { Swipe } from './Swipe';
 export interface SwipeControlProps extends ImplementWidgetProps, Properties {}
 
 const SwipeControl: React.FC<SwipeControlProps> = (props) => {
-  const { defaultOpen, position, orientation, defaultLeftLayers, defaultRightLayers } = props;
+  const { defaultOpen, position, orientation, defaultLeftLayers = [], defaultRightLayers = [] } = props;
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const styles = useStyle();
   const layerList = useLayerList();
@@ -43,6 +43,18 @@ const SwipeControl: React.FC<SwipeControlProps> = (props) => {
         .reverse(),
     [layerList],
   );
+
+  // 初始数据选中的图层信息
+  useEffect(() => {
+    if (layers.length) {
+      const isInLfet = layers.filter((item: Layer) => defaultLeftLayers.includes(item.id));
+      const isInRight = layers.filter((item: Layer) => defaultRightLayers.includes(item.id));
+      setSwipeLayers({
+        layers: isInLfet,
+        rightLayers: isInRight,
+      });
+    }
+  }, [defaultLeftLayers, defaultRightLayers, layers]);
 
   const PopoverContent = () => (
     <>
