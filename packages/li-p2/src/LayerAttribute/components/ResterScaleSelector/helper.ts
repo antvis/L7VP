@@ -2,7 +2,11 @@ import { fill } from 'lodash-es';
 import type { CustomMappingData, SelectorValue } from './type';
 
 // 获取默认展示自定义数据
-export const getDefaultValue = (type: 'custom' | 'cat', defaultDomain: number[], defaultColors: string[]) => {
+export const getDefaultValue = (
+  type: 'custom' | 'cat' | 'linear',
+  defaultDomain: number[],
+  defaultColors: string[],
+) => {
   const [min, max] = defaultDomain;
   // 数值类型计算均分间隔
   const _interval = (Number(max) - Number(min)) / defaultColors.length;
@@ -22,14 +26,14 @@ export const getDefaultValue = (type: 'custom' | 'cat', defaultDomain: number[],
       colors: defaultColors,
     };
   } else {
-    // 数值类型为 cat 时 ，计算默认positions  positions.length 等于 colors.length
+    // 数值类型为 cat\linear 时 ，计算默认positions  positions.length 等于 colors.length
     const positions = fill(Array(_length), undefined).map((_, index) => {
       const _value = _interval > index ? Number(min) + index : +Number(min) + _interval * index;
       return _value % 1 === 0 ? Number(_value) : Number(_value.toFixed(2));
     });
 
     const defaultValue: SelectorValue = {
-      type: 'cat',
+      type,
       positions,
       colors: defaultColors,
     };
@@ -84,17 +88,19 @@ export const getCustomMappingData = (val: SelectorValue) => {
     return customMappingData;
   }
 
-  const list = colors.map((item: string, index: number) => {
-    return {
-      color: item,
-      value: [positions[index]],
+  if (type === 'cat' || type === 'linear') {
+    const list = colors.map((item: string, index: number) => {
+      return {
+        color: item,
+        value: [positions[index]],
+      };
+    });
+
+    const customMappingData: CustomMappingData = {
+      type,
+      list,
     };
-  });
 
-  const customMappingData: CustomMappingData = {
-    type: 'cat',
-    list,
-  };
-
-  return customMappingData;
+    return customMappingData;
+  }
 };

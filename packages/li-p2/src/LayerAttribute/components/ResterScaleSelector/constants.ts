@@ -13,6 +13,10 @@ export const DEHAULT_OPTIONS: {
     value: 'cat',
   },
   {
+    label: '线性连续',
+    value: 'linear',
+  },
+  {
     label: '自定义分类',
     value: 'custom',
   },

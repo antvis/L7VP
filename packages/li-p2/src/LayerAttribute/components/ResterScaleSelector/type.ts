@@ -5,11 +5,11 @@ export type CustomMappingColorItem = {
 };
 
 export type CustomMappingData = {
-  type: 'cat' | 'custom';
+  type: 'cat' | 'custom' | 'linear';
   list: CustomMappingColorItem[];
 };
 
-export type SelectorValueType = 'cat' | 'quantize' | 'custom';
+export type SelectorValueType = 'cat' | 'quantize' | 'linear' | 'custom';
 
 export type SelectorValue = {
   type: SelectorValueType;
