@@ -7,11 +7,22 @@ import { useUpdateEffect } from 'ahooks';
 import { Button, Checkbox, Divider, Popover, Tooltip } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import classNames from 'classnames';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import useStyle from './ComponenStyle';
 import { CheckedSvg, CLS_PREFIX, POPOVER_PLACEMENT_LEGEND, SwipeSvg, UncheckedSvg } from './constants';
 import type { Properties } from './registerForm';
 import { Swipe } from './Swipe';
+
+const getSwipeLayerById = (defaultLeftLayers: string[], defaultRightLayers: string[], layersInstance: Layer[]) => {
+  return {
+    layers: defaultLeftLayers
+      .map((layerID) => layersInstance.find((layer) => layer.id === layerID))
+      .filter((item): item is Layer => item !== undefined),
+    rightLayers: defaultRightLayers
+      .map((layerID) => layersInstance.find((layer) => layer.id === layerID))
+      .filter((item): item is Layer => item !== undefined),
+  };
+};
 
 export interface SwipeControlProps extends ImplementWidgetProps, Properties {}
 
@@ -20,17 +31,6 @@ const SwipeControl: React.FC<SwipeControlProps> = (props) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const styles = useStyle();
   const layerList = useLayerList();
-
-  const [swipeLayers, setSwipeLayers] = useState<{ layers: Layer[]; rightLayers: Layer[] }>({
-    layers: [],
-    rightLayers: [],
-  });
-
-  useUpdateEffect(() => {
-    setIsOpen(defaultOpen);
-  }, [defaultOpen]);
-
-  const placement = POPOVER_PLACEMENT_LEGEND.get(position);
 
   // 以图层在地图上的层级从高到低的（地图上）排列，以方便用户从 UI 上理解图层列表。
   // 最上面的图层，在地图上的层级越高；
@@ -44,15 +44,20 @@ const SwipeControl: React.FC<SwipeControlProps> = (props) => {
     [layerList],
   );
 
-  // 初始数据选中的图层信息
-  useEffect(() => {
+  const [swipeLayers, setSwipeLayers] = useState<{ layers: Layer[]; rightLayers: Layer[] }>(
+    getSwipeLayerById(defaultLeftLayers, defaultRightLayers, layers),
+  );
+
+  useUpdateEffect(() => {
+    setIsOpen(defaultOpen);
+  }, [defaultOpen]);
+
+  const placement = POPOVER_PLACEMENT_LEGEND.get(position);
+
+  // 默认配置对比项发生改变，搭建态运行
+  useUpdateEffect(() => {
     if (layers.length) {
-      const isInLfet = layers.filter((item: Layer) => defaultLeftLayers.includes(item.id));
-      const isInRight = layers.filter((item: Layer) => defaultRightLayers.includes(item.id));
-      setSwipeLayers({
-        layers: isInLfet,
-        rightLayers: isInRight,
-      });
+      setSwipeLayers(getSwipeLayerById(defaultLeftLayers, defaultRightLayers, layers));
     }
   }, [defaultLeftLayers, defaultRightLayers, layers]);
 
