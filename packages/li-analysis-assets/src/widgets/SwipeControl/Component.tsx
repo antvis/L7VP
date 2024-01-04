@@ -16,7 +16,7 @@ import { Swipe } from './Swipe';
 export interface SwipeControlProps extends ImplementWidgetProps, Properties {}
 
 const SwipeControl: React.FC<SwipeControlProps> = (props) => {
-  const { defaultOpen, position, orientation, defaultLeftLayers = [], defaultRightLayers = [] } = props;
+  const { defaultOpen, position, orientation, defaultLeftLayers, defaultRightLayers } = props;
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const styles = useStyle();
   const layerList = useLayerList();
