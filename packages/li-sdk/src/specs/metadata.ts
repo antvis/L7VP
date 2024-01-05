@@ -28,7 +28,7 @@ export type LayerMetadata = Metadata & {
   /** 图层资产分类 */
   category?: string;
   /** 图层图标，用于图层市场展示 */
-  icon?: string | React.FC;
+  icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   /** 图层颜色，用于图层列表展示 */
   color?: string;
 };
@@ -71,7 +71,7 @@ export type WidgetMetadata = Metadata & {
   /** 组件资产分类，支持自定义分类 */
   category?: WidgetCategory | string;
   /** 组件图标，用于组件市场展示 */
-  icon?: string;
+  icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 };
 
 /**

@@ -1,6 +1,7 @@
 import { implementWidget } from '@antv/li-sdk';
 import component from './Component';
 import registerForm from './register-form';
+import { ICON } from './constant';
 
 export default implementWidget({
   version: 'v0.1',
@@ -10,6 +11,7 @@ export default implementWidget({
     description: '以图表的形式展示数据',
     type: 'Atom',
     category: 'DataAnalysis',
+    icon: ICON,
   },
   defaultProperties: {
     chartType: 'column',

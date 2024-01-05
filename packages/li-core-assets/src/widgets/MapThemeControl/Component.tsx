@@ -4,7 +4,7 @@ import type { ImplementWidgetProps } from '@antv/li-sdk';
 import cls from 'classnames';
 import React, { useMemo } from 'react';
 import useStyle from './ComponenStyle';
-import { POPOVER_PLACEMENT } from './constants';
+import { POPOVER_PLACEMENT } from './constant';
 import type { Properties } from './registerForm';
 
 export interface MapThemeControlProps extends ImplementWidgetProps, Properties {}

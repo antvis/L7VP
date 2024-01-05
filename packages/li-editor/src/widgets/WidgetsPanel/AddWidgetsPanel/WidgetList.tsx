@@ -1,4 +1,4 @@
-import { CheckOutlined, GroupOutlined } from '@ant-design/icons';
+import Icon, { CheckOutlined, GroupOutlined } from '@ant-design/icons';
 import type { ImplementWidget } from '@antv/li-sdk';
 import { Card, Empty, Tooltip } from 'antd';
 import classNames from 'classnames';
@@ -50,6 +50,8 @@ const WidgetList: React.FC<WidgetListProps> = (props) => {
           item.metadata.description
         );
 
+        const Image = item.metadata?.icon ? <Icon component={item.metadata?.icon} /> : <GroupOutlined />;
+
         return (
           <Card
             bodyStyle={{ overflow: 'hidden', padding: 0 }}
@@ -59,9 +61,7 @@ const WidgetList: React.FC<WidgetListProps> = (props) => {
             })}
           >
             <div onClick={() => handleClickItem(item)} className="li-add-widgets-panel__content-item-content">
-              <div className="li-add-widgets-panel__content-item-content__img">
-                <GroupOutlined />
-              </div>
+              <div className="li-add-widgets-panel__content-item-content__img">{Image}</div>
 
               <div className="li-add-widgets-panel__content-item-content__info">
                 <div className="li-add-widgets-panel__content-item-content__info-title">

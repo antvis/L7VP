@@ -23,6 +23,8 @@ const useStyle = () => {
       cursor: pointer;
 
       svg {
+        width: 16px;
+        height: 16px;
         color: ${colorTextDescription};
       }
 
