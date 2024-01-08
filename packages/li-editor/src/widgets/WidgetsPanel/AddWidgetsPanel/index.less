@@ -1,4 +1,4 @@
-@import '../../../theme/index.less';
+@import url('../../../theme/index.less');
 
 .@{prefix}-add-widgets-panel {
   position: relative;
@@ -35,11 +35,12 @@
         display: flex;
         align-items: center;
         padding: 10px;
+
         &__img {
           margin-right: 10px;
+          font-size: 40px;
+
           svg {
-            width: 40px;
-            height: 40px;
             color: @primary-color-1;
           }
         }
@@ -98,8 +99,8 @@
     }
 
     &-item:hover {
-      box-shadow: 0 5px 12px 4px rgba(0, 0, 0, 0.09), 0 3px 6px 0 rgba(0, 0, 0, 0.12),
-        0 1px 2px -2px rgba(0, 0, 0, 0.16);
+      box-shadow: 0 5px 12px 4px rgb(0 0 0 / 9%), 0 3px 6px 0 rgb(0 0 0 / 12%),
+        0 1px 2px -2px rgb(0 0 0 / 16%);
     }
   }
 }
