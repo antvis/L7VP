@@ -2,7 +2,7 @@ import React from 'react';
 
 export const ICON = () => {
   return (
-    <svg viewBox="0 0 64 64" width="64" height="64" fill="currentColor">
+    <svg viewBox="0 0 64 64" width="1em" height="1em" fill="currentColor">
       <path
         fill="currentColor"
         transform="rotate(180 31.999999999999996,32)"

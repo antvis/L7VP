@@ -4,7 +4,7 @@ export const CLS_PREFIX = 'li-analysis-location-search-control';
 
 export const ICON = () => {
   return (
-    <svg viewBox="0 0 64 64" width="80" height="80" fill="currentColor">
+    <svg viewBox="0 0 64 64" width="1em" height="1em" fill="currentColor">
       <path
         fill="currentColor"
         d="m19.59835,4.395687l-1.432583,0l0,16.472185l-13.607018,0l0,1.432583c0,1.575337 1.289109,2.864446 2.864446,2.864446l12.175156,0c1.575337,0 2.864446,-1.289109 2.864446,-2.864446l0,-15.039601c0,-1.576058 -1.289109,-2.865167 -2.864446,-2.865167z"

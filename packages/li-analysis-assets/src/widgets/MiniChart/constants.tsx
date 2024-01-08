@@ -20,7 +20,7 @@ export const AggregationMethod = [
 
 export const ICON = () => {
   return (
-    <svg viewBox="0 0 64 64" width="64" height="64" fill="currentColor">
+    <svg viewBox="0 0 64 64" width="1em" height="1em" fill="currentColor">
       <path
         fill="currentColor"
         d="m57.666301,59.805701l-51.332601,0a2.138858,2.138858 0 0 1 -2.138858,-2.138858l0,-51.332601a2.138858,2.138858 0 0 1 4.277717,0l0,49.193743l49.193743,0a2.138858,2.138858 0 0 1 0,4.277717z"

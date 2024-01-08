@@ -21,10 +21,9 @@ const useStyle = () => {
       background-color: ${colorBgContainer};
       border-radius: ${borderRadius}px;
       cursor: pointer;
+      font-size: 16px;
 
       svg {
-        width: 16px;
-        height: 16px;
         color: ${colorTextDescription};
       }
 

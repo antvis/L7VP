@@ -4,7 +4,7 @@ export const CLS_PREFIX = 'li-analysis-properties-panel';
 
 export const ICON = () => {
   return (
-    <svg viewBox="0 0 64 64" width="64" height="64" fill="currentColor">
+    <svg viewBox="0 0 64 64" width="1em" height="1em" fill="currentColor">
       <path
         transform="rotate(90 32.125,32.00000000000001)"
         fill="currentColor"

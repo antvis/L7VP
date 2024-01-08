@@ -50,7 +50,7 @@ const WidgetList: React.FC<WidgetListProps> = (props) => {
           item.metadata.description
         );
 
-        const Image = item.metadata?.icon ? <Icon component={item.metadata?.icon} /> : <GroupOutlined />;
+        const Image = item.metadata.icon ? <Icon component={item.metadata.icon} /> : <GroupOutlined />;
 
         return (
           <Card

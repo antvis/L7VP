@@ -46,7 +46,7 @@ export const HotCityList = [
 
 export const ICON = () => {
   return (
-    <svg viewBox="0 0 64 64" width="62px" height="62px" fill="currentColor">
+    <svg viewBox="0 0 64 64" width="1em" height="1em" fill="currentColor">
       <path
         stroke="null"
         id="svg_35"
