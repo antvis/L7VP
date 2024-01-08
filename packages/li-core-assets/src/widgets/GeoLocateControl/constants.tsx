@@ -2,7 +2,7 @@ import React from 'react';
 
 export const ICON = () => {
   return (
-    <svg width="1em" height="1em" fill="currentColor" aria-hidden="true">
+    <svg className="l7-iconfont" fill="currentColor" aria-hidden="true">
       <use href="#l7-icon-reposition" />
     </svg>
   );

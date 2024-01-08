@@ -1,6 +1,7 @@
 import { implementWidget } from '@antv/li-sdk';
 import component from './Component';
 import registerForm from './registerForm';
+import { ICON } from './constants';
 
 export default implementWidget({
   version: 'v0.1',
@@ -10,7 +11,7 @@ export default implementWidget({
     description: '面板形式展示图层的额外信息',
     category: 'LayerInteraction',
     type: 'Auto',
-    icon: '',
+    icon: ICON,
     defaultProperties: {
       isOpen: true,
       items: [],

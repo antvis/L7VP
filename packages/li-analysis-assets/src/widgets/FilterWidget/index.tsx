@@ -1,7 +1,7 @@
 import { implementWidget } from '@antv/li-sdk';
 import component from './Component/index';
 import registerForm from './registerForm';
-import { ICON } from './constant';
+import { ICON } from './constants';
 
 export default implementWidget({
   version: 'v0.1',
