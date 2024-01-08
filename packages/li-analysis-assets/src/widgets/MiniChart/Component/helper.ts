@@ -1,6 +1,6 @@
 import type { DatasetField, LocalOrRemoteDataset } from '@antv/li-sdk';
 import { isNumber, isString } from 'lodash-es';
-import type { AggregationMethodType } from '../constant';
+import type { AggregationMethodType } from '../constants';
 
 const sortItem = ({
   start,

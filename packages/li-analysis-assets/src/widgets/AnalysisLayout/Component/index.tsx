@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import React, { useEffect, useMemo, useState } from 'react';
 import FloatPanel from '../FloatPanel';
 import type { Properties } from '../registerForm';
-import { CLS_PREFIX } from './constant';
+import { CLS_PREFIX } from './constants';
 import useStyle from './style';
 
 export interface AnalysisLayoutProps

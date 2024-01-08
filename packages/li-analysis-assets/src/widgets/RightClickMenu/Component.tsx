@@ -5,9 +5,7 @@ import cls from 'classnames';
 import React from 'react';
 import useStyle from './ComponenStyle';
 import type { Properties } from './registerForm';
-
-/** 组件名称, 前缀 */
-const CLS_PREFIX = 'li-analysis-right-click-menu';
+import { CLS_PREFIX } from './constants';
 
 export interface RightClickMenuProps extends ImplementWidgetProps, Properties {}
 

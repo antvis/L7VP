@@ -7,7 +7,7 @@ import { useSize } from 'ahooks';
 import classNames from 'classnames';
 import { mapValues } from 'lodash-es';
 import React, { useEffect, useMemo, useRef } from 'react';
-import { CLS_PREFIX } from '../constant';
+import { CLS_PREFIX } from '../constants';
 import type { Properties } from '../registerForm';
 import { getThemeCfg } from './helper';
 import useStyle from './style';

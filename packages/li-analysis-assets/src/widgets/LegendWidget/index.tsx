@@ -1,6 +1,7 @@
 import { implementWidget } from '@antv/li-sdk';
 import component from './Component';
 import registerForm from './registerForm';
+import { LegendWidgetSvg } from './constants';
 
 export default implementWidget({
   version: 'v0.1',
@@ -10,6 +11,7 @@ export default implementWidget({
     description: '显示地图上图层的图例信息',
     type: 'Auto',
     category: 'MapControl',
+    icon: LegendWidgetSvg,
   },
   defaultProperties: {
     position: 'bottomright',

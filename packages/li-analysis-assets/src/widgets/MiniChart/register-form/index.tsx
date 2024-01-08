@@ -1,8 +1,8 @@
 import type { WidgetRegisterForm, WidgetRegisterFormProps } from '@antv/li-sdk';
 import { getDatasetSelectFormSchema } from '@antv/li-sdk';
 import type { ChartType } from '../Component/Chart/type';
-import type { AggregationMethodType } from '../constant';
-import { AggregationMethod, ChartTypeList } from '../constant';
+import type { AggregationMethodType } from '../constants';
+import { AggregationMethod, ChartTypeList } from '../constants';
 import lineColumnSchema from './line-column-schema';
 import pieSchema from './pie-schema';
 
