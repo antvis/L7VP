@@ -4,7 +4,7 @@ import component from './Component';
 import registerForm from './register-form';
 
 const TMSICON = (
-  <svg viewBox="0 0 56 56" width="56px" height="56px" style={{ fill: 'currentcolor' }}>
+  <svg viewBox="0 0 56 56" width="1em" height="1em" style={{ fill: 'currentcolor' }}>
     <path d="m27.55,22.84L1.87,37.3l26.58,14.97,25.68-14.46-26.58-14.97Z" style={{ opacity: 0.6 }} />
     <path d="m27.55,14.32L1.87,28.78l26.58,14.97,25.68-14.46-26.58-14.97Z" style={{ opacity: 0.6 }} />
     <path d="m27.55,3.73L1.87,18.19l26.58,14.97,25.68-14.46L27.55,3.73Z" style={{ opacity: 0.6 }} />
@@ -21,7 +21,7 @@ const TMSICON = (
 );
 
 const ICON = () => (
-  <svg viewBox="0 0 56 56" width="56px" height="56px" style={{ fill: 'currentcolor' }}>
+  <svg viewBox="0 0 56 56" width="1em" height="1em" style={{ fill: 'currentcolor' }}>
     <path d="m27.55,22.84L1.87,37.3l26.58,14.97,25.68-14.46-26.58-14.97Z" style={{ opacity: 0.6 }} />
     <path d="m27.55,14.32L1.87,28.78l26.58,14.97,25.68-14.46-26.58-14.97Z" style={{ opacity: 0.6 }} />
     <path d="m27.55,3.73L1.87,18.19l26.58,14.97,25.68-14.46L27.55,3.73Z" style={{ opacity: 0.6 }} />

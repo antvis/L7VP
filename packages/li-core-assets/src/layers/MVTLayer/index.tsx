@@ -4,7 +4,7 @@ import component from './Component';
 import registerForm from './register-form';
 
 const ICON = () => (
-  <svg viewBox="0 0 64 64" width="62px" height="62px" style={{ fill: 'currentcolor' }}>
+  <svg viewBox="0 0 64 64" width="1em" height="1em" style={{ fill: 'currentcolor' }}>
     <g>
       <polygon
         id="Path"
