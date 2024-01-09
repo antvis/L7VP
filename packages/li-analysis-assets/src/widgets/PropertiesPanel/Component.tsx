@@ -6,7 +6,7 @@ import cls from 'classnames';
 import { isObject, isString } from 'lodash-es';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import useStyle from './ComponenStyle';
-import { CLS_PREFIX } from './constant';
+import { CLS_PREFIX } from './constants';
 import { isImageUrl } from './helper';
 import type { Properties } from './registerForm';
 
