@@ -18,8 +18,7 @@ const useStyle = () => {
     `,
 
     popoverHeaderTitle: css`
-      margin-bottom: 5px;
-      padding: 2px 12px;
+      padding: 0 12px 5px;
       font-size: 13px;
       border-bottom: ${colorBorder} solid 1px;
     `,

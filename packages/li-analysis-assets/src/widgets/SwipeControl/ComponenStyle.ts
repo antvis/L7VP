@@ -15,8 +15,10 @@ const useStyle = () => {
 
   return {
     l7swipe: css`
+      color: #fff;
+
       .l7-control-swipe__button {
-        color: ${colorText};
+        color: #fff;
         background-color: ${colorPrimary};
         border: #fff solid 2px;
         border-radius: ${borderRadius}px;
@@ -55,8 +57,8 @@ const useStyle = () => {
     `,
 
     popoverHeaderTitle: css`
-      margin-bottom: 5px;
-      padding: 2px 12px;
+      padding: 0 12px 5px;
+
       font-size: 13px;
       border-bottom: ${colorBorder} solid 1px;
     `,
