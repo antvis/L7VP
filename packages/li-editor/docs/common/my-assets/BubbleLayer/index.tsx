@@ -5,7 +5,7 @@ import React from 'react';
 import registerForm from './register-form';
 
 const ICON = () => (
-  <svg viewBox="0 0 64 64" width="56px" height="56px" style={{ fill: 'currentcolor' }}>
+  <svg viewBox="0 0 64 64" style={{ fill: 'currentcolor', width: '1em', height: '1em' }}>
     <circle cx="29.4" cy="31.6" r="8.4" className="cr1" />
     <circle cx="48.5" cy="15.7" r="6.5" className="cr2" />
     <circle cx="11" cy="44.2" r="3" className="cr3" />

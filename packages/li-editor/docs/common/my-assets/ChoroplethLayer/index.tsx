@@ -5,7 +5,7 @@ import React from 'react';
 import registerForm from './register-form';
 
 const ICON = () => (
-  <svg viewBox="0 0 64 64" width="56px" height="56px" style={{ fill: 'currentcolor' }}>
+  <svg viewBox="0 0 64 64" style={{ fill: 'currentcolor', width: '1em', height: '1em' }}>
     <polygon
       className="cr1"
       points="25.04 23.08 9.72 31.79 8.19 43.2 19.57 53.83 28.79 53.83 35.6 46.57 39.45 30.08 25.04 23.08"

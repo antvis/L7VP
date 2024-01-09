@@ -4,7 +4,7 @@ import component from './Component';
 import registerForm from './register-form';
 
 const ICON = () => (
-  <svg viewBox="0 0 64 64" width="56px" height="56px" style={{ fill: 'currentcolor' }}>
+  <svg viewBox="0 0 64 64" width="1em" height="1em" style={{ fill: 'currentcolor' }}>
     <rect x="11.2" y="11.2" width="13.1" height="13.1" style={{ opacity: 0.8 }} />
     <rect x="25.4" y="11.2" width="13.1" height="13.1" style={{ opacity: 0.8 }} />
     <rect x="39.6" y="11.2" width="13.1" height="13.1" />

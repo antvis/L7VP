@@ -4,7 +4,7 @@ import component from './Component';
 import registerForm from './register-form';
 
 const ICON = () => (
-  <svg viewBox="0 0 64 64" width="56px" height="56px" style={{ fill: 'currentcolor' }}>
+  <svg viewBox="0 0 64 64" width="1em" height="1em" style={{ fill: 'currentcolor' }}>
     <polygon points="23.9,10 30.9,14 30.9,22.1 23.9,26.2 16.8,22.1 16.8,14 " style={{ opacity: 0.6 }} />
     <polygon points="23.9,37.8 30.9,41.9 30.9,50 23.9,54 16.8,50 16.8,41.9 " style={{ opacity: 0.4 }} />
     <polygon points="40.1,10 47.2,14 47.2,22.1 40.1,26.2 33.1,22.1 33.1,14 " />
