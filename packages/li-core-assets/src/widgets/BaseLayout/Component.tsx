@@ -2,10 +2,9 @@ import type { ImplementWidgetProps } from '@antv/li-sdk';
 import { MapContainer } from '@antv/li-sdk';
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
-import { CLS_PREFIX } from './constant';
+import { CLS_PREFIX } from './constants';
 import type { Properties } from './registerForm';
 import useStyle from './ComponenStyle';
-
 export interface BaseLayoutProps extends Properties, ImplementWidgetProps<'content' | 'controls' | 'sidePanel'> {
   children?: React.ReactNode;
 }

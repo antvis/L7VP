@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
-import { CLS_PREFIX } from '../../constant';
+import { CLS_PREFIX } from '../../constants';
 import IntervalLine from './IntervalLine';
 import Pie from './Pie';
 import useStyle from './style';

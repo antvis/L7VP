@@ -8,7 +8,7 @@ import CustomCat from './CustomCat';
 import useStyle from './style';
 
 type CustomMappingColorProps = {
-  type: 'cat' | 'custom';
+  type: 'cat' | 'custom' | 'linear';
   domain: string[] | [number, number];
   value?: CustomMappingData;
   onChange: (value: CustomMappingData) => void;
@@ -47,7 +47,7 @@ const CustomMappingColor = (props: CustomMappingColorProps) => {
   return wrapSSR(
     <div className={classnames(`${prefixCls}`, hashId, className)}>
       <div className={classnames(`${prefixCls}_custom-content`, hashId, className)}>
-        {type === 'cat' && <CustomCat value={customRanges} onChange={onCustomRangesChange} />}
+        {['cat', 'linear'].includes(type) && <CustomCat value={customRanges} onChange={onCustomRangesChange} />}
         {type === 'custom' && (
           <CustomNumber
             domain={domain as [number, number]}

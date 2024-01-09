@@ -19,8 +19,8 @@ type CustomItemProps = {
 const CustomItem = ({
   color: defaultColor,
   value: defaultValue,
-  min = 0,
-  max = 100,
+  min = -Infinity,
+  max = Infinity,
   onDelete,
   onChange,
 }: CustomItemProps) => {

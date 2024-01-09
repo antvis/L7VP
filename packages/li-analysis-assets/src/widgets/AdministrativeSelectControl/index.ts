@@ -1,6 +1,7 @@
 import { implementWidget } from '@antv/li-sdk';
 import component from './Component/index';
 import registerForm from './registerForm';
+import { ICON } from './constant';
 
 export default implementWidget({
   version: 'v0.1',
@@ -10,6 +11,7 @@ export default implementWidget({
     description: '选择行政名地图切换到行政区域',
     type: 'Auto',
     category: 'MapControl',
+    icon: ICON,
   },
   defaultProperties: {
     position: 'lefttop',
