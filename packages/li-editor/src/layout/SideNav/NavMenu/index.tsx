@@ -31,6 +31,7 @@ const NavMenu: React.FC<NavMenuProps> = (props) => {
               }}
               className={classNames(`${prefixCls}__item`, styles.menuItem, {
                 [styles.menuItemActive]: isActive,
+                [`${prefixCls}__item-active`]: isActive,
               })}
             >
               <span className={classNames(`${prefixCls}__item-icon`, styles.menuItemIcon, className)}>{icon}</span>
