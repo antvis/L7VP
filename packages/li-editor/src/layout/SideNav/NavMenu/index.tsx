@@ -1,8 +1,9 @@
 import { Tooltip } from 'antd';
 import classNames from 'classnames';
 import React from 'react';
+import { usePrefixCls } from '../../../hooks';
 import type { NavMenuItem } from '../../../types/menu';
-import './index.less';
+import useStyle from './style';
 
 export type NavMenuProps = {
   className?: string;
@@ -13,9 +14,11 @@ export type NavMenuProps = {
 
 const NavMenu: React.FC<NavMenuProps> = (props) => {
   const { className, selectedKey, items, onChange } = props;
+  const prefixCls = usePrefixCls('nav-menu');
+  const styles = useStyle();
 
   return (
-    <ul className={classNames('li-nav-menu', className)}>
+    <ul className={classNames(prefixCls, styles.navMenu, className)}>
       {items.map((item) => {
         const { icon, key, name } = item;
         const isActive = key === selectedKey;
@@ -26,11 +29,12 @@ const NavMenu: React.FC<NavMenuProps> = (props) => {
               onClick={() => {
                 onChange(item.key);
               }}
-              className={classNames('li-nav-menu__item', {
-                ['li-nav-menu__item_active']: isActive,
+              className={classNames(`${prefixCls}__item`, styles.menuItem, {
+                [styles.menuItemActive]: isActive,
+                [`${prefixCls}__item-active`]: isActive,
               })}
             >
-              <span className="li-nav-menu__item-icon">{icon}</span>
+              <span className={classNames(`${prefixCls}__item-icon`, styles.menuItemIcon, className)}>{icon}</span>
               {/* <span className='li-nav-menu__item-icon'>{name}</span> */}
             </li>
           </Tooltip>
