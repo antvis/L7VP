@@ -2,7 +2,7 @@ import { css } from '@emotion/css';
 import { useAntdToken } from '../../../hooks';
 
 const useStyle = () => {
-  const { colorText, colorPrimaryActive } = useAntdToken();
+  const { colorText, colorPrimaryTextActive } = useAntdToken();
 
   return {
     navMenu: css`
@@ -36,12 +36,12 @@ const useStyle = () => {
     `,
 
     menuItemActive: css`
-      color: ${colorPrimaryActive};
+      color: ${colorPrimaryTextActive};
 
       &::before {
         left: 0;
+        background: ${colorPrimaryTextActive};
         visibility: visible;
-        background: ${colorPrimaryActive};
       }
     `,
 
