@@ -12,11 +12,5 @@ export const ANTD_DARK_THEME = {
     colorBgBase: '#0f0f13',
     colorInfo: '#8274FF',
     borderRadius: 6,
-
-    // /** 复写描边梯度变量 **/
-    // colorBorder: '#434343',
-    // colorBorderSecondary: '#303030',
-    // colorSplit: 'rgba(255,255,255,0.85)',
-    // /** 复写描边梯度变量 **/
   },
 };
