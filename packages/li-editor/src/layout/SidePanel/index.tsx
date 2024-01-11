@@ -1,8 +1,8 @@
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
-import { useEditorState } from '../../hooks';
+import { useEditorState, usePrefixCls } from '../../hooks';
 import { useEditorContext } from '../../hooks/internal';
-import './index.less';
+import useStyle from './style';
 
 type SidePanelProps = {
   className?: string;
@@ -10,6 +10,8 @@ type SidePanelProps = {
 
 const SidePanel: React.FC<SidePanelProps> = (props) => {
   const { className } = props;
+  const prefixCls = usePrefixCls('side-panel');
+  const styles = useStyle();
   const { editorService } = useEditorContext();
   const { state } = useEditorState();
   const navMenuList = useMemo(() => editorService.getNavMenuList(), []);
@@ -17,9 +19,9 @@ const SidePanel: React.FC<SidePanelProps> = (props) => {
   const { component: Component } = matchItem!;
 
   return (
-    <div className={classNames('li-side-panel', className)}>
-      <div className="li-side-bar__header" />
-      <Component className="li-side-panel__content" />
+    <div className={classNames(`${prefixCls}`, styles.sidePanel, className)}>
+      <div className={classNames(`${prefixCls}__header`, styles.panelHeader)} />
+      <Component className={classNames(`${prefixCls}__content`, styles.panelContent)} />
     </div>
   );
 };

@@ -2,7 +2,8 @@ import { EnterOutlined } from '@ant-design/icons';
 import { Input, message, Tooltip } from 'antd';
 import classnames from 'classnames';
 import React, { useCallback, useEffect, useState } from 'react';
-import './index.less';
+import { usePrefixCls } from '../../hooks';
+import useStyle from './style';
 
 type EditNameProps = {
   className?: string;
@@ -16,6 +17,8 @@ type EditNameProps = {
 export default ({ className, name, isEdit, onClick, onCancel, onChange }: EditNameProps) => {
   const [cacheName, setCacheName] = useState('');
   const [messageApi, messageContextHolder] = message.useMessage();
+  const prefixCls = usePrefixCls('title-name');
+  const styles = useStyle();
 
   const onSubmit = useCallback(() => {
     if (!cacheName) {
@@ -37,7 +40,7 @@ export default ({ className, name, isEdit, onClick, onCancel, onChange }: EditNa
   }, [isEdit, name]);
 
   return (
-    <div className={classnames('li-title-name', className)}>
+    <div className={classnames(`${prefixCls}`, styles.titleName, className)}>
       {messageContextHolder}
       {isEdit ? (
         <Input
@@ -52,8 +55,8 @@ export default ({ className, name, isEdit, onClick, onCancel, onChange }: EditNa
           onBlur={onCancel}
         />
       ) : (
-        <span className="li-title-name__text">
-          <span className="li-title-name__title" onClick={onClick}>
+        <span className={classnames(`${prefixCls}__text`, styles.titleNameText)}>
+          <span className={classnames(`${prefixCls}__title`, styles.titleNameTitle)} onClick={onClick}>
             <Tooltip title={name}>{name}</Tooltip>
           </span>
         </span>

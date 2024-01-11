@@ -1,16 +1,18 @@
 import { Space } from 'antd';
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
-import { useEditorState } from '../../hooks';
+import { useEditorState, usePrefixCls } from '../../hooks';
 import { useEditorContext } from '../../hooks/internal';
-import './index.less';
 import NavMenu from './NavMenu';
+import useStyle from './style';
 
 type SideNavProps = {
   className?: string;
 };
 
 const SideNav: React.FC<SideNavProps> = (props) => {
+  const prefixCls = usePrefixCls('side-nav');
+  const styles = useStyle();
   const { containerSlotMap, editorService } = useEditorContext();
   const { state, updateState } = useEditorState();
   const topWidgets = containerSlotMap.SideNav?.top || [];
@@ -28,19 +30,19 @@ const SideNav: React.FC<SideNavProps> = (props) => {
   };
 
   return (
-    <div className={classNames('li-side-nav', props.className)}>
+    <div className={classNames(`${prefixCls}`, styles.sideNav, props.className)}>
       <div className="li-side-nav__top">
         {topWidgets.map((widget) => (
           <widget.component key={widget.metadata.name} />
         ))}
       </div>
       <NavMenu
-        className="li-side-nav__menu"
+        className={classNames(`${prefixCls}__nemu`, styles.sideNavMenu)}
         selectedKey={state.activeNavMenuKey}
         items={navMenuList}
         onChange={onChange}
       />
-      <div className={'li-side-nav__bottom'}>
+      <div className={classNames(`${prefixCls}__bottom`, styles.sideNavBottom)}>
         <Space direction="vertical" size="middle">
           {actionsWidgets.map((widget) => (
             <widget.component key={widget.metadata.name} />
