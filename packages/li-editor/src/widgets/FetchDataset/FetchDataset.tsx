@@ -1,10 +1,11 @@
 import { getUniqueId } from '@antv/li-sdk';
 import { Button, Form, Input, Select, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { useEditorService } from '../../hooks';
+import classNames from 'classnames';
+import { useEditorService, usePrefixCls } from '../../hooks';
 import type { ImplementEditorAddDatasetWidgetProps } from '../../types';
 import DynamicFormItem from './DynamicFormItem';
-import './FetchDataset.less';
+import useStyle from './FetchDatasetStyle';
 import { getProperties } from './helper';
 import ProcessingFunction from './ProcessingFunction';
 import type { FetchDatasetConfig } from './types';
@@ -13,6 +14,8 @@ type FetchDatasetProps = ImplementEditorAddDatasetWidgetProps;
 
 export default function FetchDataset(props: FetchDatasetProps) {
   const { onSubmit, onCancel } = props;
+  const prefixCls = usePrefixCls('fetch-dataset');
+  const styles = useStyle();
   const { appService } = useEditorService();
   const [datasetConfig, setDatasetConfig] = useState<FetchDatasetConfig>();
   const [form] = Form.useForm();
@@ -53,7 +56,7 @@ export default function FetchDataset(props: FetchDatasetProps) {
 
   return (
     <>
-      <div className="li-fetch-dataset">
+      <div className={classNames(prefixCls, styles.fetchDataset)}>
         <Form requiredMark={false} form={form} onValuesChange={onFormChange} labelCol={{ span: 3 }}>
           <Form.Item name="name" label="名称" rules={[{ required: true, message: '请填写数据集名称' }]}>
             <Input placeholder="请输入数据集名称" />

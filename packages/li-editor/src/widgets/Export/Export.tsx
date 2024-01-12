@@ -1,14 +1,18 @@
 import { CodeOutlined, DownloadOutlined, TableOutlined } from '@ant-design/icons';
 import { Button, Popover, Tooltip } from 'antd';
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import type { ImplementEditorWidgetProps } from '../../types';
-import './Export.less';
+import { usePrefixCls } from '../../hooks';
 import ExportApp from './ExportApp';
 import ExportData from './ExportData';
+import useStyle from './style';
 
 type ExportProps = ImplementEditorWidgetProps;
 
-const Export: React.FC<ExportProps> = (props) => {
+const Export: React.FC<ExportProps> = () => {
+  const prefixCls = usePrefixCls('export-popover');
+  const styles = useStyle();
   const [exportDataVisible, setExportDataVisible] = useState(false);
   const [exportAppVisible, setExportAppVisible] = useState(false);
   const [toolTipOpen, setToolTipOpen] = useState(false);
@@ -35,9 +39,10 @@ const Export: React.FC<ExportProps> = (props) => {
   return (
     <>
       <Popover
-        overlayClassName="li-export-popover"
+        overlayClassName={classNames(prefixCls, styles.exportPopover)}
         placement="rightBottom"
         trigger="click"
+        arrow={false}
         content={exportPopoverContent}
         onOpenChange={(open) => {
           if (open) {

@@ -2,7 +2,8 @@ import classNames from 'classnames';
 import React, { useCallback } from 'react';
 import type { DropResult } from 'react-beautiful-dnd';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import './index.less';
+import { usePrefixCls } from '../../../../hooks';
+import useStyle from './style';
 
 interface DragListProps<P extends Record<string, any>> {
   itemStyle?: React.CSSProperties | ((dataset: P) => React.CSSProperties);
@@ -16,6 +17,8 @@ interface DragListProps<P extends Record<string, any>> {
 }
 
 function DragList<P extends Record<string, any>>({ children, itemStyle, items, onDrag, dragIcon }: DragListProps<P>) {
+  const prefixCls = usePrefixCls('drag-list');
+  const styles = useStyle();
   const onDragEnd = useCallback(
     (result: DropResult) => {
       if (result.destination) {
@@ -34,7 +37,7 @@ function DragList<P extends Record<string, any>>({ children, itemStyle, items, o
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="dropable" direction="vertical">
         {(provided) => (
-          <div className="li-drag-list" ref={provided.innerRef} {...provided.droppableProps}>
+          <div className={prefixCls} ref={provided.innerRef} {...provided.droppableProps}>
             {items.map((item, index) => (
               <Draggable key={item.id} draggableId={item.id} index={index}>
                 {(itemProvided, itemSnapshot) => {
@@ -42,8 +45,9 @@ function DragList<P extends Record<string, any>>({ children, itemStyle, items, o
                     <div
                       {...itemProvided.draggableProps}
                       ref={itemProvided.innerRef}
-                      className={classNames('li-drag-list__item', {
-                        'li-drag-list__item': itemSnapshot.isDragging,
+                      className={classNames(`${prefixCls}__item`, styles.dragItem, {
+                        [`${prefixCls}__item`]: itemSnapshot.isDragging,
+                        [styles.dragItem]: itemSnapshot.isDragging,
                       })}
                       style={{
                         ...(itemStyle instanceof Function ? itemStyle(item) : itemStyle),
@@ -53,7 +57,10 @@ function DragList<P extends Record<string, any>>({ children, itemStyle, items, o
                     >
                       {children(
                         item,
-                        <i {...itemProvided.dragHandleProps} className="li-drag-list__item-icon">
+                        <i
+                          {...itemProvided.dragHandleProps}
+                          className={classNames(`${prefixCls}__item-icon`, styles.itemIcon)}
+                        >
                           {dragIcon}
                         </i>,
                       )}

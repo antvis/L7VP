@@ -7,8 +7,8 @@ import classnames from 'classnames';
 import { downloadText } from 'download.js';
 import React, { useState } from 'react';
 import DatasetName from '../../../../components/EditName';
-import { useEditorDataset, useEditorState } from '../../../../hooks';
-import './index.less';
+import { useEditorDataset, useEditorState, usePrefixCls } from '../../../../hooks';
+import useStyle from './style';
 
 export type DatasetItemProps = {
   className?: string;
@@ -20,6 +20,8 @@ export type DatasetItemProps = {
 const DatasetItem = (props: DatasetItemProps) => {
   const { dataset: datasetSchema, onReplaceDataset, onPreviewDataset, className } = props;
   const { state, updateState } = useEditorState();
+  const prefixCls = usePrefixCls('dataset-list');
+  const styles = useStyle();
   const [isEditName, setIsEditName] = useState(false);
   const editorDataset = useEditorDataset(datasetSchema.id);
   const isLocalOrRemoteDataSource = editorDataset?.isLocalOrRemoteDataset;
@@ -96,8 +98,8 @@ const DatasetItem = (props: DatasetItemProps) => {
   ];
 
   return (
-    <div className={classnames('li-dataset-list__card', className)}>
-      <div className="li-dataset-list__info">
+    <div className={classnames(`${prefixCls}__card`, styles.listCard, className)}>
+      <div className={classnames(`${prefixCls}__info`, styles.listInfo)}>
         <DatasetName
           name={datasetSchema.metadata.name}
           isEdit={isEditName}
@@ -108,14 +110,18 @@ const DatasetItem = (props: DatasetItemProps) => {
         />
 
         <div
-          className="li-dataset-list__info-name"
+          className={classnames(`${prefixCls}__info-name`, styles.infoName)}
           onClick={(e) => {
             e.stopPropagation();
           }}
         >
           {isLocalOrRemoteDataSource ? (
             <>
-              共<span className="li-dataset-list__info-count">{editorDataset.data.length}</span>行数据
+              共
+              <span className={classnames(`${prefixCls}__info-count`, styles.infoCount)}>
+                {editorDataset.data.length}
+              </span>
+              行数据
             </>
           ) : (
             editorDataset?.metadata.description
@@ -123,10 +129,9 @@ const DatasetItem = (props: DatasetItemProps) => {
         </div>
       </div>
 
-      <Space className="li-dataset-list__actions" onClick={(e) => e.stopPropagation()}>
+      <Space className={classnames(`${prefixCls}__actions`, styles.listActions)} onClick={(e) => e.stopPropagation()}>
         <Tooltip title="点击修改数据集名称">
           <FormOutlined
-            className={classnames('li-dataset-list__actions-item_hide', 'li-dataset-list__actions-item_show')}
             onClick={() => {
               setIsEditName(true);
             }}
@@ -137,9 +142,9 @@ const DatasetItem = (props: DatasetItemProps) => {
             <div>
               <span>你确定要删除{datasetSchema.metadata.name}吗</span>
               {getDelLayersCount(datasetSchema.id) ? (
-                <p className="li-dataset-list__popconfirm-title">
+                <p className={classnames(`${prefixCls}__popconfirm-title`, styles.popconfirmTitle)}>
                   删掉此数据集，会删除与此数据集关联的
-                  <span className="li-dataset-list__popconfirm-layers-count">
+                  <span className={classnames(`${prefixCls}__popconfirm-layers-count`, styles.popconfirmLayersCount)}>
                     {getDelLayersCount(datasetSchema.id)}
                   </span>
                   个图层
@@ -153,15 +158,13 @@ const DatasetItem = (props: DatasetItemProps) => {
           cancelText="取消"
         >
           <Tooltip title="删除数据集" placement="top">
-            <DeleteOutlined
-              className={classnames('li-dataset-list__actions-item_hide', 'li-dataset-list__actions-item_show')}
-              onClick={(e) => e.stopPropagation()}
-            />
+            <DeleteOutlined onClick={(e) => e.stopPropagation()} />
           </Tooltip>
         </Popconfirm>
         {isLocalOrRemoteDataSource && (
           <Tooltip title="点击查看数据集详情">
             <InsertRowAboveOutlined
+              className={classnames(`${prefixCls}__actions-item_show`)}
               onClick={() => {
                 onPreviewDataset(datasetSchema.id);
               }}
