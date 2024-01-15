@@ -38,6 +38,8 @@ const useStyle = () => {
     locationSearch: css`
       width: 200px;
       background-color: ${colorBgElevated};
+      z-index: 1101;
+
       .larkmap-select-item-empty,
       .larkmap-location-search__option-name {
         color: ${colorText};
@@ -46,10 +48,6 @@ const useStyle = () => {
       .larkmap-select-item-option-active {
         background: ${colorBgContainer};
       }
-    `,
-
-    locationSearchDropdown: css`
-      z-index: 1101;
     `,
   };
 };

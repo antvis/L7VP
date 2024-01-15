@@ -1,7 +1,7 @@
 import { css } from '@emotion/css';
 import { useAntdToken } from '../../../../hooks';
 
-const useStyle = (componentsCls?: string) => {
+const useStyle = () => {
   const { antCls, colorBgElevated, colorSplit, colorPrimary, borderRadius } = useAntdToken();
 
   return {
@@ -32,12 +32,12 @@ const useStyle = (componentsCls?: string) => {
         opacity: 1;
       }
 
-      &:hover ${componentsCls}dataset-list__actions-item_show {
+      &:hover [data-comp='dataset-actions-item_hover-show'] {
         opacity: 1 !important;
       }
     `,
 
-    actionsItemHide: css`
+    actionsItem: css`
       opacity: 0;
     `,
 

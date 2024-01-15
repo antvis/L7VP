@@ -18,7 +18,7 @@ interface DragListProps<P extends Record<string, any>> {
 
 function DragList<P extends Record<string, any>>({ children, itemStyle, items, onDrag, dragIcon }: DragListProps<P>) {
   const prefixCls = usePrefixCls('drag-list');
-  const styles = useStyle(`.${usePrefixCls()}`);
+  const styles = useStyle();
   const onDragEnd = useCallback(
     (result: DropResult) => {
       if (result.destination) {
@@ -58,8 +58,9 @@ function DragList<P extends Record<string, any>>({ children, itemStyle, items, o
                       {children(
                         item,
                         <i
-                          {...itemProvided.dragHandleProps}
+                          data-comp="drag-item-icon"
                           className={classNames(`${prefixCls}__item-icon`, styles.itemIcon)}
+                          {...itemProvided.dragHandleProps}
                         >
                           {dragIcon}
                         </i>,

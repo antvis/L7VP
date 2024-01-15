@@ -21,7 +21,7 @@ const DatasetItem = (props: DatasetItemProps) => {
   const { dataset: datasetSchema, onReplaceDataset, onPreviewDataset, className } = props;
   const { state, updateState } = useEditorState();
   const prefixCls = usePrefixCls('dataset-list');
-  const styles = useStyle(`.${usePrefixCls()}`);
+  const styles = useStyle();
   const [isEditName, setIsEditName] = useState(false);
   const editorDataset = useEditorDataset(datasetSchema.id);
   const isLocalOrRemoteDataSource = editorDataset?.isLocalOrRemoteDataset;
@@ -132,7 +132,8 @@ const DatasetItem = (props: DatasetItemProps) => {
       <Space className={classnames(`${prefixCls}__actions`, styles.listActions)} onClick={(e) => e.stopPropagation()}>
         <Tooltip title="点击修改数据集名称">
           <FormOutlined
-            className={classnames(`${prefixCls}__actions-item_show`, styles.actionsItemHide)}
+            data-comp="dataset-actions-item_hover-show"
+            className={classnames(`${prefixCls}__actions-item`, styles.actionsItem)}
             onClick={() => {
               setIsEditName(true);
             }}
@@ -160,7 +161,8 @@ const DatasetItem = (props: DatasetItemProps) => {
         >
           <Tooltip title="删除数据集" placement="top">
             <DeleteOutlined
-              className={classnames(`${prefixCls}__actions-item_show`, styles.actionsItemHide)}
+              data-comp="dataset-actions-item_hover-show"
+              className={classnames(`${prefixCls}__actions-item`, styles.actionsItem)}
               onClick={(e) => e.stopPropagation()}
             />
           </Tooltip>

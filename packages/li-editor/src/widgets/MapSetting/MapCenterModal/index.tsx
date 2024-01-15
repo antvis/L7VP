@@ -92,12 +92,7 @@ export const MapCenterModal: React.FC<MapCenterModalProps> = ({
             bordered={false}
             value={null}
             onChange={onChanges}
-            popupClassName={classNames(
-              `${prefixCls}__location-search`,
-              styles.locationSearch,
-              `${prefixCls}__location-search-dropdown`,
-              styles.locationSearchDropdown,
-            )}
+            popupClassName={classNames(`${prefixCls}__location-search`, styles.locationSearch)}
           />
         </CustomControl>
       </LarkMap>
