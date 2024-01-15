@@ -66,7 +66,7 @@ const useStyle = () => {
       background-image: url(${layerIconBg});
       background-repeat: no-repeat;
       background-size: 22px 22px;
-      border-radius: ${borderRadius};
+      border-radius: ${borderRadius}px;
       font-size: 22px;
     `,
 

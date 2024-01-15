@@ -1,7 +1,7 @@
 import { css } from '@emotion/css';
 import { useAntdToken } from '../../../../hooks';
 
-const useStyle = () => {
+const useStyle = (componentsCls?: string) => {
   const { antCls, colorBgElevated, colorSplit, colorPrimary, borderRadius } = useAntdToken();
 
   return {
@@ -29,13 +29,11 @@ const useStyle = () => {
       cursor: pointer;
 
       ${antCls}-space-item {
-        opacity: 0;
+        opacity: 1;
       }
 
-      &:hover {
-        ${antCls}-space-item {
-          opacity: 1 !important;
-        }
+      &:hover ${componentsCls}dataset-list__actions-item_show {
+        opacity: 1 !important;
       }
     `,
 

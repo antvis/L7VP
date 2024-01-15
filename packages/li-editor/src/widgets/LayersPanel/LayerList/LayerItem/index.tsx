@@ -19,7 +19,7 @@ type LayerItemProps = {
 
 const LayerItem = ({ layer, dragIcon, onClickLayer }: LayerItemProps) => {
   const prefixCls = usePrefixCls('layer-item');
-  const styles = useStyle();
+  const styles = useStyle(`.${usePrefixCls()}`);
   const { updateState } = useEditorState();
   const { appService } = useEditorService();
   const implementLayer = appService.getImplementLayer(layer.type);
@@ -131,11 +131,7 @@ const LayerItem = ({ layer, dragIcon, onClickLayer }: LayerItemProps) => {
         <Space className={classnames(`${prefixCls}__actions`, styles.itemActions)}>
           <Tooltip title="点击修改图层名称">
             <FormOutlined
-              className={classnames(
-                `${prefixCls}__actions_hide`,
-                'li-layer-item__actions_show',
-                styles.itemActionsHide,
-              )}
+              className={classnames(`${prefixCls}__actions_hide`, `${prefixCls}__actions_show`, styles.itemActionsHide)}
               onClick={() => {
                 setIsEditName(true);
               }}
@@ -143,11 +139,7 @@ const LayerItem = ({ layer, dragIcon, onClickLayer }: LayerItemProps) => {
           </Tooltip>
           <Tooltip title="点击复制图层">
             <CopyOutlined
-              className={classnames(
-                `${prefixCls}__actions_hide`,
-                'li-layer-item__actions_show',
-                styles.itemActionsHide,
-              )}
+              className={classnames(`${prefixCls}__actions_hide`, `${prefixCls}__actions_show`, styles.itemActionsHide)}
               onClick={() => handleCopyLayer(layer)}
             />
           </Tooltip>

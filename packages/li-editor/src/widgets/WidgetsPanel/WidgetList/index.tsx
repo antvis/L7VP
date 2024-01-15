@@ -1,9 +1,9 @@
 import { default as classNames } from 'classnames';
 import { isEmpty } from 'lodash-es';
 import React, { useMemo } from 'react';
-import { useEditorService } from '../../../hooks';
+import { useEditorService, usePrefixCls } from '../../../hooks';
 import { getMarketWidgetCategory } from '../../../utils/widget';
-import './index.less';
+import useStyle from './style';
 import WidgetGroup from './WidgetGroup';
 
 type WidgetListProps = {
@@ -11,6 +11,8 @@ type WidgetListProps = {
 };
 
 const WidgetList: React.FC<WidgetListProps> = (props) => {
+  const prefixCls = usePrefixCls('widget-list');
+  const styles = useStyle();
   const { appService } = useEditorService();
   const implementWidgets = useMemo(() => appService.getImplementWidgets(), [appService]);
 
@@ -26,7 +28,7 @@ const WidgetList: React.FC<WidgetListProps> = (props) => {
     });
   }, [implementWidgets]);
 
-  return <div className={classNames('li-widget-list', props.className)}>{WidgetGroupList}</div>;
+  return <div className={classNames(prefixCls, styles.widgetList, props.className)}>{WidgetGroupList}</div>;
 };
 
 export default WidgetList;

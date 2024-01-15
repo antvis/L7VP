@@ -1,7 +1,7 @@
 import { css } from '@emotion/css';
 import { useAntdToken } from '../../../../hooks';
 
-const useStyle = () => {
+const useStyle = (componentsCls?: string) => {
   const { colorBgElevated, colorSplit, colorPrimary, borderRadius } = useAntdToken();
 
   const layerIconBg =
@@ -60,6 +60,10 @@ const useStyle = () => {
 
       .ant-space-item:last-child {
         margin-left: -5px !important;
+      }
+
+      &:hover ${componentsCls}layer-item__actions_show {
+        opacity: 1 !important;
       }
     `,
 

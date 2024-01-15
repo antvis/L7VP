@@ -1,22 +1,26 @@
 import type { RadioChangeEvent } from 'antd';
 import { Radio } from 'antd';
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import type { ImplementEditorAddDatasetWidgetProps } from '../../types';
+import { usePrefixCls } from '../../hooks';
 import MVTTile from './MVTTile';
-import './TilesetsDataset.less';
 import XYZTile from './XYZTile';
+import useStyle from './TilesetsDatasetStyle';
 
 type TilesetsDatasetProps = ImplementEditorAddDatasetWidgetProps;
 
 export default function TilesetsDataset(props: TilesetsDatasetProps) {
   const { onSubmit, onCancel } = props;
+  const prefixCls = usePrefixCls('tilesets');
+  const styles = useStyle();
   const [tilesetType, setTilesetType] = useState('XYZ Tile');
 
   return (
     <>
-      <div className="li-tilesets">
-        <div className="li-tilesets__type">
-          <p className="li-tilesets__type-label">瓦片类型</p>
+      <div className={prefixCls}>
+        <div className={classNames(`${prefixCls}__type`, styles.tilesetsType)}>
+          <p className={classNames(`${prefixCls}__type-label`, styles.tilesetsTypeLabel)}>瓦片类型</p>
           <Radio.Group value={tilesetType} onChange={(e: RadioChangeEvent) => setTilesetType(e.target.value)}>
             <Radio.Button value="XYZ Tile">XYZ Tile</Radio.Button>
             {/* <Radio.Button value="WMS">TMS</Radio.Button> */}

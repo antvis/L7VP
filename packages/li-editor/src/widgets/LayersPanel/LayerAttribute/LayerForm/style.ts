@@ -29,7 +29,7 @@ const useStyle = () => {
         padding: 6px 13px !important;
         background-color: ${colorBgElevated};
         border: 1px solid ${colorSplit};
-        border-radius: ${borderRadius} !important;
+        border-radius: ${borderRadius}px !important;
       }
 
       ${antCls}-collapse-item ${antCls}-collapse-content ${antCls}-collapse-content-box {

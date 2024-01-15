@@ -1,9 +1,9 @@
 import { css } from '@emotion/css';
 
-const useStyle = () => {
+const useStyle = (componentsCls?: string) => {
   return {
     dragItem: css`
-      &:hover {
+      &:hover ${componentsCls}drag-list__item-icon {
         opacity: 1;
       }
     `,
