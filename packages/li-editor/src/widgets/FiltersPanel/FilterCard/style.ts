@@ -2,13 +2,13 @@ import { css } from '@emotion/css';
 import { useAntdToken } from '../../../hooks';
 
 const useStyle = () => {
-  const { colorBgElevated } = useAntdToken();
+  const { colorBgContainer } = useAntdToken();
 
   return {
     filterCard: css`
       width: 100%;
       margin-bottom: 10px;
-      background-color: ${colorBgElevated};
+      background-color: ${colorBgContainer};
     `,
 
     filterCardSelect: css`

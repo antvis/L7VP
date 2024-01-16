@@ -2,7 +2,7 @@ import { css } from '@emotion/css';
 import { useAntdToken } from '../../../../hooks';
 
 const useStyle = () => {
-  const { antCls, colorBgElevated, colorText, colorSplit, colorTextSecondary, borderRadius } = useAntdToken();
+  const { antCls, colorBgContainer, colorText, colorSplit, colorTextSecondary, borderRadius } = useAntdToken();
 
   return {
     layerForm: css`
@@ -27,7 +27,7 @@ const useStyle = () => {
 
       ${antCls}-collapse-item ${antCls}-collapse-header {
         padding: 6px 13px !important;
-        background-color: ${colorBgElevated};
+        background-color: ${colorBgContainer};
         border: 1px solid ${colorSplit};
         border-radius: ${borderRadius}px !important;
       }

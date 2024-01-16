@@ -3,14 +3,14 @@ import { useAntdToken } from '../../../../hooks';
 import { LayerIconBg } from './constant';
 
 const useStyle = () => {
-  const { colorBgElevated, colorSplit, colorPrimary, borderRadius } = useAntdToken();
+  const { colorBgContainer, colorSplit, colorPrimary, borderRadius } = useAntdToken();
 
   return {
     layerItem: css`
       display: flex;
       align-items: center;
       margin-bottom: 10px;
-      background: ${colorBgElevated};
+      background: ${colorBgContainer};
       border: 1px solid ${colorSplit};
       border-left: 3px solid;
       border-radius: ${borderRadius}px;
