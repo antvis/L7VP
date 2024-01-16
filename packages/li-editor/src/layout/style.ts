@@ -47,7 +47,7 @@ const useStyle = () => {
       padding: 15px;
       color: ${colorTextSecondary};
       background-color: ${colorBgContainer};
-      border-radius: ${borderRadius};
+      border-radius: ${borderRadius}px;
     `,
 
     left: css`

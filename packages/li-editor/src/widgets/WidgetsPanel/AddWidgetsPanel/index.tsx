@@ -1,12 +1,13 @@
 import type { ImplementWidget } from '@antv/li-sdk';
 import { Badge, Button, Modal, Tabs, theme } from 'antd';
 import { isEmpty } from 'lodash-es';
+import classNames from 'classnames';
 import React, { useMemo, useState } from 'react';
 import { WidgetTypeMap } from '../../../constants';
-import { useEditorService, useEditorState } from '../../../hooks';
+import { useEditorService, useEditorState, usePrefixCls } from '../../../hooks';
 import { getMarketWidgetCategory } from '../../../utils/widget';
 import { getWidgetDefaultSchema } from './helper';
-import './index.less';
+import useStyle from './style';
 import WidgetList from './WidgetList';
 
 type AddWidgetsPanelProps = {
@@ -19,6 +20,8 @@ const { useToken } = theme;
 
 const AddWidgetsPanel: React.FC<AddWidgetsPanelProps> = (props) => {
   const { open, onClose } = props;
+  const prefixCls = usePrefixCls('add-widgets-panel');
+  const styles = useStyle();
   const { state, updateState } = useEditorState();
   const { appService } = useEditorService();
   const [selectedWidgets, setSelectedWidgets] = useState<Record<string, ImplementWidget[]>>({});
@@ -112,7 +115,7 @@ const AddWidgetsPanel: React.FC<AddWidgetsPanelProps> = (props) => {
   return (
     <Modal
       title="新增组件"
-      className="li-add-widgets-panel"
+      className={classNames(prefixCls, styles.addPanel)}
       width={1100}
       destroyOnClose
       styles={{ body: { minHeight: '300px' } }}

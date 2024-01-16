@@ -3,19 +3,21 @@ import type { LayerSchema } from '@antv/li-sdk';
 import { Button, Popover } from 'antd';
 import classNames from 'classnames';
 import React, { useState } from 'react';
-import { useEditorState } from '../../hooks';
+import { useEditorState, usePrefixCls } from '../../hooks';
 import type { ImplementEditorWidgetProps } from '../../types';
 import AddLayer from './AddLayer';
 import { getDefaultLayerAttr } from './helper';
 import LayerAttributes from './LayerAttribute';
 import LayerList from './LayerList';
-import './LayersPanel.less';
+import useStyle from './style';
 
 interface LayersPanelProps extends ImplementEditorWidgetProps {
   className?: string;
 }
 
 const LayersPanel: React.FC<LayersPanelProps> = (props) => {
+  const prefixCls = usePrefixCls('layers-panel');
+  const styles = useStyle();
   const [visibleAttribute, setVisibleAttribute] = useState(false);
   const [layerConfig, setLayerConfig] = useState<LayerSchema>();
   const { state, updateState } = useEditorState();
@@ -40,21 +42,22 @@ const LayersPanel: React.FC<LayersPanelProps> = (props) => {
   };
 
   return (
-    <div className={classNames('li-layers-panel', props.className)}>
+    <div className={classNames(prefixCls, props.className, styles.layerPanel)}>
       <div
-        className={classNames('li-layers-panel__content', {
-          'li-layers-panel__content_hidden': visibleAttribute,
+        className={classNames(`${prefixCls}__content`, styles.panelContent, {
+          [`${prefixCls}__content_hidden`]: visibleAttribute,
+          [styles.panelContentHidden]: visibleAttribute,
         })}
       >
-        <div className="li-layers-panel__header">图层</div>
-        <div className="li-layers-panel__add-layer">
+        <div className={classNames(`${prefixCls}__header`, styles.panelHeader)}>图层</div>
+        <div className={classNames(`${prefixCls}__add-layer`, styles.addLayer)}>
           图层({state.layers.length})
           <Popover
             placement="bottomLeft"
             trigger="click"
             open={addLayerPanelOpen}
             onOpenChange={(open) => setAddLayerPanelOpen(open)}
-            overlayClassName="li-layers-panel__add-layer-popver"
+            overlayClassName={classNames(`${prefixCls}l__add-layer-popver`, styles.addLayerPopover)}
             content={
               <AddLayer
                 onSubmit={handleSubmit}
@@ -76,11 +79,18 @@ const LayersPanel: React.FC<LayersPanelProps> = (props) => {
             </Button>
           </Popover>
         </div>
-        <LayerList className="li-layers-panel__layer-list" onClickLayer={onAttributesOpen} />
+        <LayerList
+          className={classNames(`${prefixCls}__layer-list`, styles.layerList)}
+          onClickLayer={onAttributesOpen}
+        />
       </div>
 
       {visibleAttribute && layerConfig && (
-        <LayerAttributes className="li-layers-panel__layer-attribute" onBack={onAttributesClose} config={layerConfig} />
+        <LayerAttributes
+          className={classNames(`${prefixCls}__layer-attribute`, styles.layerAttribute)}
+          onBack={onAttributesClose}
+          config={layerConfig}
+        />
       )}
     </div>
   );

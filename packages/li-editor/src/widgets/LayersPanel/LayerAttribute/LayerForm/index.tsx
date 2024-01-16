@@ -6,10 +6,10 @@ import { useMemoizedFn } from 'ahooks';
 import classNames from 'classnames';
 import { max, min, pick } from 'lodash-es';
 import React, { useMemo, useState } from 'react';
-import { useEditorDataset, useEditorService, useEditorState } from '../../../../hooks';
+import { useEditorDataset, useEditorService, useEditorState, usePrefixCls } from '../../../../hooks';
 import BaseFormSchemaField from '../BaseFormSchemaField';
-import './index.less';
 import StyleForm from './StyleForm';
+import useStyle from './style';
 
 export type LayerFormValue = Pick<LayerSchema, 'type' | 'sourceConfig' | 'visConfig'>;
 type LayerStyleFormValue = Pick<LayerSchema, 'sourceConfig' | 'visConfig'>;
@@ -21,6 +21,8 @@ type LayerFormProps = {
 };
 
 const LayerForm: React.FC<LayerFormProps> = ({ className, config, onChange }) => {
+  const prefixCls = usePrefixCls('layer-form');
+  const styles = useStyle();
   const { state } = useEditorState();
   const [visType, setVisType] = useState(config.type);
   const [datasetId, setDatasetId] = useState(config.sourceConfig.datasetId);
@@ -106,7 +108,7 @@ const LayerForm: React.FC<LayerFormProps> = ({ className, config, onChange }) =>
   }, []);
 
   return (
-    <div className={classNames('li-layer-form', className)}>
+    <div className={classNames(prefixCls, styles.layerForm, className)}>
       {/* 基础配置，选择数据集和可视化类型 */}
       <Form
         form={baseForm}

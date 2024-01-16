@@ -1,14 +1,16 @@
 import { Checkbox, InputNumber } from 'antd';
 import React, { useEffect, useState } from 'react';
-import './index.less';
+import classNames from 'classnames';
+import { usePrefixCls } from '../../../hooks';
+import useStyle from './style';
 
 type ZoomProps = {
   onChange: (val: { minZoom?: number; maxZoom?: number }) => void;
 };
 
-export const CLS_PREFIX = 'li-tiles-zoom';
-
 const Zoom = (props: ZoomProps) => {
+  const prefixCls = usePrefixCls('tiles-zoom');
+  const styles = useStyle();
   const [minZoom, setMinZoom] = useState(0);
   const [maxZoom, setMaxZoom] = useState(18);
   const [minChecked, setMinCheck] = useState(true);
@@ -19,8 +21,8 @@ const Zoom = (props: ZoomProps) => {
   }, [minZoom, maxZoom]);
 
   return (
-    <div className={`${CLS_PREFIX}__input-number`}>
-      <div className={`${CLS_PREFIX}__input-number-min`}>
+    <div className={classNames(`${prefixCls}__input-number`, styles.tilesZoomInputNumber)}>
+      <div className={classNames(`${prefixCls}__input-number-min`, styles.tilesZoomInputNumberMin)}>
         <Checkbox
           checked={minChecked}
           onChange={(e) => {
@@ -39,7 +41,7 @@ const Zoom = (props: ZoomProps) => {
           }}
         />
       </div>
-      <div className={`${CLS_PREFIX}__input-number-max`}>
+      <div className={classNames(`${prefixCls}__input-number-max`, styles.tilesZoomInputNumberMin)}>
         <Checkbox
           checked={maxChecked}
           onChange={(e) => {

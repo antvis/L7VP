@@ -1,7 +1,8 @@
 import { Button, Modal } from 'antd';
 import React from 'react';
-import { useEditorService } from '../../../hooks';
-import './index.less';
+import classNames from 'classnames';
+import { useEditorService, usePrefixCls } from '../../../hooks';
+import useStyle from './style';
 
 type ExportAppProps = {
   visible: boolean;
@@ -10,6 +11,8 @@ type ExportAppProps = {
 
 const ExportApp: React.FC<ExportAppProps> = (props) => {
   const { visible, onVisbleChange } = props;
+  const prefixCls = usePrefixCls('export-app');
+  const styles = useStyle();
   const { editorService } = useEditorService();
   const config = editorService.getApplicationConfig();
 
@@ -23,7 +26,7 @@ const ExportApp: React.FC<ExportAppProps> = (props) => {
 
   return (
     <Modal
-      className="li-export-app"
+      className={prefixCls}
       width={960}
       title="导出配置"
       open={visible}
@@ -45,12 +48,16 @@ const ExportApp: React.FC<ExportAppProps> = (props) => {
         </>
       }
     >
-      <div className="li-export-app__content-item">
-        <div className="li-export-app__title">
+      <div className={classNames(`${prefixCls}__content-item`, styles.contentItem)}>
+        <div className={classNames(`${prefixCls}__title`, styles.appTitle)}>
           <div>应用配置</div>
-          <div className="li-export-app__subtitle">应用的配置文件，导出后可以通过项目方式再次导入。</div>
+          <div className={classNames(`${prefixCls}__subtitle`, styles.appSubtitle)}>
+            应用的配置文件，导出后可以通过项目方式再次导入。
+          </div>
         </div>
-        <pre className="li-export-app__code-pre">{JSON.stringify(config, null, '  ')}</pre>
+        <pre className={classNames(`${prefixCls}__code-pre`, styles.appCodePre)}>
+          {JSON.stringify(config, null, '  ')}
+        </pre>
       </div>
     </Modal>
   );

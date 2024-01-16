@@ -2,9 +2,10 @@ import type { LocalDatasetSchema } from '@antv/li-sdk';
 import { Form, message, Modal, Radio, Select } from 'antd';
 import { downloadBlob, downloadText } from 'download.js';
 import React from 'react';
-import { useEditorState } from '../../../hooks';
+import classNames from 'classnames';
+import { useEditorState, usePrefixCls } from '../../../hooks';
 import { json2CSV, json2geo, json2xlsx } from './helper';
-import './index.less';
+import useStyle from './style';
 
 type ExportDataProps = {
   visible: boolean;
@@ -12,6 +13,8 @@ type ExportDataProps = {
 };
 
 const ExportData = ({ visible, onVisbleChange }: ExportDataProps) => {
+  const prefixCls = usePrefixCls('export-data');
+  const styles = useStyle();
   const [form] = Form.useForm();
   const { state } = useEditorState();
   const localDatasets = state.datasets.filter((dataset) => dataset.type === 'local') as LocalDatasetSchema[];
@@ -100,7 +103,7 @@ const ExportData = ({ visible, onVisbleChange }: ExportDataProps) => {
 
   return (
     <Modal
-      className="li-export-data"
+      className={prefixCls}
       destroyOnClose
       open={visible}
       onCancel={() => onVisbleChange(false)}
@@ -115,9 +118,9 @@ const ExportData = ({ visible, onVisbleChange }: ExportDataProps) => {
         <Form.Item
           name="dataSourceId"
           label={
-            <div className="li-export-data__form-label">
+            <div className={classNames(`${prefixCls}__form-label`, styles.formLabel)}>
               <span>数据集</span>
-              <span className="li-export-data__form-desc">选择要导出的数据集</span>
+              <span className={classNames(`${prefixCls}__form-desc`, styles.formDesc)}>选择要导出的数据集</span>
             </div>
           }
           style={{ padding: 20 }}
@@ -135,9 +138,9 @@ const ExportData = ({ visible, onVisbleChange }: ExportDataProps) => {
         <Form.Item
           name="type"
           label={
-            <div className="li-export-data__form-label">
+            <div className={classNames(`${prefixCls}__form-label`, styles.formLabel)}>
               <span>数据类型</span>
-              <span className="li-export-data__form-desc">选择要导出的数据类型</span>
+              <span className={classNames(`${prefixCls}__form-desc`, styles.formDesc)}>选择要导出的数据类型</span>
             </div>
           }
           style={{ padding: 20 }}

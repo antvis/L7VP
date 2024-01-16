@@ -6,8 +6,8 @@ import { Dropdown, message, Popconfirm, Space, Tooltip } from 'antd';
 import classnames from 'classnames';
 import React, { useState } from 'react';
 import LayerName from '../../../../components/EditName';
-import { useEditorService, useEditorState } from '../../../../hooks';
-import './index.less';
+import { useEditorService, useEditorState, usePrefixCls } from '../../../../hooks';
+import useStyle from './style';
 
 const defaultVis = { icon: () => <span />, color: 'gray' };
 
@@ -18,6 +18,8 @@ type LayerItemProps = {
 };
 
 const LayerItem = ({ layer, dragIcon, onClickLayer }: LayerItemProps) => {
+  const prefixCls = usePrefixCls('layer-item');
+  const styles = useStyle();
   const { updateState } = useEditorState();
   const { appService } = useEditorService();
   const implementLayer = appService.getImplementLayer(layer.type);
@@ -98,18 +100,18 @@ const LayerItem = ({ layer, dragIcon, onClickLayer }: LayerItemProps) => {
   ];
 
   return (
-    <div className="li-layer-item" style={{ borderLeftColor: visLayer?.color }}>
-      <div className="li-layer-item__drag-icon">{dragIcon}</div>
-      <div className="li-layer-item__infor" onClick={(e) => e.stopPropagation()}>
+    <div className={classnames(prefixCls, styles.layerItem)} style={{ borderLeftColor: visLayer?.color }}>
+      <div className={classnames(`${prefixCls}__drag-icon`, styles.dragIcon)}>{dragIcon}</div>
+      <div className={classnames(`${prefixCls}__infor`, styles.itemInfor)} onClick={(e) => e.stopPropagation()}>
         <div
-          className="li-layer-item__title"
+          className={classnames(`${prefixCls}__title`, styles.itemTitle)}
           onClick={() => {
             if (!isEditName) {
               onClickLayer(layer);
             }
           }}
         >
-          <div className="li-layer-item__tag">
+          <div className={classnames(`${prefixCls}__tag`, styles.itemTag)}>
             {typeof visLayer?.icon === 'function' ? <Icon component={visLayer.icon} /> : null}
           </div>
           <LayerName
@@ -126,10 +128,11 @@ const LayerItem = ({ layer, dragIcon, onClickLayer }: LayerItemProps) => {
         </div>
 
         {messageContextHolder}
-        <Space className="li-layer-item__actions">
+        <Space className={classnames(`${prefixCls}__actions`, styles.itemActions)}>
           <Tooltip title="点击修改图层名称">
             <FormOutlined
-              className={classnames('li-layer-item__actions_hide', 'li-layer-item__actions_show')}
+              data-comp="layer-actions-item_hover-show"
+              className={classnames(`${prefixCls}__actions-item`, styles.actionsItem)}
               onClick={() => {
                 setIsEditName(true);
               }}
@@ -137,7 +140,8 @@ const LayerItem = ({ layer, dragIcon, onClickLayer }: LayerItemProps) => {
           </Tooltip>
           <Tooltip title="点击复制图层">
             <CopyOutlined
-              className={classnames('li-layer-item__actions_hide', 'li-layer-item__actions_show')}
+              data-comp="layer-actions-item_hover-show"
+              className={classnames(`${prefixCls}__actions-item`, styles.actionsItem)}
               onClick={() => handleCopyLayer(layer)}
             />
           </Tooltip>

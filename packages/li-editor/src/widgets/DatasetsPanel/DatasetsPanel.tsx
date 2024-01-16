@@ -2,13 +2,13 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import classNames from 'classnames';
 import React, { useState } from 'react';
-import { useEditorState } from '../../hooks';
+import { useEditorState, usePrefixCls } from '../../hooks';
 import type { ImplementEditorWidgetProps } from '../../types';
 import AddDataset from './AddDataset';
 import DatasetList from './DatasetList';
-import './DatasetsPanel.less';
 import PreviewDataset from './PreviewDataset';
 import ReplaceDataset from './ReplaceDataset';
+import useStyle from './DatasetsPanelStyle';
 
 interface DatasetsPanelProps extends ImplementEditorWidgetProps {
   className?: string;
@@ -16,6 +16,8 @@ interface DatasetsPanelProps extends ImplementEditorWidgetProps {
 
 const DatasetsPanel: React.FC<DatasetsPanelProps> = (props: DatasetsPanelProps) => {
   const { className } = props;
+  const prefixCls = usePrefixCls('datasets-panel');
+  const styles = useStyle();
   const { state } = useEditorState();
   const [addDatasetVisible, setAddDatasetVisible] = useState(false);
   const [replaceDatasetId, setReplaceDatasetId] = useState<string>('');
@@ -24,9 +26,9 @@ const DatasetsPanel: React.FC<DatasetsPanelProps> = (props: DatasetsPanelProps) 
   const [previewDatasetVisible, setPreviewDatasetVisible] = useState(false);
 
   return (
-    <div className={classNames('li-datasets-panel', className)}>
-      <div className="li-datasets-panel__header">数据</div>
-      <div className="li-datasets-panel__add-dataset">
+    <div className={classNames(prefixCls, styles.datasetPanel, className)}>
+      <div className={classNames(`${prefixCls}__header`, styles.panelHeader)}>数据</div>
+      <div className={classNames(`${prefixCls}__add-dataset`, styles.addDataset)}>
         <span>数据集({state.datasets.length})</span>
         <Button
           type="primary"
@@ -41,7 +43,7 @@ const DatasetsPanel: React.FC<DatasetsPanelProps> = (props: DatasetsPanelProps) 
       </div>
 
       <DatasetList
-        className="li-datasets-panel__dataset-list"
+        className={classNames(`${prefixCls}__dataset-list`, styles.datasetList)}
         onReplaceDataset={(datasetId) => {
           setReplaceDatasetId(datasetId);
           setReplaceDatasetVisible(true);

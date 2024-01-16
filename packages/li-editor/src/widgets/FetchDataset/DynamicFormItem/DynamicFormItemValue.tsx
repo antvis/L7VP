@@ -1,6 +1,8 @@
 import { Input, InputNumber, Select, Switch } from 'antd';
 import React, { useEffect, useState } from 'react';
-import './index.less';
+import classNames from 'classnames';
+import { usePrefixCls } from '../../../hooks';
+import useStyle from './style';
 
 type Props = {
   onChange?: (e: any) => void;
@@ -11,6 +13,8 @@ const DynamicFormItemValue = (props: Props) => {
   const [type, setType] = useState<Type>('string');
   const [val, setVal] = useState<string | boolean | number>();
   const { onChange } = props;
+  const prefixCls = usePrefixCls('li-dynamic-form-item__item__value');
+  const styles = useStyle();
 
   const onValueChange = (val: string | boolean | number) => {
     setVal(val);
@@ -30,8 +34,8 @@ const DynamicFormItemValue = (props: Props) => {
   }, [type, val]);
 
   return (
-    <div className="li-dynamic-form-item__item__value">
-      <div className="li-dynamic-form-item__item__value__content">
+    <div className={classNames(prefixCls, styles.itemValue)}>
+      <div className={classNames(`${prefixCls}__content`, styles.valueContent)}>
         {type === 'string' && <Input placeholder="请输入" onChange={(e) => onValueChange(e.target.value)} />}
         {type === 'boolean' && <Switch onChange={onValueChange} />}
         {type === 'number' && <InputNumber placeholder="请输入" onChange={(e) => onValueChange(Number(e))} />}
@@ -44,7 +48,7 @@ const DynamicFormItemValue = (props: Props) => {
           />
         )}
       </div>
-      <div className="li-dynamic-form-item__item__value__type">
+      <div className={classNames(`${prefixCls}__type`, styles.valueType)}>
         <Select
           style={{ width: '90px' }}
           value={type}

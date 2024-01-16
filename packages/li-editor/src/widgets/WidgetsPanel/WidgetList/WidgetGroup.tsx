@@ -7,8 +7,9 @@ import { isEmpty, isUndefined } from 'lodash-es';
 import React, { useMemo, useState } from 'react';
 import WidgetName from '../../../components/EditName';
 import { WidgetTypeMap } from '../../../constants';
-import { useEditorService, useEditorState } from '../../../hooks';
+import { useEditorService, useEditorState, usePrefixCls } from '../../../hooks';
 import WidgetAttribute from '../WidgetAttribute';
+import useStyle from './style';
 
 type WidgetGroupProps = {
   className?: string;
@@ -16,6 +17,8 @@ type WidgetGroupProps = {
 };
 
 const WidgetGroup: React.FC<WidgetGroupProps> = ({ className, item }) => {
+  const prefixCls = usePrefixCls('widget-list');
+  const styles = useStyle();
   const { appService } = useEditorService();
   const { state, updateState } = useEditorState();
   const [focusWigetId, setFocusWidgetId] = useState('');
@@ -81,7 +84,7 @@ const WidgetGroup: React.FC<WidgetGroupProps> = ({ className, item }) => {
 
       return {
         key: widget.id,
-        className: 'li-widget-list__panel',
+        className: classNames(`${prefixCls}__panel`, styles.panel),
         label: (
           <WidgetName
             name={widget?.metadata?.name}
@@ -109,8 +112,8 @@ const WidgetGroup: React.FC<WidgetGroupProps> = ({ className, item }) => {
     });
 
   return (
-    <div className={classNames(className, 'li-widget-list__widget-group')}>
-      <p className="li-widget-list__widget-group-title">{item.categoryName}</p>
+    <div className={classNames(className, `${prefixCls}__widget-group`, styles.widgetGroup)}>
+      <p className={classNames(`${prefixCls}__widget-group-title`, styles.widgetGroupTitle)}>{item.categoryName}</p>
       <Collapse
         defaultActiveKey={[]}
         ghost={true}

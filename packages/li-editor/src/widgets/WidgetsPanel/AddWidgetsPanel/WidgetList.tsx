@@ -4,8 +4,9 @@ import { Card, Empty, Tooltip } from 'antd';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash-es';
 import React, { useEffect, useState } from 'react';
+import { usePrefixCls } from '../../../hooks';
 import { WidgetTypeMap } from '../../../constants';
-import './index.less';
+import useStyle from './style';
 
 type WidgetListProps = {
   className?: string;
@@ -15,6 +16,8 @@ type WidgetListProps = {
 
 const WidgetList: React.FC<WidgetListProps> = (props) => {
   const { widgets, onChange } = props || {};
+  const prefixCls = usePrefixCls('add-widgets-panel');
+  const styles = useStyle();
   const [selectedItem, setSelectedItem] = useState<string[]>([]);
 
   const handleClickItem = (item: ImplementWidget) => {
@@ -36,11 +39,11 @@ const WidgetList: React.FC<WidgetListProps> = (props) => {
   }, [selectedItem]);
 
   if (isEmpty(widgets)) {
-    return <Empty description="暂无可选组件" className="li-add-widgets-panel__impty" />;
+    return <Empty description="暂无可选组件" className={classNames(`${prefixCls}__impty`, styles.panelImpty)} />;
   }
 
   return (
-    <div className="li-add-widgets-panel__content">
+    <div className={classNames(`${prefixCls}__content`, styles.panelContent)}>
       {widgets.map((item) => {
         const Description = isEmpty(item.metadata.description) ? (
           '暂无描述'
@@ -56,23 +59,38 @@ const WidgetList: React.FC<WidgetListProps> = (props) => {
           <Card
             bodyStyle={{ overflow: 'hidden', padding: 0 }}
             key={item.metadata.name}
-            className={classNames('li-add-widgets-panel__content-item', {
-              ['li-add-widgets-panel__content-item_selected']: selectedItem.includes(item.metadata.name),
+            className={classNames(`${prefixCls}__content-item`, styles.contentItem, {
+              [styles.contentItemSelected]: selectedItem.includes(item.metadata.name),
+              [`${prefixCls}__content-item_selected`]: selectedItem.includes(item.metadata.name),
             })}
           >
-            <div onClick={() => handleClickItem(item)} className="li-add-widgets-panel__content-item-content">
-              <div className="li-add-widgets-panel__content-item-content__img">{Image}</div>
+            <div
+              onClick={() => handleClickItem(item)}
+              className={classNames(`${prefixCls}__content-item-content`, styles.itemContent)}
+            >
+              <div className={classNames(`${prefixCls}__content-item-content__img`, styles.itemContentImg)}>
+                {Image}
+              </div>
 
-              <div className="li-add-widgets-panel__content-item-content__info">
-                <div className="li-add-widgets-panel__content-item-content__info-title">
+              <div className={classNames(`${prefixCls}__content-item-content__info`, styles.itemContentInfo)}>
+                <div
+                  className={classNames(`${prefixCls}__content-item-content__info-title`, styles.itemContentInfoTitle)}
+                >
                   {item.metadata.displayName}
                 </div>
 
-                <div className="li-add-widgets-panel__content-item-content__info-description">{Description}</div>
+                <div
+                  className={classNames(
+                    `${prefixCls}__content-item-content__info-description`,
+                    styles.itemContentInfoDescription,
+                  )}
+                >
+                  {Description}
+                </div>
               </div>
 
               {selectedItem.includes(item.metadata.name) && (
-                <div className="li-add-widgets-panel__content-item-selected">
+                <div className={classNames(`${prefixCls}__content-item-selected`, styles.itemContentSelected)}>
                   <CheckOutlined />
                 </div>
               )}

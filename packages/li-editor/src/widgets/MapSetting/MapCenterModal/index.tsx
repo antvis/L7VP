@@ -5,8 +5,8 @@ import type { ModalProps } from 'antd';
 import { message, Modal } from 'antd';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
-import { CLS_PREFIX } from '../constant';
-import './index.less';
+import { usePrefixCls } from '../../../hooks';
+import useStyle from './style';
 
 export interface MapCenterModalProps extends Omit<ModalProps, 'onOk'> {
   currentMapCenter: [number, number];
@@ -26,6 +26,8 @@ export const MapCenterModal: React.FC<MapCenterModalProps> = ({
   mapCenterModalOpen,
   ...modalProps
 }) => {
+  const prefixCls = usePrefixCls('map-setting');
+  const styles = useStyle();
   const [scene, setScene] = useState<Scene | null>(null);
   const [mapCenter, setMapCenter] = useState<ILngLat | null>(null);
   const [messageApi, messageContextHolder] = message.useMessage();
@@ -77,8 +79,8 @@ export const MapCenterModal: React.FC<MapCenterModalProps> = ({
   return (
     <Modal {...modalProps} onOk={okClick}>
       <LarkMap {...larkMap} onSceneLoaded={onSceneLoaded} onDragEnd={dragEnd} onZoomEnd={zoomEnd}>
-        <div className={`${CLS_PREFIX}__map-center`} />
-        <CustomControl className={`${CLS_PREFIX}__control`}>
+        <div className={classNames(`${prefixCls}__map-center`, styles.mapCenter)} />
+        <CustomControl className={classNames(`${prefixCls}__control`, styles.control)}>
           {messageContextHolder}
           <LocationSearch
             searchParams={{
@@ -90,7 +92,7 @@ export const MapCenterModal: React.FC<MapCenterModalProps> = ({
             bordered={false}
             value={null}
             onChange={onChanges}
-            popupClassName={classNames(`${CLS_PREFIX}__location-search`, `${CLS_PREFIX}__location-search-dropdown`)}
+            popupClassName={classNames(`${prefixCls}__location-search`, styles.locationSearch)}
           />
         </CustomControl>
       </LarkMap>

@@ -2,8 +2,10 @@ import { DownOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import MonacoEditor from '@monaco-editor/react';
 import { Button, Dropdown } from 'antd';
 import React, { useRef, useState } from 'react';
+import classNames from 'classnames';
+import { usePrefixCls } from '../../../hooks';
 import { getValue } from './helper';
-import './index.less';
+import useStyle from './style';
 
 type ProcessingFunctionProps = {
   onChange?: (funs: {
@@ -27,6 +29,8 @@ const ItemList = [
 
 const ProcessingFunction = (props: ProcessingFunctionProps) => {
   const { onChange } = props;
+  const prefixCls = usePrefixCls('provessing-function');
+  const styles = useStyle();
   const [menus, setMenus] = useState(ItemList);
   const functionListRef = useRef<FuncItem[]>([]);
 
@@ -83,8 +87,8 @@ function onComplete(res) {
   };
 
   return (
-    <div className="li-provessing-function">
-      <div className="li-provessing-function__btn">
+    <div className={prefixCls}>
+      <div className={`${prefixCls}__btn`}>
         <Dropdown
           menu={{ items: menus.map((item) => ({ ...item, onClick: () => onAddFunc(item) })) }}
           disabled={menus.length === 0}
@@ -97,10 +101,10 @@ function onComplete(res) {
 
       {functionListRef.current.map((item: FuncItem) => {
         return (
-          <div className="li-provessing-function__success-and-err" key={item.key}>
+          <div className={classNames(`${prefixCls}__success-and-err`, styles.successAndErr)} key={item.key}>
             <p>{item.name}:</p>
-            <div className="li-provessing-function__success-and-err__content">
-              <div className="li-provessing-function__success-and-err__content-js">
+            <div className={classNames(`${prefixCls}__success-and-err__content`, styles.content)}>
+              <div className={classNames(`${prefixCls}__success-and-err__content-js`, styles.contentJs)}>
                 <MonacoEditor
                   language="javascript"
                   options={{
@@ -113,7 +117,7 @@ function onComplete(res) {
                   defaultValue={item.value}
                 />
               </div>
-              <div className="li-provessing-function__success-and-err__content-icon">
+              <div className={classNames(`${prefixCls}__success-and-err__content-icon`, styles.contentIcon)}>
                 <MinusCircleOutlined
                   onClick={() => {
                     onDel(item.key);

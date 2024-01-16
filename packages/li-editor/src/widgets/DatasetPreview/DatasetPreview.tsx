@@ -2,10 +2,11 @@ import { Modal, Table, Tooltip } from 'antd';
 import type { ColumnsType } from 'antd/lib/table';
 import { uniqueId } from 'lodash-es';
 import React, { useState } from 'react';
-import { useEditorDataset } from '../../hooks';
+import classNames from 'classnames';
+import { useEditorDataset, usePrefixCls } from '../../hooks';
 import type { ImplementEditorPreviewDatasetWidgetProps } from '../../types';
-import './DatasetPreview.less';
 import TypeTag from './TypeTag';
+import useStyle from './style';
 
 type DatasetPreviewProps = ImplementEditorPreviewDatasetWidgetProps;
 
@@ -13,6 +14,8 @@ const DatasetPreview = (props: DatasetPreviewProps) => {
   const { datasetId, visible, onCancel } = props;
   const [pagination, setPagination] = useState({ current: 1, pageSize: 50 });
   const editorDataset = useEditorDataset(datasetId);
+  const prefixCls = usePrefixCls('dataset-preview');
+  const styles = useStyle();
 
   if (!editorDataset?.isLocalOrRemoteDataset) {
     return null;
@@ -41,24 +44,26 @@ const DatasetPreview = (props: DatasetPreviewProps) => {
           if (typeof value === 'object') {
             return (
               <Tooltip title={JSON.stringify(value)}>
-                <span className="li-dataset-preview__clamp">{JSON.stringify(value)}</span>
+                <span className={classNames(`${prefixCls}__clamp`, styles.datasetPreviewClamp)}>
+                  {JSON.stringify(value)}
+                </span>
               </Tooltip>
             );
           } else if (typeof value === 'string') {
             return value.length > 20 ? (
               <Tooltip title={value}>
-                <span className="li-dataset-preview__clamp">{value}</span>
+                <span className={classNames(`${prefixCls}__clamp`, styles.datasetPreviewClamp)}>{value}</span>
               </Tooltip>
             ) : (
-              <span className="li-dataset-preview__clamp">{value}</span>
+              <span className={classNames(`${prefixCls}__clamp`, styles.datasetPreviewClamp)}>{value}</span>
             );
           } else {
-            return <span className="li-dataset-preview__clamp">{value}</span>;
+            return <span className={classNames(`${prefixCls}__clamp`, styles.datasetPreviewClamp)}>{value}</span>;
           }
         },
         title() {
           return (
-            <div className="li-dataset-preview__column-title">
+            <div className={classNames(`${prefixCls}__clamp-title`, styles.datasetPreviewClampTitle)}>
               <TypeTag type={item.type} />
               <span title={item.name}>{item.name}</span>
             </div>
@@ -71,7 +76,7 @@ const DatasetPreview = (props: DatasetPreviewProps) => {
 
   return (
     <Modal
-      className="li-dataset-preview"
+      className={classNames(prefixCls, styles.datasetPreview)}
       title={`${editorDataset.metadata.name}`}
       open={visible}
       destroyOnClose
@@ -80,7 +85,7 @@ const DatasetPreview = (props: DatasetPreviewProps) => {
       onCancel={() => onCancel()}
     >
       <Table
-        className="li-dataset-preview__table"
+        className={classNames(`${prefixCls}__table`, styles.datasetPreviewTable)}
         dataSource={tableData}
         rowKey={(record) => uniqueId(`location-insight${record.id}`)}
         bordered

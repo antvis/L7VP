@@ -4,9 +4,8 @@ import { Empty } from 'antd';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash-es';
 import React, { useMemo } from 'react';
-import { useEditorState } from '../../../hooks';
+import { useEditorState, usePrefixCls } from '../../../hooks';
 import DragList from './DragList';
-import './index.less';
 import LayerItem from './LayerItem';
 
 type LayersPanelProps = {
@@ -16,6 +15,7 @@ type LayersPanelProps = {
 
 const LayerList: React.FC<LayersPanelProps> = (props) => {
   const { onClickLayer } = props;
+  const prefixCls = usePrefixCls('layer-list');
   const { state, updateState } = useEditorState();
 
   // 以图层在地图上的层级从高到低的（地图上）排列，以方便用户从 UI 上理解图层列表。
@@ -43,7 +43,7 @@ const LayerList: React.FC<LayersPanelProps> = (props) => {
   if (isEmpty(layers)) {
     return (
       <Empty
-        className="li-layer-list__empty"
+        className={`${prefixCls}__empty`}
         image={Empty.PRESENTED_IMAGE_SIMPLE}
         description="暂无图层，请先新增图层"
       />
@@ -51,7 +51,7 @@ const LayerList: React.FC<LayersPanelProps> = (props) => {
   }
 
   return (
-    <div className={classNames('li-layer-list', props.className)}>
+    <div className={classNames(prefixCls, props.className)}>
       <DragList items={layers} onDrag={onDragEnd} dragIcon={<HolderOutlined />}>
         {(layer, icon) => <LayerItem dragIcon={icon} layer={layer} onClickLayer={onClickLayer} />}
       </DragList>
