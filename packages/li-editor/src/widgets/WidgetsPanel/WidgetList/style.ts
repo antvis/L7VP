@@ -2,7 +2,7 @@ import { css } from '@emotion/css';
 import { useAntdToken } from '../../../hooks';
 
 const useStyle = () => {
-  const { antCls, colorTextSecondary, colorBgElevated, colorSplit, borderRadius } = useAntdToken();
+  const { antCls, colorTextSecondary, colorBgContainer, colorSplit, borderRadius } = useAntdToken();
 
   return {
     widgetList: css`
@@ -33,7 +33,7 @@ const useStyle = () => {
       ${antCls}-collapse-header {
         padding: 6px 13px !important;
         overflow: hidden;
-        background-color: ${colorBgElevated} !important;
+        background-color: ${colorBgContainer} !important;
         border: 1px solid ${colorSplit} !important;
         border-radius: ${borderRadius}px !important;
 

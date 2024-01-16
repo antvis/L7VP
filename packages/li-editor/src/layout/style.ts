@@ -2,12 +2,21 @@ import { css } from '@emotion/css';
 import { useAntdToken } from '../hooks';
 
 const useStyle = () => {
-  const { colorBgContainer, colorSplit, colorText, colorTextSecondary, borderRadius } = useAntdToken();
+  const {
+    colorBgLayout,
+    colorBgContainer,
+    colorFillSecondary,
+    colorFill,
+    colorText,
+    colorTextSecondary,
+    borderRadius,
+  } = useAntdToken();
 
   return {
     editorLayout: css`
       position: relative;
       display: flex;
+      background-color: ${colorBgLayout};
 
       /* 滚动条整体部分,必须要设置 */
       ::-webkit-scrollbar {
@@ -18,12 +27,12 @@ const useStyle = () => {
 
       /* 滚动条的滑块按钮 */
       ::-webkit-scrollbar-thumb {
-        background: ${colorSplit};
+        background: ${colorFillSecondary};
         border-radius: 3px;
         cursor: pointer;
 
         &:hover {
-          background-color: ${colorSplit};
+          background-color: ${colorFill};
         }
       }
 

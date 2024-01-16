@@ -2,7 +2,7 @@ import { css } from '@emotion/css';
 import { useAntdToken } from '../../hooks';
 
 const useStyle = () => {
-  const { colorBorder } = useAntdToken();
+  const { colorSplit } = useAntdToken();
 
   return {
     datasetPanel: css`
@@ -15,7 +15,7 @@ const useStyle = () => {
       padding: 15px 0 15px;
       font-weight: 500;
       font-size: 16px;
-      border-bottom: 1px solid ${colorBorder};
+      border-bottom: 1px solid ${colorSplit};
     `,
 
     addDataset: css`

@@ -2,7 +2,7 @@ import { css } from '@emotion/css';
 import { useAntdToken } from '../../hooks';
 
 const useStyle = () => {
-  const { colorBgElevated } = useAntdToken();
+  const { colorBgContainer } = useAntdToken();
 
   return {
     sideNav: css`
@@ -10,7 +10,7 @@ const useStyle = () => {
       flex-direction: column;
       align-items: center;
       width: 46px;
-      background-color: ${colorBgElevated};
+      background-color: ${colorBgContainer};
     `,
 
     sideNavMenu: css`

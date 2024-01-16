@@ -2,7 +2,7 @@ import { css } from '@emotion/css';
 import { useAntdToken } from '../../../hooks';
 
 const useStyle = () => {
-  const { colorBgContainer, colorBgElevated, colorText } = useAntdToken();
+  const { colorBgContainer, borderRadius, colorBgElevated, colorText } = useAntdToken();
 
   return {
     mapCenter: css`
@@ -19,7 +19,8 @@ const useStyle = () => {
 
     control: css`
       .larkmap-location-search {
-        background-color: ${colorBgElevated};
+        background-color: ${colorBgContainer};
+        border-radius: ${borderRadius}px;
       }
 
       .larkmap-select-selection-search {
@@ -37,8 +38,7 @@ const useStyle = () => {
 
     locationSearch: css`
       width: 200px;
-      background-color: ${colorBgElevated};
-      z-index: 1101;
+      background-color: ${colorBgContainer};
 
       .larkmap-select-item-empty,
       .larkmap-location-search__option-name {
@@ -46,7 +46,7 @@ const useStyle = () => {
       }
 
       .larkmap-select-item-option-active {
-        background: ${colorBgContainer};
+        background: ${colorBgElevated};
       }
     `,
   };

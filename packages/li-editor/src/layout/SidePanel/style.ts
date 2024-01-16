@@ -2,14 +2,13 @@ import { css } from '@emotion/css';
 import { useAntdToken } from '../../hooks';
 
 const useStyle = () => {
-  const { colorBgContainer, colorSplit, boxShadowSecondary } = useAntdToken();
+  const { colorSplit, boxShadowSecondary } = useAntdToken();
 
   return {
     sidePanel: css`
       display: flex;
       flex-direction: column;
       height: 100%;
-      background-color: ${colorBgContainer};
       border-left: 1px solid ${colorSplit};
       box-shadow: ${boxShadowSecondary};
     `,

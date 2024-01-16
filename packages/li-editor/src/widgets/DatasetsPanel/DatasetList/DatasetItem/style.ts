@@ -2,14 +2,14 @@ import { css } from '@emotion/css';
 import { useAntdToken } from '../../../../hooks';
 
 const useStyle = () => {
-  const { antCls, colorBgElevated, colorSplit, colorPrimary, borderRadius } = useAntdToken();
+  const { antCls, colorBgContainer, colorSplit, colorPrimary, borderRadius } = useAntdToken();
 
   return {
     listCard: css`
       position: relative;
       width: auto;
       padding: 8px;
-      background-color: ${colorBgElevated};
+      background-color: ${colorBgContainer};
       border: 1px solid ${colorSplit};
       border-left: 3px solid ${colorPrimary};
       border-radius: ${borderRadius}px;
