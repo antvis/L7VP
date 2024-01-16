@@ -16,7 +16,6 @@ const useStyle = () => {
     editorLayout: css`
       position: relative;
       display: flex;
-      background-color: ${colorBgLayout};
 
       /* 滚动条整体部分,必须要设置 */
       ::-webkit-scrollbar {
@@ -63,6 +62,7 @@ const useStyle = () => {
       position: relative;
       display: flex;
       color: ${colorText};
+      background-color: ${colorBgLayout};
     `,
 
     sideNav: css`
