@@ -1,8 +1,5 @@
 import React from 'react';
 
-/** 组件名称, 前缀 */
-export const CLS_PREFIX = 'li-map-setting';
-
 export const BaseMapSvg = () => (
   <svg
     viewBox="0 0 1024 1024"

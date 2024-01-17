@@ -5,10 +5,9 @@ import { getDatasetFields } from '@antv/li-sdk';
 import { Button, Card, Popconfirm, Select, theme } from 'antd';
 import type { DefaultOptionType } from 'antd/lib/select';
 import React, { useMemo } from 'react';
-import { useEditorDataset, useEditorState } from '../../../hooks';
-import './index.less';
-
-const CLS_PREFIX = 'li-filter-widget-card';
+import classNames from 'classnames';
+import { useEditorDataset, useEditorState, usePrefixCls } from '../../../hooks';
+import useStyle from './style';
 
 type FilterCardProps = {
   id: string;
@@ -21,6 +20,8 @@ type FilterCardProps = {
 const { useToken } = theme;
 
 const FilterCard = ({ id: datasetId, datasetOptions, selectedDatasets, onDatasetIdChange, onDel }: FilterCardProps) => {
+  const prefixCls = usePrefixCls('filter-widget-card');
+  const styles = useStyle();
   const { token } = useToken();
   const editorDataset = useEditorDataset(datasetId);
   const filter = editorDataset?.filter;
@@ -100,7 +101,7 @@ const FilterCard = ({ id: datasetId, datasetOptions, selectedDatasets, onDataset
   const CardTitle = (
     <Select
       showSearch
-      className={`${CLS_PREFIX}__select`}
+      className={classNames(`${prefixCls}__select`, styles.filterCardSelect)}
       size="small"
       placeholder="请选择数据集"
       value={datasetId}
@@ -112,7 +113,7 @@ const FilterCard = ({ id: datasetId, datasetOptions, selectedDatasets, onDataset
 
   return (
     <Card
-      className={`${CLS_PREFIX}`}
+      className={classNames(prefixCls, styles.filterCard)}
       title={CardTitle}
       headStyle={{ padding: '0 16px', borderLeft: `3px solid ${token.colorPrimary}` }}
       bodyStyle={{ padding: 0 }}

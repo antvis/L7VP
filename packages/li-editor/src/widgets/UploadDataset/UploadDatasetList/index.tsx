@@ -4,7 +4,8 @@ import { theme } from 'antd';
 import Tooltip from 'antd/es/tooltip';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
-import './index.less';
+import { usePrefixCls } from '../../../hooks';
+import useStyle from './style';
 
 const { useToken } = theme;
 type DatasetListProps = {
@@ -15,6 +16,8 @@ type DatasetListProps = {
 
 const DatasetList: React.FC<DatasetListProps> = (props) => {
   const { dataset, onChange } = props || {};
+  const prefixCls = usePrefixCls('upload-list');
+  const styles = useStyle();
   const [selectedItem, setSelectedItem] = useState<string[]>([]);
   const { token } = useToken();
 
@@ -39,23 +42,24 @@ const DatasetList: React.FC<DatasetListProps> = (props) => {
   }, [dataset]);
 
   return (
-    <div className="li-upload-list__content">
+    <div className={classNames(`${prefixCls}__content`, styles.uploadListContent)}>
       {dataset.map((item) => {
         const fileNames = item.metadata.name;
         return (
           <div
             key={item.id}
-            className={classNames('li-upload-list__content-item', {
-              ['li-upload-list__content-item_selected']: selectedItem.includes(item.id),
+            className={classNames(`${prefixCls}__content-item`, styles.uploadListContentItem, {
+              [styles.contentItemSelecteds]: selectedItem.includes(item.id),
+              [`${prefixCls}__content-item_selected`]: selectedItem.includes(item.id),
             })}
             onClick={() => handleClickItem(item.id)}
           >
             {selectedItem.includes(item.id) && (
-              <div className="li-upload-list__content-item-selected">
+              <div className={classNames(`${prefixCls}__content-item-selected`, styles.uploadListContentItemSelected)}>
                 <CheckOutlined />
               </div>
             )}
-            <div className="li-upload-list__content-item__title">
+            <div className={classNames(`${prefixCls}__content-item__title`, styles.uploadListContentItemTitle)}>
               <Tooltip title={fileNames} zIndex={token.zIndexPopupBase + 70}>
                 {fileNames}
               </Tooltip>

@@ -2,11 +2,11 @@ import type { ILngLat, Scene } from '@antv/l7';
 import type { LarkMapProps, LocationSearchOption } from '@antv/larkmap';
 import { CustomControl, LarkMap, LocationSearch } from '@antv/larkmap';
 import type { ModalProps } from 'antd';
-import { message, Modal } from 'antd';
+import { Empty, message, Modal } from 'antd';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
-import { CLS_PREFIX } from '../constant';
-import './index.less';
+import { usePrefixCls } from '../../../hooks';
+import useStyle from './style';
 
 export interface MapCenterModalProps extends Omit<ModalProps, 'onOk'> {
   currentMapCenter: [number, number];
@@ -17,6 +17,11 @@ export interface MapCenterModalProps extends Omit<ModalProps, 'onOk'> {
   mapCenterModalOpen: boolean;
 }
 
+const getDefaultKey = () => ({
+  AMAP_KEY: 'd76a81e912e36130d498216d1085db31',
+  PRIVATE_KEY: atob('ZWJkZmNjNjkzOTI1Nzg2NGJjOTEzMmY3NDE4MTEwNDM'),
+});
+
 export const MapCenterModal: React.FC<MapCenterModalProps> = ({
   currentMapCenter,
   larkMap,
@@ -26,6 +31,8 @@ export const MapCenterModal: React.FC<MapCenterModalProps> = ({
   mapCenterModalOpen,
   ...modalProps
 }) => {
+  const prefixCls = usePrefixCls('map-setting');
+  const styles = useStyle();
   const [scene, setScene] = useState<Scene | null>(null);
   const [mapCenter, setMapCenter] = useState<ILngLat | null>(null);
   const [messageApi, messageContextHolder] = message.useMessage();
@@ -77,20 +84,22 @@ export const MapCenterModal: React.FC<MapCenterModalProps> = ({
   return (
     <Modal {...modalProps} onOk={okClick}>
       <LarkMap {...larkMap} onSceneLoaded={onSceneLoaded} onDragEnd={dragEnd} onZoomEnd={zoomEnd}>
-        <div className={`${CLS_PREFIX}__map-center`} />
-        <CustomControl className={`${CLS_PREFIX}__control`}>
+        <div className={classNames(`${prefixCls}__map-center`, styles.mapCenter)} />
+        <CustomControl className={classNames(`${prefixCls}__control`, styles.control)}>
           {messageContextHolder}
           <LocationSearch
             searchParams={{
-              key: 'fdef552a086edf93e01b6bac2eb89197',
+              key: getDefaultKey().AMAP_KEY,
+              privateKey: getDefaultKey().PRIVATE_KEY,
             }}
             showDistrict
             showAddress
             autoFocus
             bordered={false}
             value={null}
+            notFoundContent={<Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={false} />}
             onChange={onChanges}
-            popupClassName={classNames(`${CLS_PREFIX}__location-search`, `${CLS_PREFIX}__location-search-dropdown`)}
+            popupClassName={classNames(`${prefixCls}__location-search`, styles.locationSearch)}
           />
         </CustomControl>
       </LarkMap>

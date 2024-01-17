@@ -33,7 +33,7 @@ export default genStyleHook('icon-scale-selector-icon-item', (token) => {
           justifyContent: 'center',
           background: controlItemBgHover,
           verticalAlign: 'middle',
-          borderRadius: borderRadius,
+          borderRadius: `${borderRadius}px`,
           border: 0,
           cursor: 'pointer',
 

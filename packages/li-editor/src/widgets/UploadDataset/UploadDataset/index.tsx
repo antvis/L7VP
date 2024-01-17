@@ -4,16 +4,20 @@ import { Button, message, Space, Tooltip, Upload } from 'antd';
 import { isEmpty } from 'lodash-es';
 import type { UploadRequestOption } from 'rc-upload/lib/interface';
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import type { ImplementEditorAddDatasetWidgetProps } from '../../../types';
 import UploadDatasetList from '../UploadDatasetList';
 import UrlUpload from '../UrlUpload';
+import { usePrefixCls } from '../../../hooks';
 import { parserFileToSource } from './helpers/parser-file';
-import './index.less';
+import useStyle from './style';
 
 type UploadDatasetProps = ImplementEditorAddDatasetWidgetProps;
 
 export default function UploadDataset(props: UploadDatasetProps) {
   const { onSubmit, onCancel } = props;
+  const prefixCls = usePrefixCls('upload');
+  const styles = useStyle();
   const [uploadData, setUploadData] = useState<DatasetSchema[]>([]);
   /* 选择的文件id */
   const [checkedDatasetIdList, setCheckedDatasetIdList] = useState<string[]>([]);
@@ -35,11 +39,13 @@ export default function UploadDataset(props: UploadDatasetProps) {
   };
 
   const UploadDraggerContent = (
-    <div className={'li-upload-dataset__dragger-content'}>
-      <span className="li-upload-dataset__dragger-content_icon">
+    <div className={classNames(`${prefixCls}-dataset__dragger-content`, styles.draggerContent)}>
+      <span className={classNames(`${prefixCls}-dataset__dragger-content_icon`, styles.draggerContentIcon)}>
         <FileTextOutlined />
       </span>
-      <div className="li-upload-dataset__dragger-content_text">点击或将文件拖拽到这里，也可以文件 URL 地址上传</div>
+      <div className={classNames(`${prefixCls}-dataset__dragger-content_text`, styles.draggerContentText)}>
+        点击或将文件拖拽到这里，也可以文件 URL 地址上传
+      </div>
       <UrlUpload
         onSubmit={(fileSource: DatasetSchema) => {
           setUploadData((pre) => [...pre, fileSource]);
@@ -50,8 +56,8 @@ export default function UploadDataset(props: UploadDatasetProps) {
 
   return (
     <>
-      <div className="li-upload">
-        <p className="li-upload__description">
+      <div className={prefixCls}>
+        <p className={classNames(`${prefixCls}__description`, styles.uploadDescription)}>
           支持的文件格式有{' '}
           <a href="https://www.yuque.com/antv/l7vp/data-format-csv" target="_blank" rel="noreferrer">
             CSV
@@ -80,8 +86,8 @@ export default function UploadDataset(props: UploadDatasetProps) {
           </a>
           。
         </p>
-        <div className="li-upload__content">
-          <div className="li-upload-dataset">
+        <div className={classNames(`${prefixCls}__content`, styles.uploadContent)}>
+          <div className={classNames(`${prefixCls}-dataset`, styles.uploadDataset)}>
             {messageContextHolder}
             <Upload.Dragger
               name="data"
@@ -94,8 +100,8 @@ export default function UploadDataset(props: UploadDatasetProps) {
           </div>
 
           {!isEmpty(uploadData) && (
-            <div className="li-upload-list">
-              <p className="li-upload-list__title">已上传文件</p>
+            <div className={classNames(`${prefixCls}-list`, styles.uploadList)}>
+              <p className={classNames(`${prefixCls}-list__title`, styles.uploadListTitle)}>已上传文件</p>
               <UploadDatasetList
                 dataset={uploadData}
                 onChange={(e) => {

@@ -1,7 +1,15 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
 export default genStyleHook('color-range-selector__custom-range__range-item', (token) => {
-  const { componentCls, antCls, colorTextSecondary, colorBorder, colorInfoTextHover, controlItemBgHover } = token;
+  const {
+    componentCls,
+    antCls,
+    colorTextSecondary,
+    colorBorder,
+    colorInfoTextHover,
+    controlItemBgHover,
+    borderRadius,
+  } = token;
 
   return {
     [componentCls]: {
@@ -30,7 +38,7 @@ export default genStyleHook('color-range-selector__custom-range__range-item', (t
           paddingLeft: '3px',
 
           '&:hover': {
-            borderRadius: 4,
+            borderRadius: `${borderRadius}px`,
             background: controlItemBgHover,
           },
         },
@@ -75,14 +83,14 @@ export default genStyleHook('color-range-selector__custom-range__range-item', (t
       },
     },
 
-    '.ant-popover': {
+    [`${antCls}-popover`]: {
       zIndex: '4 !important',
-      '.ant-color-picker-presets .ant-collapse-item .ant-collapse-header': {
+      [`${antCls}-color-picker-presets ${antCls}-collapse-item ${antCls}-collapse-header`]: {
         display: 'none',
       },
     },
 
-    '.ant-color-picker .ant-color-picker-panel .ant-color-picker-inner-panel-divider': {
+    [`${antCls}-color-picker ${antCls}-color-picker-panel ${antCls}-color-picker-inner-panel-divider`]: {
       margin: '3px 8px ',
     },
   };

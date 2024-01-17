@@ -44,14 +44,14 @@ export default genStyleHook('scale-selector__custom-string', (token) => {
       zIndex: 1,
     },
 
-    '.ant-popover': {
+    [`${antCls}-popover`]: {
       zIndex: '4 !important',
-      '.ant-color-picker-presets .ant-collapse-item .ant-collapse-header': {
+      [`${antCls}-color-picker-presets ${antCls}-collapse-item ${antCls}-collapse-header`]: {
         display: 'none',
       },
     },
 
-    '.ant-color-picker .ant-color-picker-panel .ant-color-picker-inner-panel-divider': {
+    [`${antCls}-color-picker ${antCls}-color-picker-panel ${antCls}-color-picker-inner-panel-divider`]: {
       margin: '3px 8px ',
     },
   };

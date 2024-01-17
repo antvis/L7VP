@@ -1,12 +1,12 @@
 import { ConfigProvider, notification, Spin } from 'antd';
-import classNames from 'classnames';
+import cx from 'classnames';
 import React, { useEffect } from 'react';
-import { useEditorDatasets, useEditorState } from '../hooks';
-import './index.less';
+import { useEditorDatasets, useEditorState, usePrefixCls } from '../hooks';
 import type { RuntimeAppProps } from './RuntimeApp';
 import RuntimeApp from './RuntimeApp';
 import SideNav from './SideNav';
 import SidePanel from './SidePanel';
+import useStyle from './style';
 
 export type LayoutProps = RuntimeAppProps;
 
@@ -22,6 +22,8 @@ const Layout: React.FC<LayoutProps> = (props) => {
   const [notificationApi, contextHolder] = notification.useNotification();
   const { state } = useEditorState();
   const { editorDatasets, isLoading } = useEditorDatasets();
+  const prefixCls = usePrefixCls('editor-layout');
+  const styles = useStyle();
 
   useEffect(() => {
     editorDatasets.forEach((editorDataset) => {
@@ -35,25 +37,25 @@ const Layout: React.FC<LayoutProps> = (props) => {
   }, [editorDatasets]);
 
   return (
-    <div className={classNames('li-editor', 'li-editor-layout', className)} style={style}>
+    <div className={cx(`${prefixCls}`, styles.editorLayout, className)} style={style}>
       <ConfigProvider theme={DefaultTheme}>
         {contextHolder}
         {isLoading && (
-          <div className="li-editor-layout__loading">
+          <div className={cx(`${prefixCls}__loading`, styles.loading)}>
             <Spin />
             <span>数据集加载中...</span>
           </div>
         )}
-        <div className="li-editor-layout__left">
-          <SideNav className="li-editor-layout__side-nav" />
+        <div className={cx(`${prefixCls}__left`, styles.left)}>
+          <SideNav className={cx(`${prefixCls}__side-nav`, styles.sideNav)} />
           <SidePanel
-            className={classNames('li-editor-layout__side-panel', {
-              'li-editor-layout__side-panel_hidden': state.collapsed,
+            className={cx(`${prefixCls}__side-panel`, styles.sidePanel, {
+              [styles.sidePanelHidden]: state.collapsed,
             })}
           />
         </div>
       </ConfigProvider>
-      <RuntimeApp className="li-editor-layout__cavans" App={App} />
+      <RuntimeApp className={cx(`${prefixCls}__cavans`, styles.cavans)} App={App} />
     </div>
   );
 };

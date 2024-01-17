@@ -6,7 +6,8 @@ import { useMemoizedFn } from 'ahooks';
 import classNames from 'classnames';
 import { debounce } from 'lodash-es';
 import React, { useMemo } from 'react';
-import './index.less';
+import { usePrefixCls } from '../../../../hooks';
+import useStyle from './style';
 import WidgetSchemaField from './SchemaField';
 
 type WidgetFormProps = {
@@ -19,6 +20,8 @@ type WidgetFormProps = {
 
 const WidgetForm: React.FC<WidgetFormProps> = (props) => {
   const { className, initialValues, registerForm, registerFormProps, onChange } = props;
+  const prefixCls = usePrefixCls('widget-form');
+  const styles = useStyle();
 
   const registerFormData = useMemo(() => {
     const result = typeof registerForm === 'function' ? registerForm(registerFormProps) : registerForm;
@@ -60,7 +63,7 @@ const WidgetForm: React.FC<WidgetFormProps> = (props) => {
 
   return (
     <Form
-      className={classNames('li-widget-form', className)}
+      className={classNames(prefixCls, styles.widgetForm, className)}
       form={formInstance}
       labelCol={8}
       wrapperCol={16}

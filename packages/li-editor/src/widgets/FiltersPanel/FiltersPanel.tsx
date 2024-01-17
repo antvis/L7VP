@@ -5,11 +5,11 @@ import { Button, Empty, Popover, Select } from 'antd';
 import classNames from 'classnames';
 import { isEmpty, isUndefined } from 'lodash-es';
 import React, { useMemo, useState } from 'react';
-import { useEditorState } from '../../hooks';
+import { useEditorState, usePrefixCls } from '../../hooks';
 import type { ImplementEditorWidgetProps } from '../../types';
 import PreviewDataset from '../DatasetsPanel/PreviewDataset';
 import FilterCard from './FilterCard';
-import './FiltersPanel.less';
+import useStyle from './style';
 
 type LocalOrRemoteDatasetSchema = LocalDatasetSchema | RemoteDatasetSchema;
 
@@ -19,6 +19,8 @@ interface FiltersPanelProps extends ImplementEditorWidgetProps {
 
 const FiltersPanel: React.FC<FiltersPanelProps> = (props: FiltersPanelProps) => {
   const { className } = props;
+  const prefixCls = usePrefixCls('filters-panel');
+  const styles = useStyle();
   const { state, updateState } = useEditorState();
 
   const [addFilterPanelOpen, setFilterPanelOpen] = useState(false);
@@ -69,7 +71,7 @@ const FiltersPanel: React.FC<FiltersPanelProps> = (props: FiltersPanelProps) => 
   };
 
   const AddFilter = (
-    <div className="li-filters-panel__add-filter">
+    <div className={classNames(`${prefixCls}__add-filter`, styles.addFilter)}>
       <span>筛选器({filteredDatasets.length})</span>
       <Popover
         placement="bottomRight"
@@ -105,10 +107,10 @@ const FiltersPanel: React.FC<FiltersPanelProps> = (props: FiltersPanelProps) => 
   );
 
   return (
-    <div className={classNames('li-filters-panel', className)}>
-      <div className="li-filters-panel__header">筛选</div>
+    <div className={classNames(prefixCls, styles.filterPanel, className)}>
+      <div className={classNames(`${prefixCls}__header`, styles.panelHeader)}>筛选</div>
       {AddFilter}
-      <div className="li-filters-panel__filter-list">
+      <div className={classNames(`${prefixCls}__filter-list`, styles.filterList)}>
         {isEmpty(filteredDatasets) ? (
           <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无数据，请先添加筛选器" />
         ) : (

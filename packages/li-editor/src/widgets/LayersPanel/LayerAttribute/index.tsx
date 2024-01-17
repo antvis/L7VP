@@ -6,8 +6,8 @@ import { Button, Dropdown, Space, Tooltip } from 'antd';
 import classNames from 'classnames';
 import React, { useCallback, useRef, useState } from 'react';
 import LayerName from '../../../components/EditName';
-import { useEditorService, useEditorState } from '../../../hooks';
-import './index.less';
+import { useEditorService, useEditorState, usePrefixCls } from '../../../hooks';
+import useStyle from './style';
 import type { LayerFormValue } from './LayerForm';
 import LayerForm from './LayerForm';
 
@@ -19,6 +19,8 @@ type LayerAttributeProps = {
 
 const LayerAttribute: React.FC<LayerAttributeProps> = (props) => {
   const { className, onBack, config } = props;
+  const prefixCls = usePrefixCls('layer-attribute');
+  const styles = useStyle();
   const { updateState } = useEditorState();
   const service = useEditorService().appService;
   const layerIdRef = useRef(config.id);
@@ -83,10 +85,13 @@ const LayerAttribute: React.FC<LayerAttributeProps> = (props) => {
   ];
 
   return (
-    <div className={classNames('li-layer-attribute', className)}>
-      <div className="li-layer-attribute__header">
-        <div className="li-layer-attribute__title">
-          <ArrowLeftOutlined className="li-layer-attribute__back-icon" onClick={onBack} />
+    <div className={classNames(prefixCls, className)}>
+      <div className={classNames(`${prefixCls}__header`, styles.attributeHeader)}>
+        <div className={classNames(`${prefixCls}__title`, styles.attributeTitle)}>
+          <ArrowLeftOutlined
+            className={classNames(`${prefixCls}__back-icon`, styles.attributeBackIcon)}
+            onClick={onBack}
+          />
           <LayerName
             name={layerName}
             onChange={changeLayerName}
@@ -105,11 +110,15 @@ const LayerAttribute: React.FC<LayerAttributeProps> = (props) => {
             />
           </Tooltip>
           <Dropdown menu={{ items: dropDownItems }}>
-            <MoreOutlined className={'li-layer-attribute__dropdown-icon'} />
+            <MoreOutlined className={classNames(`${prefixCls}__dropdown-icon`, styles.dropdownIcon)} />
           </Dropdown>
         </Space>
       </div>
-      <LayerForm className={'li-layer-attribute__layer-form'} config={config} onChange={handleValuesChange} />
+      <LayerForm
+        className={classNames(`${prefixCls}__layer-form`, styles.layerForm)}
+        config={config}
+        onChange={handleValuesChange}
+      />
     </div>
   );
 };
