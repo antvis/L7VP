@@ -1,7 +1,7 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
 export default genStyleHook('color-picker', (token) => {
-  const { componentCls, lineWidth, lineType, colorBorder } = token;
+  const { antCls, componentCls, lineWidth, lineType, colorBorder, borderRadius } = token;
 
   return {
     [componentCls]: {
@@ -12,24 +12,25 @@ export default genStyleHook('color-picker', (token) => {
       height: ' 32px',
       padding: '0 5px',
       backgroundColor: 'initial',
-      borderWidth: lineWidth,
+      borderWidth: `${lineWidth}px`,
       borderStyle: lineType,
       borderColor: colorBorder,
-      borderRadius: '2px',
+      borderRadius: `${borderRadius}px`,
 
       [`${componentCls}__color-block`]: {
         width: '35px',
         height: '20px',
-        borderRadius: '2px',
+        borderRadius: `${borderRadius}px`,
         cursor: 'pointer',
       },
     },
 
-    '.ant-popover': {
-      '.ant-color-picker-inner-panel-divider': {
+    [`${antCls}-popover`]: {
+      [`${antCls}-color-picker-inner-panel-divider`]: {
         margin: '3px 8px !important',
       },
-      '.ant-color-picker-presets .ant-collapse-item .ant-collapse-header': {
+
+      [`${antCls}-color-picker-presets ${antCls}-collapse-item ${antCls}-collapse-header`]: {
         display: 'none',
       },
     },

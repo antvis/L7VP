@@ -1,7 +1,7 @@
 import { genStyleHook } from '@formily/antd-v5/esm/__builtins__';
 
 export default genStyleHook('scale-selector__custom-input__number', (token) => {
-  const { componentCls } = token;
+  const { componentCls, antCls } = token;
 
   return {
     [componentCls]: {
@@ -17,7 +17,7 @@ export default genStyleHook('scale-selector__custom-input__number', (token) => {
           width: '50px',
         },
 
-        '.ant-input-number-input-wrap': {
+        [`${antCls}-input-number-input-wrap`]: {
           input: {
             fontSize: '12px',
           },
