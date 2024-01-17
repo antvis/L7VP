@@ -3,7 +3,7 @@ import { useAntdToken } from '../../../../hooks';
 import { LayerIconBg } from './constant';
 
 const useStyle = () => {
-  const { colorBgContainer, colorSplit, colorPrimary, borderRadius } = useAntdToken();
+  const { antCls, colorBgContainer, colorSplit, colorPrimary, borderRadius } = useAntdToken();
 
   return {
     layerItem: css`
@@ -56,7 +56,7 @@ const useStyle = () => {
       height: 100%;
       cursor: pointer;
 
-      .ant-space-item:last-child {
+      ${antCls}-space-item:last-child {
         margin-left: -5px !important;
       }
 
