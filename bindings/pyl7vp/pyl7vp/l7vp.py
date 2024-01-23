@@ -102,6 +102,8 @@ class L7VP():
         _validate_config(config)
         self.config = _merge_config(DEFAULT_ANALYSIS_SPEC, config)
 
+        self.set_theme()
+
         # page settting
         self.page_title = "PyL7VP"
 
@@ -153,6 +155,13 @@ class L7VP():
          # if dataset not link layer, dataset add property '_autoCreateLayers' tag
         datasets = list(map(lambda d: _dataset_auto_create_layers(d, self.config.get("layers")), self.datasets))
         return json_dump_to_js(datasets)
+
+    '''
+    set the l7vp theme "light" or "dark", default "light"
+    '''
+
+    def set_theme(self, theme: str = "light"):
+      self.theme = theme
 
     '''
     get render to html string
