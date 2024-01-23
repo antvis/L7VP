@@ -102,6 +102,8 @@ class L7VP():
         _validate_config(config)
         self.config = _merge_config(DEFAULT_ANALYSIS_SPEC, config)
 
+        self.set_theme()
+
         # page settting
         self.page_title = "PyL7VP"
 
@@ -155,6 +157,13 @@ class L7VP():
         return json_dump_to_js(datasets)
 
     '''
+    set the l7vp theme "dark" or "light", default "dark"
+    '''
+
+    def set_theme(self, theme: str = "dark"):
+      self.theme = theme
+
+    '''
     get render to html string
     '''
 
@@ -184,7 +193,6 @@ class L7VP():
         }
 
         self.read_only = read_only
-        self.theme = "dark"
 
         # get html string
         return Engine(env=env).render(

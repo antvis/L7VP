@@ -71,6 +71,12 @@
     <script>
       const LI_Theme = "{{ l7vp.theme }}"
       const _theme = window.antd.theme;
+      const _lightTheme = {
+        token: {
+          colorPrimary: "#8274FF",
+          colorInfo: "#8274FF",
+        },
+      }
       const _darkTheme = {
         algorithm: _theme.darkAlgorithm,
         token: {
@@ -81,7 +87,7 @@
           borderRadius: 6,
         },
       }
-      const Antd_Theme = LI_Theme === "light" ? {} : _darkTheme
+      const Antd_Theme = LI_Theme === "light" ? _lightTheme : _darkTheme
     </script>
 
     {% if l7vp.app_mode %}
