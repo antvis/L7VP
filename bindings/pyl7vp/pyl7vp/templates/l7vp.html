@@ -67,6 +67,23 @@
     if (MAP_TOKEN) LI_Config.spec.map.config.token = MAP_TOKEN
     </script>
 
+     <!-- LI Theme -->
+    <script>
+      const LI_Theme = "{{ l7vp.theme }}"
+      const _theme = window.antd.theme;
+      const _darkTheme = {
+        algorithm: _theme.darkAlgorithm,
+        token: {
+          colorPrimary: "#8274FF",
+          colorTextBase: "rgba(255,255,255,0.85)",
+          colorBgBase: "#0f0f13",
+          colorInfo: "#8274FF",
+          borderRadius: 6,
+        },
+      }
+      const Antd_Theme = LI_Theme === "light" ? {} : _darkTheme
+    </script>
+
     {% if l7vp.app_mode %}
     <!-- Render LI App -->
     <script>
@@ -84,21 +101,7 @@
         });
       };
 
-      const appTheme = {
-        algorithm: theme.darkAlgorithm,
-        token: {
-          colorPrimary: "#8274FF",
-          colorBgLayout: "#0F0F13",
-          colorBgContainer: "#282932",
-          colorBgElevated: "#3D3E4A",
-          colorText: "rgba(255,255,255,0.85)",
-          colorTextSecondary: "rgba(255,255,255,0.45)",
-          colorBorder: "#434343",
-          colorSplit: "#303030",
-          borderRadius: 4,
-        },
-      }
-      const App = React.createElement(ConfigProvider, { theme: {} }, React.createElement(LIAppElement, null));
+      const App = React.createElement(ConfigProvider, { theme: Antd_Theme }, React.createElement(LIAppElement, null));
 
       ReactDOM.render(App, document.getElementById("{{ l7vp.instance_id }}"));
     </script>
@@ -119,21 +122,7 @@
         });
       };
 
-      const appTheme = {
-        algorithm: theme.darkAlgorithm,
-        token: {
-          colorPrimary: "#8274FF",
-          colorBgLayout: "#0F0F13",
-          colorBgContainer: "#282932",
-          colorBgElevated: "#3D3E4A",
-          colorText: "rgba(255,255,255,0.85)",
-          colorTextSecondary: "rgba(255,255,255,0.45)",
-          colorBorder: "#434343",
-          colorSplit: "#303030",
-          borderRadius: 4,
-        },
-      }
-      const App = React.createElement(ConfigProvider, { theme: {} }, React.createElement(LIEditorElement, null));
+      const App = React.createElement(ConfigProvider, { theme: Antd_Theme }, React.createElement(LIEditorElement, null));
 
       ReactDOM.render(App, document.getElementById("{{ l7vp.instance_id }}"));
     </script>

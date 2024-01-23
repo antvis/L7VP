@@ -184,6 +184,7 @@ class L7VP():
         }
 
         self.read_only = read_only
+        self.theme = "dark"
 
         # get html string
         return Engine(env=env).render(
