@@ -49,6 +49,7 @@ const TimeLineControl: React.FC<TimeLineControlType> = (props) => {
 
   // 获取数据源
   const [dataset] = useDataset(datasetId, { filter: dataSetFilter });
+  const dateFilterNodeRef = useRef(null);
 
   // 数据源和数据字段配置发生更新时，如果有配置筛选条件，需要清空筛选条件
   useEffect(() => {
@@ -80,6 +81,10 @@ const TimeLineControl: React.FC<TimeLineControlType> = (props) => {
     isTimeLineFilter(item, dateField, dataWidgetId),
   );
 
+  if (filterNode?.id) {
+    dateFilterNodeRef.current = filterNode.id;
+  }
+
   const selectedRange = filterNode?.value;
   const isTimeXField = fieldType === 'date';
 
@@ -93,14 +98,15 @@ const TimeLineControl: React.FC<TimeLineControlType> = (props) => {
 
   const onFilterNodeChange = (value: Selection | any) => {
     // 更新筛选
-    if (filterNode?.id) {
-      runUpdateFilterNode(filterNode?.id, { value });
+    if (dateFilterNodeRef.current) {
+      runUpdateFilterNode(dateFilterNodeRef.current, { value });
       return;
     }
 
+    dateFilterNodeRef.current = getUniqueId();
     // 添加筛选
     const _filterNode: TimeLineFilter = {
-      id: getUniqueId(),
+      id: dateFilterNodeRef.current,
       type: fieldType as 'date',
       field: dateField,
       operator: 'BETWEEN',
@@ -114,8 +120,9 @@ const TimeLineControl: React.FC<TimeLineControlType> = (props) => {
 
   // 删除筛选条件
   const delFilterNode = () => {
-    if (filterNode?.id) {
-      removeFilterNode(filterNode?.id);
+    if (dateFilterNodeRef.current) {
+      removeFilterNode(dateFilterNodeRef.current);
+      dateFilterNodeRef.current = null;
     }
   };
 
