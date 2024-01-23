@@ -49,7 +49,7 @@ const TimeLineControl: React.FC<TimeLineControlType> = (props) => {
 
   // 获取数据源
   const [dataset] = useDataset(datasetId, { filter: dataSetFilter });
-  const dateFilterNodeRef = useRef(null);
+  const dateFilterNodeRef = useRef<string>();
 
   // 数据源和数据字段配置发生更新时，如果有配置筛选条件，需要清空筛选条件
   useEffect(() => {
@@ -122,7 +122,7 @@ const TimeLineControl: React.FC<TimeLineControlType> = (props) => {
   const delFilterNode = () => {
     if (dateFilterNodeRef.current) {
       removeFilterNode(dateFilterNodeRef.current);
-      dateFilterNodeRef.current = null;
+      dateFilterNodeRef.current = undefined;
     }
   };
 
