@@ -157,10 +157,10 @@ class L7VP():
         return json_dump_to_js(datasets)
 
     '''
-    set the l7vp theme "dark" or "light", default "dark"
+    set the l7vp theme "light" or "dark", default "light"
     '''
 
-    def set_theme(self, theme: str = "dark"):
+    def set_theme(self, theme: str = "light"):
       self.theme = theme
 
     '''
