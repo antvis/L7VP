@@ -1,4 +1,5 @@
 import { Chart } from '@antv/g2';
+import { debounce } from 'lodash-es';
 import React, { useEffect, useRef } from 'react';
 import type { Selection } from '../TimeLinePanel/types';
 
@@ -148,7 +149,7 @@ export const TimeLineChart = (props: TimeLineChartProps) => {
     if (!chartRef.current) {
       return () => null;
     }
-    const onHighlight = (e: any) => {
+    const onHighlight = debounce((e: any) => {
       const { nativeEvent, data } = e;
       if (!nativeEvent) return;
       const [selectionX] = data.selection;
@@ -157,7 +158,7 @@ export const TimeLineChart = (props: TimeLineChartProps) => {
       // 选择的区间没有变化
       if (start === selection?.[0] && end === selection?.[1]) return;
       onSelection(start, end);
-    };
+    }, 160);
     const onBrushRemove = (e: any) => {
       if (!e?.nativeEvent) return;
       onReset();
