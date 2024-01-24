@@ -6,7 +6,7 @@ import React from 'react';
 import InternalSelect from './Select';
 import type { FieldSelectOptionType } from './Select/types';
 
-const FieldSelect: ReactFC<SelectProps<string, FieldSelectOptionType>> = connect(
+const FieldSelect: ReactFC<SelectProps<string | string[], FieldSelectOptionType>> = connect(
   InternalSelect,
   mapProps(
     {
