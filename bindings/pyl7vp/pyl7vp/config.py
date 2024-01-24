@@ -192,7 +192,7 @@ DEFAULT_ANALYSIS_SPEC = {
             "center": [120.153576, 30.287459],
             "pitch": 0,
             "bearing": 0,
-            "style": 'dark',
+            "style": 'grey',
             "WebGLParams": {
                 "preserveDrawingBuffer": True,
             },
