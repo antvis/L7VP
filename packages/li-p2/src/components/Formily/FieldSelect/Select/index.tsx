@@ -30,13 +30,9 @@ const InternalSelect: React.FC<SelectProps<string | string[], FieldSelectOptionT
       // 多选
       if (!props.value) {
         props.onChange([val], options ?? []);
-      } else {
-        if (typeof props.value !== 'string') {
-          const selectValues = props.value.includes(val)
-            ? props.value.filter((item) => item !== val)
-            : [...props.value, val];
-          props.onChange(selectValues, options ?? []);
-        }
+      } else if (Array.isArray(props.value)) {
+        const selectValues = Array.from(new Set(props.value.concat(val)));
+        props.onChange(selectValues, options ?? []);
       }
     }
   };
