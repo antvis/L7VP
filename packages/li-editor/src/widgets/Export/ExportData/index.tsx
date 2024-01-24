@@ -1,9 +1,10 @@
-import type { LocalDatasetSchema } from '@antv/li-sdk';
+import type { Dataset, LocalDatasetSchema } from '@antv/li-sdk';
+import { isLocalOrRemoteDataset } from '@antv/li-sdk';
 import { Form, message, Modal, Radio, Select } from 'antd';
+import classNames from 'classnames';
 import { downloadBlob, downloadText } from 'download.js';
 import React from 'react';
-import classNames from 'classnames';
-import { useEditorState, usePrefixCls } from '../../../hooks';
+import { useEditorDatasets, useEditorState, usePrefixCls } from '../../../hooks';
 import { json2CSV, json2geo, json2xlsx } from './helper';
 import useStyle from './style';
 
@@ -17,7 +18,18 @@ const ExportData = ({ visible, onVisbleChange }: ExportDataProps) => {
   const styles = useStyle();
   const [form] = Form.useForm();
   const { state } = useEditorState();
-  const localDatasets = state.datasets.filter((dataset) => dataset.type === 'local') as LocalDatasetSchema[];
+  const { editorDatasets } = useEditorDatasets();
+  // 过滤常规数据源
+  const localDatasets = state.datasets
+    .filter((dataset) => isLocalOrRemoteDataset(dataset as Dataset))
+    .map((dataset) => {
+      const data = editorDatasets.find((item) => item.schema.id === dataset.id)?.data;
+      return {
+        ...dataset,
+        data,
+      };
+    }) as LocalDatasetSchema[];
+
   const [messageApi, messageContextHolder] = message.useMessage();
 
   const fieldTypeListOption = [
@@ -124,15 +136,19 @@ const ExportData = ({ visible, onVisbleChange }: ExportDataProps) => {
             </div>
           }
           style={{ padding: 20 }}
-          initialValue={'all'}
+          initialValue={localDatasets.length ? 'all' : undefined}
         >
           <Select
-            options={[
-              { label: '全部', value: 'all' },
-              ...localDatasets.map((item) => {
-                return { label: item.metadata.name, value: item.id };
-              }),
-            ]}
+            options={
+              localDatasets.length
+                ? [
+                    { label: '全部', value: 'all' },
+                    ...localDatasets.map((item) => {
+                      return { label: item.metadata.name, value: item.id };
+                    }),
+                  ]
+                : []
+            }
           />
         </Form.Item>
         <Form.Item
@@ -154,3 +170,20 @@ const ExportData = ({ visible, onVisbleChange }: ExportDataProps) => {
 };
 
 export default ExportData;
+function async(
+  arg0: (
+    | import('@antv/li-sdk').VectorTileDatasetSchema
+    | import('@antv/li-sdk').RasterTileDatasetSchema
+    | import('@antv/li-sdk').RemoteDatasetSchema
+    | {
+        data: Record<string, any>[] | undefined;
+        id: string;
+        metadata: import('@antv/li-sdk').Metadata;
+        type: 'local';
+        columns: import('@antv/li-sdk').DatasetField[];
+        filter?: import('@antv/li-sdk').FilterGroup | undefined;
+      }
+  )[],
+): LocalDatasetSchema[] {
+  throw new Error('Function not implemented.');
+}
