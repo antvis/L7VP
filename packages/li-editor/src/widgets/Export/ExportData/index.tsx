@@ -170,20 +170,3 @@ const ExportData = ({ visible, onVisbleChange }: ExportDataProps) => {
 };
 
 export default ExportData;
-function async(
-  arg0: (
-    | import('@antv/li-sdk').VectorTileDatasetSchema
-    | import('@antv/li-sdk').RasterTileDatasetSchema
-    | import('@antv/li-sdk').RemoteDatasetSchema
-    | {
-        data: Record<string, any>[] | undefined;
-        id: string;
-        metadata: import('@antv/li-sdk').Metadata;
-        type: 'local';
-        columns: import('@antv/li-sdk').DatasetField[];
-        filter?: import('@antv/li-sdk').FilterGroup | undefined;
-      }
-  )[],
-): LocalDatasetSchema[] {
-  throw new Error('Function not implemented.');
-}
