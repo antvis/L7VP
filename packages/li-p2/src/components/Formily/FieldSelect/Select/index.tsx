@@ -8,20 +8,32 @@ import React, { useState } from 'react';
 import useStyle from './style';
 import type { FieldSelectOptionType } from './types';
 
-const InternalSelect: React.FC<SelectProps<string, FieldSelectOptionType>> = (props) => {
+const InternalSelect: React.FC<SelectProps<string | string[], FieldSelectOptionType>> = (props) => {
   const { options, open: outerOpen = false, ...prop } = props;
   const prefixCls = usePrefixCls('formily-field-select');
   const [wrapSSR, hashId] = useStyle(prefixCls);
   const [internalOpen, setInternalOpen] = useState(outerOpen);
+  // Select 是否多选
+  const isMultiple = prop.mode;
 
   useUpdateEffect(() => {
     setInternalOpen(outerOpen);
   }, [outerOpen]);
 
   const onOptionClick = (val: string) => {
-    if (props.onChange) {
+    if (!props.onChange) return;
+    // 单选
+    if (!isMultiple) {
       props.onChange(val, options ?? []);
       setInternalOpen(false);
+    } else {
+      // 多选
+      if (!props.value) {
+        props.onChange([val], options ?? []);
+      } else if (Array.isArray(props.value)) {
+        const selectValues = Array.from(new Set(props.value.concat(val)));
+        props.onChange(selectValues, options ?? []);
+      }
     }
   };
 
@@ -41,10 +53,11 @@ const InternalSelect: React.FC<SelectProps<string, FieldSelectOptionType>> = (pr
           <div className={`${prefixCls}-dropdown`} style={{ height: dropdownHeight }}>
             <div className={`${prefixCls}-dropdown-container`}>
               {options?.map((item, index) => {
+                const isSelected = isMultiple ? props.value?.includes(item.value) : item.value === props.value;
                 return (
                   <div
                     className={cls(`${prefixCls}-item`, hashId, {
-                      [`${prefixCls}-item_selected`]: item.value === props.value,
+                      [`${prefixCls}-item_selected`]: isSelected,
                     })}
                     key={index}
                     onClick={() => onOptionClick(item.value)}
