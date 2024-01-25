@@ -17,9 +17,7 @@ const ExportData = ({ visible, onVisbleChange }: ExportDataProps) => {
   const styles = useStyle();
   const [form] = Form.useForm();
   const { editorDatasets } = useEditorDatasets();
-  const localOrRemoteDatasets = editorDatasets.filter(
-    (dataset) => dataset.isLocalOrRemoteDataset,
-  ) as LocalDatasetSchema[];
+  const localOrRemoteDatasets = editorDatasets.filter((dataset) => dataset.isLocalOrRemoteDataset);
 
   const [messageApi, messageContextHolder] = message.useMessage();
 
