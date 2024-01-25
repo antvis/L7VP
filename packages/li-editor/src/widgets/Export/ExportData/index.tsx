@@ -1,4 +1,3 @@
-import type { LocalDatasetSchema } from '@antv/li-sdk';
 import { Form, message, Modal, Radio, Select } from 'antd';
 import classNames from 'classnames';
 import { downloadBlob, downloadText } from 'download.js';
@@ -27,6 +26,15 @@ const ExportData = ({ visible, onVisbleChange }: ExportDataProps) => {
     { label: 'Excel', value: 'xlsx' },
     { label: 'GeoJSON', value: 'geojson' },
   ];
+
+  const datasets = localOrRemoteDatasets.length
+    ? [
+        { label: '全部', value: 'all' },
+        ...localOrRemoteDatasets.map((item) => {
+          return { label: item.metadata.name, value: item.id };
+        }),
+      ]
+    : [];
 
   const downLoadDataSource = () => {
     const { dataSourceId, type } = form.getFieldsValue(true);
@@ -127,18 +135,7 @@ const ExportData = ({ visible, onVisbleChange }: ExportDataProps) => {
           style={{ padding: 20 }}
           initialValue={localOrRemoteDatasets.length ? 'all' : undefined}
         >
-          <Select
-            options={
-              localOrRemoteDatasets.length
-                ? [
-                    { label: '全部', value: 'all' },
-                    ...localOrRemoteDatasets.map((item) => {
-                      return { label: item.metadata.name, value: item.id };
-                    }),
-                  ]
-                : []
-            }
-          />
+          <Select options={datasets} />
         </Form.Item>
         <Form.Item
           name="type"

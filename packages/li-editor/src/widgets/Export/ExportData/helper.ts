@@ -1,10 +1,10 @@
 import type { DatasetField } from '@antv/li-sdk';
 import type { GeometryTypes } from '@turf/turf';
 import { omit } from 'lodash-es';
-import type { EditorDataset } from 'packages/li-editor/src/services/editor-dataset-manager';
 import papaparse from 'papaparse';
 import type { WritingOptions } from 'xlsx';
 import { utils as XLSX_utils, write as XLSX_write } from 'xlsx';
+import type { EditorDataset } from '../../../services/editor-dataset-manager';
 
 // 数据转文本格式处理
 const getTextFormatData = (list: Record<string, any>[]) => {
