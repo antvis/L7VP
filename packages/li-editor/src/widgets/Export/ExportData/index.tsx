@@ -1,10 +1,9 @@
-import type { Dataset, LocalDatasetSchema } from '@antv/li-sdk';
-import { isLocalOrRemoteDataset } from '@antv/li-sdk';
+import type { LocalDatasetSchema } from '@antv/li-sdk';
 import { Form, message, Modal, Radio, Select } from 'antd';
 import classNames from 'classnames';
 import { downloadBlob, downloadText } from 'download.js';
 import React from 'react';
-import { useEditorDatasets, useEditorState, usePrefixCls } from '../../../hooks';
+import { useEditorDatasets, usePrefixCls } from '../../../hooks';
 import { json2CSV, json2geo, json2xlsx } from './helper';
 import useStyle from './style';
 
@@ -17,18 +16,10 @@ const ExportData = ({ visible, onVisbleChange }: ExportDataProps) => {
   const prefixCls = usePrefixCls('export-data');
   const styles = useStyle();
   const [form] = Form.useForm();
-  const { state } = useEditorState();
   const { editorDatasets } = useEditorDatasets();
-  // 过滤常规数据源
-  const localDatasets = state.datasets
-    .filter((dataset) => isLocalOrRemoteDataset(dataset as Dataset))
-    .map((dataset) => {
-      const data = editorDatasets.find((item) => item.schema.id === dataset.id)?.data;
-      return {
-        ...dataset,
-        data,
-      };
-    }) as LocalDatasetSchema[];
+  const localOrRemoteDatasets = editorDatasets.filter(
+    (dataset) => dataset.isLocalOrRemoteDataset,
+  ) as LocalDatasetSchema[];
 
   const [messageApi, messageContextHolder] = message.useMessage();
 
@@ -41,16 +32,16 @@ const ExportData = ({ visible, onVisbleChange }: ExportDataProps) => {
 
   const downLoadDataSource = () => {
     const { dataSourceId, type } = form.getFieldsValue(true);
-    const targetDataset = localDatasets.find((item) => item.id === dataSourceId);
+    const targetDataset = localOrRemoteDatasets.find((item) => item.id === dataSourceId);
     if (dataSourceId == 'all') {
       try {
         if (type === 'json') {
-          localDatasets.forEach((item) => {
+          localOrRemoteDatasets.forEach((item) => {
             downloadText(`${item.metadata.name}.${type}`, JSON.stringify(item.data));
           });
         }
         if (type === 'geojson') {
-          localDatasets.forEach((dataset) => {
+          localOrRemoteDatasets.forEach((dataset) => {
             const geometry = dataset.columns.find((item) => item.type === 'geo');
             if (geometry?.name) {
               const { type: geometryType } = dataset.data[0][geometry.name];
@@ -62,12 +53,12 @@ const ExportData = ({ visible, onVisbleChange }: ExportDataProps) => {
           });
         }
         if (type === 'csv') {
-          localDatasets.forEach((item) => {
+          localOrRemoteDatasets.forEach((item) => {
             downloadText(`${item.metadata.name}.${type}`, json2CSV(item));
           });
         }
         if (type === 'xlsx') {
-          localDatasets.forEach((item) => {
+          localOrRemoteDatasets.forEach((item) => {
             const content = json2xlsx(item);
             if (content) {
               downloadBlob(`${item.metadata.name}.${type}`, content);
@@ -136,14 +127,14 @@ const ExportData = ({ visible, onVisbleChange }: ExportDataProps) => {
             </div>
           }
           style={{ padding: 20 }}
-          initialValue={localDatasets.length ? 'all' : undefined}
+          initialValue={localOrRemoteDatasets.length ? 'all' : undefined}
         >
           <Select
             options={
-              localDatasets.length
+              localOrRemoteDatasets.length
                 ? [
                     { label: '全部', value: 'all' },
-                    ...localDatasets.map((item) => {
+                    ...localOrRemoteDatasets.map((item) => {
                       return { label: item.metadata.name, value: item.id };
                     }),
                   ]
