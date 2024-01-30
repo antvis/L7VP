@@ -48,7 +48,7 @@ class MapStore extends BaseStore<MapState> {
   }
 
   public initMapConfigState(mapConfig: MapSchema) {
-    this.state.mapConfig = mapConfig;
+    this.state = { ...this.state, mapConfig };
   }
 
   public setMapViewState(viewState: MapState['mapConfig']['config']) {
