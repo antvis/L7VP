@@ -18,6 +18,7 @@ const MapViewSettingControl: React.FC<MapViewSettingProps> = (props) => {
   const [rotateValue, setRotateValue] = useState<number>();
   const isGaode = scene?.getType() === 'amap2';
   const styles = useStyle();
+  const [open, setOpen] = useState(false);
 
   const onPitchChange = (value: number) => {
     setMapViewState({ pitch: value });
@@ -36,7 +37,7 @@ const MapViewSettingControl: React.FC<MapViewSettingProps> = (props) => {
   };
 
   useEffect(() => {
-    if (scene) {
+    if (scene && open) {
       const onMapSelectPitch = () => {
         setPitchValue(Math.round(scene.getPitch()));
         const currentRotation = scene.getRotation();
@@ -63,7 +64,7 @@ const MapViewSettingControl: React.FC<MapViewSettingProps> = (props) => {
         scene?.off('moveend', onMapSelectPitch);
       };
     }
-  }, [scene]);
+  }, [scene, open]);
 
   // 判断气泡方向
   const onPlacement = useMemo(() => {
@@ -87,7 +88,14 @@ const MapViewSettingControl: React.FC<MapViewSettingProps> = (props) => {
 
   return (
     <CustomControl position={position} className={CLS_PREFIX}>
-      <Popover arrow={false} placement={onPlacement} content={content} trigger="click">
+      <Popover
+        arrow={false}
+        placement={onPlacement}
+        content={content}
+        trigger="click"
+        open={open}
+        onOpenChange={(open: boolean) => setOpen(open)}
+      >
         <Tooltip placement={onPlacement} title="地图倾角">
           <div className={classNames(`${CLS_PREFIX}__setting-btn`, styles.settingBtn)}>
             <Icon component={MapViewSettingControlSvg} />
