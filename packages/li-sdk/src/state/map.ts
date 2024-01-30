@@ -1,5 +1,4 @@
 import type { Scene } from '@antv/l7';
-import { produce } from 'immer';
 import type { MapSchema } from '../specs';
 import BaseStore from './base-store';
 import { MapStoreEvent } from './constants';
@@ -52,9 +51,18 @@ class MapStore extends BaseStore<MapState> {
   }
 
   public setMapViewState(viewState: MapState['mapConfig']['config']) {
-    this.state.mapConfig = produce(this.state.mapConfig, (draftState) => {
-      draftState.config = { ...draftState.config, ...viewState };
-    });
+    const mapConfig = {
+      ...this.state.mapConfig,
+      config: {
+        ...this.state.mapConfig.config,
+        ...viewState,
+      },
+    };
+
+    this.state = {
+      ...this.state,
+      mapConfig,
+    };
 
     this.emit(MapStoreEvent.UPDATE_VIEWSTATE, viewState);
   }
