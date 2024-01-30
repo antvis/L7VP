@@ -51,18 +51,13 @@ class MapStore extends BaseStore<MapState> {
   }
 
   public setMapViewState(viewState: MapState['mapConfig']['config']) {
+    const originalMapConfig = this.state.mapConfig;
     const mapConfig = {
-      ...this.state.mapConfig,
-      config: {
-        ...this.state.mapConfig.config,
-        ...viewState,
-      },
+      ...originalMapConfig,
+      config: { ...originalMapConfig.config, ...viewState },
     };
 
-    this.state = {
-      ...this.state,
-      mapConfig,
-    };
+    this.state = { ...this.state, mapConfig };
 
     this.emit(MapStoreEvent.UPDATE_VIEWSTATE, viewState);
   }
