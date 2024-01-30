@@ -48,13 +48,14 @@ class MapStore extends BaseStore<MapState> {
   }
 
   public initMapConfigState(mapConfig: MapSchema) {
-    this.state = { ...this.state, mapConfig };
+    this.state.mapConfig = mapConfig;
   }
 
   public setMapViewState(viewState: MapState['mapConfig']['config']) {
-    this.state = produce(this.state, (draftState) => {
-      draftState.mapConfig.config = viewState;
+    this.state.mapConfig = produce(this.state.mapConfig, (draftState) => {
+      draftState.config = { ...draftState.config, ...viewState };
     });
+
     this.emit(MapStoreEvent.UPDATE_VIEWSTATE, viewState);
   }
 
