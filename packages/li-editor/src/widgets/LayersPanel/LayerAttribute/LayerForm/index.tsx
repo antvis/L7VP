@@ -4,12 +4,12 @@ import { Form } from '@formily/antd-v5';
 import { createForm, onFieldValueChange } from '@formily/core';
 import { useMemoizedFn } from 'ahooks';
 import classNames from 'classnames';
-import { max, min, pick } from 'lodash-es';
+import { pick } from 'lodash-es';
 import React, { useMemo, useState } from 'react';
 import { useEditorDataset, useEditorService, useEditorState, usePrefixCls } from '../../../../hooks';
 import BaseFormSchemaField from '../BaseFormSchemaField';
-import StyleForm from './StyleForm';
 import useStyle from './style';
+import StyleForm from './StyleForm';
 
 export type LayerFormValue = Pick<LayerSchema, 'type' | 'sourceConfig' | 'visConfig'>;
 type LayerStyleFormValue = Pick<LayerSchema, 'sourceConfig' | 'visConfig'>;
@@ -46,15 +46,12 @@ const LayerForm: React.FC<LayerFormProps> = ({ className, config, onChange }) =>
 
   const datasetFields = useMemo(() => getDatasetFields(columns), [columns]);
 
-  // TODO: 从 editorDataset 获取数据
   const datasetFieldList = useMemo(() => {
     return datasetFields.map((item) => {
-      const itemValue = editorDataset?.data.map((_item) => _item[item.value]) || [];
-      const domain = item.type === 'number' ? [min(itemValue), max(itemValue)] : [...new Set(itemValue)];
-
+      const domain = editorDataset?.getColumnDomain(item.name);
       return { ...item, domain };
     });
-  }, [datasetFields, editorDataset?.data]);
+  }, [datasetFields, editorDataset]);
 
   const onFormValuesChange = (visType_: string, datasetId_: string, styleConfig: LayerStyleFormValue) => {
     if (styleConfig.sourceConfig && datasetId_) {

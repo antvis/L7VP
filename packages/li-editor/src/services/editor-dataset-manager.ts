@@ -5,11 +5,13 @@ import {
   isLocalDatasetSchema,
   isLocalOrRemoteDatasetSchema,
   isRemoteDatasetSchema,
+  notNullorUndefined,
   queryServiceClient,
   Subscribable,
 } from '@antv/li-sdk';
 import type { QueryObserverOptions, QueryObserverResult } from '@tanstack/query-core';
 import { QueryObserver } from '@tanstack/query-core';
+import { max, min } from 'lodash-es';
 import type { AutoCreateSchema, FieldPair, GeoField } from '../types';
 import { requestIdleCallback } from '../utils';
 import { getGeoFields, getPointFieldPairs } from '../utils/dataset';
@@ -125,9 +127,11 @@ export class EditorDataset {
     return this;
   }
 
-  public getColumnDomain(columnName: string) {
+  public getColumnDomain(columnName: string): string[] | [number, number] | [true, false] {
     const field = this.columns.find((c) => c.name === columnName);
     if (!this.data.length || !field) return [];
+
+    const values = this.data.map((item) => item[columnName]);
 
     switch (field.type) {
       case 'boolean':
@@ -135,13 +139,13 @@ export class EditorDataset {
 
       case 'date':
       case 'string':
-        return [];
+        return [...new Set(values)].filter(notNullorUndefined);
 
       case 'number':
-        return [];
+        return [min(values), max(values)];
 
       default:
-        return [];
+        return [...new Set(values)].filter(notNullorUndefined);
     }
   }
 

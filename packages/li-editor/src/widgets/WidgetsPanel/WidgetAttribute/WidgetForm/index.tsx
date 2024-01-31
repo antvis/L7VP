@@ -7,8 +7,8 @@ import classNames from 'classnames';
 import { debounce } from 'lodash-es';
 import React, { useMemo } from 'react';
 import { usePrefixCls } from '../../../../hooks';
-import useStyle from './style';
 import WidgetSchemaField from './SchemaField';
+import useStyle from './style';
 
 type WidgetFormProps = {
   className?: string;
@@ -59,6 +59,7 @@ const WidgetForm: React.FC<WidgetFormProps> = (props) => {
     });
 
     return form;
+    // schema 发生更新重新生成新的表单实例
   }, [schema]);
 
   return (
