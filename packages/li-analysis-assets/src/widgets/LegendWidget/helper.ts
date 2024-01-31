@@ -123,7 +123,11 @@ export const parserLegendData = (layer: Layer) => {
       .map((label, index) => ({ label, color: colors[index] }))
       .sort((a, b) => a.label.localeCompare(b.label, 'zh-CN'));
     // string 文本自定义的情况，需要展示出其他分类
-    const unknownItem = { label: '其他', color: layer.options.fillColor.scale.unknown };
+    // 线图层 layer.options.color 其他图层 layer.options.fillColor
+    const unknownItem = {
+      label: '其他',
+      color: layer.options.fillColor?.scale.unknown || layer.options.color?.scale.unknown,
+    };
     const _labels = unknownItem.color
       ? [...catData.map((item) => item.label), unknownItem.label]
       : catData.map((item) => item.label);
@@ -143,6 +147,8 @@ export const parserLegendData = (layer: Layer) => {
         colors: _colors,
       },
     };
+
+    console.log(data, 'data');
 
     return data;
   } else if (['linear', 'quantile', 'quantize', 'threshold'].includes(type as string)) {
