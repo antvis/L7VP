@@ -59,7 +59,7 @@ const WidgetForm: React.FC<WidgetFormProps> = (props) => {
     });
 
     return form;
-  }, [registerFormData.toValues]);
+  }, [schema]);
 
   return (
     <Form
