@@ -148,8 +148,6 @@ export const parserLegendData = (layer: Layer) => {
       },
     };
 
-    console.log(data, 'data');
-
     return data;
   } else if (['linear', 'quantile', 'quantize', 'threshold'].includes(type as string)) {
     const data: LegendRampData = {
