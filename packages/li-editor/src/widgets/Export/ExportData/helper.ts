@@ -1,9 +1,10 @@
-import type { DatasetField, LocalDatasetSchema } from '@antv/li-sdk';
+import type { DatasetField } from '@antv/li-sdk';
 import type { GeometryTypes } from '@turf/turf';
 import { omit } from 'lodash-es';
 import papaparse from 'papaparse';
 import type { WritingOptions } from 'xlsx';
 import { utils as XLSX_utils, write as XLSX_write } from 'xlsx';
+import type { EditorDataset } from '../../../services/editor-dataset-manager';
 
 // 数据转文本格式处理
 const getTextFormatData = (list: Record<string, any>[]) => {
@@ -19,7 +20,7 @@ const getTextFormatData = (list: Record<string, any>[]) => {
 /**
  * json 转 csv
  *  */
-export const json2CSV = (jsondata: LocalDatasetSchema) => {
+export const json2CSV = (jsondata: EditorDataset) => {
   return papaparse.unparse(getTextFormatData(jsondata.data), {
     newline: '\n',
   });
@@ -27,7 +28,7 @@ export const json2CSV = (jsondata: LocalDatasetSchema) => {
 /**
  * json 转 xlsx
  *  */
-export const json2xlsx = (jsondata: LocalDatasetSchema) => {
+export const json2xlsx = (jsondata: EditorDataset) => {
   const changeData = (s: any) => {
     //如果存在ArrayBuffer对象(es6) 最好采用该对象
     if (typeof ArrayBuffer !== 'undefined') {
@@ -72,7 +73,7 @@ export const json2xlsx = (jsondata: LocalDatasetSchema) => {
 /**
  * json 转 geojson
  *  */
-export const json2geo = (jsondata: LocalDatasetSchema, type: GeometryTypes, geometry: DatasetField) => {
+export const json2geo = (jsondata: EditorDataset, type: GeometryTypes, geometry: DatasetField) => {
   const geojson = {
     type: 'FeatureCollection',
     features: jsondata.data.map((item) => ({
