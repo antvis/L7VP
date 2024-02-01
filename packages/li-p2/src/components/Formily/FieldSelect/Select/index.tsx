@@ -7,8 +7,9 @@ import { isUndefined } from 'lodash-es';
 import React, { useState } from 'react';
 import useStyle from './style';
 import type { FieldSelectOptionType } from './types';
+import { CloseOutlined, DownOutlined } from '@ant-design/icons';
 
-const InternalSelect: React.FC<SelectProps<string | string[], FieldSelectOptionType>> = (props) => {
+const InternalSelect: React.FC<SelectProps<undefined | string | string[], FieldSelectOptionType>> = (props) => {
   const { options, open: outerOpen = false, ...prop } = props;
   const prefixCls = usePrefixCls('formily-field-select');
   const [wrapSSR, hashId] = useStyle(prefixCls);
@@ -37,9 +38,20 @@ const InternalSelect: React.FC<SelectProps<string | string[], FieldSelectOptionT
     }
   };
 
+  const onClear = () => {
+    if (!props.onChange) return;
+    // 多选
+    if (isMultiple) {
+      props.onChange([], options ?? []);
+    } else {
+      props.onChange(undefined, options ?? []);
+    }
+  };
+
   return wrapSSR(
     <Select
       {...prop}
+      allowClear={false}
       popupClassName={cls(`${prefixCls}`, hashId)}
       open={internalOpen}
       onDropdownVisibleChange={(visible) => setInternalOpen(visible)}
@@ -76,6 +88,7 @@ const InternalSelect: React.FC<SelectProps<string | string[], FieldSelectOptionT
           </div>
         );
       }}
+      suffixIcon={props.value && !internalOpen ? <CloseOutlined onClick={onClear} /> : <DownOutlined />}
     >
       {options?.map((item, index) => {
         return (
