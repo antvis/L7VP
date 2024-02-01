@@ -4,10 +4,10 @@ import type { SelectProps } from 'antd';
 import { Empty, Select, Tag } from 'antd';
 import cls from 'classnames';
 import { isUndefined } from 'lodash-es';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import { CloseOutlined, DownOutlined } from '@ant-design/icons';
 import useStyle from './style';
 import type { FieldSelectOptionType } from './types';
-import { CloseOutlined, DownOutlined } from '@ant-design/icons';
 
 const InternalSelect: React.FC<SelectProps<undefined | string | string[], FieldSelectOptionType>> = (props) => {
   const { options, open: outerOpen = false, ...prop } = props;
@@ -47,6 +47,20 @@ const InternalSelect: React.FC<SelectProps<undefined | string | string[], FieldS
       props.onChange(undefined, options ?? []);
     }
   };
+
+  const suffixIcon = useMemo(() => {
+    if (internalOpen || !props.value) {
+      return <DownOutlined />;
+    }
+
+    if (!props.allowClear) {
+      return '';
+    }
+
+    if (props.value) {
+      return <CloseOutlined onClick={onClear} />;
+    }
+  }, [props.value, props.allowClear, internalOpen]);
 
   return wrapSSR(
     <Select
@@ -88,7 +102,7 @@ const InternalSelect: React.FC<SelectProps<undefined | string | string[], FieldS
           </div>
         );
       }}
-      suffixIcon={props.value && !internalOpen ? <CloseOutlined onClick={onClear} /> : <DownOutlined />}
+      suffixIcon={suffixIcon}
     >
       {options?.map((item, index) => {
         return (

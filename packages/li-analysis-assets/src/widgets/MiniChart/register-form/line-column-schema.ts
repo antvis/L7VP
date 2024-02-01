@@ -5,7 +5,7 @@ export default () => {
       type: 'string',
       required: true,
       'x-component-props': {
-        allowClear: true,
+        allowClear: false,
         placeholder: '请选择字段',
       },
       'x-decorator': 'FormItem',
@@ -26,7 +26,7 @@ export default () => {
       type: 'string',
       required: true,
       'x-component-props': {
-        allowClear: true,
+        allowClear: false,
         placeholder: '请选择字段',
       },
       'x-decorator': 'FormItem',

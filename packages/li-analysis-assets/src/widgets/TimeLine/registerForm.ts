@@ -20,7 +20,7 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
       type: 'string',
       required: true,
       'x-component-props': {
-        allowClear: true,
+        allowClear: false,
         placeholder: '请选择字段',
       },
       'x-decorator': 'FormItem',

@@ -25,7 +25,7 @@ export default (fieldList: FieldSelectOptionType[]) => {
               'x-decorator': 'FormItem',
               'x-component': 'FieldSelect',
               'x-component-props': {
-                allowClear: true,
+                allowClear: false,
                 placeholder: '请选择字段',
               },
               enum: [...fieldList],

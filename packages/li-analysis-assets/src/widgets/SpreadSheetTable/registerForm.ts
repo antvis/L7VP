@@ -42,7 +42,7 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
               type: 'string',
               required: true,
               'x-component-props': {
-                allowClear: true,
+                allowClear: false,
                 mode: 'multiple',
                 placeholder: '请选择字段',
               },

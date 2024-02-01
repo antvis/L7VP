@@ -5,7 +5,7 @@ export default () => {
       type: 'string',
       required: true,
       'x-component-props': {
-        allowClear: true,
+        allowClear: false,
         placeholder: '请选择字段',
       },
       'x-decorator-props': {
@@ -33,7 +33,7 @@ export default () => {
       type: 'string',
       required: true,
       'x-component-props': {
-        allowClear: true,
+        allowClear: false,
         placeholder: '请选择字段',
       },
       'x-decorator-props': {
