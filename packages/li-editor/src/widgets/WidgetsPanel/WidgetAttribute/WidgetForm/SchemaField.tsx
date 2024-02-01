@@ -17,6 +17,7 @@ import {
   Select,
   Space,
   Switch,
+  ArrayTable,
 } from '@formily/antd-v5';
 import type { ISchema } from '@formily/json-schema';
 import { createSchemaField } from '@formily/react';
@@ -40,6 +41,7 @@ const SchemaField = createSchemaField({
     ControlPositionSelect,
     TimeGranularitySelect,
     FilterConfiguration,
+    ArrayTable,
   },
 });
 
