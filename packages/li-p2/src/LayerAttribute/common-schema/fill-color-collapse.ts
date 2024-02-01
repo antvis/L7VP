@@ -24,7 +24,7 @@ export default (options: AttributeSchemaOptions) => {
             'x-decorator': 'FormItem',
             'x-component': 'FieldSelect',
             'x-decorator-props': {
-              tooltip: '选中一个数值字段作为颜色填充字段',
+              tooltip: '依据字段作为颜色填充，可选项',
             },
             'x-component-props': {
               allowClear: true,
