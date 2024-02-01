@@ -4,6 +4,7 @@ import { Empty, Select, Tag } from 'antd';
 import cls from 'classnames';
 import { isUndefined } from 'lodash-es';
 import React, { useMemo, useState } from 'react';
+import type { CSSProperties } from 'react';
 import { CloseOutlined, DownOutlined } from '@ant-design/icons';
 import useStyle from './style';
 import type { FieldSelectOptionType } from './types';
@@ -37,6 +38,10 @@ export interface FieldSelectProps {
    * 选择发生改变时
    */
   onChange?: (value?: string | string[]) => void;
+  /**
+   * 行内样式
+   */
+  style?: CSSProperties;
 }
 
 const InternalSelect = (props: FieldSelectProps) => {
