@@ -1,12 +1,11 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import type { ReactFC } from '@formily/react';
 import { connect, mapProps } from '@formily/react';
-import type { SelectProps } from 'antd';
 import React from 'react';
 import InternalSelect from './Select';
-import type { FieldSelectOptionType } from './Select/types';
+import type { FieldSelectProps } from './Select';
 
-const FieldSelect: ReactFC<SelectProps<undefined | string | string[], FieldSelectOptionType>> = connect(
+const FieldSelect: ReactFC<FieldSelectProps> = connect(
   InternalSelect,
   mapProps(
     {

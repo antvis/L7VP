@@ -1,6 +1,5 @@
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { useUpdateEffect } from 'ahooks';
-import type { SelectProps } from 'antd';
 import { Empty, Select, Tag } from 'antd';
 import cls from 'classnames';
 import { isUndefined } from 'lodash-es';
@@ -9,7 +8,38 @@ import { CloseOutlined, DownOutlined } from '@ant-design/icons';
 import useStyle from './style';
 import type { FieldSelectOptionType } from './types';
 
-const InternalSelect: React.FC<SelectProps<undefined | string | string[], FieldSelectOptionType>> = (props) => {
+export interface FieldSelectProps {
+  /**
+   * value
+   */
+  value?: string | string[];
+  /**
+   * options
+   */
+  options?: FieldSelectOptionType[];
+  /**
+   * 打开
+   */
+  open?: boolean;
+  /**
+   * 多选
+   */
+  mode?: 'multiple' | 'tags';
+  /**
+   * 是否可清除
+   */
+  allowClear?: boolean;
+  /**
+   * 是否禁止操作
+   */
+  disable?: boolean;
+  /**
+   * 选择发生改变时
+   */
+  onChange?: (value?: string | string[]) => void;
+}
+
+const InternalSelect = (props: FieldSelectProps) => {
   const { options, open: outerOpen = false, ...prop } = props;
   const prefixCls = usePrefixCls('formily-field-select');
   const [wrapSSR, hashId] = useStyle(prefixCls);
@@ -25,15 +55,15 @@ const InternalSelect: React.FC<SelectProps<undefined | string | string[], FieldS
     if (!props.onChange) return;
     // 单选
     if (!isMultiple) {
-      props.onChange(val, options ?? []);
+      props.onChange(val);
       setInternalOpen(false);
     } else {
       // 多选
       if (!props.value) {
-        props.onChange([val], options ?? []);
+        props.onChange([val]);
       } else if (Array.isArray(props.value)) {
         const selectValues = Array.from(new Set(props.value.concat(val)));
-        props.onChange(selectValues, options ?? []);
+        props.onChange(selectValues);
       }
     }
   };
@@ -42,9 +72,9 @@ const InternalSelect: React.FC<SelectProps<undefined | string | string[], FieldS
     if (!props.onChange) return;
     // 多选
     if (isMultiple) {
-      props.onChange([], options ?? []);
+      props.onChange([]);
     } else {
-      props.onChange(undefined, options ?? []);
+      props.onChange(undefined);
     }
   };
 
