@@ -32,7 +32,7 @@ const FilterContent: React.FC<FilterContentProps> = (props) => {
   const openFieldSelect = outterValue.field ? false : true;
 
   // 筛选字段变更
-  const onFieldChange = (field: string | string[]) => {
+  const onFieldChange = (field?: string | string[]) => {
     const _field = options.find((item) => item.value === field);
     if (_field) {
       setDomain(_field?.domain ?? []);
