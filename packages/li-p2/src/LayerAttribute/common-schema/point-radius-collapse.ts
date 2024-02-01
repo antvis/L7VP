@@ -25,7 +25,7 @@ export default (options: AttributeSchemaOptions) => {
             'x-decorator': 'FormItem',
             'x-component': 'FieldSelect',
             'x-decorator-props': {
-              tooltip: '选中一个数值字段作为填充半径',
+              tooltip: '依据数值字段作为填充半径，可选项',
             },
             'x-component-props': {
               allowClear: true,
