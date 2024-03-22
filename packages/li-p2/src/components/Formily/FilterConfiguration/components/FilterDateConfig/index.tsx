@@ -65,7 +65,7 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
   };
 
   // 时间区间变化
-  const onRangePickerChange = (_: any, dateString: [string, string] | string) => {
+  const onRangePickerChange = (_: any, dateString: string | string[]) => {
     let value: string | [string, string] | undefined;
 
     // 点击清空的情况
@@ -75,7 +75,7 @@ const FilterDateConfig: React.FC<FilterDateConfigProps> = (props) => {
     } else if (state.type === 'date') {
       value = typeof dateString === 'string' ? getTimeFormat(dateString, state.format) : undefined;
     } else {
-      value = Array.isArray(dateString) ? getTimeFormat(dateString, state.format) : undefined;
+      value = Array.isArray(dateString) ? getTimeFormat(dateString as [string, string], state.format) : undefined;
     }
 
     setState((pre) => ({ ...pre, value }));
