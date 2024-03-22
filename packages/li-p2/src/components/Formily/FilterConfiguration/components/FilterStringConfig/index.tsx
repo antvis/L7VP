@@ -59,6 +59,7 @@ const FilterStringConfig: React.FC<FilterStringConfigProps> = (props) => {
     <>
       {filterType === 'single' && (
         <Select
+          showSearch
           size={size}
           bordered={bordered}
           style={{ width: '100%', textAlign: 'left' }}
