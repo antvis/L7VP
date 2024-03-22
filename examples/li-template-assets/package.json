@@ -15,7 +15,8 @@
     "dist",
     "lib",
     "es",
-    "README.md"
+    "README.md",
+    "!dist/report.html"
   ],
   "scripts": {
     "prepare": "husky install",
