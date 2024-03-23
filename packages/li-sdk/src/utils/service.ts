@@ -1,5 +1,5 @@
 import type { QueryClientConfig } from '@tanstack/query-core';
-import { QueryClient } from '@tanstack/query-core';
+import { QueryClient, QueryObserver } from '@tanstack/query-core';
 import type { DatasetServiceParams, ImplementService, ImplementServiceOptions } from '../types';
 
 /**
@@ -32,6 +32,7 @@ const queryClientConfig: QueryClientConfig = {
   },
 };
 export const queryServiceClient = new QueryClient(queryClientConfig);
+export { QueryClient, QueryObserver };
 
 type Listener = () => void;
 

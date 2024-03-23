@@ -20,7 +20,8 @@
   "typings": "dist/esm/index.d.ts",
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "!dist/umd/report.html"
   ],
   "scripts": {
     "build": "npm run clean && father build",

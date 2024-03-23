@@ -13,7 +13,7 @@ export * from './types';
 
 export { implementWidget } from './utils/widget';
 export { implementLayer } from './utils/layer';
-export { implementService, queryServiceClient, Subscribable } from './utils/service';
+export { implementService, queryServiceClient, QueryClient, QueryObserver, Subscribable } from './utils/service';
 export * from './utils/register-form';
 export * from './utils/helper';
 export * from './utils/dataset';

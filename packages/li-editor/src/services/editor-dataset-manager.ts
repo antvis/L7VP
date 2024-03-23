@@ -6,11 +6,12 @@ import {
   isLocalOrRemoteDatasetSchema,
   isRemoteDatasetSchema,
   notNullorUndefined,
+  // QueryObserver 从 sdk 导入，确保 UMD 产物与 QueryClient 版本一致
+  QueryObserver,
   queryServiceClient,
   Subscribable,
 } from '@antv/li-sdk';
 import type { QueryObserverOptions, QueryObserverResult } from '@tanstack/query-core';
-import { QueryObserver } from '@tanstack/query-core';
 import { max, min } from 'lodash-es';
 import type { AutoCreateSchema, FieldPair, GeoField } from '../types';
 import { requestIdleCallback } from '../utils';
@@ -293,6 +294,7 @@ class EditorDatasetManager extends Subscribable<EditorDatasetManagerListener> {
     const hasChange = this.schemas !== datasets;
     if (!hasChange) return;
 
+    this.schemas = datasets;
     const prevDatasets = this.datasets;
     const prevDatasetsMap = new Map(prevDatasets.map((item) => [item.id, item]));
     const newDatasets = datasets.map((datasetSchema) => {
