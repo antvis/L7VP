@@ -11,6 +11,8 @@ type ChinaAdminLayerStyleAttributeValue = ChoroplethLayerStyleAttributeValue & {
   adminLabelStroke: string;
   adminLabelStrokeWidth: number;
   showNationalBorders: boolean;
+  nationalColor: string;
+  coastColor: string;
 };
 
 /**
@@ -26,6 +28,8 @@ const toValues = (config: LayerRegisterFormResultType<ChinaAdminLayerStyleAttrib
     adminLabelStroke,
     adminLabelStrokeWidth,
     showNationalBorders,
+    nationalColor,
+    coastColor,
   } = visConfig;
 
   return {
@@ -36,6 +40,8 @@ const toValues = (config: LayerRegisterFormResultType<ChinaAdminLayerStyleAttrib
     adminLabelStroke,
     adminLabelStrokeWidth,
     showNationalBorders,
+    nationalColor,
+    coastColor,
     ...choroplethLayerStyleConfigToFlat(visConfig),
   };
 };
@@ -59,7 +65,7 @@ const fromValues = (values: Record<string, any>): LayerRegisterFormResultType<Ch
     'adminLabelStroke',
     'adminLabelStrokeWidth',
   ]);
-  const showNationalStyle = pick(values, ['showNationalBorders']);
+  const showNationalStyle = pick(values, ['showNationalBorders', 'coastColor', 'nationalColor']);
 
   return {
     sourceConfig,
