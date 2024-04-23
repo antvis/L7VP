@@ -1,7 +1,7 @@
 import type { ChoroplethLayerProps } from '@antv/larkmap';
 import { ChoroplethLayer, TextLayer } from '@antv/larkmap';
 import type { ImplementLayerProps } from '@antv/li-sdk';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import ChinaCountryBoundary from './ChinaCountryBoundary';
 import { getAdminBoundaryData } from './helper';
 import type { ChinaAdminLayerSource } from './type';
@@ -14,6 +14,8 @@ export interface ChinaAdminLayerProps extends ChoroplethLayerProps, ImplementLay
   adminLabelStroke: string;
   adminLabelStrokeWidth: number;
   showNationalBorders: boolean;
+  nationalBorderColor: string;
+  coastBorderColor: string;
 }
 
 const ChinaAdminLayer: React.FC<ChinaAdminLayerProps> = (props) => {
@@ -30,6 +32,8 @@ const ChinaAdminLayer: React.FC<ChinaAdminLayerProps> = (props) => {
     adminLabelStroke,
     adminLabelStrokeWidth,
     showNationalBorders,
+    nationalBorderColor = 'red',
+    coastBorderColor = 'blue',
   } = props;
   const [labelData, setLabelData] = useState<Record<string, any>[]>([]);
   const [source, setSource] = useState<ChoroplethLayerProps['source']>();
@@ -68,9 +72,26 @@ const ChinaAdminLayer: React.FC<ChinaAdminLayerProps> = (props) => {
     },
   };
 
+  const chinaBorder = useMemo(() => {
+    return {
+      // 国界
+      national: {
+        color: nationalBorderColor,
+        width: 1,
+        opacity: 1,
+      },
+      // 海洋
+      coast: {
+        color: coastBorderColor,
+        width: 0.7,
+        opacity: 0.8,
+      },
+    };
+  }, [nationalBorderColor, coastBorderColor]);
+
   return (
     <>
-      {showNationalBorders && <ChinaCountryBoundary visible={visible} />}
+      {showNationalBorders && <ChinaCountryBoundary visible={visible} chinaBorder={chinaBorder} />}
       {source && (
         <ChoroplethLayer
           {...props}

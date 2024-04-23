@@ -47,6 +47,8 @@ export default implementLayer({
       },
     },
     showNationalBorders: true,
+    nationalBorderColor: 'red',
+    coastBorderColor: 'blue',
     state: {
       active: { strokeColor: 'yellow', fillColor: false },
       select: { fillColor: false, strokeColor: 'red' },
