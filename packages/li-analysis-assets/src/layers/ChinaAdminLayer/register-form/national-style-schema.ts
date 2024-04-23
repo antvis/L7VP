@@ -24,6 +24,42 @@ export default () => {
               'x-component': 'Switch',
               default: true,
             },
+            nationalBorderColor: {
+              type: 'string',
+              title: '国界线',
+              default: 'red',
+              'x-decorator': 'FormItem',
+              'x-component': 'ColorPicker',
+              'x-decorator-props': {},
+              'x-reactions': [
+                {
+                  dependencies: ['showNationalBorders'],
+                  fulfill: {
+                    state: {
+                      visible: '{{ $deps[0] }}',
+                    },
+                  },
+                },
+              ],
+            },
+            coastBorderColor: {
+              type: 'string',
+              title: '海岸线',
+              default: 'blue',
+              'x-decorator': 'FormItem',
+              'x-component': 'ColorPicker',
+              'x-decorator-props': {},
+              'x-reactions': [
+                {
+                  dependencies: ['showNationalBorders'],
+                  fulfill: {
+                    state: {
+                      visible: '{{ $deps[0] }}',
+                    },
+                  },
+                },
+              ],
+            },
           },
         },
       },
