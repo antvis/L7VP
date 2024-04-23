@@ -80,6 +80,13 @@ const ChinaAdminLayer: React.FC<ChinaAdminLayerProps> = (props) => {
         width: 1,
         opacity: 1,
       },
+      // 争议
+      dispute: {
+        color: nationalBorderColor,
+        width: 1,
+        opacity: 0.8,
+        dashArray: [2, 4],
+      },
       // 海洋
       coast: {
         color: coastBorderColor,
