@@ -27,6 +27,7 @@ export default () => {
             nationalBorderColor: {
               type: 'string',
               title: '国界线',
+              default: 'red',
               'x-decorator': 'FormItem',
               'x-component': 'ColorPicker',
               'x-decorator-props': {},
@@ -34,6 +35,7 @@ export default () => {
             coastBorderColor: {
               type: 'string',
               title: '海岸线',
+              default: 'blue',
               'x-decorator': 'FormItem',
               'x-component': 'ColorPicker',
               'x-decorator-props': {},
