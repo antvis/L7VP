@@ -37,7 +37,7 @@ export default implementLayer({
     opacity: 0.8,
     strokeColor: '#a9abb1',
     lineWidth: 1,
-    lineOpacity: 1,
+    lineOpacity: 0.8,
     label: {
       style: {
         fill: '#a9abb1',
@@ -47,8 +47,8 @@ export default implementLayer({
       },
     },
     showNationalBorders: true,
-    nationalBorderColor: 'red',
-    coastBorderColor: 'blue',
+    nationalBorderColor: '#606067',
+    coastBorderColor: '#606067',
     state: {
       active: { strokeColor: 'yellow', fillColor: false },
       select: { fillColor: false, strokeColor: 'red' },
