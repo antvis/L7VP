@@ -1,0 +1,74 @@
+{
+  "name": "@antv/li-website",
+  "version": "0.0.0",
+  "description": "location insight website",
+  "private": true,
+  "author": "https://github.com/orgs/antvis/people",
+  "homepage": "https://li.antv.antgroup.com",
+  "scripts": {
+    "dev": "umi dev",
+    "build": "umi build",
+    "build:analyze": "ANALYZE=1 npm run build",
+    "postinstall": "umi setup",
+    "setup": "umi setup",
+    "start": "npm run dev",
+    "prettier": "prettier --write \"src/*.{tsx,ts,less,md,json}\""
+  },
+  "dependencies": {
+    "@antv/difi-weave": "^1.2.17",
+    "@antv/difi-weave-decor-mask": "^1.2.17",
+    "@antv/difi-weave-summary-row": "^1.2.17",
+    "@alipay/li-di-assets": "*",
+    "@ant-design/icons": "^5.0.1",
+    "@antv/g2plot": "^2.4.31",
+    "@antv/l7": "^2.17.2",
+    "@antv/larkmap": "^1.4.11",
+    "@antv/li-analysis-assets": "^1.0.5",
+    "@antv/li-core-assets": "^1.0.5",
+    "@antv/li-editor": "^1.0.5",
+    "@antv/li-sdk": "^1.0.5",
+    "@emotion/css": "^11.10.6",
+    "@emotion/react": "^11.10.6",
+    "@monaco-editor/react": "^4.5.1",
+    "@turf/turf": "^6.5.0",
+    "antd": "^5.5.0",
+    "classnames": "^2.3.1",
+    "copy-to-clipboard": "^3.3.3",
+    "dayjs": "^1.11.7",
+    "immer": "^10.0.3",
+    "localforage": "^1.10.0",
+    "lodash-es": "^4.17.21",
+    "lz-string": "^1.5.0",
+    "moment": "^2.29.4",
+    "react-transition-group": "^4.4.5",
+    "react-window": "^1.8.9",
+    "umi": "^4.0.8",
+    "use-immer": "^0.7.0"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.6",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "cross-env": "^7.0.3",
+    "typescript": "^4.7.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/antvis/L7VP.git"
+  },
+  "nx": {
+    "implicitDependencies": [],
+    "targets": {
+      "start": {
+        "dependsOn": [
+          "^build"
+        ]
+      },
+      "build": {
+        "outputs": [
+          "{projectRoot}/dist"
+        ]
+      }
+    }
+  }
+}
