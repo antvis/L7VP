@@ -31,6 +31,16 @@ export default () => {
               'x-decorator': 'FormItem',
               'x-component': 'ColorPicker',
               'x-decorator-props': {},
+              'x-reactions': [
+                {
+                  dependencies: ['showNationalBorders'],
+                  fulfill: {
+                    state: {
+                      visible: '{{ $deps[0] }}',
+                    },
+                  },
+                },
+              ],
             },
             coastBorderColor: {
               type: 'string',
@@ -39,6 +49,16 @@ export default () => {
               'x-decorator': 'FormItem',
               'x-component': 'ColorPicker',
               'x-decorator-props': {},
+              'x-reactions': [
+                {
+                  dependencies: ['showNationalBorders'],
+                  fulfill: {
+                    state: {
+                      visible: '{{ $deps[0] }}',
+                    },
+                  },
+                },
+              ],
             },
           },
         },
