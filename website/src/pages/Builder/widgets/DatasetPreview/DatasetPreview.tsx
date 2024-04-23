@@ -1,6 +1,10 @@
 import Icon, { BorderInnerOutlined } from '@ant-design/icons';
 // TODO： difi-weave 依赖处理
-import type { ColType, Props } from '@antv/difi-weave';
+import type { ImplementEditorPreviewDatasetWidgetProps } from '@antv/li-editor';
+import { useEditorDataset } from '@antv/li-editor';
+import type { DatasetField } from '@antv/li-sdk';
+import type { ViewMeta } from '@antv/s2';
+import type { ColType, Props } from '@difizen/weave';
 import {
   darkTheme,
   DimTableDataCell,
@@ -8,13 +12,9 @@ import {
   registerScopedPlugin,
   RowCell,
   useSpreadSheet,
-} from '@antv/difi-weave';
-import DecorMaskPlugin, { setKey } from '@antv/difi-weave-decor-mask';
-import SummaryRowPlugin from '@antv/difi-weave-summary-row';
-import type { ImplementEditorPreviewDatasetWidgetProps } from '@antv/li-editor';
-import { useEditorDataset } from '@antv/li-editor';
-import type { DatasetField } from '@antv/li-sdk';
-import type { ViewMeta } from '@antv/s2';
+} from '@difizen/weave';
+import DecorMaskPlugin, { setKey } from '@difizen/weave-decor-mask';
+import SummaryRowPlugin from '@difizen/weave-summary-row';
 import { message, Modal, theme, Tooltip } from 'antd';
 import classNames from 'classnames';
 import copy from 'copy-to-clipboard';

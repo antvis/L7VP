@@ -18,15 +18,13 @@ jobs:
           yarn install
           yarn build:package
 
-      - name: Build examples builder
+      - name: Build Website
         run: |
-          cd examples/builder
-          yarn install
-          yarn build
+          yarn build:website
 
       - name: Push gh-pages
         run: |
-          cd examples/builder/dist
+          cd website/dist
           git init
           git config --local user.name antv
           git config --local user.email antv@antfin.com
@@ -35,6 +33,6 @@ jobs:
       - uses: ad-m/github-push-action@master
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
-          directory: examples/builder/dist
+          directory: website/dist
           branch: gh-pages
           force: true
