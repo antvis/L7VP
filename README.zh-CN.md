@@ -68,22 +68,30 @@ l7vp_map.show()
 
 ## 🔬 本地示例
 
-### 🔨 构建依赖
-
-```bash
-yarn install && yarn build:package
-```
-
 ### 📦 安装依赖
 
 ```bash
 cd examples/builder && yarn install
 ```
 
-### 🛫 启动示例
+### 💻 启动示例
 
 ```bash
 yarn run dev
+```
+
+## 🔨 研发站点
+
+### 📦 安装依赖
+
+```bash
+yarn install
+```
+
+### 🛫 启动站点
+
+```bash
+yarn run start:website
 ```
 
 ## 🤝 如何贡献

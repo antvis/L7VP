@@ -15,10 +15,9 @@
     "prettier": "prettier --write \"src/*.{tsx,ts,less,md,json}\""
   },
   "dependencies": {
-    "@difizen/weave": "^1.2.17",
-    "@difizen/weave-decor-mask": "^1.2.17",
-    "@difizen/weave-summary-row": "^1.2.17",
-    "@alipay/li-di-assets": "*",
+    "@difizen/weave": "^0.0.1-alpha.3",
+    "@difizen/weave-decor-mask": "^0.0.1-alpha.3",
+    "@difizen/weave-summary-row": "^0.0.1-alpha.3",
     "@ant-design/icons": "^5.0.1",
     "@antv/g2plot": "^2.4.31",
     "@antv/l7": "^2.17.2",

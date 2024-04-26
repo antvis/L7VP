@@ -61,8 +61,8 @@ export const EXTERNAL_RESOURCES = new Map<string, { globals: string | string[]; 
       js: [
         // 'https://api.tiles.mapbox.com/mapbox-gl-js/v1.13.3/mapbox-gl.js',
         'https://gw.alipayobjects.com/os/lib/mapbox-gl/1.13.3/dist/mapbox-gl.js',
-        `https://gw.alipayobjects.com/os/lib/antv/l7/${L7Version}/dist/l7.js`,
-        `https://gw.alipayobjects.com/os/lib/antv/l7-draw/${L7DrawVersion}/dist/l7-draw.min.js`,
+        `https://registry.npmmirror.com/@antv/l7/${L7Version}/files/dist/l7.js`,
+        `https://registry.npmmirror.com/@antv/l7-draw/${L7DrawVersion}/files/dist/l7-draw.min.js`,
       ],
     },
   ],
@@ -71,15 +71,15 @@ export const EXTERNAL_RESOURCES = new Map<string, { globals: string | string[]; 
     'LarkMap',
     {
       globals: 'LarkMap',
-      js: [`https://gw.alipayobjects.com/os/lib/antv/larkmap/${LarkMapVersion}/dist/larkmap.min.js`],
-      css: [`https://gw.alipayobjects.com/os/lib/antv/larkmap/${LarkMapVersion}/dist/larkmap.min.css`],
+      js: [`https://registry.npmmirror.com/@antv/larkmap/${LarkMapVersion}/files/dist/larkmap.min.js`],
+      css: [`https://registry.npmmirror.com/@antv/larkmap/${LarkMapVersion}/files/dist/larkmap.min.css`],
     },
   ],
   [
     'LISDK',
     {
       globals: 'LISDK',
-      js: [`https://gw.alipayobjects.com/os/lib/antv/li-sdk/${LISDKVersion}/dist/umd/li-sdk.min.js`],
+      js: [`https://registry.npmmirror.com/@antv/li-sdk/${LISDKVersion}/files/dist/umd/li-sdk.min.js`],
     },
   ],
 ]);

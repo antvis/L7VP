@@ -1,5 +1,4 @@
 import Icon, { BorderInnerOutlined } from '@ant-design/icons';
-// TODO： difi-weave 依赖处理
 import type { ImplementEditorPreviewDatasetWidgetProps } from '@antv/li-editor';
 import { useEditorDataset } from '@antv/li-editor';
 import type { DatasetField } from '@antv/li-sdk';
