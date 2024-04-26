@@ -35,7 +35,7 @@ export const BUILTIN_ASSET_PACKAGES: AssetPackage[] = [
     global: 'LICoreAssets',
     // latest 0.x
     urls: [
-      `https://gw.alipayobjects.com/os/lib/antv/li-core-assets/${LICoreAssetsVersion}/dist/umd/li-core-assets.min.js`,
+      `https://registry.npmmirror.com/@antv/li-core-assets/${LICoreAssetsVersion}/files/dist/umd/li-core-assets.min.js`,
     ],
     //TODO: 考虑到资产包加载速度，不动态加载内置资产
     enable: false,
@@ -49,7 +49,7 @@ export const BUILTIN_ASSET_PACKAGES: AssetPackage[] = [
     version: LIAnalysisAssetsVersion,
     global: 'LIAnalysisAssets',
     urls: [
-      `https://gw.alipayobjects.com/os/lib/antv/li-analysis-assets/${LIAnalysisAssetsVersion}/dist/umd/li-analysis-assets.min.js`,
+      `https://registry.npmmirror.com/@antv/li-analysis-assets/${LIAnalysisAssetsVersion}/files/dist/umd/li-analysis-assets.min.js`,
     ],
     enable: !isDevelopment,
   },
@@ -61,7 +61,7 @@ export const BUILTIN_ASSET_PACKAGES: AssetPackage[] = [
     package: '@antv/li-sam-assets',
     version: '0.1.3',
     global: 'SAMAssets',
-    urls: [`https://npm.elemecdn.com/@antv/li-sam-assets@0.1.3/dist/li-sam-assets.min.js`],
+    urls: [`https://registry.npmmirror.com/@antv/li-sam-assets/0.1.3/files/dist/li-sam-assets.min.js`],
   },
   {
     assetId: '@lvisei/li-zelda-assets',
@@ -71,6 +71,6 @@ export const BUILTIN_ASSET_PACKAGES: AssetPackage[] = [
     package: '@lvisei/li-zelda-assets',
     version: 'latest',
     global: 'LIZeldaAssets',
-    urls: ['https://npm.elemecdn.com/@lvisei/li-zelda-assets@0.x/dist/li-zelda-assets.min.js'],
+    urls: ['https://registry.npmmirror.com/@lvisei/li-zelda-assets/0.x/files/dist/li-zelda-assets.min.js'],
   },
 ];
