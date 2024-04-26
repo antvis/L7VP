@@ -23,13 +23,9 @@ jobs:
         run: |
           yarn install
 
-      - name: Build Website
-        run: |
-          yarn build:website
-
       - uses: afc163/surge-preview@v1
         with:
           surge_token: ${{ secrets.SURGE_TOKEN }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           dist: website/dist
-          build: echo
+          build: yarn build:website
