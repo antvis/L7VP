@@ -1,0 +1,35 @@
+body {
+  /* 滚动条整体部分,必须要设置 */
+  ::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+    appearance: none;
+  }
+
+  /* 滚动条的滑块按钮 */
+  ::-webkit-scrollbar-thumb {
+    background: #303030;
+    border-radius: 3px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #434343;
+    }
+  }
+
+  /* 滚动条的轨道 */
+  ::-webkit-scrollbar-track {
+    background: none;
+    border-radius: 0;
+  }
+}
+
+#root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.amap-copyright {
+  display: none !important;
+}

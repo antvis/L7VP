@@ -68,12 +68,6 @@ Learn more 👉 [PyL7VP](https://github.com/antvis/L7VP/tree/master/bindings/pyl
 
 ## 🔬 Local Case
 
-### 🔨 PreBuild
-
-```bash
-yarn install && yarn build:package
-```
-
 ### 📦 Installation
 
 ```bash
@@ -84,6 +78,20 @@ cd examples/builder && yarn install
 
 ```bash
 yarn run dev
+```
+
+## 🔨 Develop Website
+
+### 📦 Installation
+
+```bash
+yarn install
+```
+
+### 🛫 Start Up Website
+
+```bash
+yarn run start:website
 ```
 
 ## 🤝 How to Contribute

@@ -1,0 +1,73 @@
+.layout {
+  min-height: 100%;
+
+  // &::before {
+  //   position: fixed;
+  //   top: 0;
+  //   left: 0;
+  //   z-index: 0;
+  //   width: 100%;
+  //   height: 248px;
+  //   background-image: radial-gradient(circle at 88% -58%, rgba(92, 226, 255, 0.45) 0%, rgba(163, 56, 236, 0) 77%),
+  //     radial-gradient(circle at 71% -42%, rgba(49, 231, 225, 0.45) 0%, rgba(105, 246, 250, 0) 115%);
+  //   border-radius: 2.83px 2.83px 0 0;
+  //   opacity: 0.69;
+  //   content: '';
+  // }
+}
+
+.header {
+  position: fixed;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  // background-color: transparent;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+  cursor: pointer;
+}
+
+.logo-img {
+  width: 26px;
+  height: 26px;
+}
+
+.logo-text {
+  padding: 0 10px;
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.logo-desc {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 13px;
+}
+
+.menu {
+  // fix safiri bug
+  min-width: 180px;
+  background-color: transparent;
+  border-bottom: none;
+
+  /* stylelint-disable */
+  // :global(> .ant-menu-item::after),
+  // :global(> .ant-menu-item::after) {
+  //   border-bottom-color: transparent !important;
+  //   border-bottom-width: 0 !important;
+  // }
+  /* stylelint-enable */
+}
+
+.right-section {
+  text-align: right;
+}

@@ -1,4 +1,4 @@
-### 项目介绍
+## 项目介绍
 
 采用多包管理方式，对应的包如下：
 
@@ -11,8 +11,9 @@
 | packages/li-p2              | `@antv/li-p2`              | 编辑器的属性面板 |
 | packages/li-core-assets     | `@antv/li-core-assets`     | 核心资产包       |
 | packages/li-analysis-assets | `@antv/li-analysis-assets` | 分析资产包       |
+| website                     | `@antv/li-website`         | 工具站点         |
 
-### 项目开发
+## 项目开发
 
 ```bash
 # 全局安装 yarn
@@ -32,6 +33,9 @@ $ yarn start:core-assets
 
 # 分析资产研发
 $ yarn start:analysis-assets
+
+# 站点研发
+$ yarn start:website
 ```
 
 ### 添加依赖
