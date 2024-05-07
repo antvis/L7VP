@@ -3,7 +3,7 @@ import { debounce } from 'lodash-es';
 import React, { useEffect, useRef } from 'react';
 import type { Selection } from '../TimeLinePanel/types';
 
-const createPathRender = (compute: any) => {
+function createPathRender(compute: any) {
   return (group: any, options: any, document: any) => {
     if (!group.handle) {
       const path = document.createElement('path');
@@ -11,12 +11,12 @@ const createPathRender = (compute: any) => {
       group.appendChild(group.handle);
     }
     const { handle } = group;
-    const { width, height, ...rest } = options;
+    const { x, y, width, height, ...rest } = options;
     if (width === undefined || height === undefined) return handle;
-    handle.attr({ ...compute(width, height), ...rest });
+    handle.attr({ ...compute(x, y, width, height), ...rest });
     return handle;
   };
-};
+}
 
 export type TimeLineChartProps = {
   className?: string;
@@ -75,13 +75,13 @@ export const TimeLineChart = (props: TimeLineChartProps) => {
           brushXHighlight: {
             maskOpacity: 0.3,
             maskFill: '#777',
-            maskHandleWRender: createPathRender((width: number, height: number) => ({
-              d: 'M-0.5,31.5c-2.5,0,-4.5,2,-4.5,4.5v30c0,2.5,2,4.5,4.5,4.5V31.5z',
-              transform: `translate(${width / 2}, -5)`,
+            maskHandleWRender: createPathRender((x: number, y: number, width: number, height: number) => ({
+              d: 'm4.5,-20c-2.5,0 -4.5,2 -4.5,4.5l0,30c0,2.5 2,4.5 4.5,4.5l0,-39z',
+              transform: `translate(${x}, ${y + height / 2})`,
             })),
-            maskHandleERender: createPathRender((width: number, height: number) => ({
-              d: 'M0.5,31.5c2.5,0,4.5,2,4.5,4.5v30c0,2.5,-2,4.5,-4.5,4.5V31.5z',
-              transform: `translate(${width / 2}, -5)`,
+            maskHandleERender: createPathRender((x: number, y: number, width: number, height: number) => ({
+              d: 'm4.5,-18.7013c2.5,0 4.5,2 4.5,4.5l0,30c0,2.5 -2,4.5 -4.5,4.5l0,-39z',
+              transform: `translate(${x}, ${y + height / 2})`,
             })),
             maskHandleEFill: '#D3D8E0',
             maskHandleWFill: '#D3D8E0',
