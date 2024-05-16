@@ -22,6 +22,10 @@ jobs:
         run: |
           yarn build:website
 
+      - name: Custom domain
+        run: |
+          echo "li.antv.vision" > website/dist/CNAME
+
       - name: Push gh-pages
         run: |
           cd website/dist
