@@ -1,5 +1,4 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { getUniqueId } from '@antv/li-sdk';
 import { usePrefixCls } from '@formily/antd-v5/esm/__builtins__';
 import { Modal } from 'antd';
 import cls from 'classnames';
@@ -10,6 +9,7 @@ import type { FilterConfigType, OptionType } from '../type';
 import FilterContent from './FilterContent';
 import FilterItem from './FilterItem';
 import useStyle from './style';
+import { getUId } from '../../../../utils';
 
 export interface FilterModalProps {
   /**
@@ -72,10 +72,10 @@ const FilterModal: React.FC<FilterModalProps> = (props) => {
   };
 
   const addFilterItem = () => {
-    const DEFAULTITEM = ({
-      id: getUniqueId(),
+    const DEFAULTITEM = {
+      id: getUId(),
       field: undefined,
-    } as unknown) as FilterConfigType;
+    } as unknown as FilterConfigType;
 
     const _filterList = [...filterList, DEFAULTITEM];
     setFilterList(_filterList);
@@ -99,10 +99,10 @@ const FilterModal: React.FC<FilterModalProps> = (props) => {
         setFilterList(value);
         setSelectedFilterNode(value?.[0] || []);
       } else {
-        const DEFAULTITEM = ({
-          id: getUniqueId(),
+        const DEFAULTITEM = {
+          id: getUId(),
           field: undefined,
-        } as unknown) as FilterConfigType;
+        } as unknown as FilterConfigType;
 
         setFilterList([DEFAULTITEM]);
         setSelectedFilterNode(DEFAULTITEM);
