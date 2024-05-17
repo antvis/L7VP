@@ -142,7 +142,7 @@ const APP_CONFIG: Application = {
         },
         visConfig: {
           fillColor: '#7b807d',
-          opacity: 0.7,
+          opacity: 0.5,
           strokeColor: '#232424',
           lineWidth: 1,
           lineOpacity: 0.2,

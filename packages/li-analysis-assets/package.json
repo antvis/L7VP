@@ -39,7 +39,7 @@
     "start": "dumi dev"
   },
   "dependencies": {
-    "@antv/g2": "^5.0.14",
+    "@antv/g2": "^5.1.20",
     "@antv/l7-draw": "^3.0.20",
     "@antv/li-p2": "^1.8.1",
     "@antv/li-sdk": "^1.4.2",
