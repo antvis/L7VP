@@ -22,7 +22,7 @@ export const VIS_CASES: Case[] = [
     creatTime: '2022-09-19 16:29:09',
     type: 'vis',
     tags: ['区域对比'],
-    thumbnail: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*xyXSRqUKvioAAAAAAAAAAAAADmJ7AQ/original',
+    thumbnail: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*G5PCSarmQScAAAAAAAAAAAAADmJ7AQ/original',
     applicationConfig: dragonBoatFestival,
     assetPackageIds: [CORE_ASSETS_ID, ANALYSIS_ASSETS_ID],
   },
