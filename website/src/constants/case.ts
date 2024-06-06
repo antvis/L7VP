@@ -5,6 +5,7 @@ import populationGrowth from './cases/china-census/population-growth';
 import populationSexRatio from './cases/china-census/population-sex-ratio';
 import universityList from './cases/china-university-list';
 import cyberspacePattern from './cases/cyberspace-pattern';
+import dragonBoatFestival from './cases/dragon-boat-festival';
 import earthquake from './cases/earthquake';
 import marineProtectedAreas from './cases/marine-protected-areas';
 import newHouseJZH from './cases/new-house-jzh';
@@ -14,6 +15,17 @@ import type { Case } from '@/services';
 
 // 可视分析
 export const VIS_CASES: Case[] = [
+  {
+    id: 'dbbce4c3-e198-4a3e-8543-9e7da35af901',
+    name: '2024 端午各省热度排行',
+    description: '2024 端午各省热搜指数，数据来源于「端午节」百度指数',
+    creatTime: '2022-09-19 16:29:09',
+    type: 'vis',
+    tags: ['区域对比'],
+    thumbnail: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*G5PCSarmQScAAAAAAAAAAAAADmJ7AQ/original',
+    applicationConfig: dragonBoatFestival,
+    assetPackageIds: [CORE_ASSETS_ID, ANALYSIS_ASSETS_ID],
+  },
   {
     id: '09ccdf29-8bb0-4af8-8aa7-c89cfb4a2283',
     name: '地震等级与震深可视化',
