@@ -1,4 +1,5 @@
 import {
+  RichTextEditing,
   ControlPositionSelect,
   FieldSelect,
   FormCollapse,
@@ -38,6 +39,7 @@ const SchemaField = createSchemaField({
     Space,
     FormGrid,
     ControlPositionSelect,
+    RichTextEditing,
     TimeGranularitySelect,
     FilterConfiguration,
   },
