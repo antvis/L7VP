@@ -71,6 +71,6 @@ export const BUILTIN_ASSET_PACKAGES: AssetPackage[] = [
     package: '@lvisei/li-zelda-assets',
     version: 'latest',
     global: 'LIZeldaAssets',
-    urls: ['https://registry.npmmirror.com/@lvisei/li-zelda-assets/0.x/files/dist/li-zelda-assets.min.js'],
+    urls: ['https://unpkg.com/@lvisei/li-zelda-assets@0.x/dist/li-zelda-assets.min.js'],
   },
 ];
