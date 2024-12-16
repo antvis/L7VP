@@ -84,6 +84,9 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
+  "resolutions": {
+    "@types/react-beautiful-dnd": "13.1.2"
+  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
