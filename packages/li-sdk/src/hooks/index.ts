@@ -9,3 +9,6 @@ export * from './useLayerList';
 export * from './useLayerManager';
 export * from './useScene';
 export * from './useWidgetProps';
+export * from './useDatasetUpdate';
+export * from './useLayerUpdate';
+export * from './internal';

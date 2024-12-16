@@ -1,4 +1,11 @@
-import Icon, { CopyOutlined, EyeInvisibleOutlined, EyeOutlined, FormOutlined, MoreOutlined } from '@ant-design/icons';
+import Icon, {
+  CopyOutlined,
+  EyeInvisibleOutlined,
+  EyeOutlined,
+  FormOutlined,
+  MoreOutlined,
+  FullscreenExitOutlined,
+} from '@ant-design/icons';
 import type { LayerSchema } from '@antv/li-sdk';
 import { getUniqueId } from '@antv/li-sdk';
 import type { MenuProps } from 'antd';
@@ -82,6 +89,13 @@ const LayerItem = ({ layer, dragIcon, onClickLayer }: LayerItemProps) => {
       },
     },
     {
+      key: 'copy',
+      label: '复制图层',
+      onClick() {
+        handleCopyLayer(layer);
+      },
+    },
+    {
       key: 'delete',
       label: (
         <Popconfirm
@@ -98,6 +112,10 @@ const LayerItem = ({ layer, dragIcon, onClickLayer }: LayerItemProps) => {
       ),
     },
   ];
+
+  const handleFitBoundLayer = (_layer: LayerSchema) => {
+    appService.handleLayerFitBounds(_layer.id);
+  };
 
   return (
     <div className={classnames(prefixCls, styles.layerItem)} style={{ borderLeftColor: visLayer?.color }}>
@@ -138,11 +156,11 @@ const LayerItem = ({ layer, dragIcon, onClickLayer }: LayerItemProps) => {
               }}
             />
           </Tooltip>
-          <Tooltip title="点击复制图层">
-            <CopyOutlined
+          <Tooltip title="点击定位到图层">
+            <FullscreenExitOutlined
               data-comp="layer-actions-item_hover-show"
               className={classnames(`${prefixCls}__actions-item`, styles.actionsItem)}
-              onClick={() => handleCopyLayer(layer)}
+              onClick={() => handleFitBoundLayer(layer)}
             />
           </Tooltip>
 

@@ -7,11 +7,11 @@ import type { EditorDataset } from '../services/editor-dataset-manager';
 import type { LayerBounds } from '../types';
 import { getDefaultColorField, getGeometrysBounds, getLatLngBounds } from './dataset';
 
-const LayerColorRibbon = COLOR_RANGES.filter((i) => i.type === 'sequential' && i.colors.length === 4).map(
+export const LayerColorRibbon = COLOR_RANGES.filter((i) => i.type === 'sequential' && i.colors.length === 4).map(
   (i) => i.colors,
 );
 
-const colorRibbonMaker = (function* (): Generator<string[], void> {
+export const colorRibbonMaker = (function* (): Generator<string[], void> {
   let index = 0;
   while (index < LayerColorRibbon.length + 1) {
     if (index === LayerColorRibbon.length) {
@@ -21,7 +21,7 @@ const colorRibbonMaker = (function* (): Generator<string[], void> {
   }
 })();
 
-const getLayerFillColor = (colorField: DatasetField | undefined) => {
+export const getLayerFillColor = (colorField: DatasetField | undefined) => {
   const curr = colorRibbonMaker.next();
   const colors = curr.done ? LayerColorRibbon[0] : curr.value;
 

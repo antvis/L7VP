@@ -36,7 +36,7 @@
     "doctor": "father doctor",
     "ci": "npm run doctor",
     "prettier": "prettier --write \"src/*.{tsx,ts,less,md,json}\"",
-    "start": "dumi dev"
+    "start": "export NODE_OPTIONS=--openssl-legacy-provider && dumi dev"
   },
   "dependencies": {
     "@antv/g2": "^5.1.20",

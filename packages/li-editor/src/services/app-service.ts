@@ -188,6 +188,15 @@ class AppService {
   }
 
   /**
+   * 获取图层实例
+   */
+  public getLayerById(id: string) {
+    const { layersStore } = this.runtimeApp.stateManager;
+    const layerManager = layersStore.getLayerManager();
+    return layerManager?.getLayerById(id);
+  }
+
+  /**
    * 图层定位到数据可视范围
    */
   public handleLayerFitBounds(id: string) {
@@ -218,6 +227,17 @@ class AppService {
       rotation,
       bounds,
     };
+  }
+
+  /**
+   * 获取地图当前视野信息
+   */
+  public getSceneInstance() {
+    const { mapStore } = this.runtimeApp.stateManager;
+    const sceneInstance = mapStore.getScene();
+    if (!sceneInstance) return;
+
+    return sceneInstance;
   }
 
   /**

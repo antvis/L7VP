@@ -1,6 +1,8 @@
 export * from './dataset-parser';
 export * from './validator';
 export * from './widget';
+export * from './dataset';
+export * from './spec';
 
 export const requestIdleCallback =
   window.requestIdleCallback ||
