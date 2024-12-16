@@ -57,5 +57,8 @@
       "prettier --parser=typescript --write"
     ]
   },
-  "repository": "git@github.com:antvis/L7VP.git"
+  "repository": "git@github.com:antvis/L7VP.git",
+  "dependencies": {
+    "react-beautiful-dnd": "^13.1.1"
+  }
 }
