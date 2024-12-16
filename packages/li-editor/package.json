@@ -69,7 +69,7 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@types/shapefile": "^0.6.1",
-    "@types/react-beautiful-dnd": "^13.1.8",
+    "@types/react-beautiful-dnd": "13.1.2",
     "antd": "^5.5.0",
     "dumi": "^1.1.46",
     "father": "^4.0.7",
