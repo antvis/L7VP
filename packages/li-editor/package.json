@@ -54,7 +54,7 @@
     "jszip": "^3.10.1",
     "lodash-es": "^4.17.21",
     "papaparse": "^5.3.2",
-    "react-beautiful-dnd": "13.1.0",
+    "react-beautiful-dnd": "13.1.1",
     "react-error-boundary": "^4.0.10",
     "shapefile": "^0.6.6",
     "xlsx": "^0.18.5"
@@ -67,7 +67,7 @@
     "@types/lodash-es": "^4.17.6",
     "@types/papaparse": "^5.3.3",
     "@types/react": "^18.0.0",
-    "@types/react-beautiful-dnd": "13.1.0",
+    "@types/react-beautiful-dnd": "13.1.1",
     "@types/react-dom": "^18.0.0",
     "@types/shapefile": "^0.6.1",
     "antd": "^5.5.0",
@@ -85,7 +85,7 @@
     "react-dom": "^18.0.0"
   },
   "resolutions" : {
-    "react-beautiful-dnd": "13.1.0"
+    "react-beautiful-dnd": "13.1.1"
   },
   "publishConfig": {
     "access": "public",
