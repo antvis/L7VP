@@ -66,10 +66,10 @@
     "@types/geojson": "^7946.0.10",
     "@types/lodash-es": "^4.17.6",
     "@types/papaparse": "^5.3.3",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
+    "@types/react": "18.0.0",
+    "@types/react-dom": "18.0.0",
     "@types/shapefile": "^0.6.1",
-    "@types/react-beautiful-dnd": "13.1.2",
+    "@types/react-beautiful-dnd": "^13.1.8",
     "antd": "^5.5.0",
     "dumi": "^1.1.46",
     "father": "^4.0.7",
@@ -81,11 +81,8 @@
     "@antv/l7": "^2.17.2",
     "@antv/larkmap": "^1.4.11",
     "antd": "^5.5.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
-  },
-  "resolutions": {
-    "@types/react-beautiful-dnd": "13.1.2"
+    "react": "18.0.0",
+    "react-dom": "18.0.0"
   },
   "publishConfig": {
     "access": "public",
