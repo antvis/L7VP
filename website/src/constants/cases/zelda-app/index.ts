@@ -14,7 +14,7 @@ const APP_CONFIG: Application = {
       metadata: { name: 'Groundtiles', description: 'XYZ Tile', serviceType: 'XYZ Tile' },
       properties: {
         type: 'xyz-tile',
-        url: 'https://tiles.lvisei.icu/zelda-2/groundtiles/{z}/{x}/{y}.png',
+        url: 'https://tiles.lvisei.space/zelda-2/groundtiles/{z}/{x}/{y}.png',
         tileSize: 256,
         minZoom: 0,
         maxZoom: 7,
@@ -27,7 +27,7 @@ const APP_CONFIG: Application = {
       metadata: { name: 'Skytiles', description: 'XYZ Tile', serviceType: 'XYZ Tile' },
       properties: {
         type: 'xyz-tile',
-        url: 'https://tiles.lvisei.icu/zelda-2/skytiles/{z}/{x}/{y}.png',
+        url: 'https://tiles.lvisei.space/zelda-2/skytiles/{z}/{x}/{y}.png',
         tileSize: 256,
         minZoom: 0,
         maxZoom: 7,
@@ -40,7 +40,7 @@ const APP_CONFIG: Application = {
       metadata: { name: 'Undergroundtiles', description: 'XYZ Tile', serviceType: 'XYZ Tile' },
       properties: {
         type: 'xyz-tile',
-        url: 'https://tiles.lvisei.icu/zelda-2/undergroundtiles/{z}/{x}/{y}.png',
+        url: 'https://tiles.lvisei.space/zelda-2/undergroundtiles/{z}/{x}/{y}.png',
         tileSize: 256,
         minZoom: 0,
         maxZoom: 7,

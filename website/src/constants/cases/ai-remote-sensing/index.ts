@@ -56,7 +56,7 @@ const APP_CONFIG: Application = {
         properties: {
           modelUrl:
             'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/file/A*eRf_QauRmqoAAAAAAAAAAAAADmJ7AQ/sam_onnx_example.glb',
-          embeddingUrl: 'https://sam.lvisei.icu/api',
+          embeddingUrl: 'https://sam.lvisei.space/api',
           strokeColor: '#8274FF',
           editorTheme: 'vs-dark',
         },

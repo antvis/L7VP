@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { useCallback } from 'react';
-import type { DropResult } from 'react-beautiful-dnd';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import type { DropResult } from '@hello-pangea/dnd';
+import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd';
 import { usePrefixCls } from '../../../../hooks';
 import useStyle from './style';
 
