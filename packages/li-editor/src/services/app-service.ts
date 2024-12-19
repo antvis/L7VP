@@ -188,9 +188,9 @@ class AppService {
   }
 
   /**
-   * 获取图层实例
+   * 获取地图实例
    */
-  public getLayerById(id: string) {
+  public getInstanceLayerById(id: string) {
     const { layersStore } = this.runtimeApp.stateManager;
     const layerManager = layersStore.getLayerManager();
     return layerManager?.getLayerById(id);
