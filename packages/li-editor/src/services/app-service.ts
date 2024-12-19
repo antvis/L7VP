@@ -188,7 +188,7 @@ class AppService {
   }
 
   /**
-   * 获取地图实例
+   * 获取图层实例
    */
   public getInstanceLayerById(id: string) {
     const { layersStore } = this.runtimeApp.stateManager;
@@ -230,7 +230,7 @@ class AppService {
   }
 
   /**
-   * 获取地图当前视野信息
+   * 获取地图实例
    */
   public getSceneInstance() {
     const { mapStore } = this.runtimeApp.stateManager;
