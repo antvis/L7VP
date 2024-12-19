@@ -9,3 +9,4 @@ export * from './useLayerList';
 export * from './useLayerManager';
 export * from './useScene';
 export * from './useWidgetProps';
+export { useStateManager } from './internal';
