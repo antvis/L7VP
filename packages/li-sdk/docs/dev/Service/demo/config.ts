@@ -24,7 +24,7 @@ const config: Application = {
         pitch: 0,
         bearing: 0,
         style: 'light',
-        token: 'f0230f884bbd54e2913c890cdf45aa7e',
+        token: '0db5b301d809c7b27b283292b767ae82',
       },
     },
     layers: [],

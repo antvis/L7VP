@@ -40,5 +40,5 @@ export default defineConfig({
     /** mapbox */
     'https://api.tiles.mapbox.com/mapbox-gl-js/v1.13.2/mapbox-gl.js',
   ],
-  headScripts: [`window._AMapSecurityConfig = { securityJsCode: '8803c38931b6fddc9bbfeee69df8824d'};`],
+  headScripts: [`window._AMapSecurityConfig = { securityJsCode: '5429803151fa5b692a26eac2e35f7164'};`],
 });
