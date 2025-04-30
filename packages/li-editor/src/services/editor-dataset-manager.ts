@@ -117,7 +117,7 @@ export class EditorDataset {
       this.geoFields = [];
 
       if (this.queryObserver) {
-        this.queryObserver.setOptions(this.getQueryOptions(schema), { listeners: false });
+        this.queryObserver.setOptions(this.getQueryOptions(schema));
         this.syncQueryResult();
       } else {
         this.queryObserver = new QueryObserver(queryServiceClient, this.getQueryOptions(schema));
